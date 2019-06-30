@@ -1,0 +1,37 @@
+Bizhawk / Compiling
+Bizhawk is a C# emulator.
+
+Building it is virtually the same as every other TASing emulator. It can be compiled with the free Visual Studio 2015 (or later) community editions
+
+Note: Compiling with mono - this is difficult and the results are questionable. You will have to check the tasvideos forums and github for lore.
+
+NOTE: This information is about to be very out of date. It will then be updated. That cycle is likely to repeat indefinitely.
+
+    Make sure you have a compatible Visual Studio; Visual Studio Community 2015 is recommended but Visual Studio Community 2017 will probably work too. When installing it, you may be able to uncheck all the options as they are not needed for BizHawk. For instance, very few users would need the c++ support to build bizhawk (the c++ cores are built independently and in most cases not even by visual studio)
+    Install TortoiseGIT. You can disable every single option during the install, if you don't mind having an unconventional install. You'll get still get the shell extensions.
+    TortoiseGit's FAQS, docs, and even the software itself will also demand that you also install Git for Windows 2.0+.
+        Again, it's pretty safe to disable every single option here to avoid some clutter in your OS.
+        It's best to accept the "Use Vim" default you'll see.
+        You should probably change the next option to "Use Git from Git Bash only". Most tortoisegit users are only using git CLI for special cases and would prefer to disable the other clutter; and many advanced users would prefer the conflicting clutter.
+        Accept the Use OpenSSL default
+        Change the next option to "Checkout as-is, commit as-is". This is a holy wars subject and it wouldn't do to start off your bizhawk odyssey in the wrong camp.
+        Using the default option "Use MinTTY" is fine
+        The next options are fine, although "git credential manager" is garbage and despite a dozen different ways of doing things, it still is not and can never be as streamlined as tortoisesvn. 
+    Create a directory and make sure it's empty. It's always a good idea to pick a directory name without spaces in it; this tutorial will use "C:\BizHawk".
+    Right-click in it and pick "Git Clone". In the box "URL" enter "https://github.com/TASVideos/bizhawk". Leave everything else blank and click "OK". Now some files will be downloaded from GitHub.
+    Find "BizHawk.sln" among the downloaded files and double-click it.
+        If you get prompted by Visual Studio to sign in, pick "not now" unless you want your life more complicated on account of someone trying too hard to make it too simple.
+        If this is the first time you've run Visual Studio, you'll get prompted for "Development Settings". The current setting is "General". Change it to "Visual C++". If you choose anything else, nobody will be able to tell give you suggestions for hotkeys. Then pick "Start Visual Studio". 
+    You should have the *.sln file open now and see a "Solution Explorer". Look for "BizHawk.Client.EmuHawk", right-click it, and pick "Set As Startup Project". Now go to "Build | Configuration Manager" in the menu, change the active solution configuration to "Release" and pick "Close".
+    Finally you're at the point where you'll usually be at when checking out a new BizHawk build: hit Ctrl+F5 to build and run it.
+        To check out a new bizhawk build use git's "pull" command. 
+
+Before you can use some of the emulator cores, you'll need to drop in some firmware files; the right spot to put them will be at "C:\BizHawk\output\Firmware".
+
+Now, for an important part. To pull down Git updates so you can build them, right-click "C:\BizHawk" and pick "TortoiseGit > Pull" and click OK. You can now repeat the build-and-run step in Visual Studio to test the new build.
+
+Note: For general orientation on how to use Git, which requires degrees in Hacking, Advanced Wizardry, and Deciding Which of A Thousand Ways To Do Things, consult several of the million web pages describing at excruciating length how to do simple things in Git, because it's just so simple.
+
+If your Git checkout ever gets wrecked and can't build then close Visual Studio, make a backup of your "C:\BizHawk" directory, then make a new one and go back to step 4. The backups will be helpful recovering from mistakes and re-incorporating saved data and states from previous play sessions in the last checkout you made.
+
+If a developer wants your help debugging something, the single best thing you can do is to run BizHawk with F5 instead of Ctrl+F5; when the program crashes you can select the contents of the call stack window and copy them out. 
