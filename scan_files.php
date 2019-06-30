@@ -8,12 +8,12 @@
 * The backup interval and the array of paths globs can be configured in the lines
 * directly below.  
 */
-$pathGlobs = ['/storage/vault*/roms/Acorn'];
+$pathGlobs = ['/storage/vault*/roms'];
 $backupSeconds = 60;
+$filesJsonName = '/storage/data/files.json';
 
 function backupRun() {
-    global $files;
-    $filesJsonName = '/storage/data/files.json';
+    global $files, $filesJsonName;
     file_put_contents($filesJsonName, json_encode($files, JSON_PRETTY_PRINT));
     $stats = stat($filesJsonName);
     echo "Wrote {$stats['size']} bytes to file ".(basename($filesJsonName))." in ".dirname($filesJsonName)."\n";    
@@ -40,6 +40,10 @@ function updateFile($path)  {
     foreach ($statFields as $statField) {
         $fileData[$statField] = $pathStat[$statField];
     }
+    if (array_key_exists($path, $files) && $files[$path]['mtime'] == $fileData['mtime'] && $files[$path]['size'] == $fileData['size']) {
+        //echo "  Skipping {$path}, Its Already Hashed and Still The Same Size and Modification Time\n";
+        return;
+    }
     foreach ($hashAlgos as $hashAlgo) {
         $fileData[$hashAlgo] = hash_file($hashAlgo, $path);
     }
@@ -60,7 +64,8 @@ function updateDir($path) {
     }    
 }
 
-$files = [];
+global $files;
+$files = json_decode(file_get_contents($filesJsonName), true);
 $nextBackup = time() + $backupSeconds;
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
