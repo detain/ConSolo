@@ -9,34 +9,34 @@ Currently its a mass of scripts loosely tied together and development will be fo
 
 ## Components
 
-* Data Sources
-** MAME - platforms, rom lists
-** LaunchBox - platforms
-** No-Intro DATs - platforms, rom lists
-** Redump DATs - platforms, rom lists
-** TOSEC DATs - platforms, rom lists
-** GoodTools - platforms, rom lists
-** emuControlCenter - rom lists
-** emuDownloadCenter - platforms, emulators
-** TheGamesDB.net - platforms, games, publishers, developers
-* Configuration Builders
-** LaunchBox
-** HyperSpin
-** RetroArch
-** RocketLaunch
-** Negatron
-** RomCenter
-** RomVault
-** ClrMamePro
-* ROMs
-** ROM Scanning
-** Compressed File Scanning
-** Inventory
-** Deduplication
-* Matching
-** Match platforms between data sources
-** Match games between data sources
-** Match roms to games in data sources
+*   Data Sources
+    *   MAME - platforms, rom lists
+    *   LaunchBox - platforms
+    *   No-Intro DATs - platforms, rom lists
+    *   Redump DATs - platforms, rom lists
+    *   TOSEC DATs - platforms, rom lists
+    *   GoodTools - platforms, rom lists
+    *   emuControlCenter - rom lists
+    *   emuDownloadCenter - platforms, emulators
+    *   TheGamesDB.net - platforms, games, publishers, developers
+*   Configuration Builders
+    *   LaunchBox
+    *   HyperSpin
+    *   RetroArch
+    *   RocketLaunch
+    *   Negatron
+    *   RomCenter
+    *   RomVault
+    *   ClrMamePro
+*   ROMs
+    *   ROM Scanning
+    *   Compressed File Scanning
+    *   Inventory
+    *   Deduplication
+*   Matching
+    *   Match platforms between data sources
+    *   Match games between data sources
+    *   Match roms to games in data sources
 
 
      
