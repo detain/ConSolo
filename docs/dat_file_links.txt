@@ -1,10 +1,16 @@
 https://www.tosecdev.org/downloads
 https://datomatic.no-intro.org/?page=download
-http://tosec.free.fr/
+https://datomatic.no-intro.org/?page=download&fun=daily
+https://datomatic.no-intro.org/?page=redump
+https://www.tosecdev.org/downloads
+http://redump.org/
+http://redump.org/downloads/
+https://www.retrostic.com/
+https://www.retrostic.com/emulators
 http://nointro.free.fr/
+http://tosec.free.fr/
 http://goodrom.free.fr/
 http://nesofflinelist.free.fr/
-http://emulation.gametechwiki.com/index.php/ROM_%26_ISO_Sites
 http://wiki.pleasuredome.org.uk/index.php/MAME_installation
 http://wiki.pleasuredome.org.uk/index.php/Video_Game_Emulators
 http://wiki.pleasuredome.org.uk/index.php/RomVault
@@ -13,7 +19,3 @@ http://wiki.pleasuredome.org.uk/index.php/Clrmamepro
 http://wiki.pleasuredome.org.uk/index.php/How_To_Clrmame_Batchmode_MESS_Software_Lists_Easily
 http://wiki.pleasuredome.org.uk/index.php/No-Intro_to_MAME_Software_Lists_table
 http://wiki.pleasuredome.org.uk/index.php/GoodTools
-https://www.tosecdev.org/downloads
-https://datomatic.no-intro.org/?page=download&fun=daily
-http://redump.org/downloads/
-

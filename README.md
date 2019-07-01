@@ -48,6 +48,12 @@ Loads the
 
 ### LaunchBox
 
+[https://gamesdb.launchbox-app.com/platforms](LaunchBox Games Database)
+[https://gamesdb.launchbox-app.com/developers](Developers List - LaunchBox Games Database)
+[https://gamesdb.launchbox-app.com/publishers](Publishers List - LaunchBox Games Database)
+[https://gamesdb.launchbox-app.com/genres](Genres List - LaunchBox Games Database)
+
+
 ### No-Intro
 
 ### Redump
