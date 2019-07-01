@@ -9,7 +9,41 @@ If all you are developing is a simple application with a few tables, using a ful
 Before we get started though, here’s the database layout which I’ll be using throughout the article.
 
 ```
-<pre>Table: author+----+------------------------+| id | name                   |+----+------------------------+|  1 | Khalil Gibran          ||  2 | Sir Arthur Conan Doyle ||  3 | Paulo Coelho           |+----+------------------------+Table: book+----+-----------------+-----------+| id | title           | author_id |+----+-----------------+-----------+|  1 | The Prophet     |         1 ||  3 | Sherlock Holmes |         2 ||  4 | The Alchemist   |         3 |+----+-----------------+-----------+Table: category+----+------------+| id | category   |+----+------------+|  1 | poem       ||  2 | article    ||  3 | tutorials  ||  4 | philosophy ||  5 | essays     ||  6 | story      |+----+------------+Table: book_category+----+---------+-------------+| id | book_id | category_id |+----+---------+-------------+|  1 |       1 |           4 ||  3 |       3 |           6 ||  4 |       4 |           4 |+----+---------+-------------+</pre>
+Table: author
++----+------------------------+
+| id | name                   |
++----+------------------------+
+|  1 | Khalil Gibran          |
+|  2 | Sir Arthur Conan Doyle |
+|  3 | Paulo Coelho           |
++----+------------------------+
+Table: book
++----+-----------------+-----------+
+| id | title           | author_id |
++----+-----------------+-----------+
+|  1 | The Prophet     |         1 |
+|  3 | Sherlock Holmes |         2 |
+|  4 | The Alchemist   |         3 |
++----+-----------------+-----------+
+Table: category
++----+------------+
+| id | category   |
++----+------------+
+|  1 | poem       |
+|  2 | article    |
+|  3 | tutorials  |
+|  4 | philosophy |
+|  5 | essays     |
+|  6 | story      |
++----+------------+
+Table: book_category
++----+---------+-------------+
+| id | book_id | category_id |
++----+---------+-------------+
+|  1 |       1 |           4 |
+|  3 |       3 |           6 |
+|  4 |       4 |           4 |
++----+---------+-------------+
 ```
 
 ## Connecting to the Database
@@ -17,7 +51,10 @@ Before we get started though, here’s the database layout which I’ll be using
 The first step to using NotORM is to create an instance of the `NotORM` object which uses an active PDO connection to interface with the database.
 
 ```
-<?php$dsn = "mysql:dbname=library;host=127.0.0.1";$pdo = new PDO($dsn, "dbuser", "dbpassword");$library = new NotORM($pdo);
+<?php
+$dsn = "mysql:dbname=library;host=127.0.0.1";
+$pdo = new PDO($dsn, "dbuser", "dbpassword");
+$library = new NotORM($pdo);
 ```
 
 A Data Source Name (DSN) is a common way of describing a database connection. It contains the name of the database driver use, database name, and host address. The PDO constructor accepts a DSN and database username and password to connect. Once connected, the PDO object is passed to NotORM. We will use this NotORM instance throughout this article.
@@ -27,13 +64,17 @@ A Data Source Name (DSN) is a common way of describing a database connection. It
 Now that we are connected through NotORM, let’s list all of the books in the database.
 
 ```
-<?php$books = $library->book();foreach ($books as $book) {	echo $book["id"] . " " . $book["title"] . "<br>";}
+<?php
+$books = $library->book();
+foreach ($books as $book) {	
+    echo $book["id"] . " " . $book["title"] . "<br>";
+}
 ```
 
 The result is:
 
 ```
-<pre>1 The Prophet3 Sherlock Holmes4 The Alchemist</pre>
+1 The Prophet3 Sherlock Holmes4 The Alchemist
 ```
 
 It’s as simple as that! `$library` is the NotORM object and `book` is the table name where our book information is stored. The `book()` method returns an multi-dimensional array with the table’s primary key column as the first-level index. Within the `foreach`, `$book` is a representation of a single book record, an array with keys named after the table’s column names. `$book["title"]` returns the value from the title column for that record.
@@ -41,7 +82,11 @@ It’s as simple as that! `$library` is the NotORM object and `book` is the tabl
 In most cases you won’t be interested in retrieving all columns from the table. You can specify just the columns you are interested in through the `select()` method. For instance, if you only want the title, you could re-write the example as:
 
 ```
-    <?php$books = $library->book()->select("title");foreach ($books as $book) {	echo $book["title"] . "<br>";}
+    <?php
+    $books = $library->book()->select("title");
+    foreach ($books as $book) {	
+        echo $book["title"] . "<br>";
+    }
 ```
 
 Retrieving specific columns is especially desirable on tables that have a large number of columns, this way you don’t have to waste time and memory retrieving and storing values you won’t use.
@@ -49,7 +94,9 @@ Retrieving specific columns is especially desirable on tables that have a large 
 To fetch a single record from the table using its primary key, we reference the primary key in a query’s `WHERE` clause when writing SQL. In NotORM, There are many ways we can accomplish the task; the easiest way is to use the primary key as an index to the table property.
 
 ```
-    <?php$book = $library->book[1]; echo $book["title"];
+    <?php
+    $book = $library->book[1];
+    echo $book["title"];
 ```
 
 This will simply retrieve the get the book details from the record with ID 1.
@@ -59,7 +106,11 @@ This will simply retrieve the get the book details from the record with ID 1.
 NotORM allows for filtering results on conditions that would be specified in the query’s `WHERE` clause using the `where()` method. To illustrate, let’s search the table for books with a title containing “Alchemist”.
 
 ```
-    <?php$books = $library->book->where("title LIKE ?", "%Alchemist%");foreach ($books as $book) {	echo $book["id"] . " " . $book["title"] . "<br>";}
+    <?php
+    $books = $library->book->where("title LIKE ?", "%Alchemist%");
+    foreach ($books as $book) {	
+        echo $book["id"] . " " . $book["title"] . "<br>";
+    }
 ```
 
 The result is:
