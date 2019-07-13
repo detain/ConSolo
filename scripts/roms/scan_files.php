@@ -13,13 +13,11 @@ function updateCompressedFile($path, $parentId)  {
     global $db;
     global $files, $tmpDir;
     $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
-    //$hashAlgos = ['md5', 'crc32']; // use hash_algos() to get all possible hashes
-    //$hashAlgos = ['md5']; // use hash_algos() to get all possible hashes
     $statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks
     $parentData = $files[$parentId];
     $parentPath = $parentData['path'];
-    $virtualPath = substr($tmpDir, '', $path);
-    $linkedPath = substr($tmpDir, $parentPath.'#', $path); 
+    $virtualPath = str_replace($tmpDir.'/', '', $path);
+    $linkedPath = str_replace($tmpDir.'/', $parentPath.'#', $path); 
     $realPath = $path;
     $pathStat = stat($realPath);
         $fileData = [];
@@ -98,8 +96,8 @@ function compressedFileHandler($path) {
         if (hasFileExt($path, $compressionType)) {
             // handle compressed file
             $parentId = $paths[$path];
-            echo 'Found Compressed file #'.$parentId.' '.$path.' of type '.$compressionType.PHP_EOL;
             $rows = $db->query("select * from files where parent={$parentId}");
+            echo 'Found Compressed file #'.$parentId.' '.$path.' of type '.$compressionType.' with '.count($rows).' entries'.PHP_EOL;
             if (count($rows) == 0) {
                 if (extractCompressedFile($path, $compressionType)) {
                     updateCompressedDir($tmpDir, $parentId);
@@ -213,8 +211,6 @@ function loadFiles($path = null) {
 
 
 $pathGlobs = ['/storage/vault*/roms'];
-$pathGlobs = ['/storage/vault*/roms/*'];
-$pathGlobs = ['/storage/vault*/roms/Inf*'];
 $skipGlobs = ['/storage/vault6/roms/toseciso/'];
 $tmpDir = '/tmp/scanfiles';
 $compressionTypes = ['7z', 'rar', 'zip'];
