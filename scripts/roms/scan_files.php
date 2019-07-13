@@ -10,6 +10,11 @@
 */
 include __DIR__.'/../../vendor/autoload.php';
 
+function hasFileExt($file, $ext) {
+    $ext = substr($ext, 0, 1) == '.' ? $ext : '.'.$ext);
+    return (substr($file, 0 - strlen($ext)) == $ext);
+}
+
 function loadFiles($path = null) {
     /**
     * @var \Workerman\MySQL\Connection
@@ -40,7 +45,7 @@ function updateFile($path)  {
     * @var \Workerman\MySQL\Connection
     */
     global $db;
-    global $files, $paths;
+    global $files, $paths, $compressionTypes;
     //$hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
     //$hashAlgos = ['md5', 'crc32']; // use hash_algos() to get all possible hashes
     $hashAlgos = ['md5']; // use hash_algos() to get all possible hashes
@@ -86,6 +91,11 @@ function updateFile($path)  {
         echo "  Updated file #{$paths[$path]} {$path}\n".var_export($newData, true).PHP_EOL;
     }
     $files[$id] = $fileData;
+    foreach ($compressionTypes as $compressionType) {
+        if (hasFileExt($path, $compressionType)) {
+            // handle compressed file
+        }
+    }
 }
 
 function updateDir($path) {
@@ -111,7 +121,8 @@ function updateDir($path) {
 
 $pathGlobs = ['/storage/vault*/roms'];
 $skipGlobs = ['/storage/vault6/roms/toseciso/'];
-global $files, $db, $paths, $skipGlobs;
+global $files, $db, $paths, $skipGlobs, $compressionTypes;
+$compressionTypes = ['7z', 'rar', 'zip'];
 $db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
