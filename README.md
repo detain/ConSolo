@@ -49,8 +49,11 @@ Loads the
 ### LaunchBox
 
 [https://gamesdb.launchbox-app.com/platforms](LaunchBox Games Database)
+
 [https://gamesdb.launchbox-app.com/developers](Developers List - LaunchBox Games Database)
+
 [https://gamesdb.launchbox-app.com/publishers](Publishers List - LaunchBox Games Database)
+
 [https://gamesdb.launchbox-app.com/genres](Genres List - LaunchBox Games Database)
 
 
@@ -67,30 +70,48 @@ https://www.tosecdev.org/ TOSECDev Home
 ### emuControlCenter
 
 [https://github.com/PhoenixInteractiveNL/emuControlCenter](PhoenixInteractiveNL/emuControlCenter: emuControlCenter)
+
 [https://github.com/PhoenixInteractiveNL/emuControlCenter/wiki/ECC-HowTo-DATfile-examples](ECC HowTo DATfile examples · PhoenixInteractiveNL/emuControlCenter Wiki)
+
 [https://github.com/PhoenixInteractiveNL/emuControlCenter/wiki/HowTo-Convert-XML-to-CLR-MAME-datfile](HowTo Convert XML to CLR MAME datfile · PhoenixInteractiveNL/emuControlCenter Wiki)
+
 [https://github.com/PhoenixInteractiveNL/emuControlCenter/wiki/HowTo-Convert-XML-to-CSV-file](HowTo Convert XML to CSV file · PhoenixInteractiveNL/emuControlCenter Wiki)
+
 [https://github.com/PhoenixInteractiveNL/ecc-toolsused](PhoenixInteractiveNL/ecc-toolsused: Tools used by ECC (archive))
+
 [https://github.com/PhoenixInteractiveNL/ecc-datfiles](PhoenixInteractiveNL/ecc-datfiles: ecc-datfiles)
+
 [https://github.com/PhoenixInteractiveNL/ecc-updates](PhoenixInteractiveNL/ecc-updates: ecc-updates)
+
 
 
 ### emmuDownloadCenter
 
 [https://github.com/PhoenixInteractiveNL/emuDownloadCenter/wiki](Home · PhoenixInteractiveNL/emuDownloadCenter Wiki)
-[https://github.com/PhoenixInteractiveNL/emuDownloadCenter](PhoenixInteractiveNL/emuDownloadCenter: Emulator downloads, visit the WIKI)
-[https://github.com/PhoenixInteractiveNL/emuDownloadCenter/wiki/EDC-Platform-List](EDC Platform List · PhoenixInteractiveNL/emuDownloadCenter Wiki)
-[https://github.com/PhoenixInteractiveNL/emuDownloadCenter/tree/master/export/ecc_emu_ini](emuDownloadCenter/export/ecc_emu_ini at master · PhoenixInteractiveNL/emuDownloadCenter)
-[https://github.com/PhoenixInteractiveNL/edc-repo0002](PhoenixInteractiveNL/edc-repo0002: Emulator repository)
-[https://github.com/PhoenixInteractiveNL/edc-repo0003](PhoenixInteractiveNL/edc-repo0003: Emulator repository)
-[https://github.com/PhoenixInteractiveNL/edc-repo0004](PhoenixInteractiveNL/edc-repo0004: Emulator repository)
-[https://github.com/PhoenixInteractiveNL/edc-repo0008](PhoenixInteractiveNL/edc-repo0008: Emulator repository)
-[https://github.com/PhoenixInteractiveNL/edc-repo0005](PhoenixInteractiveNL/edc-repo0005: Emulator repository)
-[https://github.com/PhoenixInteractiveNL/edc-repo0006](PhoenixInteractiveNL/edc-repo0006: Emulator repository)
-[https://github.com/PhoenixInteractiveNL/edc-repo0001](PhoenixInteractiveNL/edc-repo0001: Emulator repository)
-[https://github.com/PhoenixInteractiveNL/edc-repo0009](PhoenixInteractiveNL/edc-repo0009: Emulator repository)
-[https://github.com/PhoenixInteractiveNL/edc-repo0007](PhoenixInteractiveNL/edc-repo0007: Emulator repository)
 
+[https://github.com/PhoenixInteractiveNL/emuDownloadCenter](PhoenixInteractiveNL/emuDownloadCenter: Emulator downloads, visit the WIKI)
+
+[https://github.com/PhoenixInteractiveNL/emuDownloadCenter/wiki/EDC-Platform-List](EDC Platform List · PhoenixInteractiveNL/emuDownloadCenter Wiki)
+
+[https://github.com/PhoenixInteractiveNL/emuDownloadCenter/tree/master/export/ecc_emu_ini](emuDownloadCenter/export/ecc_emu_ini at master · PhoenixInteractiveNL/emuDownloadCenter)
+
+[https://github.com/PhoenixInteractiveNL/edc-repo0002](PhoenixInteractiveNL/edc-repo0002: Emulator repository)
+
+[https://github.com/PhoenixInteractiveNL/edc-repo0003](PhoenixInteractiveNL/edc-repo0003: Emulator repository)
+
+[https://github.com/PhoenixInteractiveNL/edc-repo0004](PhoenixInteractiveNL/edc-repo0004: Emulator repository)
+
+[https://github.com/PhoenixInteractiveNL/edc-repo0008](PhoenixInteractiveNL/edc-repo0008: Emulator repository)
+
+[https://github.com/PhoenixInteractiveNL/edc-repo0005](PhoenixInteractiveNL/edc-repo0005: Emulator repository)
+
+[https://github.com/PhoenixInteractiveNL/edc-repo0006](PhoenixInteractiveNL/edc-repo0006: Emulator repository)
+
+[https://github.com/PhoenixInteractiveNL/edc-repo0001](PhoenixInteractiveNL/edc-repo0001: Emulator repository)
+
+[https://github.com/PhoenixInteractiveNL/edc-repo0009](PhoenixInteractiveNL/edc-repo0009: Emulator repository)
+
+[https://github.com/PhoenixInteractiveNL/edc-repo0007](PhoenixInteractiveNL/edc-repo0007: Emulator repository)
 
 
 ### **emuDownloadCenter**
@@ -148,8 +169,11 @@ Clone this wiki locally
 ### **Data Export / API**
 
 [http://nointro.free.fr/](No-Intro Dats for offlineList)
+
 [http://goodrom.free.fr/](GoodTools Dats for OfflineList)
+
 [http://tosec.free.fr/](TOSEC based Dats for OfflineList)
+
 [http://goodrom.free.fr/](GoodTools Dats for OfflineList)
 
 [**Request Data Export**](https://github.com/PhoenixInteractiveNL/edc-masterhook/wiki/Request-Data-Export)
@@ -175,11 +199,19 @@ Clone this wiki locally
 ### TheGamesDB.net
 
 [https://thegamesdb.net/](TGDB - Homepage)
+
 [https://api.thegamesdb.net/#/Platforms/PlatformsImages](Swagger UI)
+
 [https://github.com/TheGamesDB/TheGamesDB/pulls](Pull Requests · TheGamesDB/TheGamesDB)
+
 [https://github.com/TheGamesDB/TheGamesDBv2](TheGamesDB/TheGamesDBv2: Version 2 of TGDB)
+
 [https://github.com/jfern01/tgdb-scrape](jfern01/tgdb-scrape: Scrapes thegamesdb.net API.)
+
 [https://thegamesdb.net/browse.php](TGDB - Browser)
+
 [https://thegamesdb.net/list_platforms.php](TGDB - Browse - Platforms)
+
 [https://thegamesdb.net/list_devs.php](TGDB - Browse - Developers)
+
 [https://thegamesdb.net/list_pubs.php](TGDB - Browse - Publishers)

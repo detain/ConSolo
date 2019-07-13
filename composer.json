@@ -1,0 +1,16 @@
+{
+    "name": "detain/consolo",
+    "description": "from ROMs to Installed Populated Emulators and Frontends in under 12 parsecs!",
+    "type": "project",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Joe Huss",
+            "email": "detain@interserver.net"
+        }
+    ],
+    "require": {
+        "workerman/workerman": "dev-master",
+        "workerman/mysql": "dev-master"
+    }
+}
