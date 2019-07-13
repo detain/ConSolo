@@ -61,16 +61,14 @@ if (intval($version) <= intval($last)) {
     die('Already Up-To-Date'.PHP_EOL);
 }
 
-echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_32bit.exe -O mame.zip;`;
+echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_32bit.exe -O mame.exe;`;
 echo `rm -rf /tmp/update;`;
-echo `7z x -o/tmp/update mame.zip;`;
-unlink('mame.zip');
+echo `7z x -o/tmp/update mame.exe;`;
+unlink('mame.exe');
 echo 'Generating XML'.PHP_EOL;
-echo `wine /tmp/update/mame.exe -listxml > /tmp/update/xml.xml;`)
-echo PHP_EOL;
+echo `wine /tmp/update/mame.exe -listxml > /tmp/update/xml.xml;`;
 echo 'Generating Software'.PHP_EOL;
-echo `wine /tmp/update/mame.exe -listsoftware > /tmp/update/software.xml;`)
-echo PHP_EOL;
+echo `wine /tmp/update/mame.exe -listsoftware > /tmp/update/software.xml;`;
 
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
 foreach ($txt as $list) {
