@@ -30,7 +30,7 @@ CREATE TABLE `mame_software` (
   `supported` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL,
   `cloneof` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB;
 */
 include __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../../src/xml2array.php';
