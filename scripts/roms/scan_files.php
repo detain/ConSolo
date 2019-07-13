@@ -35,84 +35,87 @@ function loadFiles($path = null) {
     echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
 }
 
-function backupRun() {
-    global $files, $filesJsonName;
-    file_put_contents($filesJsonName, json_encode($files, JSON_PRETTY_PRINT));
-    $stats = stat($filesJsonName);
-    echo "Wrote {$stats['size']} bytes to file ".(basename($filesJsonName))." in ".dirname($filesJsonName)."\n";    
-}
-
-function backupCheck($fileData) {
-    global $backupSeconds, $nextBackup;
-    $time = time();
-    if ($nextBackup <= $time) {
-        // backup here
-        backupRun();
-        $time = time() - $time;
-        echo "Data Backup Wrote files.json in {$time} seconds, next backup in {$backupSeconds}\n";
-        $nextBackup = time() + $backupSeconds;
-    }
-}        
-
 function updateFile($path)  {
+    /**
+    * @var \Workerman\MySQL\Connection
+    */
+    global $db;
     global $files, $paths;
     //$hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
-    $hashAlgos = ['md5', 'crc32']; // use hash_algos() to get all possible hashes
+    //$hashAlgos = ['md5', 'crc32']; // use hash_algos() to get all possible hashes
+    $hashAlgos = ['md5']; // use hash_algos() to get all possible hashes
     $statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
     $pathStat = stat($path);
-    if (!isset($files[$path])) {
+    if (!array_key_exists($path, $paths)) {
         $fileData = [];
     } else {
-        $fileData = $files[$path];
+        $fileData = $files[$paths[$path]];
     }
+    $newData = [];
     foreach ($statFields as $statField) {
+        if (!isset($fileData[$statField]) || $pathStat[$statField] != $fileData[$statField]) {
+            $newData[$statField] = $pathStat[$statField];            
+        }
         $fileData[$statField] = $pathStat[$statField];
     }
     $return = false;
-    if (array_key_exists($path, $files) && $files[$path]['mtime'] == $fileData['mtime'] && $files[$path]['size'] == $fileData['size']) {
+    if (array_key_exists($path, $paths) && $files[$paths[$path]]['mtime'] == $fileData['mtime'] && $files[$paths[$path]]['size'] == $fileData['size']) {
         $return = true;
     }
     foreach ($hashAlgos as $hashAlgo) {
         if (!isset($fileData[$hashAlgo])) {
             $return = false;
+            $newData[$hashAlgo] = hash_file($hashAlgo, $path);
             $fileData[$hashAlgo] = hash_file($hashAlgo, $path);
         }
     }
     if ($return === true) {
         //echo "  Skipping {$path}, Its Already Hashed and Still The Same Size and Modification Time\n";
         //echo " Skipping {$path}\n";
-        echo '-';
+        //echo '-';
         return;
     }
-    if (!isset($files[$path])) {
-        echo "  Added {$fileData['size']} byte file {$path}\n";
+    if (!isset($paths[$path])) {
+        $fileData['path'] = $path;
+        $id = $db->insert('files')->cols($fileData)->query();
+        $paths[$path] = $id;
+        echo "  Added file #{$id} {$path}\n";
     } else {
-        echo "  Updated {$fileData['size']} byte file {$path}\n";
+        $id = $paths[$path];
+        $db->update('files')->cols($newData)->where('id='.$id)->query();
+        echo "  Updated file #{$paths[$path]} {$path}\n".var_export($newData, true).PHP_EOL;
     }
-    $files[$path] = $fileData;
-    backupCheck($fileData);
+    $files[$id] = $fileData;
 }
 
 function updateDir($path) {
-    global $files;
+    global $files, $skipGlobs;
     //echo "  Added directory {$path}\n";
     foreach (glob($path.'/*') as $subPath) {
-        if (is_dir($subPath)) {
-            updateDir($subPath);
-        } else {
-            updateFile($subPath);
+        $bad = false;
+        foreach ($skipGlobs as $skipGlob) {
+            if (substr($subPath, 0, strlen($skipGlob)) == $skipGlob) {
+                echo 'Skipping Path '.$subPath.' matching glob '.$skipGlob.PHP_EOL;
+                $bad = true;
+            }
+        }
+        if ($bad === false) {
+            if (is_dir($subPath)) {
+                updateDir($subPath);
+            } else {
+                updateFile($subPath);
+            }
         }
     }    
 }
 
 $pathGlobs = ['/storage/vault*/roms'];
-$backupSeconds = 300;
-global $files, $db, $paths;
+$skipGlobs = ['/storage/vault6/roms/toseciso/'];
+global $files, $db, $paths, $skipGlobs;
 $db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
-$nextBackup = time() + $backupSeconds;
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
-        echo "Main ROM - {$path}\n";
+        echo "ROM Path - {$path}\n";
         echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
         loadFiles($path);
         echo "Loaded ".count($files)." Files\n";
@@ -124,4 +127,3 @@ foreach ($pathGlobs as $pathGlob) {
 	    }
     }
 }
-backupRun();
