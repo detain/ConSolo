@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__.'/../src/xml2array.php';
-foreach (glob('/storage/LaunchBox/Data/Platforms/*.xml') as $file) {
+require_once __DIR__.'/../../src/xml2array.php';
+foreach (glob('/storage/Emulators/LaunchBox/Data/Platforms/*.xml') as $file) {
 	echo 'Parsing '.$file.' on line '.__LINE__.PHP_EOL;
 	$dir = dirname($file);
 	$name = str_replace(' ','_', basename($file, '.xml'));
