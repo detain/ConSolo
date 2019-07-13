@@ -18,9 +18,9 @@ if (count($row) == 0) {
 }
 $zipFile = basename($url);
 $modified = (new DateTime(`curl -s -I {$url} |grep "^Last-Modified:"|cut -d" " -f2-`))->format('U');
-echo "Last Update: {$last} Current: {$modified}\n";
+echo "Last:    {$last}\nCurrent: {$modified}\n";
 if (intval($modified) <= intval($last)) {
-    die('Already Up-To-Date');
+    die('Already Up-To-Date'.PHP_EOL);
 }
 echo `wget -q {$url} -O {$zipFile};`;
 echo `unzip -o {$zipFile};`;
