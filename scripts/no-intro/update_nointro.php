@@ -1,4 +1,22 @@
 <?php
+/** grabs latest nointro data and updates db
+* 
+* CREATE TABLE `nointro_roms` (
+*   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+*   `platform` varchar(80) COLLATE utf8mb4_bin DEFAULT NULL,
+*   `name` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
+*   `size` bigint(20) DEFAULT NULL,
+*   `crc` varchar(9) COLLATE utf8mb4_bin DEFAULT NULL,
+*   `md5` varchar(33) COLLATE utf8mb4_bin DEFAULT NULL,
+*   `sha1` varchar(41) COLLATE utf8mb4_bin DEFAULT NULL,
+*   `status` varchar(9) COLLATE utf8mb4_bin DEFAULT NULL,
+*   `file` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
+*   `serial` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
+*   `date` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
+*   PRIMARY KEY (`id`)
+* ) ENGINE=InnoDB
+*/
+
 include __DIR__.'/../../vendor/autoload.php';
 require_once __DIR__.'/../../src/xml2array.php';
 
@@ -44,8 +62,6 @@ function RunArray(&$data) {
     }
 }
 
-$tablePrefix = 'nointro_';
-$tableSuffix = 's';
 $configKey = 'nointro';
 $db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
 $row = $db->query("select * from config where config.key='{$configKey}'");
@@ -61,22 +77,56 @@ if (intval($version) <= intval($last)) {
     die('Already Up-To-Date'.PHP_EOL);
 }
 echo `curl -s "https://datomatic.no-intro.org/?page=download&fun=daily" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0" -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" -H "Accept-Language: en-US,en;q=0.5" --compressed -H "Referer: https://datomatic.no-intro.org/?page=download&fun=daily" -H "Content-Type: application/x-www-form-urlencoded" -H "Connection: keep-alive" -H "Cookie: PHPSESSID=bMGvdze90A"%"2CQPGKo64uTP2" -H "Upgrade-Insecure-Requests: 1" --data "dat_type=standard&download=Download" -o nointro.zip`;
-echo `rm -rf /tmp/scanfiles;`;
-echo `7z x -o/tmp/scanfiles nointro.zip;`;
+echo `rm -rf /tmp/update;`;
+echo `7z x -o/tmp/update nointro.zip;`;
 unlink('nointro.zip');
-
-foreach (glob('/tmp/scanfiles/*') as $xmlFile) {
-	$list = str_replace([' ','-'],['_','_'], strtolower(basename($xmlFile, '.dat')));
+$db->query('truncate nointro_roms');
+foreach (glob('/tmp/update/*') as $xmlFile) {
+    $list = basename($xmlFile, '.dat');
+	//$list = str_replace([' ','-'],['_','_'], strtolower($list));
 	echo "Getting {$list} List   ";
-        $string = file_get_contents($xmlFile);
+    $string = file_get_contents($xmlFile);
+    unlink($xmlFile);
 	echo "Parsing XML To Array   ";
 	$array = xml2array($string, 1, 'attribute');
 	unset($string);
 	echo "Simplifying Array   ";
 	RunArray($array);
-	echo "Writing to JSON {$list}.json   ";
-	file_put_contents($list.'.json', json_encode($array, JSON_PRETTY_PRINT));
-	echo "done\n";
-	unlink($xmlFile);
+    //echo "Writing to JSON {$list}.json   ";
+    //file_put_contents($list.'.json', json_encode($array, JSON_PRETTY_PRINT));
+    $platform = $array['datafile']['header']['name'];
+    if (isset($array['datafile']['game'])) {
+        if (isset($array['datafile']['game']['name']))
+            $array['datafile']['game'] = [$array['datafile']['game']];
+        echo count($array['datafile']['game'])." games, inserting..";
+        foreach ($array['datafile']['game'] as $gameIdx => $gameData) {
+            $name = $gameData['name'];
+            if (isset($gameData['rom']['name']))
+                $gameData['rom'] = [$gameData['rom']];
+            foreach ($gameData['rom'] as $romIdx => $romData) {
+                $romData['file'] = $romData['name'];
+                unset($romData['name']);
+                $romData = array_merge([
+                    'platform' => $platform,
+                    'name' => $name
+                ], $romData);
+                try {
+                    $db->insert('nointro_roms')->cols($romData)->query();
+                } catch (\PDOException $e) {
+                    echo "Caught PDO Exception!".PHP_EOL;
+                    echo "Values: ".var_export($romData, true).PHP_EOL;
+                    echo "Message: ".$e->getMessage().PHP_EOL;
+                    echo "Code: ".$e->getCode().PHP_EOL;
+                    echo "File: ".$e->getFile().PHP_EOL;
+                    echo "Line: ".$e->getLine().PHP_EOL;
+                    echo "Trace: ".$e->getTraceAsString().PHP_EOL;
+                }
+            }
+        }
+        echo "done\n";
+    } else {
+        echo "no games, skipping\n";
+    }
 }
-echo `rm -rf /tmp/scanfiles;`;
+echo `rm -rf /tmp/update;`;
+$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
