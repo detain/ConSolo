@@ -60,11 +60,17 @@ echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval($version) <= intval($last)) {
     die('Already Up-To-Date'.PHP_EOL);
 }
-echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}lx.zip;`;
-echo `unzip mame{$version}lx.zip;`;
-unlink('mame'.$version.'lx.zip');
-echo `mv -f mame{$version}.xml mame.xml;`;
 
+echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_32bit.exe -O mame.zip;`;
+echo `rm -rf /tmp/update;`;
+echo `7z x -o/tmp/update mame.zip;`;
+unlink('mame.zip');
+echo 'Generating XML'.PHP_EOL;
+echo `wine /tmp/update/mame.exe -listxml > /tmp/update/xml.xml;`)
+echo PHP_EOL;
+echo 'Generating Software'.PHP_EOL;
+echo `wine /tmp/update/mame.exe -listsoftware > /tmp/update/software.xml;`)
+echo PHP_EOL;
 
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
 foreach ($txt as $list) {
@@ -76,11 +82,8 @@ foreach ($txt as $list) {
 $xml = ['software', 'xml'];
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
-    $xmlFile = $list.'.xml';
-    if (file_exists($xmlFile))
-        $string = file_get_contents($xmlFile);
-    else
-        file_put_contents($xmlFile, $string = `mame -list{$list}`);
+    $xmlFile = '/tmp/update/'.$list.'.xml';
+    $string = file_get_contents($xmlFile);
 	echo "Parsing XML To Array   ";
 	$array = xml2array($string, 1, 'attribute');
     unset($string);
@@ -91,3 +94,4 @@ foreach ($xml as $list) {
 	echo "done\n";
     unlink($xmlFile);
 }
+echo `rm -rf /tmp/update;`;
