@@ -1,5 +1,7 @@
 <?php
-include __DIR__.'/xml2array.php';
+include __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__.'/../../src/xml2array.php';
+
 function FlattenAttr(&$parent) {
     if (isset($parent['attr'])) {
         if (count($parent['attr']) == 2 && isset($parent['attr']['name']) && isset($parent['attr']['value'])) {
@@ -13,6 +15,7 @@ function FlattenAttr(&$parent) {
         }
     }
 }
+
 function FlattenValues(&$parent) {
     foreach ($parent as $key => $value) {
         if (is_array($value) && count($value) == 1 && isset($value['value'])) {
@@ -20,6 +23,7 @@ function FlattenValues(&$parent) {
         }
     }
 }
+
 function RunArray(&$data) {
     if (is_array($data)) {
         if (count($data) > 0) {
@@ -39,17 +43,40 @@ function RunArray(&$data) {
         }
     }
 }
+
+$tablePrefix = 'mame_';
+$tableSuffix = 's';
+$configKey = 'mame';
+$db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
+$row = $db->query("select * from config where config.key='{$configKey}'");
+if (count($row) == 0) {
+    $last = 0;
+    $db->query("insert into config values ('{$configKey}','0')");
+} else {
+    $last = $row[0]['value'];
+}
+$version = trim(`curl -s -L https://github.com/mamedev/mame/releases/latest|grep /mamedev/mame/releases/download/|grep lx.zip|cut -d/ -f6|cut -c5-`);
+echo "Last:    {$last}\nCurrent: {$version}\n";
+if (intval($version) <= intval($last)) {
+    die('Already Up-To-Date'.PHP_EOL);
+}
+echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}lx.zip;`;
+echo `unzip mame{$version}lx.zip;`;
+unlink('mame'.$version.'lx.zip');
+echo `mv -f mame{$version}.xml mame.xml;`;
+
+
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
 foreach ($txt as $list) {
     echo "Getting and Writing {$list} List   ";
     file_put_contents($list.'.txt', `mame -list{$list}`);
     echo "done\n";
+
 }*/
 $xml = ['software', 'xml'];
-$dest = '/storage/json';
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
-    $xmlFile = $dest.'/mame-'.$list.'.xml';
+    $xmlFile = $list.'.xml';
     if (file_exists($xmlFile))
         $string = file_get_contents($xmlFile);
     else
@@ -62,4 +89,5 @@ foreach ($xml as $list) {
 	echo "Writing to JSON {$list}.json   ";
 	file_put_contents($list.'.json', json_encode($array, JSON_PRETTY_PRINT));
 	echo "done\n";
+    unlink($xmlFile);
 }
