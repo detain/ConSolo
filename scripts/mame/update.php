@@ -60,7 +60,7 @@ echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval($version) <= intval($last)) {
     die('Already Up-To-Date'.PHP_EOL);
 }
-
+/*
 echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_64bit.exe -O mame.exe;`;
 echo `rm -rf /tmp/update;`;
 echo `7z x -o/tmp/update mame.exe;`;
@@ -69,6 +69,7 @@ echo 'Generating XML'.PHP_EOL;
 echo `cd /tmp/update; wine64 mame64.exe -listxml > xml.xml;`;
 echo 'Generating Software'.PHP_EOL;
 echo `cd /tmp/update; wine64 mame64.exe -listsoftware > software.xml;`;
+*/
 
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
 foreach ($txt as $list) {
@@ -78,17 +79,44 @@ foreach ($txt as $list) {
 
 }*/
 $xml = ['software', 'xml'];
+$xml = ['xml'];
+$removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster'];
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
     $xmlFile = '/tmp/update/'.$list.'.xml';
-    $string = file_get_contents($xmlFile);
+    /*$string = file_get_contents($xmlFile);
 	echo "Parsing XML To Array   ";
 	$array = xml2array($string, 1, 'attribute');
     unset($string);
     echo "Simplifying Array   ";
     RunArray($array);
-	echo "Writing to JSON {$list}.json   ";
-	file_put_contents($list.'.json', json_encode($array, JSON_PRETTY_PRINT));
+    */
+    $array = json_decode(file_get_contents($list.'.json'), true);
+    if ($list == 'software') {
+        
+    } elseif ($list == 'xml') {
+        $db->query("truncate mame_machines");
+        $machines = [];
+        foreach ($array['mame']['machine'] as $idx => $machine) {
+            foreach ($removeXml as $remove)
+                if (array_key_exists($remove, $machine))
+                    unset($machine[$remove]);
+            
+            //if (isset($machine['slot']) && is_array($machine['slot']) && isset($machine['slot']['name']))
+                //$machine['slot'] = $machine['slot']['name'];
+            /*if (isset($machine['softwarelist']) && is_array($machine['softwarelist']) && isset($machine['softwarelist']['status'])) {
+                $machine['softwarelist_status'] = $machine['softwarelist']['status'];
+                $machine['softwarelist'] = $machine['softwarelist']['name']; 
+            }*/
+            if (isset($machine['rom'])) {
+                $roms = $machine['rom'];
+                unset($machine['rom']);
+            }
+            $db->insert('mame_machines')->cols($machine)->query();
+        }
+    }
+	//echo "Writing to JSON {$list}.json   ";
+	//file_put_contents($list.'.json', json_encode($array, JSON_PRETTY_PRINT));
 	echo "done\n";
     unlink($xmlFile);
 }
