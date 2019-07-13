@@ -4,15 +4,12 @@
  CREATE TABLE `tosec_roms` (
    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
    `platform` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-   `name` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
+   `name` varchar(230) COLLATE utf8mb4_bin DEFAULT NULL,
    `size` bigint(20) DEFAULT NULL,
-   `crc` varchar(9) COLLATE utf8mb4_bin DEFAULT NULL,
-   `md5` varchar(33) COLLATE utf8mb4_bin DEFAULT NULL,
-   `sha1` varchar(41) COLLATE utf8mb4_bin DEFAULT NULL,
-   `status` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-   `file` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-   `serial` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-   `date` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
+   `crc` char(8) COLLATE utf8mb4_bin DEFAULT NULL,
+   `md5` char(32) COLLATE utf8mb4_bin DEFAULT NULL,
+   `sha1` char(40) COLLATE utf8mb4_bin DEFAULT NULL,
+   `file` varchar(230) COLLATE utf8mb4_bin DEFAULT NULL,
    PRIMARY KEY (`id`)
  ) ENGINE=InnoDB;
 */
@@ -73,6 +70,7 @@ if (count($row) == 0) {
 }
 $cmd = 'curl -s "https://www.tosecdev.org/downloads/category/22-datfiles"|grep pd-ctitle|sed s#"^.*<a href=\"\([^\"]*\)\">\([^>]*\)<.*$"#"\1 \2"#g';
 list($url, $version) = explode(' ', trim(`$cmd`));
+$version = str_replace('-','', $version);
 echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval($version) <= intval($last)) {
     die('Already Up-To-Date'.PHP_EOL);
@@ -88,13 +86,13 @@ foreach (glob('/tmp/update/TOSEC*/*') as $xmlFile) {
 	echo "Getting {$list} List   ";
     $string = file_get_contents($xmlFile);
     unlink($xmlFile);
-	echo "Parsing XML To Array   ";
+	echo "Parsing XML..";
 	$array = xml2array($string, 1, 'attribute');
 	unset($string);
-	echo "Simplifying Array   ";
+	echo "Simplifying..";
 	RunArray($array);
-    echo "Writing to JSON {$list}.json   ";
-    file_put_contents($list.'.json', json_encode($array, JSON_PRETTY_PRINT));
+    //echo "Writing {$list}.json..";
+    //file_put_contents($list.'.json', json_encode($array, JSON_PRETTY_PRINT));
     $platform = $array['datafile']['header']['name'];
     if (isset($array['datafile']['game'])) {
         if (isset($array['datafile']['game']['name']))
@@ -130,4 +128,4 @@ foreach (glob('/tmp/update/TOSEC*/*') as $xmlFile) {
     }
 }
 echo `rm -rf /tmp/update;`;
-//$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
+$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
