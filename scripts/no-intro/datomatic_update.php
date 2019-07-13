@@ -17,7 +17,12 @@ foreach ($matches[0] as $idx => $form) {
 	$id = $matches[1][$idx];
 	$page = $matches[2][$idx];
 	$date = $matches[3][$idx];
-	$post = escapeshellarg(http_build_query(['Download' => 'ho-ho-ho', 'datset_id' => $id, 'datset_page' => $page, 'datset_date' => $date]));
+	$post = escapeshellarg(http_build_query([
+        'Download' => 'ho-ho-ho', 
+        'datset_id' => $id, 
+        'datset_page' => $page, 
+        'datset_date' => $date
+    ]));
 	$out = `curl -s {$submitUrl} -H 'Connection: keep-alive' -H 'Cache-Control: max-age=0' -H 'Origin: https://datomatic.no-intro.org' -H 'Upgrade-Insecure-Requests: 1' -H 'Content-Type: application/x-www-form-urlencoded' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8' -H "Referer: {$index}" -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.9,de;q=0.8' -H 'Cookie: PHPSESSID=eHBQ3v%2CwLfRG8cXUQ4tCS1' --compressed --data {$post};`;
 	$csv= "/storage/dat/Redump CSV/{$page} - Dump Status ({$date}).csv";
 	file_put_contents($csv, $out);
