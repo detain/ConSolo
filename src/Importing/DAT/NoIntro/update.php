@@ -30,5 +30,5 @@ echo `curl -s "https://datomatic.no-intro.org/?page=download&fun=daily" -H "User
 echo `rm -rf {$dir};`;
 echo `7z x -o{$dir} dats.zip;`;
 unlink('dats.zip');
-(new \Detain\ConSolo\ImportDat())->go($type, $glob, $storageDir);
+(new \Detain\ConSolo\Importing\DAT\ImportDat())->go($type, $glob, $storageDir);
 $db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 

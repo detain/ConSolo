@@ -33,6 +33,6 @@ echo `rm -rf {$dir};`;
 echo `7z x -o{$dir} dats.zip;`;
 unlink('dats.zip');
 foreach (glob($dir.'/TOSEC*') as $tosecdir) {
-    (new \Detain\ConSolo\ImportDat())->go(basename($tosecdir), $tosecdir.'/*', $storageDir);
+    (new \Detain\ConSolo\Importing\DAT\ImportDat())->go(basename($tosecdir), $tosecdir.'/*', $storageDir);
 }
 $db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 

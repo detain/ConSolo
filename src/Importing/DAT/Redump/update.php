@@ -24,7 +24,7 @@ $glob = $dir.'/*';
 $cmd = 'curl -s "http://redump.org/downloads/" |sed -e s#"<tr>"#"\n<tr>"#g|grep /datfile/|sed s#"^.*\"\(/datfile/[^\"]*\)\">.*$"#"\1"#g';
 $urls = explode("\n", trim(`$cmd`));
 echo "Found ".count($urls)." DATs\n";
-$import = new \Detain\ConSolo\ImportDat();
+$import = new \Detain\ConSolo\Importing\DAT\ImportDat();
 $import->deleteOld = false;
 $db->query("delete from dat_files where type='{$type}'");
 foreach ($urls as $url) {

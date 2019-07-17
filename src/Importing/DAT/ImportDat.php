@@ -1,5 +1,5 @@
 <?php
-namespace Detain\ConSolo;
+namespace Detain\ConSolo\Importing\DAT;
 
 class ImportDat
 {
