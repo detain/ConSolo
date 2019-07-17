@@ -11,6 +11,7 @@ class ImportDat
         * @var \Workerman\MySQL\Connection
         */
         global $db;
+        echo 'Importing '.$type.' DATs..'.PHP_EOL;
         $db->query("delete from dat_files where type='{$type}'");
         foreach (glob($glob) as $xmlFile) {
             $list = basename($xmlFile, '.dat');
@@ -141,7 +142,7 @@ class ImportDat
                     $this->FlattenAttr($data);
                     $this->FlattenValues($data);
                     foreach ($data as $dataIdx => $dataValue) {
-                        RunArray($dataValue);
+                        $this->RunArray($dataValue);
                         $data[$dataIdx] = $dataValue;
                     }
                 }

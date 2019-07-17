@@ -12,5 +12,10 @@
     "require": {
         "workerman/workerman": "dev-master",
         "workerman/mysql": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Detain\\ConSolo\\": "src/"
+        }
     }
 }
