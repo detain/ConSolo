@@ -76,9 +76,10 @@ echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval(str_replace('-','', $version)) <= intval(str_replace('-','', $last))) {
     die('Already Up-To-Date'.PHP_EOL);
 }
-$dir = '/storage/data/dat/No-Intro/Standard';
-$glob = '/storage/data/dat/No-Intro/*/*';
+$storageDir = '/storage/data';
 $type = 'No-Intro';
+$dir = $storageDir.'/dat/'.$type.'/Standard';
+$glob = $storageDir.'/dat/'.$type.'/*/*';
 echo `curl -s "https://datomatic.no-intro.org/?page=download&fun=daily" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0" -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" -H "Accept-Language: en-US,en;q=0.5" --compressed -H "Referer: https://datomatic.no-intro.org/?page=download&fun=daily" -H "Content-Type: application/x-www-form-urlencoded" -H "Connection: keep-alive" -H "Cookie: PHPSESSID=bMGvdze90A"%"2CQPGKo64uTP2" -H "Upgrade-Insecure-Requests: 1" --data "dat_type=standard&download=Download" -o nointro.zip`;
 echo `rm -rf {$dir};`;
 echo `7z x -o{$dir} nointro.zip;`;
@@ -89,14 +90,13 @@ foreach (glob($glob) as $xmlFile) {
 	//$list = str_replace([' ','-'],['_','_'], strtolower($list));
 	echo "[{$list}] Reading..";
     $string = file_get_contents($xmlFile);
-    //unlink($xmlFile);
 	echo "XML To Array..";
 	$array = xml2array($string, 1, 'attribute');
 	unset($string);
 	echo "Simplifying..";
 	RunArray($array);
     echo "Writing JSON..";
-    file_put_contents('/storage/data/json/dat/No-Intro/'.$list.'.json', json_encode($array, JSON_PRETTY_PRINT));
+    file_put_contents($storageDir.'/json/dat/'.$type.'/'.$list.'.json', json_encode($array, JSON_PRETTY_PRINT));
     echo "DB Entries..";
     if (isset($array['datafile']['game'])) {
         $cols = $array['datafile']['header'];
@@ -115,7 +115,17 @@ foreach (glob($glob) as $xmlFile) {
             }
         }
         //echo 'dat_files:'.json_encode($cols).PHP_EOL;
-        $fileId = $db->insert('dat_files')->cols($cols)->query();
+        try {
+            $fileId = $db->insert('dat_files')->cols($cols)->query();
+        } catch (\PDOException $e) {
+            die('Caught PDO Exception!'.PHP_EOL
+            .'Values:'.var_export($cols, true).PHP_EOL
+            .'Message:'.$e->getMessage().PHP_EOL
+            .'Code:'.$e->getCode().PHP_EOL
+            .'File:'.$e->getFile().PHP_EOL
+            .'Line:'.$e->getLine().PHP_EOL
+            .'Trace:'.print_r($e->getTrace(),true).PHP_EOL);
+        }
         $gameSections = ['rom','disk','release','sample','biosset'];    
         if (isset($array['datafile']['game']['name']))
             $array['datafile']['game'] = [$array['datafile']['game']];
@@ -132,24 +142,34 @@ foreach (glob($glob) as $xmlFile) {
                 unset($cols['manufacturer']);
             }            
             //echo 'dat_games:'.json_encode($cols).PHP_EOL;
-            $gameId = $db->insert('dat_games')->cols($cols)->query();
+            try {
+                $gameId = $db->insert('dat_games')->cols($cols)->query();
+            } catch (\PDOException $e) {
+                die('Caught PDO Exception!'.PHP_EOL
+                .'Values:'.var_export($cols, true).PHP_EOL
+                .'Message:'.$e->getMessage().PHP_EOL
+                .'Code:'.$e->getCode().PHP_EOL
+                .'File:'.$e->getFile().PHP_EOL
+                .'Line:'.$e->getLine().PHP_EOL
+                .'Trace:'.print_r($e->getTrace(),true).PHP_EOL);
+            }
             foreach ($gameSections as $section) {
                 if (isset($gameData[$section])) {
                     foreach ($gameData[$section] as $sectionIdx => $sectionData) {
                         $cols = $sectionData;
                         $cols['game'] = $gameId;
                         //echo 'dat_'.$section.'s:'.json_encode($cols).PHP_EOL;
-//                        try {
+                        try {
                             $db->insert('dat_'.$section.'s')->cols($cols)->query();
-/*                        } catch (\PDOException $e) {
-                            echo 'Caught PDO Exception!'.PHP_EOL;
-                            echo 'Values:'.var_export($cols, true).PHP_EOL;
-                            echo 'Message:'.$e->getMessage().PHP_EOL;
-                            echo 'Code:'.$e->getCode().PHP_EOL;
-                            echo 'File:'.$e->getFile().PHP_EOL;
-                            echo 'Line:'.$e->getLine().PHP_EOL;
-                            echo 'Trace:'.print_r($e->getTrace(),true).PHP_EOL;
-                          }*/
+                        } catch (\PDOException $e) {
+                            die('Caught PDO Exception!'.PHP_EOL
+                            .'Values:'.var_export($cols, true).PHP_EOL
+                            .'Message:'.$e->getMessage().PHP_EOL
+                            .'Code:'.$e->getCode().PHP_EOL
+                            .'File:'.$e->getFile().PHP_EOL
+                            .'Line:'.$e->getLine().PHP_EOL
+                            .'Trace:'.print_r($e->getTrace(),true).PHP_EOL);
+                        }
                     }                    
                 }
             }
