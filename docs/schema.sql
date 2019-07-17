@@ -79,23 +79,23 @@ DROP TABLE IF EXISTS `dat_files`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dat_files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `type` varchar(191) COLLATE utf8mb4_bin NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `description` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `category` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `version` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `date` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `author` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `email` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `homepage` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `url` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `comment` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
+  `type` varchar(300) COLLATE utf8mb4_bin NOT NULL,
+  `name` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `description` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `category` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `version` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `date` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `author` text COLLATE utf8mb4_bin,
+  `email` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `homepage` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `url` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `comment` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
   `clrmamepro_forcepackaging` enum('zip','unzip') COLLATE utf8mb4_bin DEFAULT 'zip',
   `clrmamepro_forcenodump` enum('obsolete','required','ignored') COLLATE utf8mb4_bin DEFAULT 'obsolete',
   `clrmamepro_forcemerging` enum('none','split','full') COLLATE utf8mb4_bin DEFAULT 'split',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=350 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,8 +107,9 @@ DROP TABLE IF EXISTS `dat_games`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dat_games` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `datfile` int(10) unsigned NOT NULL,
+  `file` int(10) unsigned NOT NULL,
   `name` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `description` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
   `sourcefile` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
   `isbios` enum('yes','no') COLLATE utf8mb4_bin DEFAULT 'no',
   `cloneof` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
@@ -118,10 +119,11 @@ CREATE TABLE `dat_games` (
   `rebuildto` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
   `year` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
   `manufacturer` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `game_id` varchar(130) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `dat_file_fk_idx` (`datfile`),
-  CONSTRAINT `dat_file_fk` FOREIGN KEY (`datfile`) REFERENCES `dat_files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  KEY `dat_file_fk_idx` (`file`),
+  CONSTRAINT `dat_file_fk` FOREIGN KEY (`file`) REFERENCES `dat_files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=237499 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -162,10 +164,11 @@ CREATE TABLE `dat_roms` (
   `md5` char(32) COLLATE utf8mb4_bin DEFAULT NULL,
   `status` enum('baddump','nodump','good','verified') COLLATE utf8mb4_bin DEFAULT 'good',
   `date` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `serial` varchar(130) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `dat_game_rom_fk_idx` (`game`),
   CONSTRAINT `dat_game_rom_fk` FOREIGN KEY (`game`) REFERENCES `dat_games` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=990525 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -482,29 +485,6 @@ CREATE TABLE `mame_software` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `nointro_roms`
---
-
-DROP TABLE IF EXISTS `nointro_roms`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `nointro_roms` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `platform` varchar(80) COLLATE utf8mb4_bin DEFAULT NULL,
-  `name` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `size` bigint(20) DEFAULT NULL,
-  `crc` char(8) COLLATE utf8mb4_bin DEFAULT NULL,
-  `md5` char(32) COLLATE utf8mb4_bin DEFAULT NULL,
-  `sha1` char(40) COLLATE utf8mb4_bin DEFAULT NULL,
-  `status` varchar(9) COLLATE utf8mb4_bin DEFAULT NULL,
-  `file` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `serial` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
-  `date` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=503532 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `platforms`
 --
 
@@ -579,4 +559,4 @@ CREATE TABLE `tosec_roms` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-16 22:07:17
+-- Dump completed on 2019-07-16 23:32:27
