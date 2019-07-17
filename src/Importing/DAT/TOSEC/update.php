@@ -3,7 +3,7 @@
 * grabs latest tosec data and updates db
 */
 
-require_once __DIR__.'/../../src/bootstrap.php';
+require_once __DIR__.'/../../../bootstrap.php';
 
 /**
 * @var \Workerman\MySQL\Connection

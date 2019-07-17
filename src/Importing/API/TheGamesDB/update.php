@@ -3,7 +3,7 @@
 * grabs latest TheGamesDB data and updates db
 */
 
-require_once __DIR__.'/../../src/bootstrap.php';
+require_once __DIR__.'/../../../bootstrap.php';
 
 function apiGet($url, $index = null, $assocNested = true) {
     if (is_null($index)) {

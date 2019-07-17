@@ -3,7 +3,7 @@
 * grabs latest TheGamesDB data and updates db
 */
 
-require_once __DIR__.'/../../src/bootstrap.php';
+require_once __DIR__.'/../bootstrap.php';
 
 use FuzzyWuzzy\Fuzz;
 use FuzzyWuzzy\Process;

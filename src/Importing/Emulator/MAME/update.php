@@ -32,8 +32,8 @@ CREATE TABLE `mame_software` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 */
-include __DIR__.'/../../vendor/autoload.php';
-require_once __DIR__.'/../../src/xml2array.php';
+include __DIR__.'/../../../../vendor/autoload.php';
+require_once __DIR__.'/../../../xml2array.php';
 
 function FlattenAttr(&$parent) {
     if (isset($parent['attr'])) {

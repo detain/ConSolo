@@ -1,7 +1,7 @@
 <?php
 
-include __DIR__.'/../../vendor/autoload.php';
-require_once __DIR__.'/../../src/xml2array.php';
+include __DIR__.'/../../../../vendor/autoload.php';
+require_once __DIR__.'/../../../xml2array.php';
 
 $url = 'https://gamesdb.launchbox-app.com/Metadata.zip'; 
 $tablePrefix = 'launchbox_';

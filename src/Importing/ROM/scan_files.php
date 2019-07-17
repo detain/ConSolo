@@ -4,7 +4,7 @@
 * checksumming, and storing of basic information.  This process can take a long time on
 * a larger set of files.  It also scans inside compressed files. 
 */
-include __DIR__.'/../../vendor/autoload.php';
+include __DIR__.'/../../../vendor/autoload.php';
 
 function updateCompressedFile($path, $parentId)  {
     /**
