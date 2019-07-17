@@ -3,9 +3,6 @@
 * grabs latest TheGamesDB data and updates db
 */
 
-require_once __DIR__.'/../../bootstrap.php';
-
-
 /**
 * @var \Workerman\MySQL\Connection
 */
@@ -74,13 +71,19 @@ $mediaTypes = [
     'ROMs',
     'ROM',
 ];
-echo "Arcade\n";
 $rows = $db->query("select platform,platform_description from mame_software group by platform,platform_description");
+$return = [];
+$return['Arcade'] = 'Arcade';
 foreach ($rows as $idx => $row) {
     $description = $row['platform_description'];
     foreach ($mediaTypes as $type) {
         $description = preg_replace('/ *'.preg_quote($type, '/').'$/i', '', $description);
     }
-    echo $description."\n";
+    if (!isset($return[$description]))
+        $return[$description] = [];
+    if (!in_array($description, $return[$description]))
+        $return[$description][] = $row['platform_description'];
     $rows[$idx]['platform_description'] = $description;
 }
+unset($rows);
+return $return;

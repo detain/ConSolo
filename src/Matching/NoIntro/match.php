@@ -3,9 +3,6 @@
 * grabs latest TheGamesDB data and updates db
 */
 
-require_once __DIR__.'/../../bootstrap.php';
-
-
 /**
 * @var \Workerman\MySQL\Connection
 */
@@ -41,6 +38,7 @@ $mediaTypes = [
 '(PP)',
 ];
 $rows = $db->query("select name from dat_files where type='No-Intro'");
+$return = [];
 foreach ($rows as $idx => $row) {
     $description = $row['name'];
     foreach ($mediaTypes as $type) {
@@ -49,6 +47,12 @@ foreach ($rows as $idx => $row) {
     preg_match('/^(.*) - (.*)$/', $description, $matches);
     $manufacturer = $matches[1];
     $platform = $matches[2];
-    echo $manufacturer.' '.$platform.PHP_EOL;
+    $description = $manufacturer.' '.$platform;
+    if (!isset($return[$description]))
+        $return[$description] = [];
+    if (!in_array($description, $return[$description]))
+        $return[$description][] = $row['name'];
     $rows[$idx]['name'] = $description;
 }
+unset($rows);
+return $return;
