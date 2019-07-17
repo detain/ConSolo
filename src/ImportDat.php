@@ -3,6 +3,8 @@ namespace Detain\ConSolo;
 
 class ImportDat
 {
+    public $deleteOld = true;
+    
     public function __construct() {
     }
     
@@ -12,7 +14,9 @@ class ImportDat
         */
         global $db;
         echo 'Importing '.$type.' DATs..'.PHP_EOL;
-        $db->query("delete from dat_files where type='{$type}'");
+        if ($this->deleteOld == true) {
+            $db->query("delete from dat_files where type='{$type}'");
+        }
         foreach (glob($glob) as $xmlFile) {
             $list = basename($xmlFile, '.dat');
             echo "[{$list}] Reading..";
@@ -50,8 +54,7 @@ class ImportDat
                     .'Message:'.$e->getMessage().PHP_EOL
                     .'Code:'.$e->getCode().PHP_EOL
                     .'File:'.$e->getFile().PHP_EOL
-                    .'Line:'.$e->getLine().PHP_EOL
-                    .'Trace:'.print_r($e->getTrace(),true).PHP_EOL);
+                    .'Line:'.$e->getLine().PHP_EOL);
                 }
                 $gameSections = ['rom','disk','release','sample','biosset'];    
                 if (isset($array['datafile']['game']['name']))
@@ -77,8 +80,7 @@ class ImportDat
                         .'Message:'.$e->getMessage().PHP_EOL
                         .'Code:'.$e->getCode().PHP_EOL
                         .'File:'.$e->getFile().PHP_EOL
-                        .'Line:'.$e->getLine().PHP_EOL
-                        .'Trace:'.print_r($e->getTrace(),true).PHP_EOL);
+                        .'Line:'.$e->getLine().PHP_EOL);
                     }
                     foreach ($gameSections as $section) {
                         if (isset($gameData[$section])) {
@@ -94,8 +96,7 @@ class ImportDat
                                     .'Message:'.$e->getMessage().PHP_EOL
                                     .'Code:'.$e->getCode().PHP_EOL
                                     .'File:'.$e->getFile().PHP_EOL
-                                    .'Line:'.$e->getLine().PHP_EOL
-                                    .'Trace:'.print_r($e->getTrace(),true).PHP_EOL);
+                                    .'Line:'.$e->getLine().PHP_EOL);
                                 }
                             }                    
                         }

@@ -24,11 +24,14 @@ $glob = $dir.'/*';
 $cmd = 'curl -s "http://redump.org/downloads/" |sed -e s#"<tr>"#"\n<tr>"#g|grep /datfile/|sed s#"^.*\"\(/datfile/[^\"]*\)\">.*$"#"\1"#g';
 $urls = explode("\n", trim(`$cmd`));
 echo "Found ".count($urls)." DATs\n";
+$import = new \Detain\ConSolo\ImportDat();
+$import->deleteOld = false;
+$db->query("delete from dat_files where type='{$type}'");
 foreach ($urls as $url) {
     echo `wget -q "http://www.redump.org{$url}" -O dats.zip`;
     echo `rm -rf {$dir};`;
     echo `7z x -o{$dir} dats.zip;`;
     unlink('dats.zip');
+    $import->go($type, $glob, $storageDir);
 }
-(new \Detain\ConSolo\ImportDat())->go($type, $glob, $storageDir);
 //$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
