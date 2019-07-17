@@ -27,7 +27,6 @@ if (intval($version) <= intval($last)) {
 $storageDir = '/storage/data';
 $type = 'TOSEC';
 $dir = $storageDir.'/dat/'.$type;
-$glob = $dir.'/TOSEC*/*';
 $url = trim(`curl -s "https://www.tosecdev.org{$url}"|grep "<a class=\"btn btn-success"|cut -d\" -f8`);
 echo `wget -q "https://www.tosecdev.org{$url}" -O dats.zip`;
 echo `rm -rf {$dir};`;

@@ -27,6 +27,7 @@ class ImportDat
             echo "Simplifying..";
             $this->RunArray($array);
             echo "Writing JSON..";
+            @mkdir($storageDir.'/json/dat/'.$type);
             file_put_contents($storageDir.'/json/dat/'.$type.'/'.$list.'.json', json_encode($array, JSON_PRETTY_PRINT));
             echo "DB Entries..";
             if (isset($array['datafile']['game'])) {
