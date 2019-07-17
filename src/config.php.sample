@@ -1,0 +1,10 @@
+<?php
+return [
+	'db_host' => '127.0.0.1',
+	'db_port' => '3306',
+	'db_name' => '',
+	'db_user' => '',
+	'db_pass' => '',
+	'thegamesdb_public_api_key' => '',
+	'thegamesdb_private_api_key' => '',
+];
