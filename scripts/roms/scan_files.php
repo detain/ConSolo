@@ -114,9 +114,7 @@ function updateFile($path)  {
     */
     global $db;
     global $files, $paths;
-    //$hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
-    //$hashAlgos = ['md5', 'crc32']; // use hash_algos() to get all possible hashes
-    $hashAlgos = ['md5']; // use hash_algos() to get all possible hashes
+    $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
     $statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
     $pathStat = stat($path);
     if (!array_key_exists($path, $paths)) {
