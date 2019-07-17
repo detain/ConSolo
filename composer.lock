@@ -4,8 +4,94 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2004c61c18c306c9082d087c270895c",
+    "content-hash": "0018790aaea1762e3e96b5530610d29b",
     "packages": [
+        {
+            "name": "loilo/fuse",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/loilo/Fuse.git",
+                "reference": "3473d76bfc12c13264177ae05411207438fc328f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/loilo/Fuse/zipball/3473d76bfc12c13264177ae05411207438fc328f",
+                "reference": "3473d76bfc12c13264177ae05411207438fc328f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fuse\\": "src/"
+                },
+                "files": [
+                    "src/Bitap/matched_indices.php",
+                    "src/Bitap/pattern_alphabet.php",
+                    "src/Bitap/regex_search.php",
+                    "src/Bitap/score.php",
+                    "src/Bitap/search.php",
+                    "src/Helpers/deep_value.php",
+                    "src/Helpers/is_list.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Florian Reuschel",
+                    "email": "florian@loilo.de"
+                }
+            ],
+            "description": "Fuzzy search for PHP based on Bitap algorithm",
+            "time": "2019-05-31T09:41:11+00:00"
+        },
+        {
+            "name": "phpspec/php-diff",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpspec/php-diff.git",
+                "reference": "0464787bfa7cd13576c5a1e318709768798bec6a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpspec/php-diff/zipball/0464787bfa7cd13576c5a1e318709768798bec6a",
+                "reference": "0464787bfa7cd13576c5a1e318709768798bec6a",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Diff": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Boulton",
+                    "homepage": "http://github.com/chrisboulton"
+                }
+            ],
+            "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
+            "time": "2016-04-07T12:29:16+00:00"
+        },
         {
             "name": "workerman/mysql",
             "version": "dev-master",
@@ -50,12 +136,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/Workerman.git",
-                "reference": "4d590130310a8d7632f807120c3ca1c0f55ed0d7"
+                "reference": "93a8828190f9ea465a19426aa38f441a3ece190a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/Workerman/zipball/4d590130310a8d7632f807120c3ca1c0f55ed0d7",
-                "reference": "4d590130310a8d7632f807120c3ca1c0f55ed0d7",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/93a8828190f9ea465a19426aa38f441a3ece190a",
+                "reference": "93a8828190f9ea465a19426aa38f441a3ece190a",
                 "shasum": ""
             },
             "require": {
@@ -88,13 +174,55 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2019-07-02T10:23:18+00:00"
+            "time": "2019-07-13T08:32:40+00:00"
+        },
+        {
+            "name": "wyndow/fuzzywuzzy",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wyndow/fuzzywuzzy.git",
+                "reference": "6249a966a97ffc231d743ea5c4ccb4e6797582f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wyndow/fuzzywuzzy/zipball/6249a966a97ffc231d743ea5c4ccb4e6797582f5",
+                "reference": "6249a966a97ffc231d743ea5c4ccb4e6797582f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "phpspec/php-diff": "^1.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "^2.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FuzzyWuzzy\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Crumm",
+                    "email": "mike@crumm.net"
+                }
+            ],
+            "description": "Fuzzy string matching based on FuzzyWuzzy from Seatgeek",
+            "time": "2017-04-25T21:20:44+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "wyndow/fuzzywuzzy": 20,
+        "loilo/fuse": 20,
         "workerman/workerman": 20,
         "workerman/mysql": 20
     },

@@ -36,6 +36,7 @@ $mediaTypes = [
     'internal sockets',
     'Workbench disks',
     'mini-cartridges',
+    'cartridge tapes',
     'snapshot images',
     'ROM extensions',
     'Original disks',
@@ -71,6 +72,7 @@ $mediaTypes = [
     'CD-ROMs',
     'disks',
     'ROMs',
+    'ROM',
 ];
 $rows = $db->query("select platform,platform_description from mame_software group by platform,platform_description");
 foreach ($rows as $idx => $row) {
