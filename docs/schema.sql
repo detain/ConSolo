@@ -510,6 +510,110 @@ CREATE TABLE `platforms` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tgdb_developers`
+--
+
+DROP TABLE IF EXISTS `tgdb_developers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tgdb_developers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10379 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tgdb_games`
+--
+
+DROP TABLE IF EXISTS `tgdb_games`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tgdb_games` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `game_title` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `release_date` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `platform` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `players` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `overview` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `last_updated` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `rating` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `coop` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `youtube` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `os` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `processor` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `ram` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `hdd` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `video` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `sound` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `alternates` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tgdb_genres`
+--
+
+DROP TABLE IF EXISTS `tgdb_genres`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tgdb_genres` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tgdb_platforms`
+--
+
+DROP TABLE IF EXISTS `tgdb_platforms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tgdb_platforms` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `alias` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `icon` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `console` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
+  `controller` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL,
+  `developer` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `manufacturer` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `media` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `cpu` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `memory` varchar(130) COLLATE utf8mb4_bin DEFAULT NULL,
+  `graphics` varchar(250) COLLATE utf8mb4_bin DEFAULT NULL,
+  `sound` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL,
+  `maxcontrollers` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `display` varchar(150) COLLATE utf8mb4_bin DEFAULT NULL,
+  `overview` text COLLATE utf8mb4_bin,
+  `youtube` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tgdb_publishers`
+--
+
+DROP TABLE IF EXISTS `tgdb_publishers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tgdb_publishers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8388 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -520,4 +624,4 @@ CREATE TABLE `platforms` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-17  1:45:30
+-- Dump completed on 2019-07-17  3:59:35
