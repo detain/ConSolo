@@ -83,13 +83,46 @@ if ($useCache == true && file_exists('/storage/data/json/tgdb/PlatformImages.jso
     file_put_contents('/storage/data/json/tgdb/PlatformImages.json', json_encode($platformImages, JSON_PRETTY_PRINT));
 }
 $fields = ['players', 'publishers', 'genres', 'overview', 'last_updated', 'rating', 'platform', 'coop', 'youtube', 'os', 'processor', 'ram', 'hdd', 'video', 'sound', 'alternates'];
+$subfields = ['developers', 'genres', 'publishers'];
+$db->query('delete from tgdb_games');
 foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {
     $platformId = $platformData['id'];
+    echo 'Platform #'.$platformId.' '.$platformData['name'].' ';
     if ($useCache == true && file_exists('/storage/data/json/tgdb/platform/'.$platformId.'.json')) {
         $games = json_decode(file_get_contents('/storage/data/json/tgdb/platform/'.$platformId.'.json'), true);
     } else {
-        echo 'Platform #'.$platformId.' '.$platformData['name'].' ';
         $games = apiGet('Games/ByPlatformID?apikey='.($usePrivate == true ? $config['thegamesdb_private_api_key'] : $config['thegamesdb_public_api_key']).'&id='.$platformId.'&fields='.urlencode(implode(',',$fields)), 'games', false);
         file_put_contents('/storage/data/json/tgdb/platform/'.$platformId.'.json', json_encode($games, JSON_PRETTY_PRINT));
     }
+    echo 'Inserting DB Data..';
+    foreach ($games['data']['games'] as $idx => $game) {
+        $cols = $game;
+        foreach ($subfields as $field) {
+            unset($cols[$field]);
+        }
+        unset($cols['alternates']);
+        if (isset($cols['overview'])) {
+            $cols['overview'] = utf8_encode($cols['overview']);
+        }
+        $gameId = $db->insert('tgdb_games')->cols($cols)->query();
+        if (isset($game['alternates'])) {
+            foreach ($game['alternates'] as $fieldData) {
+                $db->insert('tgdb_game_alternates')->cols([
+                    'game' => $gameId,
+                    'name' => $fieldData
+                ])->query();
+            }
+        }
+        foreach ($subfields as $field) {
+            if (isset($game[$field])) {
+                foreach ($game[$field] as $fieldData) {
+                    $db->insert('tgdb_game_'.$field)->cols([
+                        'game' => $gameId,
+                        substr($field, 0, -1) => $fieldData
+                    ])->query();
+                }
+            }
+        }
+    }
+    echo ' done'.PHP_EOL;
 }
