@@ -519,11 +519,68 @@ DROP TABLE IF EXISTS `tgdb_developers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tgdb_developers` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10379 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tgdb_game_developers`
+--
+
+DROP TABLE IF EXISTS `tgdb_game_developers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tgdb_game_developers` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `game` int(11) unsigned NOT NULL,
+  `developer` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tgdb_game_developer_game_fk_idx` (`game`),
+  KEY `tgdb_game_developer_developer_fk_idx` (`developer`),
+  CONSTRAINT `tgdb_game_developer_developer_fk` FOREIGN KEY (`developer`) REFERENCES `tgdb_developers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tgdb_game_developer_game_fk` FOREIGN KEY (`game`) REFERENCES `tgdb_games` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tgdb_game_genres`
+--
+
+DROP TABLE IF EXISTS `tgdb_game_genres`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tgdb_game_genres` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `game` int(11) unsigned NOT NULL,
+  `genre` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tgdb_game_genre_game_fk_idx` (`game`),
+  KEY `tgdb_game_genre_genre_fk_idx` (`genre`),
+  CONSTRAINT `tgdb_game_genre_game_fk` FOREIGN KEY (`game`) REFERENCES `tgdb_games` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tgdb_game_genre_genre_fk` FOREIGN KEY (`genre`) REFERENCES `tgdb_genres` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tgdb_game_publishers`
+--
+
+DROP TABLE IF EXISTS `tgdb_game_publishers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tgdb_game_publishers` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `game` int(11) unsigned NOT NULL,
+  `publisher` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tgdb_game_publisher_game_fk_idx` (`game`),
+  KEY `tgdb_game_publisher_publisher_fk_idx` (`publisher`),
+  CONSTRAINT `tgdb_game_publisher_game_fk` FOREIGN KEY (`game`) REFERENCES `tgdb_games` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tgdb_game_publisher_publisher_fk` FOREIGN KEY (`publisher`) REFERENCES `tgdb_publishers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -534,10 +591,10 @@ DROP TABLE IF EXISTS `tgdb_games`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tgdb_games` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `game_title` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
   `release_date` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
-  `platform` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `platform` int(11) unsigned DEFAULT NULL,
   `players` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
   `overview` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
   `last_updated` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
@@ -552,7 +609,9 @@ CREATE TABLE `tgdb_games` (
   `sound` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
   `alternates` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `tgdb_game_platform_idx` (`platform`),
+  CONSTRAINT `tgdb_game_platform` FOREIGN KEY (`platform`) REFERENCES `tgdb_platforms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -564,7 +623,7 @@ DROP TABLE IF EXISTS `tgdb_genres`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tgdb_genres` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -579,7 +638,7 @@ DROP TABLE IF EXISTS `tgdb_platforms`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tgdb_platforms` (
-  `id` int(11) NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
   `alias` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
   `icon` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
@@ -597,7 +656,7 @@ CREATE TABLE `tgdb_platforms` (
   `overview` text COLLATE utf8mb4_bin,
   `youtube` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4980 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -608,7 +667,7 @@ DROP TABLE IF EXISTS `tgdb_publishers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tgdb_publishers` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
@@ -624,4 +683,4 @@ CREATE TABLE `tgdb_publishers` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-17  3:59:35
+-- Dump completed on 2019-07-17  5:03:03
