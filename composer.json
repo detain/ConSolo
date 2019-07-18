@@ -10,10 +10,21 @@
         }
     ],
     "require": {    
+        "php": ">=5.3.0",
+        "ext-curl": "*",
+        "ext-pcntl": "*",
+        "ext-posix": "*",
+        "detain/phpsysinfo": "dev-master",
+        "react/child-process": "*",
+        "react/event-loop": "*",
+        "react/http-client": "*",
         "wyndow/fuzzywuzzy": "dev-master",
         "loilo/fuse": "dev-master",
+        "roave/security-advisories": "dev-master",
         "workerman/workerman": "dev-master",
-        "workerman/mysql": "dev-master"
+        "workerman/mysql": "dev-master",
+        "workerman/globaldata": "dev-master"
+        
     },
     "autoload": {
         "psr-4": {
