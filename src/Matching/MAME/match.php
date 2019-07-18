@@ -73,7 +73,7 @@ $mediaTypes = [
 ];
 $rows = $db->query("select platform,platform_description from mame_software group by platform,platform_description");
 $return = [];
-$return['Arcade'] = 'Arcade';
+$return['Arcade'] = ['Arcade'];
 foreach ($rows as $idx => $row) {
     $description = $row['platform_description'];
     foreach ($mediaTypes as $type) {
