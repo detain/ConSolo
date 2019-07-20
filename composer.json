@@ -14,7 +14,6 @@
         "ext-curl": "*",
         "ext-pcntl": "*",
         "ext-posix": "*",
-        "detain/phpsysinfo": "dev-master",
         "react/child-process": "*",
         "react/event-loop": "*",
         "react/http-client": "*",
