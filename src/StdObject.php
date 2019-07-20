@@ -1,4 +1,6 @@
 <?php
+namespace Detain\ConSolo;
+
 /**
 * stdObject Class
 *  
