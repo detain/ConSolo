@@ -11,8 +11,7 @@ function updateCompressedFile($path, $parentId)  {
     * @var \Workerman\MySQL\Connection
     */
     global $db;
-    global $files, $tmpDir;
-    $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
+    global $files, $tmpDir, $compressedHashAlgos;
     $statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks
     $parentData = $files[$parentId];
     $parentPath = $parentData['path'];
@@ -28,7 +27,7 @@ function updateCompressedFile($path, $parentId)  {
         }
         $fileData[$statField] = $pathStat[$statField];
     }
-    foreach ($hashAlgos as $hashAlgo) {
+    foreach ($compressedHashAlgos as $hashAlgo) {
         if (!isset($fileData[$hashAlgo])) {
             $newData[$hashAlgo] = hash_file($hashAlgo, $path);
             $fileData[$hashAlgo] = hash_file($hashAlgo, $path);
@@ -115,8 +114,7 @@ function updateFile($path)  {
     * @var \Workerman\MySQL\Connection
     */
     global $db;
-    global $files, $paths;
-    $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
+    global $files, $paths, $hashAlgos;
     $statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
     $pathStat = stat($path);
     if (!array_key_exists($path, $paths)) {
@@ -210,12 +208,14 @@ function loadFiles($path = null) {
 }
 
 
-$pathGlobs = ['/storage/vault*/roms'];
-$skipGlobs = ['/storage/vault6/roms/toseciso/'];
+$pathGlobs = ['/storage/*/roms/*'];
+$skipGlobs = ['/storage/vault12/roms/GOG/'];
 $tmpDir = '/tmp/scanfiles';
 $compressionTypes = ['7z', 'rar', 'zip'];
-$scanCompressed = false;
-global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed;
+$hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
+$compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
+$scanCompressed = true;
+global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos;
 $db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
