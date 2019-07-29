@@ -138,11 +138,26 @@ foreach ($xml as $list) {
                     }
                     unset($game['info']);
                 }
-                if (isset($game['part']))
+                $dataArea = false;
+                if (isset($game['part'])) {
+                    if (isset($game['part']['dataarea'])) {
+                        $dataArea = $game['part']['dataarea']; 
+                    }
                     unset($game['part']);
+                }
                 $game['platform'] = $name;
                 $game['platform_description'] = $description;
-                $db->insert('mame_software')->cols($game)->query();
+                $gameId = $db->insert('mame_software')->cols($game)->query();
+                if ($dataArea !== false) {
+                    if (isset($dataArea['name']))
+                        $dataArea = [$dataArea];
+                    foreach ($dataArea as $dataPart) {
+                        if (isset($dataPart['rom'])) {
+                            $dataPart['software_id'] = $gameId;
+                            $db->insert('mame_software_roms')->cols($dataPart)->query();
+                        }
+                    }
+                }
             }            
         }
     } elseif ($list == 'xml') {

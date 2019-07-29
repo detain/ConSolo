@@ -19,7 +19,7 @@ function updateCompressedFile($path, $parentId)  {
     $linkedPath = str_replace($tmpDir.'/', $parentPath.'#', $path); 
     $realPath = $path;
     $pathStat = stat($realPath);
-        $fileData = [];
+    $fileData = [];
     $newData = [];
     foreach ($statFields as $statField) {
         if (!isset($fileData[$statField]) || $pathStat[$statField] != $fileData[$statField]) {
@@ -33,10 +33,12 @@ function updateCompressedFile($path, $parentId)  {
             $fileData[$hashAlgo] = hash_file($hashAlgo, $path);
         }
     }
+    $cmd = 'file -b -p '.escapeshellarg($path);
+    $fileData['magic'] = trim(`{$cmd}`);
     $fileData['path'] = $virtualPath;
     $fileData['parent'] = $parentId;
     $id = $db->insert('files')->cols($fileData)->query();
-    echo "  Added file #{$id} {$virtualPath} from Compressed parent {$parentData['path']}\n";
+    echo "  Added file #{$id} {$virtualPath} : ".json_encode($fileData)." from Compressed parent {$parentData['path']}\n";
 }
 
 function updateCompressedDir($path, $parentId) {
@@ -129,16 +131,24 @@ function updateFile($path)  {
         }
         $fileData[$statField] = $pathStat[$statField];
     }
-    $return = false;
     if (array_key_exists($path, $paths) && $files[$paths[$path]]['mtime'] == $fileData['mtime'] && $files[$paths[$path]]['size'] == $fileData['size']) {
         $return = true;
+        $reread = false;
+    } else {
+        $return = false;
+        $reread = true;        
     }
     foreach ($hashAlgos as $hashAlgo) {
-        if (!isset($fileData[$hashAlgo])) {
+        if (!isset($fileData[$hashAlgo]) || $reread == true) {
             $return = false;
             $newData[$hashAlgo] = hash_file($hashAlgo, $path);
             $fileData[$hashAlgo] = hash_file($hashAlgo, $path);
         }
+    }
+    if (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true) {
+        $cmd = 'file -b -p '.escapeshellarg($path);
+        $newData['magic'] = trim(`{$cmd}`);
+        $return = false;    
     }
     if ($return === true) {
         //echo "  Skipping {$path}, Its Already Hashed and Still The Same Size and Modification Time\n";
@@ -151,11 +161,11 @@ function updateFile($path)  {
         $fileData['path'] = $path;
         $id = $db->insert('files')->cols($fileData)->query();
         $paths[$path] = $id;
-        echo "  Added file #{$id} {$path}\n";
+        echo "  Added file #{$id} {$path} : ".json_encode($fileData).PHP_EOL;
     } else {
         $id = $paths[$path];
         $db->update('files')->cols($newData)->where('id='.$id)->query();
-        echo "  Updated file #{$paths[$path]} {$path}\n".var_export($newData, true).PHP_EOL;
+        echo "  Updated file #{$paths[$path]} {$path} : ".json_encode($newData).PHP_EOL;
     }
     $files[$id] = $fileData;
     compressedFileHandler($path);
@@ -208,7 +218,7 @@ function loadFiles($path = null) {
 }
 
 
-$pathGlobs = ['/storage/*/roms/*'];
+$pathGlobs = ['/storage/*/roms'];
 $skipGlobs = ['/storage/vault12/roms/GOG/'];
 $tmpDir = '/tmp/scanfiles';
 $compressionTypes = ['7z', 'rar', 'zip'];
