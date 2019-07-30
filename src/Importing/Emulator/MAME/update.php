@@ -1,37 +1,8 @@
 <?php
 /**
-* DROP TABLE IF EXISTS mame_machines;
-CREATE TABLE `mame_machines` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `description` varchar(500) COLLATE utf8mb4_bin DEFAULT NULL,
-  `year` varchar(6) COLLATE utf8mb4_bin DEFAULT NULL,
-  `manufacturer` varchar(80) COLLATE utf8mb4_bin DEFAULT NULL,
-  `name` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL,
-  `sourcefile` varchar(70) COLLATE utf8mb4_bin DEFAULT NULL,
-  `sampleof` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
-  `romof` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
-  `cloneof` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
-  `ismechanical` varchar(4) COLLATE utf8mb4_bin DEFAULT NULL,
-  `isbios` varchar(4) COLLATE utf8mb4_bin DEFAULT NULL,
-  `isdevice` varchar(4) COLLATE utf8mb4_bin DEFAULT NULL,
-  `runnable` varchar(3) COLLATE utf8mb4_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
-DROP TABLE IF EXISTS `mame_software`;
-CREATE TABLE `mame_software` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `platform` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
-  `platform_description` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
-  `description` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
-  `year` varchar(6) COLLATE utf8mb4_bin DEFAULT NULL,
-  `publisher` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
-  `name` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
-  `serial` varchar(150) COLLATE utf8mb4_bin DEFAULT NULL,
-  `supported` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL,
-  `cloneof` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+* MAME XML Data Scanner
 */
+
 include __DIR__.'/../../../../vendor/autoload.php';
 require_once __DIR__.'/../../../xml2array.php';
 
@@ -94,6 +65,7 @@ if (intval($version) <= intval($last)) {
     die('Already Up-To-Date'.PHP_EOL);
 }
 
+/*
 echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_64bit.exe -O mame.exe;`;
 echo `rm -rf /tmp/update;`;
 echo `7z x -o/tmp/update mame.exe;`;
@@ -102,7 +74,7 @@ echo 'Generating XML'.PHP_EOL;
 echo `cd /tmp/update; wine64 mame64.exe -listxml > xml.xml;`;
 echo 'Generating Software'.PHP_EOL;
 echo `cd /tmp/update; wine64 mame64.exe -listsoftware > software.xml;`;
-
+*/
 
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
 foreach ($txt as $list) {
@@ -112,10 +84,14 @@ foreach ($txt as $list) {
 
 }*/
 
-$xml = ['software', 'xml'];
+//$xml = ['software', 'xml'];
+$xml = ['xml', 'software'];
 $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster'];
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
+    
+    $array = json_decode(file_get_contents('/storage/data/json/mame/'.$list.'.json'), TRUE);
+    /*
     $xmlFile = '/tmp/update/'.$list.'.xml';
     $string = file_get_contents($xmlFile);
 	echo "Parsing XML To Array   ";
@@ -123,8 +99,9 @@ foreach ($xml as $list) {
     unset($string);
     echo "Simplifying Array   ";
     RunArray($array);
+    */
     if ($list == 'software') {
-        $db->query("truncate mame_software");
+        $db->query("delete from mame_software");
         $games = [];
         foreach ($array['softwarelists']['softwarelist'] as $idx => $software) {
             $name = $software['name'];
@@ -153,25 +130,39 @@ foreach ($xml as $list) {
                         $dataArea = [$dataArea];
                     foreach ($dataArea as $dataPart) {
                         if (isset($dataPart['rom'])) {
-                            $dataPart['software_id'] = $gameId;
-                            $db->insert('mame_software_roms')->cols($dataPart)->query();
+                            if (isset($dataPart['rom']['name']))
+                                $dataPart['rom'] = [$dataPart['rom']];
+                            foreach ($dataPart['rom'] as $rom) {
+                                $rom['software_id'] = $gameId;
+                                //echo json_encode($rom).PHP_EOL;
+                                $db->insert('mame_software_roms')->cols($rom)->query();
+                            }
                         }
                     }
                 }
             }            
         }
     } elseif ($list == 'xml') {
-        $db->query("truncate mame_machines");
+        $db->query("delete from mame_machines");
         $machines = [];
         foreach ($array['mame']['machine'] as $idx => $machine) {
+            $roms = false;
             foreach ($removeXml as $remove)
                 if (array_key_exists($remove, $machine))
                     unset($machine[$remove]);
             if (isset($machine['rom'])) {
                 $roms = $machine['rom'];
                 unset($machine['rom']);
+                if (isset($roms['name']))
+                    $roms = [$roms];
             }
-            $db->insert('mame_machines')->cols($machine)->query();
+            $gameId = $db->insert('mame_machines')->cols($machine)->query();
+            if ($roms !== false) {
+                foreach ($roms as $rom) {
+                    $rom['machine_id'] = $gameId;
+                    $db->insert('mame_machine_roms')->cols($rom)->query();
+                }
+            }
         }
     }
 	//echo "Writing to JSON {$list}.json   ";
