@@ -84,8 +84,7 @@ foreach ($txt as $list) {
 
 }*/
 
-//$xml = ['software', 'xml'];
-$xml = ['xml', 'software'];
+$xml = ['software', 'xml'];
 $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster'];
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
