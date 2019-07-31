@@ -1,6 +1,8 @@
 <?php
 /**
 * grabs latest TheGamesDB data and updates db
+* 
+* https://api.thegamesdb.net/#/Games/GamesByPlatformID
 */
 
 require_once __DIR__.'/../../../bootstrap.php';
