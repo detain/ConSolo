@@ -9,21 +9,21 @@
             "email": "detain@interserver.net"
         }
     ],
-    "require": {    
+    "require": {
         "php": ">=5.3.0",
         "ext-curl": "*",
         "ext-pcntl": "*",
         "ext-posix": "*",
+        "fabpot/goutte": "dev-master",
+        "loilo/fuse": "dev-master",
         "react/child-process": "*",
         "react/event-loop": "*",
         "react/http-client": "*",
-        "wyndow/fuzzywuzzy": "dev-master",
-        "loilo/fuse": "dev-master",
         "roave/security-advisories": "dev-master",
-        "workerman/workerman": "dev-master",
+        "workerman/globaldata": "dev-master",
         "workerman/mysql": "dev-master",
-        "workerman/globaldata": "dev-master"
-        
+        "workerman/workerman": "dev-master",
+        "wyndow/fuzzywuzzy": "dev-master"
     },
     "autoload": {
         "psr-4": {
