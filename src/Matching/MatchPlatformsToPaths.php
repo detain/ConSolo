@@ -80,24 +80,24 @@ foreach (glob($glob) as $path) {
         if (strpos($name, ' (') !== false) {
             $name = substr($name, 0, strpos($name, ' ('));
         }
-        $developer = basename(dirname($path));
+        $manufacturer = basename(dirname($path));
         $found = false;
-        $names = [$name, $developer.' '.$name, $developer.' - '.$name];
-        if (strpos($name, $developer.' - ') !== false) {
-            $name = str_replace($developer.' - ', '', $name);
+        $names = [$name, $manufacturer.' '.$name, $manufacturer.' - '.$name];
+        if (strpos($name, $manufacturer.' - ') !== false) {
+            $name = str_replace($manufacturer.' - ', '', $name);
         }
         foreach ($names as $search) {
             if (array_key_exists($search, $name2id)) {
                 $found = true;
                 $path2id[$path] = $name2id[$search];
-                if (!in_array($developer.'/'.$name, $good))
-                    $good[] = $developer.'/'.$name;
+                if (!in_array($manufacturer.'/'.$name, $good))
+                    $good[] = $manufacturer.'/'.$name;
                 break;
             }
         }
         if ($found == false) {
-            if (!in_array($developer.'/'.$name, $missing))
-                $missing[] = $developer.'/'.$name;
+            if (!in_array($manufacturer.'/'.$name, $missing))
+                $missing[] = $manufacturer.'/'.$name;
         }
     }
 }
@@ -106,21 +106,21 @@ echo 'Found:'.PHP_EOL;
 foreach ($path2id as $path => $id) {
     $platform = $platforms[$id];
     $name = basename($path);
-    $developer = basename(dirname($path));
-    echo '    '.$developer.'/'.$name.'  =>  '.$platform['name'].PHP_EOL;
+    $manufacturer = basename(dirname($path));
+    echo '    '.$manufacturer.'/'.$name.'  =>  '.$platform['name'].PHP_EOL;
 }
 echo 'Missing:'.json_encode($missing, JSON_PRETTY_PRINT).PHP_EOL;
 echo 'Found '.count($path2id).' Missing '.count($missing).PHP_EOL;
 
 foreach ($missing as $missingData) {
-    list($developer, $name) = explode('/', $missingData);
+    list($manufacturer, $name) = explode('/', $missingData);
     //$search = $name;
     $searches = [$name];
-    if (!in_array(str_replace($developer.' '.$developer, $developer, $developer.' '.$name), $searches)) {
-        $searches[] = str_replace($developer.' '.$developer, $developer, $developer.' '.$name); 
+    if (!in_array(str_replace($manufacturer.' '.$manufacturer, $manufacturer, $manufacturer.' '.$name), $searches)) {
+        $searches[] = str_replace($manufacturer.' '.$manufacturer, $manufacturer, $manufacturer.' '.$name); 
     }
-    if (!in_array(str_replace($developer.' - '.$developer, $developer, $developer.' - '.$name), $searches)) {
-        $searches[] = str_replace($developer.' - '.$developer, $developer, $developer.' - '.$name); 
+    if (!in_array(str_replace($manufacturer.' - '.$manufacturer, $manufacturer, $manufacturer.' - '.$name), $searches)) {
+        $searches[] = str_replace($manufacturer.' - '.$manufacturer, $manufacturer, $manufacturer.' - '.$name); 
     }
     foreach ($searches as $search) {
         $scores = [];
