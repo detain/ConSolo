@@ -42,10 +42,10 @@ foreach ($computerUrls as $url) {
     $query = explode('&', $urlParts['query']);
     foreach ($query as $queryPart) {
         list($key, $value) = explode('=', $queryPart);
-        echo "Key: $key\n";
         $cols[$types[$key]] = $value;
     }
     $cols['notes'] = $crawler->filter('.petitnoir2 tr td table tr td p.petitnoir')->html();
+    $cols['notes'] = trim(str_replace(['<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],[PHP_EOL,PHP_EOL,PHP_EOL], $cols['notes']));
     $crawler->filter('.petitnoir2 tr td table tr td table tr td.petitnoir2 b')->each(function ($node) {
         global $tableKeys;
         $tableKeys[] = trim(strtolower(str_replace(['/',' '],['','_'],html_entity_decode($node->html()))));
@@ -54,7 +54,7 @@ foreach ($computerUrls as $url) {
     $value = false;
     $crawler->filter('.petitnoir2 tr td table tr td table tr td.petitnoir2')->each(function ($node) use (&$cols, &$key, &$value) {
         if ($key === false) {
-            $key = trim(strtolower(str_replace(['/',' '],['','_'],html_entity_decode($node->filter('b')->html()))));
+            $key = trim(strtolower(str_replace(['/',' '],['','_'],html_entity_decode($node->html()))));
         } elseif ($value === false) {
             $value = $node->html();
             $cols[$key] = $value;
