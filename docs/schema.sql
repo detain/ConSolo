@@ -205,14 +205,15 @@ CREATE TABLE `files` (
   `sha1` char(40) COLLATE utf8mb4_bin DEFAULT NULL,
   `crc32` char(8) COLLATE utf8mb4_bin DEFAULT NULL,
   `parent` bigint(20) unsigned DEFAULT NULL,
-  `magic` varchar(500) COLLATE utf8mb4_bin DEFAULT NULL,
+  `magic` text COLLATE utf8mb4_bin,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `file_id_UNIQUE` (`id`),
   KEY `files_parent_fk_idx` (`parent`),
   KEY `size_md5_key` (`size`,`md5`),
   FULLTEXT KEY `file_path` (`path`),
   CONSTRAINT `files_parent_fk` FOREIGN KEY (`parent`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2812081 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2864248 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -455,15 +456,16 @@ CREATE TABLE `mame_machine_roms` (
   `crc` char(8) COLLATE utf8mb4_bin DEFAULT NULL,
   `sha1` char(40) COLLATE utf8mb4_bin DEFAULT NULL,
   `status` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
-  `region` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `region` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
   `offset` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
-  `bios` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
-  `merge` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
+  `bios` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `merge` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `optional` enum('no','yes') COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `mame_machine_rom_machine_fk_idx` (`machine_id`),
   CONSTRAINT `mame_machine_rom_machine_fk` FOREIGN KEY (`machine_id`) REFERENCES `mame_machines` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=517749 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -488,7 +490,7 @@ CREATE TABLE `mame_machines` (
   `isdevice` varchar(4) COLLATE utf8mb4_bin DEFAULT NULL,
   `runnable` varchar(3) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40493 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=146195 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -510,7 +512,7 @@ CREATE TABLE `mame_software` (
   `supported` varchar(10) COLLATE utf8mb4_bin DEFAULT NULL,
   `cloneof` varchar(30) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=108759 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=449875 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -534,7 +536,26 @@ CREATE TABLE `mame_software_roms` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `mame_software_rom_software_fk_idx` (`software_id`),
   CONSTRAINT `mame_software_rom_software_fk` FOREIGN KEY (`software_id`) REFERENCES `mame_software` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=297873 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `platform_matches`
+--
+
+DROP TABLE IF EXISTS `platform_matches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `platform_matches` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `platform_id` int(11) unsigned NOT NULL,
+  `name` varchar(300) COLLATE utf8mb4_bin NOT NULL,
+  `type` varchar(45) COLLATE utf8mb4_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `platform_match_platform_fk_idx` (`platform_id`),
+  CONSTRAINT `platform_match_platform_fk` FOREIGN KEY (`platform_id`) REFERENCES `platforms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1507 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -545,22 +566,25 @@ DROP TABLE IF EXISTS `platforms`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `platforms` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `release_date` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `developer` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `manufacturer` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `cpu` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `memory` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `graphics` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `sound` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `display` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `media` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
-  `maxcontrollers` varchar(191) COLLATE utf8mb4_bin DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `release_date` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `developer` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `manufacturer` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `cpu` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `memory` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `graphics` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `sound` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `display` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `media` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `maxcontrollers` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
   `notes` text COLLATE utf8mb4_bin,
+  `generation` smallint(6) DEFAULT NULL,
+  `wikipedia` varchar(300) COLLATE utf8mb4_bin DEFAULT NULL,
+  `type` varchar(45) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=701 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -751,4 +775,4 @@ CREATE TABLE `tgdb_publishers` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-29 15:16:06
+-- Dump completed on 2019-07-30 20:08:50
