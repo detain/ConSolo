@@ -46,15 +46,15 @@ foreach ($computerUrls as $url) {
         $cols[$types[$key]] = $value;
     }
     $cols['notes'] = $crawler->filter('.petitnoir2 tr td table tr td p.petitnoir')->html();
-    $crawler->filter('.petitnoir2 tr td table tr td table tr td.petitnoir2:even b')->each(function ($node) {
+    $crawler->filter('.petitnoir2 tr td table tr td table tr td.petitnoir2 b')->each(function ($node) {
         global $tableKeys;
-        $tableKeys[] = strtolower(str_replace(['/',' '],['','_'],trim(html_entity_decode($node->html()))));
+        $tableKeys[] = trim(strtolower(str_replace(['/',' '],['','_'],html_entity_decode($node->html()))));
     });
     $key = false;
     $value = false;
     $crawler->filter('.petitnoir2 tr td table tr td table tr td.petitnoir2')->each(function ($node) use (&$cols, &$key, &$value) {
         if ($key === false) {
-            $key = strtolower(str_replace(['/',' '],['','_'],trim(html_entity_decode($node->filter('b')->html()))));
+            $key = trim(strtolower(str_replace(['/',' '],['','_'],html_entity_decode($node->filter('b')->html()))));
         } elseif ($value === false) {
             $value = $node->html();
             $cols[$key] = $value;
