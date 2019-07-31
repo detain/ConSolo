@@ -116,9 +116,12 @@ function updateFile($path)  {
     * @var \Workerman\MySQL\Connection
     */
     global $db;
-    global $files, $paths, $hashAlgos;
+    global $files, $paths, $hashAlgos, $maxSize, $useMaxSize;
     $statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
     $pathStat = stat($path);
+	if ($useMaxSize == true && $pathStat['size'] >= $maxSize) {
+		return;
+	}
     if (!array_key_exists($path, $paths)) {
         $fileData = [];
     } else {
@@ -225,7 +228,9 @@ $compressionTypes = ['7z', 'rar', 'zip'];
 $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $scanCompressed = true;
-global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos;
+$maxSize = 100000000;
+$useMaxSize = true;
+global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize;
 $db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
