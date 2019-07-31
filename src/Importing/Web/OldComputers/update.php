@@ -1,6 +1,10 @@
 <?php
 /**
 * parses data from old-computers.com
+* 
+* http://www.old-computers.com/museum/computer.asp?st=1&c=91
+* 
+* @todo detect emulators page and load+parse it
 */
 
 require_once __DIR__.'/../../../bootstrap.php';
