@@ -1,13 +1,15 @@
 <?php
 
-include __DIR__.'/../../../../vendor/autoload.php';
-require_once __DIR__.'/../../../xml2array.php';
+require_once __DIR__.'/../../../bootstrap.php';
 
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
 $url = 'https://gamesdb.launchbox-app.com/Metadata.zip'; 
 $tablePrefix = 'launchbox_';
 $tableSuffix = 's';
 $configKey = 'launchbox';
-$db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
 $row = $db->query("select * from config where config.key='{$configKey}'");
 if (count($row) == 0) {
     $last = 0;

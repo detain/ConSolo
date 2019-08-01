@@ -4,7 +4,13 @@
 * checksumming, and storing of basic information.  This process can take a long time on
 * a larger set of files.  It also scans inside compressed files. 
 */
-include __DIR__.'/../../../vendor/autoload.php';
+
+require_once __DIR__.'/../../bootstrap.php';
+
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
 
 function updateCompressedFile($path, $parentId)  {
     /**
@@ -221,17 +227,16 @@ function loadFiles($path = null) {
 }
 
 
-$pathGlobs = ['/storage/*/roms'];
+$pathGlobs = ['/storage/*/roms/MAME'];
 $skipGlobs = [];
 $tmpDir = '/tmp/scanfiles';
 $compressionTypes = ['7z', 'rar', 'zip'];
 $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $scanCompressed = true;
-$maxSize = 100000000;
+$maxSize = 500000000;
 $useMaxSize = false;
 global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize;
-$db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
         echo "ROM Path - {$path}\n";
