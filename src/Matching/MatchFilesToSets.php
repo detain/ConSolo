@@ -13,23 +13,23 @@ use FuzzyWuzzy\Process;
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$outputGames = true;
+$outputGames = false;
 $outputSets = true;
-foreach (['machines', 'software'] as $type) {
+foreach (['software','machines'] as $type) {
     $lastPlatform = false;
     $currentPlatform = false;
     $single = substr($type, -1) == 's' ? substr($type, 0, -1) : $type;
     $title = 'MAME '.ucwords($type);
-    echo "Working on {$title}\n";
+    //echo "Working on {$title}\n";
     if ($type == 'machines')
         $platforms = [['platform_description' => 'Arcade']];
     else
         $platforms = $db->query("select platform_description from mame_software group by platform_description");
     foreach ($platforms as $platformIdx => $mameData) {
-        $goodSet = true;
-        $partialSet = false;
         $goodCount = 0;
         $badCount = 0;
+        $goodSet = true;
+        $partialSet = false;
         $platformData = [
             'type' => $title,
             'name' => $mameData['platform_description'],
@@ -39,28 +39,29 @@ foreach (['machines', 'software'] as $type) {
             $games = $db->query("select id, description as name, manufacturer from mame_{$type} order by description");
         else
             $games = $db->query("select id, description as name from mame_{$type} where platform_description='{$escapedPlatform}' order by description");
-        echo "Got ".count($games)." Games\n";
         foreach ($games as $gameIdx => $gameData) {
             $roms = $db->query("select * from mame_{$single}_roms where {$single}_id={$gameData['id']}");
             if ($outputGames == true)
-                echo $platformData['type'].'     '.$platformData['name'].'    '.$gameData['name'];
-            $good = true;
-            $partial = false;
+                echo $platformData['type'].'     '.$platformData['name'].'    '.$gameData['name'].'    '.count($roms).' roms for id '.$gameData['id'];
+            $goodGame = true;
+            $partialGame = false;
             foreach ($roms as $romIdx => $romData) {
-                echo "Looking for Size {$romData['size']} CRC {$romData['crc']}}\n";           
-                $files = $db->query("select path from files where size={$romData['size']} and crc32='{$romData['crc']}'");
+                //echo "Looking for Size {$romData['size']} CRC {$romData['crc']}\n";           
+                $files = $db->query("select path from files where size={$romData['size']} and (crc32='{$romData['crc']}' or sha1='{$romData['sha1']}')");
                 if ($outputGames == true)
                     echo '  '.$romData['name'].' ';
                 if (count($files) == 0) {
                     if ($outputGames == true)
                         echo 'MISSING!';
-                    $good = false;
+                    $goodGame = false;
                     $goodSet = false;
-                    $badCount++;
+                    //echo 'Incrementing Bad Counter (was '.$badCount.')'.PHP_EOL;
+                    $badCount = $badCount + 1;
                 } else {
-                    $goodCount++;
+                    //echo 'Incrementing Good Counter (was '.$goodCount.')'.PHP_EOL;
+                    $goodCount = $goodCount + 1;
                     $partialSet = true;
-                    $partial = true;
+                    $partialGame = true;
                     $paths = [];
                     foreach ($files as $file) {
                         $paths[] = $file['path'];
@@ -70,16 +71,12 @@ foreach (['machines', 'software'] as $type) {
                 }
             }
             if ($outputGames == true)
-                echo '      Game '.($good == true ? 'GOOD' : ($partial == true ? 'PARTIAL' : 'BAD')).PHP_EOL;
+                echo '      Game '.($goodGame == true ? 'GOOD' : ($partialGame == true ? 'PARTIAL' : 'BAD')).PHP_EOL;
         }
         if ($outputSets == true)
             echo $platformData['type'].' '.$platformData['name'].'    ['.$goodCount.'/'.($goodCount+$badCount).'] '.($goodSet == true ? 'GOOD' : ($partialSet == true ? 'PARTIAL' : 'BAD')).' SET'.PHP_EOL;
-        exit;
     }
 }
-
-exit;
-
 
 $platforms = $db->query("select id,type,name from dat_files where type != 'TOSEC-PIX' order by name");
 foreach ($platforms as $idx => $platformData) {
@@ -92,8 +89,8 @@ foreach ($platforms as $idx => $platformData) {
         $roms = $db->query("select * from dat_roms where game={$gameData['id']}");
         if ($outputGames == true)
             echo $platformData['type'].'     '.$platformData['name'].'    '.$gameData['name'];
-        $good = true;
-        $partial = false;
+        $goodGame = true;
+        $partialGame = false;
         foreach ($roms as $romIdx => $romData) {
             $files = $db->query("select path from files where size={$romData['size']} and md5='{$romData['md5']}'");
             if ($outputGames == true)
@@ -101,13 +98,13 @@ foreach ($platforms as $idx => $platformData) {
             if (count($files) == 0) {
                 if ($outputGames == true)
                     echo 'MISSING!';
-                $good = false;
+                $goodGame = false;
                 $goodSet = false;
                 $badCount++;
             } else {
                 $goodCount++;
                 $partialSet = true;
-                $partial = true;
+                $partialGame = true;
                 $paths = [];
                 foreach ($files as $file) {
                     $paths[] = $file['path'];
@@ -117,7 +114,7 @@ foreach ($platforms as $idx => $platformData) {
             }
         }
         if ($outputGames == true)
-            echo '      Game '.($good == true ? 'GOOD' : ($partial == true ? 'PARTIAL' : 'BAD')).PHP_EOL;
+            echo '      Game '.($goodGame == true ? 'GOOD' : ($partialGame == true ? 'PARTIAL' : 'BAD')).PHP_EOL;
     }
     if ($outputSets == true)
         echo $platformData['type'].' '.$platformData['name'].'    ['.$goodCount.'/'.($goodCount+$badCount).'] '.($goodSet == true ? 'GOOD' : ($partialSet == true ? 'PARTIAL' : 'BAD')).' SET'.PHP_EOL;
