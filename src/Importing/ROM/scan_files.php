@@ -227,7 +227,7 @@ function loadFiles($path = null) {
 }
 
 
-$pathGlobs = ['/storage/*/roms/MAME'];
+$pathGlobs = ['/storage/*/roms'];
 $skipGlobs = [];
 $tmpDir = '/tmp/scanfiles';
 $compressionTypes = ['7z', 'rar', 'zip'];
