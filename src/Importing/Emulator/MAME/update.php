@@ -3,8 +3,12 @@
 * MAME XML Data Scanner
 */
 
-include __DIR__.'/../../../../vendor/autoload.php';
-require_once __DIR__.'/../../../xml2array.php';
+require_once __DIR__.'/../../../bootstrap.php';
+
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
 
 function FlattenAttr(&$parent) {
     if (isset($parent['attr'])) {
@@ -51,7 +55,6 @@ function RunArray(&$data) {
 $tablePrefix = 'mame_';
 $tableSuffix = 's';
 $configKey = 'mame';
-$db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
 $row = $db->query("select * from config where config.key='{$configKey}'");
 if (count($row) == 0) {
     $last = 0;
@@ -84,24 +87,25 @@ foreach ($txt as $list) {
 
 }*/
 
+echo 'Clearing out old DB data';
 $db->query("delete from mame_machines");
 $db->query("delete from mame_software");
 $db->query("truncate mame_machine_roms");
 $db->query("truncate mame_software_roms");
 $db->query("alter table mame_machines auto_increment = 1");
 $db->query("alter table mame_software auto_increment = 1");
-
+echo ' done!'.PHP_EOL;
 $xml = ['software', 'xml'];
 $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster'];
 foreach ($xml as $list) {
-	echo "Getting {$list} List   ";
+    echo "Getting {$list} List   ";
     
     $array = json_decode(file_get_contents('/storage/data/json/mame/'.$list.'.json'), TRUE);
     /*
     $xmlFile = '/tmp/update/'.$list.'.xml';
     $string = file_get_contents($xmlFile);
-	echo "Parsing XML To Array   ";
-	$array = xml2array($string, 1, 'attribute');
+    echo "Parsing XML To Array   ";
+    $array = xml2array($string, 1, 'attribute');
     unset($string);
     echo "Simplifying Array   ";
     RunArray($array);
@@ -109,38 +113,41 @@ foreach ($xml as $list) {
     if ($list == 'software') {
         $games = [];
         foreach ($array['softwarelists']['softwarelist'] as $idx => $software) {
-            $name = $software['name'];
-            $description = $software['description'];
             if (isset($software['software']['name']))
                 $software['software'] = [$software['software']];
-            foreach ($software['software'] as $gameIdx => $game) {
-                if (isset($game['info'])) {
-                    if (isset($game['info']['serial'])) {
-                        $game['serial'] = $game['info']['serial'];
+            foreach ($software['software'] as $gameIdx => $gameData) {
+                if (isset($gameData['info'])) {
+                    if (isset($gameData['info']['serial'])) {
+                        $gameData['serial'] = $gameData['info']['serial'];
                     }
-                    unset($game['info']);
+                    unset($gameData['info']);
                 }
                 $dataArea = false;
-                if (isset($game['part'])) {
-                    if (isset($game['part']['dataarea'])) {
-                        $dataArea = $game['part']['dataarea']; 
-                    }
-                    unset($game['part']);
+                $partArea = false;
+                if (isset($gameData['part'])) {
+                    $partArea = (isset($gameData['part']['name']) ? [$gameData['part']] : $gameData['part']);
+                    unset($gameData['part']);
                 }
-                $game['platform'] = $name;
-                $game['platform_description'] = $description;
-                $gameId = $db->insert('mame_software')->cols($game)->query();
-                if ($dataArea !== false) {
-                    if (isset($dataArea['name']))
-                        $dataArea = [$dataArea];
-                    foreach ($dataArea as $dataPart) {
-                        if (isset($dataPart['rom'])) {
-                            if (isset($dataPart['rom']['name']))
-                                $dataPart['rom'] = [$dataPart['rom']];
-                            foreach ($dataPart['rom'] as $rom) {
-                                $rom['software_id'] = $gameId;
-                                //echo json_encode($rom).PHP_EOL;
-                                $db->insert('mame_software_roms')->cols($rom)->query();
+                $gameData['platform'] = $software['name'];
+                $gameData['platform_description'] = $software['description'];
+                $gameId = $db->insert('mame_software')->cols($gameData)->query();
+                if ($partArea !== false) {
+                    foreach ($partArea as $partData) {
+                        $dataArea = false;
+                        if (isset($partData['dataarea'])) {
+                            $dataArea = $partData['dataarea'];
+                            if (isset($dataArea['name']))
+                                $dataArea = [$dataArea];
+                            foreach ($dataArea as $dataPart) {
+                                if (isset($dataPart['rom'])) {
+                                    if (isset($dataPart['rom']['name']))
+                                        $dataPart['rom'] = [$dataPart['rom']];
+                                    foreach ($dataPart['rom'] as $rom) {
+                                        $rom['software_id'] = $gameId;
+                                        //echo json_encode($rom).PHP_EOL;
+                                        $db->insert('mame_software_roms')->cols($rom)->query();
+                                    }
+                                }
                             }
                         }
                     }
@@ -169,9 +176,9 @@ foreach ($xml as $list) {
             }
         }
     }
-	//echo "Writing to JSON {$list}.json   ";
-	//file_put_contents($list.'.json', json_encode($array, JSON_PRETTY_PRINT));
-	echo "done\n";
+    //echo "Writing to JSON {$list}.json   ";
+    //file_put_contents($list.'.json', json_encode($array, JSON_PRETTY_PRINT));
+    echo "done\n";
     @unlink($xmlFile);
 }
 echo `rm -rf /tmp/update;`;
