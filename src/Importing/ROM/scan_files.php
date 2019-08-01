@@ -222,14 +222,14 @@ function loadFiles($path = null) {
 
 
 $pathGlobs = ['/storage/*/roms'];
-$skipGlobs = ['/storage/vault12/roms/GOG/'];
+$skipGlobs = [];
 $tmpDir = '/tmp/scanfiles';
 $compressionTypes = ['7z', 'rar', 'zip'];
 $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $scanCompressed = true;
 $maxSize = 100000000;
-$useMaxSize = true;
+$useMaxSize = false;
 global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize;
 $db = new Workerman\MySQL\Connection('127.0.0.1', '3306', 'consolo', 'consolo', 'consolo');
 foreach ($pathGlobs as $pathGlob) {
