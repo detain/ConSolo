@@ -7,10 +7,17 @@
 
 require_once __DIR__.'/../../bootstrap.php';
 
-/**
-* @var \Workerman\MySQL\Connection
-*/
-global $db;
+
+$pathGlobs = ['/storage/*/roms'];
+$skipGlobs = [];
+$tmpDir = '/tmp/scanfiles';
+$compressionTypes = ['7z', 'rar', 'zip'];
+$hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
+$compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
+$scanCompressed = true;
+$maxSize = 500000000;
+$useMaxSize = false;
+
 
 function updateCompressedFile($path, $parentId)  {
     /**
@@ -50,7 +57,10 @@ function updateCompressedFile($path, $parentId)  {
 function updateCompressedDir($path, $parentId) {
     global $files, $skipGlobs;
     //echo "  Added directory {$path}\n";
-    foreach (glob($path.'/*') as $subPath) {
+    $cmd = 'find '.escapeshellarg($path).' -type f';
+    $paths = explode("\n", trim(`{$cmd}`));
+    //foreach (glob($path.'/*') as $subPath) {
+    foreach ($paths as $subPath) {
         $bad = false;
         foreach ($skipGlobs as $skipGlob) {
             if (substr($subPath, 0, strlen($skipGlob)) == $skipGlob) {
@@ -227,15 +237,10 @@ function loadFiles($path = null) {
 }
 
 
-$pathGlobs = ['/storage/*/roms'];
-$skipGlobs = [];
-$tmpDir = '/tmp/scanfiles';
-$compressionTypes = ['7z', 'rar', 'zip'];
-$hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
-$compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
-$scanCompressed = true;
-$maxSize = 500000000;
-$useMaxSize = false;
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
 global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize;
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
