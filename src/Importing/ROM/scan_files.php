@@ -7,10 +7,15 @@
 
 require_once __DIR__.'/../../bootstrap.php';
 
-
-$pathGlobs = ['/storage/*/roms'];
+if (isset($_SERVER['argc']) && $_SERVER['argc'] > 1) {
+    $paths = $_SERVER['argv'];
+    array_shift($paths);
+    $pathGlobs = $paths;
+} else {
+    $pathGlobs = ['/storage/*/roms'];
+}
 $skipGlobs = [];
-$tmpDir = '/tmp/scanfiles';
+$tmpDir = '/tmp/scanfiles-'.posix_getpid();
 $compressionTypes = ['7z', 'rar', 'zip'];
 $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
@@ -169,24 +174,23 @@ function updateFile($path)  {
         $newData['magic'] = trim(`{$cmd}`);
         $return = false;    
     }
-    if ($return === true) {
-        //echo "  Skipping {$path}, Its Already Hashed and Still The Same Size and Modification Time\n";
-        //echo " Skipping {$path}\n";
-        //echo '-';
-        compressedFileHandler($path);
-        return;
+    if ($return === false) {
+        if (!isset($paths[$path])) {
+            $fileData['path'] = $path;
+            $id = $db->insert('files')->cols($fileData)->query();
+            $paths[$path] = $id;
+            echo "  Added file #{$id} {$path} : ".json_encode($fileData).PHP_EOL;
+        } else {
+            $id = $paths[$path];
+            $db->update('files')->cols($newData)->where('id='.$id)->query();
+            echo "  Updated file #{$paths[$path]} {$path} : ".json_encode($newData).PHP_EOL;
+        }
+        $files[$id] = $fileData;
     }
-    if (!isset($paths[$path])) {
-        $fileData['path'] = $path;
-        $id = $db->insert('files')->cols($fileData)->query();
-        $paths[$path] = $id;
-        echo "  Added file #{$id} {$path} : ".json_encode($fileData).PHP_EOL;
-    } else {
+    if ($reread === true) {
         $id = $paths[$path];
-        $db->update('files')->cols($newData)->where('id='.$id)->query();
-        echo "  Updated file #{$paths[$path]} {$path} : ".json_encode($newData).PHP_EOL;
+        $db->delete('files')->where('parent='.$id)->query();
     }
-    $files[$id] = $fileData;
     compressedFileHandler($path);
 }
 
@@ -242,6 +246,7 @@ function loadFiles($path = null) {
 */
 global $db;
 global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize;
+
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
         echo "ROM Path - {$path}\n";
