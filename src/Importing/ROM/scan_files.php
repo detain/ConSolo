@@ -51,7 +51,7 @@ function updateCompressedFile($path, $parentId)  {
             $fileData[$hashAlgo] = hash_file($hashAlgo, $path);
         }
     }
-    $cmd = 'file -b -p '.escapeshellarg($path);
+    $cmd = 'exec file -b -p '.escapeshellarg($path);
     $fileData['magic'] = trim(`{$cmd}`);
     $fileData['path'] = $virtualPath;
     $fileData['parent'] = $parentId;
@@ -62,7 +62,7 @@ function updateCompressedFile($path, $parentId)  {
 function updateCompressedDir($path, $parentId) {
     global $files, $skipGlobs;
     //echo "  Added directory {$path}\n";
-    $cmd = 'find '.escapeshellarg($path).' -type f';
+    $cmd = 'exec find '.escapeshellarg($path).' -type f';
     $paths = explode("\n", trim(`{$cmd}`));
     //foreach (glob($path.'/*') as $subPath) {
     foreach ($paths as $subPath) {
@@ -94,7 +94,7 @@ function extractCompressedFile($path, $compressionType) {
     cleanTmpDir();
     mkdir($tmpDir);
     $escapedFile = escapeshellarg($path);
-    passthru('7z x -o'.$tmpDir.' '.escapeshellarg($path), $return);
+    passthru('exec 7z x -o'.$tmpDir.' '.escapeshellarg($path), $return);
     return ($return == 0);
 }
 
@@ -170,7 +170,7 @@ function updateFile($path)  {
         }
     }
     if (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true) {
-        $cmd = 'file -b -p '.escapeshellarg($path);
+        $cmd = 'exec file -b -p '.escapeshellarg($path);
         $newData['magic'] = trim(`{$cmd}`);
         $return = false;    
     }
