@@ -27,7 +27,7 @@ echo `wget -q {$url} -O {$zipFile};`;
 echo `unzip -o {$zipFile};`;
 unlink($zipFile);
 $tables = [];
-foreach (['Files','Mame','Metadata'] as $name) {
+foreach (['Files', 'Mame', 'Metadata'] as $name) {
 	echo $name.'	reading..';
 	$xml = file_get_contents($name.'.xml');
 	echo 'read!  parsing..';
@@ -54,6 +54,7 @@ foreach (['Files','Mame','Metadata'] as $name) {
                     } else
                         echo "Type {$type} Key {$key} Value:".var_export($value,true).PHP_EOL;
                 }
+                $data[$idx][$key] = utf8_encode($value);
                 if (strlen($value) > $tables[$type][$key]['length'])
                     $tables[$type][$key]['length'] = strlen($value);
                 if ($tables[$type][$key]['bool'] == true && !in_array($value, ['false', 'true']))
@@ -81,11 +82,11 @@ foreach (['Files','Mame','Metadata'] as $name) {
                 $create[] = '`'.$key.'` VARCHAR('.($row['length'] + 1).') DEFAULT NULL';
         }
         $create[] = 'PRIMARY KEY (`id`)';
-        $create = 'CREATE TABLE `'.$tablePrefix.$type.$tableSuffix.'` ('.PHP_EOL.'  '.implode(','.PHP_EOL.'  ', $create).PHP_EOL.') ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_bin;';
+        $create = 'CREATE TABLE `'.$tablePrefix.$type.$tableSuffix.'` ('.PHP_EOL.'  '.implode(','.PHP_EOL.'  ', $create).PHP_EOL.') ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
         //echo PHP_EOL.$create.PHP_EOL;
         $db->query("drop table if exists {$tablePrefix}{$type}{$tableSuffix}");
         $db->query($create);
-        echo 'created! inserting '.count($data).' rows..';
+        echo 'created '.$type.'! inserting '.count($data).' rows..';
         foreach ($data as $idx => $row) {
             try {
                 $db->insert($tablePrefix.$type.$tableSuffix)->cols($row)->query();
