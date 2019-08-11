@@ -186,3 +186,4 @@ foreach ($xml as $list) {
     echo "done\n";
 }
 echo `rm -rf /tmp/update;`;
+$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
