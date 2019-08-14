@@ -174,10 +174,10 @@ function updateFile($path)  {
     }
     if ($return === false) {
         if (!isset($paths[$path])) {
-            $fileData['path'] = $path;
-            $id = $db->insert('files')->cols($fileData)->query();
+            $newData['path'] = $path;
+            $id = $db->insert('files')->cols($newData)->query();
             $paths[$path] = $id;
-            echo "  Added file #{$id} {$path} : ".json_encode($fileData).PHP_EOL;
+            echo "  Added file #{$id} {$path} : ".json_encode($newData).PHP_EOL;
         } else {
             $id = $paths[$path];
             $db->update('files')->cols($newData)->where('id='.$id)->query();
