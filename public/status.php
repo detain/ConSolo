@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/../src/bootstrap.php';
+require_once __DIR__.'/../src/Matching/MatchFilesToSets.php';
 
 /**
 * @var \Workerman\MySQL\Connection
@@ -55,6 +56,32 @@ $sources['tosec']['roms'] = ($db->column("SELECT count(*) FROM dat_files left jo
 $sources['toseciso']['roms'] = ($db->column("SELECT count(*) FROM dat_files left join dat_games on dat_files.id=file left join dat_roms on dat_games.id=game where type='TOSEC-ISO' and dat_games.id is not null and dat_roms.id is not null"))[0];
 $sources['redump']['roms'] = ($db->column("SELECT count(*) FROM dat_files left join dat_games on dat_files.id=file left join dat_roms on dat_games.id=game where type='Redump' and dat_games.id is not null and dat_roms.id is not null"))[0];
 //echo '<pre style="text-align: left;">';print_r($versions);echo '</pre>';exit;  
+
+$matches = \Detain\ConSolo\Matching\MatchFilesToSets();
+$stats = [];
+$typeStats = [];
+foreach ($matches as $type => $typeData) {
+    $stats[$type] = [];
+    $typeStats[$type] = ['games' => 0, 'good' => 0, 'bad' => 0, 'partial' => 0];
+    foreach ($typeData as $platform => $platformData) {
+        $stats[$type][$platform] = ['games' => count($platformData), 'good' => 0, 'bad' => 0, 'partial' => 0];
+        foreach ($platformData as $gameId => $gameData) {
+            if ($gameData[1] == 0)
+                $stats[$type][$platform]['good']++;
+            elseif ($gameData[0] == 0)
+                $stats[$type][$platform]['bad']++;
+            else
+                $stats[$type][$platform]['partial']++;
+        }
+        $typeStats[$type]['games'] += $stats[$type][$platform]['games'];
+        if ($stats[$type][$platform]['bad'] == 0)
+            $typeStats[$type]['good']++;
+        elseif ($stats[$type][$platform]['good'] == 0)
+            $typeStats[$type]['bad']++;
+        else
+            $typeStats[$type]['partial']++;
+    }    
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -116,6 +143,68 @@ foreach ($sources as $key => $data) {
                             <td>'.$data['roms'].'</td>
                         </tr>';
 }                        
+?>                    
+                    </tbody>
+                </table>
+            </div>            
+            <br>
+            <h3>Source Matches Overview</h3>
+            <div class="nes-table-responsive">
+                <table class="nes-table is-bordered is-centered">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Games</th>
+                            <th>Good</th>
+                            <th>Bad</th>
+                            <th>Partial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<?php
+foreach ($typeStats as $key => $data) {
+    echo '
+                        <tr>
+                            <td>'.$key.'</td>
+                            <td>'.$data['games'].'</td>
+                            <td>'.$data['good'].'</td>
+                            <td>'.$data['bad'].'</td>
+                            <td>'.$data['partial'].'</td>
+                        </tr>';
+}                        
+?>                    
+                    </tbody>
+                </table>
+            </div>            
+            <br>
+            <h3>Platform Matches Overview</h3>
+            <div class="nes-table-responsive">
+                <table class="nes-table is-bordered is-centered">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Platform</th>
+                            <th>Games</th>
+                            <th>Good</th>
+                            <th>Bad</th>
+                            <th>Partial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<?php
+foreach ($stats as $type => $typeData) {
+    foreach ($typeData as $platform => $data) {
+        echo '
+                        <tr>
+                            <td>'.$type.'</td>
+                            <td>'.$platform.'</td>
+                            <td>'.$data['games'].'</td>
+                            <td>'.$data['good'].'</td>
+                            <td>'.$data['bad'].'</td>
+                            <td>'.$data['partial'].'</td>
+                        </tr>';
+    }
+}
 ?>                    
                     </tbody>
                 </table>
