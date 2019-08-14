@@ -61,10 +61,8 @@ function updateCompressedFile($path, $parentId)  {
 
 function updateCompressedDir($path, $parentId) {
     global $files, $skipGlobs;
-    //echo "  Added directory {$path}\n";
     $cmd = 'exec find '.escapeshellarg($path).' -type f';
     $paths = explode("\n", trim(`{$cmd}`));
-    //foreach (glob($path.'/*') as $subPath) {
     foreach ($paths as $subPath) {
         $bad = false;
         foreach ($skipGlobs as $skipGlob) {
@@ -196,7 +194,6 @@ function updateFile($path)  {
 
 function updateDir($path) {
     global $files, $skipGlobs;
-    //echo "  Added directory {$path}\n";
     foreach (glob($path.'/*') as $subPath) {
         $bad = false;
         foreach ($skipGlobs as $skipGlob) {
