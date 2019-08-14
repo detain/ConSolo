@@ -87,6 +87,13 @@ class ImportDat
                         if (isset($gameData[$section])) {
                             foreach ($gameData[$section] as $sectionIdx => $sectionData) {
                                 $cols = $sectionData;
+                                if ($section == 'rom') {
+                                    foreach (['crc','md5','sha1'] as $field) {
+                                        if (!is_null($cols[$field])) {
+                                            $cols[$field] = strtolower($cols[$field]);
+                                        }
+                                    }
+                                }
                                 $cols['game'] = $gameId;
                                 //echo 'dat_'.$section.'s:'.json_encode($cols).PHP_EOL;
                                 try {
