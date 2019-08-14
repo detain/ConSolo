@@ -80,9 +80,9 @@ $sources['redump']['roms'] = ($db->column("SELECT count(*) FROM dat_files left j
     <br>
     <p>
         <a class="nes-btn is-success" href="index.html">About</a>
-        <a class="nes-btn is-disabled" href="status.php">Status</a>
+        <a class="nes-btn is-warning" href="status.php">Status</a>
         <a class="nes-btn is-error" href="match.php">Matches</a>
-        <a class="nes-btn is-primary" href="emulators.php">Emulators</a>
+        <a class="nes-btn is-disabled" href="emulators.php">Emulators</a>
         <a class="nes-btn is-default" href="platforms.php">Platforms</a>
         <a class="nes-btn is-warning" href="games.php">Games</a>
         <a class="nes-btn is-primary" href="roms.php">ROMs</a>
