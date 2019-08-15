@@ -170,11 +170,13 @@ function updateFile($path)  {
     if (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true) {
         $cmd = 'exec file -b -p '.escapeshellarg($path);
         $newData['magic'] = trim(`{$cmd}`);
+        $fileData['magic'] = $newData['magic'];
         $return = false;    
     }
     if ($return === false) {
         if (!isset($paths[$path])) {
             $newData['path'] = $path;
+            $fileData['path'] = $path;
             $id = $db->insert('files')->cols($newData)->query();
             $paths[$path] = $id;
             echo "  Added file #{$id} {$path} : ".json_encode($newData).PHP_EOL;
