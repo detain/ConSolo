@@ -1,0 +1,70 @@
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="{$language}" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="{$language}" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="{$language}" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="{$language}" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Lang" content="en">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="Joe Huss <detain@interserver.net>">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<title>ConSolo</title>
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" type="text/css" href="my.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+	<link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+	<link href="https://nostalgic-css.github.io/NES.css/style.css" rel="stylesheet" />
+	<link href="https://unpkg.com/dialog-polyfill@latest/dist/dialog-polyfill.css" rel="stylesheet" />
+{*
+	<link rel="stylesheet" href="{{ app.request.basePath }}/lib/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ app.request.basePath }}/lib/bootstrap/dist/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="{{ app.request.basePath }}/lib/font-awesome/css/font-awesome.min.css">
+	<!--[if IE]>
+	<script src="{{ app.request.basePath }}/lib/html5shiv/dist/html5shiv.min.js"></script>
+	<script src="{{ app.request.basePath }}/lib/Respond.js/dest/respond.min.js"></script>
+	<![endif]-->
+	<script src="{{ app.request.basePath }}/lib/jquery-3.x/dist/jquery.min.js"></script>
+	<script src="{{ app.request.basePath }}/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="{{ app.request.basePath }}/css/login.css">
+*}
+</head>
+<body>
+	<!--[if lt IE 7]>
+	<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+	<![endif]-->
+	{% include 'Views/Shared/analytics.twig' %}
+	{% include 'Views/Shared/header.twig' %}
+	<div id="container">
+		{% block content %}
+		{% endblock %}
+	</div>
+
+    <p class="nes-balloon from-left nes-pointer">
+        ConSolo is a single app that does it all!
+    </p>
+    <i style="float: left; margin-top: 80px;" class="nes-mario"></i>
+    <br>
+    <br>
+    <br>
+    <section class="showcase">
+        <section class="nes-container with-title">
+        </section>
+    </section>
+    <script src="https://unpkg.com/dialog-polyfill@latest/dist/dialog-polyfill.js"></script>
+    <script>
+        var dialogs = document.querySelectorAll('dialog');
+        for (var dialog in dialogs) {
+            if (typeof dialogs[dialog] == "object") {
+                dialogPolyfill.registerDialog(dialogs[dialog]);
+            }
+        }
+    </script>  
+</body>
+</html>
+
