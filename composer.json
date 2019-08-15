@@ -10,24 +10,29 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.4.0",
         "ext-curl": "*",
         "ext-pcntl": "*",
         "ext-posix": "*",
-        "fabpot/goutte": "dev-master",
-        "loilo/fuse": "dev-master",
+        "fabpot/goutte": "*",
+        "loilo/fuse": "*",
         "react/child-process": "*",
         "react/event-loop": "*",
         "react/http-client": "*",
+        "react/mysql": "*",
+        "nikic/fast-route": "*",
+        "twig/twig": "*",
         "roave/security-advisories": "dev-master",
-        "workerman/globaldata": "dev-master",
-        "workerman/mysql": "dev-master",
-        "workerman/workerman": "dev-master",
-        "wyndow/fuzzywuzzy": "dev-master"
+        "workerman/channel": "*",
+        "workerman/globaldata": "*",
+        "workerman/mysql": "*",
+        "workerman/workerman": "*",
+        "wyndow/fuzzywuzzy": "*"
     },
     "autoload": {
         "psr-4": {
-            "Detain\\ConSolo\\": "src/"
+            "Detain\\ConSolo\\": "src/",
+            "Detain\\ConSolo\\Web\\": "public/"
         }
     }
 }

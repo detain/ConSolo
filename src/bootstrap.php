@@ -1,4 +1,7 @@
 <?php
+
+namespace Detain\ConSolo;
+
 ini_set('display_errors', 'on');
 if (ini_get('date.timezone') == '') {
     ini_set('date.timezone', 'America/New_York');
@@ -12,4 +15,4 @@ $config = require __DIR__.'/config.php';
 include_once __DIR__.'/stdObject.php';
 
 global $db;
-$db = new Workerman\MySQL\Connection($config['db_host'], $config['db_port'], $config['db_name'], $config['db_user'], $config['db_pass']);
+$db = new \Workerman\MySQL\Connection($config['db_host'], $config['db_port'], $config['db_name'], $config['db_user'], $config['db_pass']);
