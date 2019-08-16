@@ -18,5 +18,5 @@ global $db;
 $db = new \Workerman\MySQL\Connection($config['db_host'], $config['db_port'], $config['db_name'], $config['db_user'], $config['db_pass']);
 
 global $twig;
-$twigloader = new \Twig\Loader\FilesystemLoader(__DIR__.'/Templates/Views');
+$twigloader = new \Twig\Loader\FilesystemLoader(__DIR__.'/Views');
 $twig = new \Twig\Environment($twigloader, array('/tmp/twig_cache'));
