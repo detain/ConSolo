@@ -17,6 +17,7 @@ use Goutte\Client;
 */
 global $db;
 $client = new Client();
+$sitePrefix = 'http://www.old-computers.com/museum/';
 echo 'Discovering Computer URLs starting with ';
 
 $letters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
@@ -24,7 +25,7 @@ global $computerUrls;
 $computerUrls = [];
 foreach ($letters as $letter) {
     echo $letter;
-    $crawler = $client->request('GET', 'http://www.old-computers.com/museum/name.asp?st=1&l='.$letter);
+    $crawler = $client->request('GET', $sitePrefix.'name.asp?st=1&l='.$letter);
     $crawler->filter('.petitnoir2 tr td center table tr td b a')->each(function ($node) {
         global $computerUrls;
         //echo $node->html().': '.$node->attr('href').PHP_EOL;
@@ -42,8 +43,9 @@ $types = ['st' => 'type_id', 'c' => 'computer_id'];
 $db->query("truncate oldcomputers_platforms");
 $platforms = [];
 $countComputers = count($computerUrls);
+$jsonEmulators = [];
 foreach ($computerUrls as $idx => $url) {
-    $crawler = $client->request('GET', 'http://www.old-computers.com/museum/'.$url);
+    $crawler = $client->request('GET', $sitePrefix.$url);
     $cols = [];
     $urlParts = parse_url($url);
     $query = explode('&', $urlParts['query']);
@@ -53,6 +55,11 @@ foreach ($computerUrls as $idx => $url) {
     }
     $key = false;
     $value = false;
+    $emulators = false;
+    $emuCrawler = $crawler->filter('a.button_emulators');
+    if ($emuCrawler->count() != 0) {
+        $emulators = $emuCrawler->first()->attr('href');
+    }
     $crawler->filter('.petitnoir2 tr td table tr td table tr td.petitnoir2')->each(function ($node) use (&$cols, &$key, &$value) {
         $data = trim($node->html());
         if (substr($data, 0, 3) == '<b>') {
@@ -68,7 +75,33 @@ foreach ($computerUrls as $idx => $url) {
     echo '['.$idx.'/'.$countComputers.'] '.$cols['manufacturer'].' '.$cols['name'].' ';
     $platformId = $db->insert('oldcomputers_platforms')->cols($cols)->query();
     $platforms[$platformId] = $cols;
+    if ($emulators !== false) {
+        //$crawler = $client->request('GET', $sitePrefix.$emulators);
+        //$html = $crawler->html();
+        $html = trim(`curl -s "{$sitePrefix}{$emulators}"`);
+        $html = str_replace("\r\n", "\n", $html);
+        $html = utf8_encode($html);
+        if (preg_match_all('/<table><tr><td width=40><img[^>]*alt="([^"]*) emulator"><\/td><td nowrap><a href="([^"]*)"[^>]*><b>([^<]*)<.*<p[^>]*>([^<]*)<\/td/muU', $html, $matches)) {
+            foreach ($matches[1] as $idx => $hostPlatform) {
+                $emulator = [
+                    'platform' => $cols['name'],
+                    'platformId' => $platformId,
+                    'name' => $matches[3][$idx],
+                    'url' => $matches[2][$idx],
+                    'notes' => $matches[4][$idx],
+                    'host' => $hostPlatform,
+                ];
+                $jsonEmulators[] = $emulator;
+                //echo json_encode($emulator).PHP_EOL; 
+            }
+            //echo 'Emulators '.count($emulators).PHP_EOL;
+            echo PHP_EOL;
+        } else {
+            echo 'No Regex match on Emulators page for Emulators'.PHP_EOL;
+        }
+    }
 }
 echo PHP_EOL.'done!'.PHP_EOL;
 file_put_contents('/storage/data/json/oldcomputers/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents('/storage/data/json/oldcomputers/emulators.json', json_encode($jsonEmulators, JSON_PRETTY_PRINT));
 //echo PHP_EOL;
