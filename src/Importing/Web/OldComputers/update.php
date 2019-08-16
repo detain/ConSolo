@@ -40,10 +40,14 @@ file_put_contents('/storage/data/json/oldcomputers/urls.json', json_encode($comp
 $computerUrls = json_decode(file_get_contents('/storage/data/json/oldcomputers/urls.json'), true);
 echo 'Loading Computer URLs'.PHP_EOL;
 $types = ['st' => 'type_id', 'c' => 'computer_id'];
-$db->query("truncate oldcomputers_platforms");
+$db->query("truncate oldcomputers_emulator_platforms");
+$db->query("delete from oldcomputers_platforms");
+$db->query("delete from oldcomputers_emulators");
+$db->query("alter table oldcomputers_emulators auto_increment=1");
+$db->query("alter table oldcomputers_platforms auto_increment=1");
 $platforms = [];
 $countComputers = count($computerUrls);
-$jsonEmulators = [];
+$allEmulators = [];
 foreach ($computerUrls as $idx => $url) {
     $crawler = $client->request('GET', $sitePrefix.$url);
     $cols = [];
@@ -83,16 +87,21 @@ foreach ($computerUrls as $idx => $url) {
         $html = utf8_encode($html);
         if (preg_match_all('/<table><tr><td width=40><img[^>]*alt="([^"]*) emulator"><\/td><td nowrap><a href="([^"]*)"[^>]*><b>([^<]*)<.*<p[^>]*>([^<]*)<\/td/muU', $html, $matches)) {
             foreach ($matches[1] as $idx => $hostPlatform) {
-                $emulator = [
-                    'platform' => $cols['name'],
-                    'platformId' => $platformId,
-                    'name' => $matches[3][$idx],
-                    'url' => $matches[2][$idx],
-                    'notes' => $matches[4][$idx],
-                    'host' => $hostPlatform,
-                ];
-                $jsonEmulators[] = $emulator;
-                //echo json_encode($emulator).PHP_EOL; 
+                if (!array_key_exists($matches[3][$idx], $allEmulators)) {
+                    $emulator = [
+                        'name' => $matches[3][$idx],
+                        'url' => $matches[2][$idx],
+                        'notes' => $matches[4][$idx],
+                        'platforms' => [],
+                        'hosts' => [],
+                    ];
+                    $allEmulators[$matches[3][$idx]] = $emulator; 
+                }
+                if (!in_array($hostPlatform, $allEmulators[$matches[3][$idx]]['hosts'])) {
+                    $allEmulators[$matches[3][$idx]]['hosts'][] = $hostPlatform;
+                }
+                if (!in_array($platformId, $allEmulators[$matches[3][$idx]]['platforms']))
+                    $allEmulators[$matches[3][$idx]]['platforms'][] = $platformId;
             }
             //echo 'Emulators '.count($emulators).PHP_EOL;
             echo PHP_EOL;
@@ -102,6 +111,18 @@ foreach ($computerUrls as $idx => $url) {
     }
 }
 echo PHP_EOL.'done!'.PHP_EOL;
+echo 'Inserting Emulators into DB   ';
+foreach ($allEmulators as $name => $emulator) {
+    $emulator['host'] = implode(', ', $emulator['hosts']);
+    $platforms = $emulator['platforms'];
+    unset($emulator['platforms']);
+    unset($emulator['hosts']);
+    $emulatorId = $db->insert('oldcomputers_emulators')->cols($emulator)->query();
+    foreach ($platforms as $platformId) {
+        $db->insert('oldcomputers_emulator_platforms')->cols(['emulator' => $emulatorId, 'platform' => $platformId])->query();
+    }
+}
+echo 'done!'.PHP_EOL;
 file_put_contents('/storage/data/json/oldcomputers/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
-file_put_contents('/storage/data/json/oldcomputers/emulators.json', json_encode($jsonEmulators, JSON_PRETTY_PRINT));
+file_put_contents('/storage/data/json/oldcomputers/emulators.json', json_encode($allEmulators, JSON_PRETTY_PRINT));
 //echo PHP_EOL;
