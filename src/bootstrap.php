@@ -18,11 +18,5 @@ global $db;
 $db = new \Workerman\MySQL\Connection($config['db_host'], $config['db_port'], $config['db_name'], $config['db_user'], $config['db_pass']);
 
 global $twig;
-$twigloader = new \Twig_Loader_Filesystem(__DIR__.'/Templates');
-$twig = new \Twig_Environment($twigloader, array('/tmp/twig_cache'));
-/* echo $twig->render('views/server/authorize.twig', array(
-    'account_lid' => $GLOBALS['tf']->accounts->data['account_lid'],
-    'client_id' => $_GET['client_id'],
-    'response_type' => $_GET['response_type'],
-    'queryString' => $_SERVER['QUERY_STRING']
-)); */
+$twigloader = new \Twig\Loader\FilesystemLoader(__DIR__.'/Templates/Views');
+$twig = new \Twig\Environment($twigloader, array('/tmp/twig_cache'));

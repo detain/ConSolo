@@ -7,6 +7,7 @@ require_once __DIR__.'/../bootstrap.php';
 
 use FuzzyWuzzy\Fuzz;
 use FuzzyWuzzy\Process;
+use Fuse\Fuse;
 
 /**
 * @var \Workerman\MySQL\Connection
@@ -69,7 +70,7 @@ foreach ($name2id as $name => $id) {
         'name' => $name
     ];
 }
-$fuse = new \Fuse\Fuse($namesAssoc, ['keys' => ['name']]);
+$fuse = new Fuse($namesAssoc, ['keys' => ['name']]);
 $fuzz = new Fuzz();
 $process = new Process($fuzz);
 
