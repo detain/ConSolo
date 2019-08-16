@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html lang="{$language}" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="{$language}" class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -21,8 +19,7 @@
 	<link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
 	<link href="https://nostalgic-css.github.io/NES.css/style.css" rel="stylesheet" />
 	<link href="https://unpkg.com/dialog-polyfill@latest/dist/dialog-polyfill.css" rel="stylesheet" />
-{*
-	<link rel="stylesheet" href="{{ app.request.basePath }}/lib/bootstrap/dist/css/bootstrap.min.css">
+{#	<link rel="stylesheet" href="{{ app.request.basePath }}/lib/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{ app.request.basePath }}/lib/bootstrap/dist/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="{{ app.request.basePath }}/lib/font-awesome/css/font-awesome.min.css">
 	<!--[if IE]>
@@ -31,8 +28,7 @@
 	<![endif]-->
 	<script src="{{ app.request.basePath }}/lib/jquery-3.x/dist/jquery.min.js"></script>
 	<script src="{{ app.request.basePath }}/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="{{ app.request.basePath }}/css/login.css">
-*}
+#}
 </head>
 <body>
 	<!--[if lt IE 7]>
@@ -44,18 +40,6 @@
 		{% block content %}
 		{% endblock %}
 	</div>
-
-    <p class="nes-balloon from-left nes-pointer">
-        ConSolo is a single app that does it all!
-    </p>
-    <i style="float: left; margin-top: 80px;" class="nes-mario"></i>
-    <br>
-    <br>
-    <br>
-    <section class="showcase">
-        <section class="nes-container with-title">
-        </section>
-    </section>
     <script src="https://unpkg.com/dialog-polyfill@latest/dist/dialog-polyfill.js"></script>
     <script>
         var dialogs = document.querySelectorAll('dialog');
