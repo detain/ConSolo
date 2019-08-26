@@ -54,6 +54,11 @@ $sources['nointro']['roms'] = ($db->column("SELECT count(*) FROM dat_files left 
 $sources['tosec']['roms'] = ($db->column("SELECT count(*) FROM dat_files left join dat_games on dat_files.id=file left join dat_roms on dat_games.id=game where type='TOSEC' and dat_games.id is not null and dat_roms.id is not null"))[0];
 $sources['toseciso']['roms'] = ($db->column("SELECT count(*) FROM dat_files left join dat_games on dat_files.id=file left join dat_roms on dat_games.id=game where type='TOSEC-ISO' and dat_games.id is not null and dat_roms.id is not null"))[0];
 $sources['redump']['roms'] = ($db->column("SELECT count(*) FROM dat_files left join dat_games on dat_files.id=file left join dat_roms on dat_games.id=game where type='Redump' and dat_games.id is not null and dat_roms.id is not null"))[0];
+$sources['oldcomputers'] = $newSource;
+$sources['oldcomputers']['name'] = 'Old-Computers';
+$sources['oldcomputers']['platforms'] = ($db->column("SELECT count(*) FROM oldcomputers_platforms"))[0];
+$sources['oldcomputers']['emulators'] = ($db->column("SELECT count(*) FROM oldcomputers_emulators"))[0];
+ 
 //echo '<pre style="text-align: left;">';print_r($versions);echo '</pre>';exit;  
 ?>
 <!DOCTYPE html>
