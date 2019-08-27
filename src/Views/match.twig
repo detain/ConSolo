@@ -1,0 +1,64 @@
+{% extends "shared/base.twig" %}
+
+{% block content %}
+    <section class="showcase">
+        <section class="nes-container with-title">
+            <h3 class="title">Matches</h3>
+            <h3>Source Matches Overview</h3>
+            <div class="nes-table-responsive">
+                <table class="nes-table is-bordered is-centered">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Games</th>
+                            <th>Good</th>
+                            <th>Bad</th>
+                            <th>Partial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, data in typeStats %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>{{ data.games }}</td>
+                            <td>{{ data.good }}</td>
+                            <td>{{ data.bad }}</td>
+                            <td>{{ data.partial }}</td>
+                        </tr>';
+                        {% endfor %}                    
+                    </tbody>
+                </table>
+            </div>            
+            <br>
+            <h3>Platform Matches Overview</h3>
+            <div class="nes-table-responsive">
+                <table class="nes-table is-bordered is-centered">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Platform</th>
+                            <th>Games</th>
+                            <th>Good</th>
+                            <th>Bad</th>
+                            <th>Partial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for type, typeData in stats %}
+                        {% for platform, data in typeData %}
+                        <tr>
+                            <td>{{ type }}</td>
+                            <td>{{ platform }}</td>
+                            <td>{{ data.games }}</td>
+                            <td>{{ data.good }}</td>
+                            <td>{{ data.bad }}</td>
+                            <td>{{ data.partial }}</td>
+                        </tr>';
+                        {% endfor %}                    
+                        {% endfor %}                    
+                    </tbody>
+                </table>
+            </div>            
+        </section>
+    </section>
+{% endblock %}
