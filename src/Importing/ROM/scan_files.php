@@ -7,21 +7,45 @@
 
 require_once __DIR__.'/../../bootstrap.php';
 
-if (isset($_SERVER['argc']) && $_SERVER['argc'] > 1) {
-    $paths = $_SERVER['argv'];
-    array_shift($paths);
-    $pathGlobs = $paths;
-} else {
-    $pathGlobs = ['/storage/*/roms'];
-}
 $skipGlobs = [];
-$tmpDir = '/tmp/scanfiles-'.posix_getpid();
 $compressionTypes = ['7z', 'rar', 'zip'];
 $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $scanCompressed = true;
+$useMagic = true;
 $maxSize = 500000000;
 $useMaxSize = false;
+if (isset($_SERVER['argc']) && $_SERVER['argc'] > 1) {
+    $paths = [];
+    for ($x = 1; $x < $_SERVER['argc']; $x++) {
+        $arg = $_SERVER['argv'][$x];
+        if (in_array($arg, ['-m', '--md5'])) {
+            $hashAlgos = ['md5'];
+            $compressedHashAlgos = ['md5'];
+        } elseif (in_array($arg, ['-h', '--help'])) {
+            echo "{$_SERVER['argv'][0]} <options>
+Options:
+-m --md5                Only do MD5 Hashing
+-s --skip-compressed    Disable Scanning Compressed Files
+--skip-magic            Disable Setting magic Info
+-h --help               This Page
+";
+            exit;
+        } elseif (in_array($arg, ['-s', '--skip-compressed'])) {
+            $scanCompressed = false;
+        } elseif (in_array($arg, ['--skip-magic'])) {
+            $useMagic = false;
+        } else {
+            if (substr($arg, -1) == '/')
+                $arg = substr($arg, 0, -1);
+            $paths[] = $arg;
+        }
+    }
+    $pathGlobs = $paths;
+} else {
+    $pathGlobs = ['/storage/*/roms'];
+}
+$tmpDir = '/tmp/scanfiles-'.posix_getpid();
 
 
 function updateCompressedFile($path, $parentId)  {
@@ -29,7 +53,7 @@ function updateCompressedFile($path, $parentId)  {
     * @var \Workerman\MySQL\Connection
     */
     global $db;
-    global $files, $tmpDir, $compressedHashAlgos;
+    global $files, $tmpDir, $compressedHashAlgos, $useMagic;
     $statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks
     $parentData = $files[$parentId];
     $parentPath = $parentData['path'];
@@ -135,7 +159,7 @@ function updateFile($path)  {
     * @var \Workerman\MySQL\Connection
     */
     global $db;
-    global $files, $paths, $hashAlgos, $maxSize, $useMaxSize;
+    global $files, $paths, $hashAlgos, $maxSize, $useMaxSize, $useMagic;
     $statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
     $pathStat = stat($path);
 	if ($useMaxSize == true && $pathStat['size'] >= $maxSize) {
@@ -167,7 +191,7 @@ function updateFile($path)  {
             $fileData[$hashAlgo] = hash_file($hashAlgo, $path);
         }
     }
-    if (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true) {
+    if ($useMagic == true && (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true)) {
         $cmd = 'exec file -b -p '.escapeshellarg($path);
         $newData['magic'] = trim(`{$cmd}`);
         $fileData['magic'] = $newData['magic'];
@@ -244,7 +268,7 @@ function loadFiles($path = null) {
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize;
+global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $useMagic;
 
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
