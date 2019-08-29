@@ -9,38 +9,29 @@ require_once __DIR__.'/../../bootstrap.php';
 
 
 $pathGlobs = ['/storage/*/roms'];
+$pathGlobs = ['/storage/vault0/roms/*'];
 
 function loadFiles($path = null) {
     /**
     * @var \Workerman\MySQL\Connection
     */
     global $db;
-    global $files, $paths, $duplicates;
-    $files = [];
-    $paths = [];
-    $duplicates = [];
+    global $duplicates;
+    global $minSize;
     if (is_null($path)) {
-        $tempFiles = $db->query("select * from files where parent is null");
+        $tempFiles = $db->query("select id, path, size, md5 from files where parent is null and size > {$minSize}");
     } else {
-        $tempFiles = $db->query("select * from files where path like '{$path}%' and parent is null");
+        $tempFiles = $db->query("select id, path, size, md5 from files where path like '{$path}%' and parent is null and size > {$minSize}");
     }
-    echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
+    //echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
     foreach ($tempFiles as $idx => $data) {
-        $id = $data['id'];
-        unset($data['id']);
-        unset($data['parent']);
-        if (isset($paths[$data['path']])) {
-            if (!isset($duplicates[$paths[$data['path']]])) {
-                $duplicates[$paths[$data['path']]] = [];
-            }
-            $duplicates[$paths[$data['path']]][] = $id; 
-        } else {
-            $paths[$data['path']] = $id;
+        $key = $data['size'].'-'.$data['md5'];
+        if (!isset($duplicates[$key])) {
+            $duplicates[$key] = [];
         }
-        $files[$id] = $data;
-        unset($tempFiles[$idx]);        
+        $duplicates[$key][] = [$data['id'], $data['path']]; 
     }
-    echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
+    //echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
 }
 
 
@@ -48,45 +39,39 @@ function loadFiles($path = null) {
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $duplicates;
+global $db, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $duplicates, $minSize;
+$duplicates = [];
 $deleting = [];
-$deleted = 0;
+$deletedBytes = 0;
+$deletedFiles = 0;
 $maxDeleting = 100;
+$minSize = 1;
 foreach ($pathGlobs as $pathGlob) {
     foreach (glob($pathGlob) as $path) {
-        echo "ROM Path - {$path}\n";
-        echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
+        //echo "ROM Path - {$path}\n";
+        //echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
         loadFiles($path);
-        $duplicateCount = count($duplicates);
-        echo "Loaded ".count($files)." Files with ".$duplicateCount." duplicates\n";
-        echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
-        foreach ($duplicates as $firstId => $ids) {
-            array_unshift($ids, $firstId);
-            $counts = [];
-            $bestId = false;
-            foreach ($ids as $id) {
-                $fileData = $files[$id];
-                $goodValues = 0;
-                foreach ($fileData as $key => $value) {
-                    if (!is_null($value)) {
-                        $goodValues++;
-                    }
+        foreach ($duplicates as $key => $duplicateArray) {
+            if (count($duplicateArray) > 1) {
+                $deleteIds = [];
+                list($size, $md5) = explode('-', $key);
+                $keep = array_shift($duplicateArray);
+                list($keepId, $keepPath) = $keep;
+                echo $keepPath.PHP_EOL;
+                //echo 'Found and Deleting Duplicates of: '.$keepPath.' ('.$size.' bytes)'.PHP_EOL;
+                foreach ($duplicateArray as $fileArray) {
+                    list($fileId, $filePath) = $fileArray;
+                    //echo '    '.$filePath.PHP_EOL;
+                    echo $filePath.PHP_EOL;
+                    //unlink($filePath);
+                    $deleteIds[] = $fileId;
+                    $deletedFiles++;
+                    $deletedBytes = bcadd($deletedBytes, $size, 0);
                 }
-                $counts[$id] = $goodValues;
-                if ($bestId === false || $goodValues > $counts[$bestId]) {
-                    $bestId = $id;
-                }
+                echo PHP_EOL;
+                //$db->delete('files')->where('id in ('.implode(',',$deleteIds).')')->query();
+                //echo "So far Deleted {$deletedFiles} Files Freeing {$deletedBytes} Bytes\n";
             }
-            $badIds = [];
-            foreach ($ids as $id) {
-                if ($id != $bestId) {
-                    $deleted++;
-                    $badIds[] = $id;
-                }
-            }
-            echo 'Deleting Duplicate '.$fileData['path'].' IDs '.implode(', ', $badIds).PHP_EOL;
-            $db->delete('files')->where('id in ('.implode(',',$badIds).')')->query();
         }
     }
 }
-echo "Removed {$deleted} Duplicate File Entries\n";
