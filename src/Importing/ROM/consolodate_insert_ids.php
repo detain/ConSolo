@@ -116,10 +116,11 @@ echo count($parents) .' total'.PHP_EOL;
 if (hasMoreEmpty()) {
     echo "Iterating Root Ids\n";
     $nextEmptyId = getNextEmpty();
-    echo "N{$nextEmptyId} ";
+    //echo "N{$nextEmptyId} ";
     foreach ($rootIds as $rootId) {
-        echo "R{$rootId} ";
+        //echo "R{$rootId} ";
         if ($rootId > $nextEmptyId) {
+            echo '+';
             $query = "update files set id={$nextEmptyId} where id={$rootId}";
             //echo $query.PHP_EOL;
             $db->query($query);
@@ -128,15 +129,18 @@ if (hasMoreEmpty()) {
             if (!hasMoreEmpty())
                 break;
             $nextEmptyId = getNextEmpty();
-            echo "N{$nextEmptyId} ";
-            if ($maxAdjustments % 10 == 0) {
-                echo "M{$maxAdjustments}\n";
+            //echo "N{$nextEmptyId} ";
+            if ($maxAdjustments % 100 == 0) {
+                echo "N{$nextEmptyId} R{$rootId} M{$maxAdjustments}\n";
             }
+        } else {
+            echo '-';
         }
         if (array_key_exists($rootId, $parents)) {
             foreach ($parents[$rootId] as $child) {
-                echo "C{$child} ";
+                //echo "C{$child} ";
                 if ($child < $nextEmptyId) {
+                    echo 'o';
                     $quert = "update files set id={$nextEmptyId} where id={$child}";
                     //echo $query.PHP_EOL;
                     $db->query($query);
@@ -145,10 +149,12 @@ if (hasMoreEmpty()) {
                     if (!hasMoreEmpty())
                         break;
                     $nextEmptyId = getNextEmpty();
-                    echo "N{$nextEmptyId} ";
-                    if ($maxAdjustments % 10 == 0) {
-                        echo "M{$maxAdjustments}\n";
+                    //echo "N{$nextEmptyId} ";
+                    if ($maxAdjustments % 100 == 0) {
+                        echo "N{$nextEmptyId} R{$rootId} C{$child} M{$maxAdjustments}\n";
                     }
+                } else {
+                    echo '.';
                 }
             }
         }
