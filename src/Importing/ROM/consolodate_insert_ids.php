@@ -1,39 +1,11 @@
 <?php
 /**
-* Scans through an array of path globs finding all files and scanning them performing
-* checksumming, and storing of basic information.  This process can take a long time on
-* a larger set of files.  It also scans inside compressed files. 
+* Goes through the files in the DB and finds empty spots in id numbers and renumbers the entries
+* to use blank lower ids optimizing the id/key usage 
 */
 
 require_once __DIR__.'/../../bootstrap.php';
 
-
-$pathGlobs = ['/storage/*/roms'];
-
-function loadFiles($path = null) {
-    /**
-    * @var \Workerman\MySQL\Connection
-    */
-    global $db;
-    global $files, $paths;
-    $files = [];
-    $paths = [];
-    if (is_null($path)) {
-        $tempFiles = $db->query("select * from files where parent is null order by id desc");
-    } else {
-        $tempFiles = $db->query("select * from files where path like '{$path}%' and parent is null order by id desc");
-    }
-    echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
-    foreach ($tempFiles as $idx => $data) {
-        $id = $data['id'];
-        unset($data['id']);
-        unset($data['parent']);
-        $files[$id] = $data;
-        $paths[$data['path']] = $id;
-        unset($tempFiles[$idx]);        
-    }
-    echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
-}
 
 function getParents() {
     /**
