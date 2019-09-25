@@ -66,11 +66,31 @@ function getFileIds($parent = null) {
     return $files;
 }
 
+function hasMoreEmpty() {
+    global $curId, $maxId, $totalFiles, $allFileIds, $maxAdjustments;
+    for (; $maxAdjustments > 0 && $curId < $maxId && $curId < $totalFiles; $curId++) {
+        if (!in_array($curId, $allFileIds)) {
+            return true;
+        }
+    }
+    return FALSE;
+}
+
+function getNextEmpty() {
+    global $curId, $maxId, $totalFiles, $allFileIds;
+    for (; $curId < $maxId && $curId < $totalFiles; $curId++) {
+        if (!in_array($curId, $allFileIds)) {
+            return $curId++;
+        }
+    }
+}
+
 /**
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize;
+global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $curId, $allFileIds, $totalFiles, $maxAdjustments, $maxId;
+$curId = 1;
 $deleting = [];
 $deleted = 0;
 $maxDeleting = 100;
@@ -87,50 +107,49 @@ echo $minId.PHP_EOL;
 echo "Getting All Ids   ";
 $allFileIds = getFileIds(false);
 echo count($allFileIds) .' total'.PHP_EOL;
-echo "Calculating Empty Ids ";
-$emptyIds = [];
-for ($x = 1, $emptyCount = 0; $x < $maxId && $x < $totalFiles && $emptyCount < $maxAdjustments; $x++) {
-    if (!in_array($x, $allFileIds)) {
-        $emptyIds[] = $x;
-        $emptyCount++;
-    }
-    if ($x % 10000 == 0)
-        echo ' X '.$x.' Count '.count($emptyIds).PHP_EOL;
-    elseif ($x % 100 == 0)
-        echo '.';
-}
-echo PHP_EOL;
-echo count($emptyIds) .' total'.PHP_EOL;
 echo "Getting Root Ids  ";
 $rootIds = getFileIds(null);
 echo count($rootIds) .' total'.PHP_EOL;
 echo "Getting Children by Parent    ";
 $parents = getParents();
 echo count($parents) .' total'.PHP_EOL;
-echo "Iterating Root Ids\n";
-foreach ($rootIds as $rootId) {
-    if (count($emptyIds) == 0)
-        break;
-    $nextEmptyId = $emptyIds[0];
-    if ($rootId > $nextEmptyId) {
-        $query = "update files set id={$nextEmptyId} where id={$rootId}";
-        //echo $query.PHP_EOL;
-        $db->query($query);
-        array_shift($emptyIds);
-        if (count($emptyIds) == 0)
-            break;
-        $nextEmptyId = $emptyIds[0];
-    }
-    if (array_key_exists($rootId, $parents)) {
-        foreach ($parents[$rootId] as $child) {
-            if ($child < $nextEmptyId) {
-                $quert = "update files set id={$nextEmptyId} where id={$child}";
-                //echo $query.PHP_EOL;
-                $db->query($query);
-                array_shift($emptyIds);
-                if (count($emptyIds) == 0)
-                    break;
-                $nextEmptyId = $emptyIds[0];
+if (hasMoreEmpty()) {
+    echo "Iterating Root Ids\n";
+    $nextEmptyId = getNextEmpty();
+    echo "N{$nextEmptyId} ";
+    foreach ($rootIds as $rootId) {
+        echo "R{$rootId} ";
+        if ($rootId > $nextEmptyId) {
+            $query = "update files set id={$nextEmptyId} where id={$rootId}";
+            //echo $query.PHP_EOL;
+            $db->query($query);
+            $maxAdjustments--;
+            array_splice($allFileIds, array_search($rootId, $allFileIds), 1);
+            if (!hasMoreEmpty())
+                break;
+            $nextEmptyId = getNextEmpty();
+            echo "N{$nextEmptyId} ";
+            if ($maxAdjustments % 10 == 0) {
+                echo "M{$maxAdjustments}\n";
+            }
+        }
+        if (array_key_exists($rootId, $parents)) {
+            foreach ($parents[$rootId] as $child) {
+                echo "C{$child} ";
+                if ($child < $nextEmptyId) {
+                    $quert = "update files set id={$nextEmptyId} where id={$child}";
+                    //echo $query.PHP_EOL;
+                    $db->query($query);
+                    array_splice($allFileIds, array_search($child, $allFileIds), 1);
+                    $maxAdjustments--;
+                    if (!hasMoreEmpty())
+                        break;
+                    $nextEmptyId = getNextEmpty();
+                    echo "N{$nextEmptyId} ";
+                    if ($maxAdjustments % 10 == 0) {
+                        echo "M{$maxAdjustments}\n";
+                    }
+                }
             }
         }
     }
