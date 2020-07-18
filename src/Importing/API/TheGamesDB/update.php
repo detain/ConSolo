@@ -24,10 +24,11 @@ function apiGet($url, $index = null, $assocNested = true) {
 	while (isset($json['pages']) && !is_null($json['pages']['next'])) {
 		$cmd = 'curl -s -X GET "'.$json['pages']['next'].'" -H  "accept: application/json"';
 		$page++;
-		echo ' '.$page;        
-		$json = json_decode(trim(`{$cmd}`), true);
+		echo ' '.$page;
+		$response = trim(`{$cmd}`);        
+		$json = json_decode($response, true);
 		if ($json['code'] != 200) {
-			die($index.' got unknown code '.$json['code'].' status '.$json['status']);
+			die($index.' got unknown code '.$json['code'].' status '.$json['status'].' response:'.$response);
 		}
 		foreach ($json['data'][$index] as $idx => $data) {
 			if ($assocNested == true) {
@@ -52,7 +53,7 @@ function apiGet($url, $index = null, $assocNested = true) {
 */
 global $db;
 $usePrivate = true;
-$useCache = false;
+$useCache = true;
 $dataDir = '/storage/local/ConSolo/data';
 foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 	if ($useCache == true && file_exists($dataDir.'/json/tgdb/'.$type.'.json')) {
@@ -64,7 +65,7 @@ foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 		$lower = strtolower($type);
 		$db->query('delete from tgdb_'.$lower);
 		foreach ($json['data'][$lower] as $idx => $data) {
-			$db->insert('tgdb_'.$lower)->cols($data)->query();
+			$db->insert('tgdb_'.$lower)->cols($data)->lowPriority()->query();
 		}
 	}
 }
@@ -76,7 +77,7 @@ if ($useCache == true && file_exists($dataDir.'/json/tgdb/Platforms.json')) {
 	file_put_contents($dataDir.'/json/tgdb/Platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
 	$db->query('delete from tgdb_platforms');
 	foreach ($platforms['data']['platforms'] as $idx => $data) {
-			$db->insert('tgdb_platforms')->cols($data)->query();
+			$db->insert('tgdb_platforms')->cols($data)->lowPriority()->query();
 	}
 }
 $platformIds = array_keys($platforms['data']['platforms']);
@@ -109,14 +110,14 @@ foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {
 		if (isset($cols['overview'])) {
 			$cols['overview'] = utf8_encode($cols['overview']);
 		}
-		$gameId = $db->insert('tgdb_games')->cols($cols)->query();
+		$gameId = $db->insert('tgdb_games')->cols($cols)->lowPriority()->query();
 		foreach ($subfields as $field) {
 			if (isset($game[$field])) {
 				foreach ($game[$field] as $fieldData) {
 					$db->insert('tgdb_game_'.$field)->cols([
 						'game' => $gameId,
 						($field == 'alternates' ? 'name' : substr($field, 0, -1)) => $fieldData
-					])->query();
+					])->lowPriority()->query();
 				}
 			}
 		}

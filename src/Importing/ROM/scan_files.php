@@ -83,7 +83,7 @@ function updateCompressedFile($path, $parentId)  {
 	$fileData['magic'] = trim(`{$cmd}`);
 	$fileData['path'] = $virtualPath;
 	$fileData['parent'] = $parentId;
-	$id = $db->insert('files')->cols($fileData)->query();
+	$id = $db->insert('files')->cols($fileData)->lowPriority()->query();
 	echo "  Added file #{$id} {$virtualPath} : ".json_encode($fileData)." from Compressed parent {$parentData['path']}\n";
 }
 
@@ -209,19 +209,19 @@ function updateFile($path)  {
 		if (!isset($paths[$path])) {
 			$newData['path'] = $path;
 			$fileData['path'] = $path;
-			$id = $db->insert('files')->cols($newData)->query();
+			$id = $db->insert('files')->cols($newData)->lowPriority()->query();
 			$paths[$path] = $id;
 			echo "  Added file #{$id} {$path} : ".json_encode($newData).PHP_EOL;
 		} else {
 			$id = $paths[$path];
-			$db->update('files')->cols($newData)->where('id='.$id)->query();
+			$db->update('files')->cols($newData)->where('id='.$id)->lowPriority()->query();
 			echo "  Updated file #{$paths[$path]} {$path} : ".json_encode($newData).PHP_EOL;
 		}
 		$files[$id] = $fileData;
 	}
 	if ($reread === true) {
 		$id = $paths[$path];
-		$db->delete('files')->where('parent='.$id)->query();
+		$db->delete('files')->where('parent='.$id)->lowPriority()->query();
 	}
 	compressedFileHandler($path);
 }
