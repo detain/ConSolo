@@ -17,9 +17,9 @@ use Goutte\Client;
 */
 global $db;
 $client = new Client();
-$sitePrefix = 'http://www.old-computers.com/museum/';
+$sitePrefix = 'https://www.old-computers.com/museum/';
 echo 'Discovering Computer URLs starting with ';
-
+$dataDir = '/storage/local/ConSolo/data';
 $letters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 global $computerUrls;
 $computerUrls = [];
@@ -28,16 +28,16 @@ foreach ($letters as $letter) {
 	$crawler = $client->request('GET', $sitePrefix.'name.asp?st=1&l='.$letter);
 	$crawler->filter('.petitnoir2 tr td center table tr td b a')->each(function ($node) {
 		global $computerUrls;
-		//echo $node->html().': '.$node->attr('href').PHP_EOL;
 		$href = $node->attr('href');
+		echo $node->html().': '.$href.PHP_EOL;
 		if (!in_array($href, $computerUrls)) {
 			$computerUrls[] = $href;
 		}         
-	});                                                    
+	});
 }
 echo ' done'.PHP_EOL;
-file_put_contents('/storage/data/json/oldcomputers/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
-$computerUrls = json_decode(file_get_contents('/storage/data/json/oldcomputers/urls.json'), true);
+file_put_contents($dataDir.'/json/oldcomputers/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
+$computerUrls = json_decode(file_get_contents($dataDir.'/json/oldcomputers/urls.json'), true);
 echo 'Loading Computer URLs'.PHP_EOL;
 $types = ['st' => 'type_id', 'c' => 'computer_id'];
 $db->query("truncate oldcomputers_emulator_platforms");
@@ -123,6 +123,6 @@ foreach ($allEmulators as $name => $emulator) {
 	}
 }
 echo 'done!'.PHP_EOL;
-file_put_contents('/storage/data/json/oldcomputers/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
-file_put_contents('/storage/data/json/oldcomputers/emulators.json', json_encode($allEmulators, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/json/oldcomputers/emulators.json', json_encode($allEmulators, JSON_PRETTY_PRINT));
 //echo PHP_EOL;
