@@ -12,14 +12,14 @@ global $db;
 $configKey = 'redump';
 $row = $db->query("select * from config where config.key='{$configKey}'");
 if (count($row) == 0) {
-    $last = 0;
-    $db->query("insert into config values ('{$configKey}','0')");
+	$last = 0;
+	$db->query("insert into config values ('{$configKey}','0')");
 } else {
-    $last = $row[0]['value'];
+	$last = $row[0]['value'];
 }
-$storageDir = '/storage/data';
+$dataDir = '/storage/local/ConSolo/data';
 $type = 'Redump';
-$dir = $storageDir.'/dat/'.$type;
+$dir = $dataDir.'/dat/'.$type;
 $glob = $dir.'/*';
 $cmd = 'curl -s "http://redump.org/downloads/" |sed -e s#"<tr>"#"\n<tr>"#g|grep /datfile/|sed s#"^.*\"\(/datfile/[^\"]*\)\">.*$"#"\1"#g';
 $urls = explode("\n", trim(`$cmd`));
@@ -28,10 +28,10 @@ $import = new \Detain\ConSolo\Importing\DAT\ImportDat();
 $import->deleteOld = false;
 $db->query("delete from dat_files where type='{$type}'");
 foreach ($urls as $url) {
-    echo `wget -q "http://www.redump.org{$url}" -O dats.zip`;
-    echo `rm -rf {$dir};`;
-    echo `7z x -o{$dir} dats.zip;`;
-    unlink('dats.zip');
-    $import->go($type, $glob, $storageDir);
+	echo `wget -q "http://www.redump.org{$url}" -O dats.zip`;
+	echo `rm -rf {$dir};`;
+	echo `7z x -o{$dir} dats.zip;`;
+	unlink('dats.zip');
+	$import->go($type, $glob, $dataDir);
 }
 //$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
