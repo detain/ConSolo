@@ -4,10 +4,10 @@ namespace Detain\ConSolo;
 
 ini_set('display_errors', 'on');
 if (ini_get('date.timezone') == '') {
-    ini_set('date.timezone', 'America/New_York');
+	ini_set('date.timezone', 'America/New_York');
 }
 if (ini_get('default_socket_timeout') < 1200 && ini_get('default_socket_timeout') > 1) {
-    ini_set('default_socket_timeout', 1200);
+	ini_set('default_socket_timeout', 1200);
 }
 include __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/xml2array.php';
@@ -20,3 +20,9 @@ $db = new \Workerman\MySQL\Connection($config['db_host'], $config['db_port'], $c
 global $twig;
 $twigloader = new \Twig\Loader\FilesystemLoader(__DIR__.'/Views');
 $twig = new \Twig\Environment($twigloader, array('/tmp/twig_cache'));
+
+global $hostId, $hostData;
+$uname = posix_uname();
+$hostData = $db->query("select * from hosts where name='{$uname['nodename']}'");
+$hostData = count($hostData) == 0 ? ['id' => null, 'name' => $uname['nodename']] : $hostData[0];
+$hostId = $hostData['id'];
