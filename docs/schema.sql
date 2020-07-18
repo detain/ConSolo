@@ -214,7 +214,7 @@ CREATE TABLE `files` (
   KEY `files_crc_key` (`crc32`),
   KEY `files_sha_key` (`sha1`),
   KEY `files_file_path` (`path`)
-) ENGINE=InnoDB AUTO_INCREMENT=5769452 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5819768 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,11 +282,11 @@ DROP TABLE IF EXISTS `launchbox_files`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `launchbox_files` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `Platform` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `FileName` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `GameName` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Platform` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FileName` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `GameName` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85830 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=600806 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -332,30 +332,30 @@ DROP TABLE IF EXISTS `launchbox_games`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `launchbox_games` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `Name` varchar(118) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Name` varchar(121) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ReleaseYear` bigint DEFAULT NULL,
-  `Overview` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `Overview` text COLLATE utf8mb4_unicode_ci,
   `MaxPlayers` bigint DEFAULT NULL,
-  `Cooperative` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `VideoURL` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `Cooperative` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `VideoURL` text COLLATE utf8mb4_unicode_ci,
   `DatabaseID` bigint DEFAULT NULL,
-  `CommunityRating` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Platform` varchar(38) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ESRB` varchar(21) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CommunityRating` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Platform` varchar(38) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ESRB` varchar(21) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `CommunityRatingCount` bigint DEFAULT NULL,
-  `Genres` varchar(119) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Developer` varchar(101) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Publisher` varchar(101) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ReleaseDate` varchar(26) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `WikipediaURL` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `DOS` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `StartupFile` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `StartupMD5` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `SetupFile` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `SetupMD5` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `StartupParameters` varchar(23) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Genres` varchar(119) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Developer` varchar(101) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Publisher` varchar(101) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ReleaseDate` varchar(26) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `WikipediaURL` text COLLATE utf8mb4_unicode_ci,
+  `DOS` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `StartupFile` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `StartupMD5` varchar(33) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `SetupFile` varchar(33) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `SetupMD5` varchar(33) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `StartupParameters` varchar(23) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=83943 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=678247 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -367,35 +367,35 @@ DROP TABLE IF EXISTS `launchbox_mamefiles`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `launchbox_mamefiles` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `FileName` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Name` varchar(141) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Status` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Developer` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Publisher` varchar(77) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Year` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsMechanical` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsBootleg` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsPrototype` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsHack` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsMature` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsQuiz` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsFruit` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsCasino` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsRhythm` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsTableTop` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsPlayChoice` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsMahjong` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `IsNonArcade` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Genre` varchar(48) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `PlayMode` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Language` varchar(21) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Source` varchar(49) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Version` varchar(115) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Region` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Series` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `CloneOf` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FileName` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Name` varchar(141) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Status` varchar(12) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Developer` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Publisher` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Year` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsMechanical` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsBootleg` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsPrototype` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsHack` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsMature` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsQuiz` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsFruit` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsCasino` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsRhythm` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsTableTop` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsPlayChoice` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsMahjong` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `IsNonArcade` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Genre` varchar(52) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PlayMode` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Language` varchar(11) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Source` varchar(54) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Version` varchar(115) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Region` varchar(14) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Series` varchar(38) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CloneOf` varchar(14) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40258 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=293457 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -407,11 +407,11 @@ DROP TABLE IF EXISTS `launchbox_mamelistitems`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `launchbox_mamelistitems` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `FileName` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `GameName` varchar(116) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ListName` varchar(23) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `FileName` varchar(13) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `GameName` varchar(116) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ListName` varchar(23) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4542 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31790 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -481,7 +481,7 @@ CREATE TABLE `mame_machine_roms` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `mame_machine_rom_machine_fk_idx` (`machine_id`),
   CONSTRAINT `mame_machine_rom_machine_fk` FOREIGN KEY (`machine_id`) REFERENCES `mame_machines` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1185250 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2183002 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -506,7 +506,7 @@ CREATE TABLE `mame_machines` (
   `isdevice` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `runnable` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=150937 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=292316 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -557,6 +557,40 @@ CREATE TABLE `mame_software_roms` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `oldcomputers_emulator_platforms`
+--
+
+DROP TABLE IF EXISTS `oldcomputers_emulator_platforms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `oldcomputers_emulator_platforms` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `emulator` int NOT NULL,
+  `platform` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16040 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `oldcomputers_emulators`
+--
+
+DROP TABLE IF EXISTS `oldcomputers_emulators`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `oldcomputers_emulators` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `url` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `host` varchar(5000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2964 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `oldcomputers_platforms`
 --
 
@@ -604,7 +638,7 @@ CREATE TABLE `oldcomputers_platforms` (
   `switches` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `gun` varchar(90) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1247 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8739 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -827,4 +861,4 @@ CREATE TABLE `tgdb_publishers` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-18 13:24:08
+-- Dump completed on 2020-07-18 14:03:32
