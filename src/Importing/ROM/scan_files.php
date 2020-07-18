@@ -188,6 +188,9 @@ function updateFile($path)  {
 		$return = false;
 		$reread = true;        
 	}
+	if (!isset($fileData['host']) || $fileData['host'] != $hostId) {
+		$newData['host'] = $hostId;
+	}
 	$fileData['host'] = $hostId;
 	foreach ($hashAlgos as $hashAlgo) {
 		if (!isset($fileData[$hashAlgo]) || $reread == true) {
