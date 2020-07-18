@@ -163,7 +163,7 @@ function updateFile($path)  {
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	global $files, $paths, $hashAlgos, $maxSize, $useMaxSize, $useMagic;
+	global $files, $paths, $hashAlgos, $maxSize, $useMaxSize, $useMagic, $hostId;
 	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
 	$pathStat = stat($path);
 	if ($useMaxSize == true && $pathStat['size'] >= $maxSize) {
@@ -188,6 +188,7 @@ function updateFile($path)  {
 		$return = false;
 		$reread = true;        
 	}
+	$fileData['host'] = $hostId;
 	foreach ($hashAlgos as $hashAlgo) {
 		if (!isset($fileData[$hashAlgo]) || $reread == true) {
 			$return = false;
@@ -247,13 +248,13 @@ function loadFiles($path = null) {
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	global $files, $paths;
+	global $files, $paths, $hostId;
 	$files = [];
 	$paths = [];
 	if (is_null($path)) {
-		$tempFiles = $db->query("select * from files where parent is null");
+		$tempFiles = $db->query("select * from files where host={$hostId} and parent is null");
 	} else {
-		$tempFiles = $db->query("select * from files where path like '{$path}%' and parent is null");
+		$tempFiles = $db->query("select * from files where host={$hostId} and path like '{$path}%' and parent is null");
 	}
 	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
 	foreach ($tempFiles as $idx => $data) {
