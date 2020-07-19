@@ -11,6 +11,7 @@ if (ini_get('default_socket_timeout') < 1200 && ini_get('default_socket_timeout'
 }
 include __DIR__.'/../vendor/autoload.php';
 require_once __DIR__.'/xml2array.php';
+global $config;
 $config = require __DIR__.'/config.php';
 include_once __DIR__.'/stdObject.php';
 

@@ -138,7 +138,7 @@ foreach ($xml as $list) {
 				}
 				$gameData['platform'] = $software['name'];
 				$gameData['platform_description'] = $software['description'];
-				$gameId = $db->insert('mame_software')->cols($gameData)->lowPriority()->query();
+				$gameId = $db->insert('mame_software')->cols($gameData)->lowPriority($config['db_low_priority'])->query();
 				if ($partArea !== false) {
 					foreach ($partArea as $partData) {
 						$dataArea = false;
@@ -153,7 +153,7 @@ foreach ($xml as $list) {
 									foreach ($dataPart['rom'] as $rom) {
 										$rom['software_id'] = $gameId;
 										//echo json_encode($rom).PHP_EOL;
-										$db->insert('mame_software_roms')->cols($rom)->lowPriority()->query();
+										$db->insert('mame_software_roms')->cols($rom)->lowPriority($config['db_low_priority'])->query();
 									}
 								}
 							}
@@ -175,11 +175,11 @@ foreach ($xml as $list) {
 				if (isset($roms['name']))
 					$roms = [$roms];
 			}
-			$gameId = $db->insert('mame_machines')->cols($machine)->lowPriority()->query();
+			$gameId = $db->insert('mame_machines')->cols($machine)->lowPriority($config['db_low_priority'])->query();
 			if ($roms !== false) {
 				foreach ($roms as $rom) {
 					$rom['machine_id'] = $gameId;
-					$db->insert('mame_machine_roms')->cols($rom)->lowPriority()->query();
+					$db->insert('mame_machine_roms')->cols($rom)->lowPriority($config['db_low_priority'])->query();
 				}
 			}
 		}

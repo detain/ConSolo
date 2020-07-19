@@ -40,7 +40,7 @@ function loadFiles($path = null) {
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize;
+global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $config;
 $deleting = [];
 $deleted = 0;
 $maxDeleting = 100;
@@ -59,7 +59,7 @@ foreach ($pathGlobs as $pathGlob) {
 				$deletingCount = count($deleting);
 				if ($deletingCount >= $maxDeleting) {
 					echo "Running delete query on {$deletingCount} files\n";
-					$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority()->query();
+					$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
 					$deleting = [];
 				}
 			} else {
@@ -70,7 +70,7 @@ foreach ($pathGlobs as $pathGlob) {
 $deletingCount = count($deleting);
 if ($deletingCount > 0) {
 	echo "Running delete query on {$deletingCount} files\n";
-	$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority()->query();
+	$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
 	$deleting = [];
 }
 echo "Removed {$deleted} Old/Non-Existant Files\n";

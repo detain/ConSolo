@@ -65,7 +65,7 @@ foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 		$lower = strtolower($type);
 		$db->query('delete from tgdb_'.$lower);
 		foreach ($json['data'][$lower] as $idx => $data) {
-			$db->insert('tgdb_'.$lower)->cols($data)->lowPriority()->query();
+			$db->insert('tgdb_'.$lower)->cols($data)->lowPriority($config['db_low_priority'])->query();
 		}
 	}
 }
@@ -77,7 +77,7 @@ if ($useCache == true && file_exists($dataDir.'/json/tgdb/Platforms.json')) {
 	file_put_contents($dataDir.'/json/tgdb/Platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
 	$db->query('delete from tgdb_platforms');
 	foreach ($platforms['data']['platforms'] as $idx => $data) {
-			$db->insert('tgdb_platforms')->cols($data)->lowPriority()->query();
+			$db->insert('tgdb_platforms')->cols($data)->lowPriority($config['db_low_priority'])->query();
 	}
 }
 $platformIds = array_keys($platforms['data']['platforms']);
@@ -110,14 +110,14 @@ foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {
 		if (isset($cols['overview'])) {
 			$cols['overview'] = utf8_encode($cols['overview']);
 		}
-		$gameId = $db->insert('tgdb_games')->cols($cols)->lowPriority()->query();
+		$gameId = $db->insert('tgdb_games')->cols($cols)->lowPriority($config['db_low_priority'])->query();
 		foreach ($subfields as $field) {
 			if (isset($game[$field])) {
 				foreach ($game[$field] as $fieldData) {
 					$db->insert('tgdb_game_'.$field)->cols([
 						'game' => $gameId,
 						($field == 'alternates' ? 'name' : substr($field, 0, -1)) => $fieldData
-					])->lowPriority()->query();
+					])->lowPriority($config['db_low_priority'])->query();
 				}
 			}
 		}

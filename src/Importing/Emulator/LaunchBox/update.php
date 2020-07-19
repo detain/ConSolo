@@ -89,7 +89,7 @@ foreach (['Files', 'Mame', 'Metadata'] as $name) {
 		echo 'created '.$type.'! inserting '.count($data).' rows..';
 		foreach ($data as $idx => $row) {
 			try {
-				$db->insert($tablePrefix.$type.$tableSuffix)->cols($row)->lowPriority()->lowPriority()->query();
+				$db->insert($tablePrefix.$type.$tableSuffix)->cols($row)->lowPriority($config['db_low_priority'])->lowPriority($config['db_low_priority'])->query();
 			} catch (\PDOException $e) {
 				echo "Caught PDO Exception!".PHP_EOL;
 				echo "Values: ".var_export($row, true).PHP_EOL;

@@ -13,6 +13,7 @@ class ImportDat
 		* @var \Workerman\MySQL\Connection
 		*/
 		global $db;
+		global $config;
 		echo 'Importing '.$type.' DATs..'.PHP_EOL;
 		if ($this->deleteOld == true) {
 			$db->query("delete from dat_files where type='{$type}'");
@@ -48,7 +49,7 @@ class ImportDat
 				}
 				//echo 'dat_files:'.json_encode($cols).PHP_EOL;
 				try {
-					$fileId = $db->insert('dat_files')->cols($cols)->lowPriority()->query();
+					$fileId = $db->insert('dat_files')->cols($cols)->lowPriority($config['db_low_priority'])->query();
 				} catch (\PDOException $e) {
 					die('Caught PDO Exception!'.PHP_EOL
 					.'Values:'.var_export($cols, true).PHP_EOL
@@ -74,7 +75,7 @@ class ImportDat
 					}            
 					//echo 'dat_games:'.json_encode($cols).PHP_EOL;
 					try {
-						$gameId = $db->insert('dat_games')->cols($cols)->lowPriority()->query();
+						$gameId = $db->insert('dat_games')->cols($cols)->lowPriority($config['db_low_priority'])->query();
 					} catch (\PDOException $e) {
 						die('Caught PDO Exception!'.PHP_EOL
 						.'Values:'.var_export($cols, true).PHP_EOL
@@ -97,7 +98,7 @@ class ImportDat
 								$cols['game'] = $gameId;
 								//echo 'dat_'.$section.'s:'.json_encode($cols).PHP_EOL;
 								try {
-									$db->insert('dat_'.$section.'s')->cols($cols)->lowPriority()->query();
+									$db->insert('dat_'.$section.'s')->cols($cols)->lowPriority($config['db_low_priority'])->query();
 								} catch (\PDOException $e) {
 									die('Caught PDO Exception!'.PHP_EOL
 									.'Values:'.var_export($cols, true).PHP_EOL

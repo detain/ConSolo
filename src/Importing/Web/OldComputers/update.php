@@ -77,7 +77,7 @@ foreach ($computerUrls as $idx => $url) {
 	$cols['notes'] = trim(str_replace(['<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],[PHP_EOL,PHP_EOL,PHP_EOL], $cols['notes']));
 	//print_r($cols);
 	echo '['.$idx.'/'.$countComputers.'] '.$cols['manufacturer'].' '.$cols['name'].' ';
-	$platformId = $db->insert('oldcomputers_platforms')->cols($cols)->lowPriority()->query();
+	$platformId = $db->insert('oldcomputers_platforms')->cols($cols)->lowPriority($config['db_low_priority'])->query();
 	$platforms[$platformId] = $cols;
 	if ($emulators !== false) {
 		//$crawler = $client->request('GET', $sitePrefix.$emulators);
@@ -117,9 +117,9 @@ foreach ($allEmulators as $name => $emulator) {
 	$platforms = $emulator['platforms'];
 	unset($emulator['platforms']);
 	unset($emulator['hosts']);
-	$emulatorId = $db->insert('oldcomputers_emulators')->cols($emulator)->lowPriority()->query();
+	$emulatorId = $db->insert('oldcomputers_emulators')->cols($emulator)->lowPriority($config['db_low_priority'])->query();
 	foreach ($platforms as $platformId) {
-		$db->insert('oldcomputers_emulator_platforms')->cols(['emulator' => $emulatorId, 'platform' => $platformId])->lowPriority()->query();
+		$db->insert('oldcomputers_emulator_platforms')->cols(['emulator' => $emulatorId, 'platform' => $platformId])->lowPriority($config['db_low_priority'])->query();
 	}
 }
 echo 'done!'.PHP_EOL;
