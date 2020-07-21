@@ -90,7 +90,7 @@ class ImportDat
 								$cols = $sectionData;
 								if ($section == 'rom') {
 									foreach (['crc','md5','sha1'] as $field) {
-										if (!is_null($cols[$field])) {
+										if (isset($cols[$field]) && !is_null($cols[$field])) {
 											$cols[$field] = strtolower($cols[$field]);
 										}
 									}
