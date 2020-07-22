@@ -60,8 +60,18 @@ while ($stillGettingResults) {
 	if ($results->count() == 0) {
 		$stillGettingResults = false;
 	} else {
-		$results->each(function ($item, $key) use (&$yts) {
-			$yts[$item->getId()] = obj2arr($item);
+		$results->each(function ($item, $key) use (&$yts, &$db, $config) {
+			$item = obj2arr($item);
+			$exists = array_key_exists($item['id'], $yts);
+			if (isset($item['genres'])) {
+				if (isset($item['genres']['items'])) {
+					$item['genres'] = implode(',', $item['genres']['items']);
+				} else {
+					$item['genres'] = '';
+				}
+			}
+			$torrents = $item['torrents']['items'];
+			unset($item['torrents']);
 			/*
 			$movie = Movies::details([
 				'movie_id'    => $movieId,  // The ID of the movie to retrieve
@@ -70,12 +80,17 @@ while ($stillGettingResults) {
 			]);
 			$json[$item->getId()] = obj2arr($movie);
 			*/
+			if ($exists == true) {
+				$db->update('yts')->cols($item)->where('id='.$item['id'])->lowPriority($config['db_low_priority'])->query();                
+			} else {
+				$db->insert('yts')->cols($item)->lowPriority($config['db_low_priority'])->query();                
+			}
+			foreach ($torrents as $torrent) {
+				$torrent['yts_id'] = $item['id'];
+				$db->insert('yts_torrents')->cols($torrent)->lowPriority($config['db_low_priority'])->query();
+			}
+			$yts[$item['id']] = $item;
 		});
 		$page++;
 	}
-	if ($page % 10 == 0) {
-		putJson('yts', $yts);
-	}
 }
-ksort($yts);
-putJson('yts', $yts);
