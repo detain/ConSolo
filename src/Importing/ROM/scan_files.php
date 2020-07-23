@@ -52,7 +52,7 @@ Options:
 if (function_exists('posix_getpid')) {
 	$tmpDir = '/tmp/scanfiles-'.posix_getpid();
 } else {
-	$tmpDir = 'C:\\Users\\detain\\AppData\\Local]\\Temp\\scanfiles-'.uniqid();
+	$tmpDir = 'C:/Users/detain/AppData/Local/Temp/scanfiles-'.uniqid();
 }
 
 
@@ -83,7 +83,11 @@ function updateCompressedFile($path, $parentId)  {
 			$fileData[$hashAlgo] = hash_file($hashAlgo, $path);
 		}
 	}
-	$cmd = 'exec file -b -p '.escapeshellarg($path);
+	if (DIRECTORY_SEPARATOR == '\\') {
+		$cmd = 'C:/Progra~2/GnuWin32/bin/file" -b -p '.escapeshellarg($path);
+	} else {
+		$cmd = 'exec file -b -p '.escapeshellarg($path);
+	}
 	$fileData['magic'] = trim(`{$cmd}`);
 	$fileData['path'] = $virtualPath;
 	$fileData['parent'] = $parentId;
@@ -93,7 +97,11 @@ function updateCompressedFile($path, $parentId)  {
 
 function updateCompressedDir($path, $parentId) {
 	global $files, $skipGlobs;
-	$cmd = 'exec find '.escapeshellarg($path).' -type f';
+	if (DIRECTORY_SEPARATOR == '\\') {
+		$cmd = 'e:/Installs/cygwin64/bin/find.exe '.escapeshellarg($path).' -type f';
+	} else {
+		$cmd = 'exec find '.escapeshellarg($path).' -type f';
+	}
 	$paths = explode("\n", trim(`{$cmd}`));
 	foreach ($paths as $subPath) {
 		$bad = false;
@@ -116,7 +124,11 @@ function updateCompressedDir($path, $parentId) {
 function cleanTmpDir() {
 	global $tmpDir;
 	echo 'Cleaning Temp Dir '.$tmpDir.PHP_EOL;
-	passthru('rm -rf '.$tmpDir);
+	if (DIRECTORY_SEPARATOR == '\\') {
+		passthru('rmdir /s /q '.$tmpDir);
+	} else {
+		passthru('rm -rf '.$tmpDir);
+	}
 }
 
 function extractCompressedFile($path, $compressionType) {
@@ -124,7 +136,11 @@ function extractCompressedFile($path, $compressionType) {
 	cleanTmpDir();
 	mkdir($tmpDir);
 	$escapedFile = escapeshellarg($path);
-	passthru('exec 7z x -o'.$tmpDir.' '.escapeshellarg($path), $return);
+	if (DIRECTORY_SEPARATOR == '\\') {
+		passthru('e:/Installs/7-Zip/7z.exe x -o'.$tmpDir.' '.escapeshellarg($path), $return);
+	} else {
+		passthru('exec 7z x -o'.$tmpDir.' '.escapeshellarg($path), $return);
+	}
 	return ($return == 0);
 }
 
@@ -206,7 +222,11 @@ function updateFile($path)  {
 		}
 	}
 	if ($useMagic == true && (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true)) {
-		$cmd = 'exec file -b -p '.escapeshellarg($path);
+		if (DIRECTORY_SEPARATOR == '\\') {
+			$cmd = '"C:/Progra~2/GnuWin32/bin/file" -b -p '.escapeshellarg($path);
+		} else {
+			$cmd = 'exec file -b -p '.escapeshellarg($path);
+		}
 		$newData['magic'] = trim(`{$cmd}`);
 		$fileData['magic'] = $newData['magic'];
 		$return = false;    
