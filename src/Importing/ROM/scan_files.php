@@ -49,7 +49,11 @@ Options:
 } else {
 	$pathGlobs = ['/storage/*/roms'];
 }
-$tmpDir = '/tmp/scanfiles-'.posix_getpid();
+if (function_exists('posix_getpid')) {
+	$tmpDir = '/tmp/scanfiles-'.posix_getpid();
+} else {
+	$tmpDir = 'C:\\Users\\detain\\AppData\\Local]\\Temp\\scanfiles-'.uniqid();
+}
 
 
 function updateCompressedFile($path, $parentId)  {
