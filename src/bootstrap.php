@@ -125,6 +125,40 @@ $db = new \Workerman\MySQL\Connection($config['db_host'], $config['db_port'], $c
 global $twig;
 $twigloader = new \Twig\Loader\FilesystemLoader(__DIR__.'/Views');
 $twig = new \Twig\Environment($twigloader, array('/tmp/twig_cache'));
+global $driveReplacements, $Windows;
+$driveReplacements = ['search' => [], 'replace' => []];
+if (DIRECTORY_SEPARATOR == '\\') {
+	$Windows = true;
+	$driveReplacements['search'][] = '|\\\\|';
+	$driveReplacements['replace'][] = '/';
+	$driveReplacements['search'][] = '|(?<=.)/+|';
+	$driveReplacements['replace'][] = '/';
+} else {
+	$os = trim(`uname -o`);
+	if ($os == 'Msys') {
+		// MingW Linux in Windows
+		$Windows = true;
+		$DrivePattern = '/#';
+	} elseif ($os == 'Cygwin') {
+		// Cygwin Linux in Windows
+		$Windows = true;
+		$DrivePattern = '/cygwin/#';
+	} elseif (file_exists('/usr/bin/wslvar') && (`wslvar -s OS`) == 'Windows_NT') {
+		// WSL Linux in Windows
+		$Windows = true;
+		$DrivePattern = '/mnt/#';
+	} else {
+		// Linux
+		$Windows = false;
+	}
+	if ($Windows == true) {
+		$drives = explode(PHP_EOL, trim(`mount|grep '^[A-Z]:\\\\* on'|cut -d: -f1`));
+		foreach ($drives as $drive) {
+			$driveReplacements['search'][] = '|^'.str_replace('#', $drive, $DrivePattern).'/|';
+			$driveReplacements['replace'][] = strtoupper($drive).':/';
+		}
+	}
+}
 
 global $hostId, $hostData;
 $hostname = gethostname();
