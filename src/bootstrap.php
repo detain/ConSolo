@@ -1,7 +1,5 @@
 <?php
 
-namespace Detain\ConSolo;
-
 ini_set('display_errors', 'on');
 if (ini_get('date.timezone') == '') {
 	ini_set('date.timezone', 'America/New_York');
@@ -14,6 +12,38 @@ require_once __DIR__.'/xml2array.php';
 global $config;
 $config = require __DIR__.'/config.php';
 include_once __DIR__.'/stdObject.php';
+
+/**
+ * gets a webpage via curl and returns the response.
+ * @param string $url        the url of the page you want
+ * @param string $postfields postfields in the format of "v1=10&v2=20&v3=30"
+ * @param string $options
+ * @return string the webpage
+ */
+function getcurlpage($url, $postfields = '', $options = '')
+{
+	$agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2790.0 Safari/537.36';
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+	if (is_array($postfields) || $postfields != '') {
+		if (is_array($postfields)) {
+			$postdata = [];
+			foreach ($postfields as $field => $value)
+				$postdata[] = $field.'='.urlencode($value);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, implode('&', $postdata));
+		} else {
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
+		}
+	}
+	if (is_array($options) && count($options) > 0)
+		foreach ($options as $key => $value)
+			curl_setopt($ch, $key, $value);
+	$tmp = curl_exec($ch);
+	curl_close($ch);
+	$ret = $tmp;
+	return $ret;
+}
 
 function filenameJson($tag) {
 	return 'data/'.$tag.'.json';
@@ -30,22 +60,36 @@ function putJson($tag, $data) {
 	echo '['.$tag.'] wrote '.count($data).' records to data file'.PHP_EOL;
 }
 
-function loadTmdb($id) {
+function loadTmdbMovie($id) {
 	global $config;
 	$apiKey = $config['thetvdb_api_key'];
-	$url = 'https://api.themoviedb.org/3/movie/'.$id.'?api_key='.$apiKey.'&language=en-US';
-	$cmd = 'curl -s '.escapeshellarg($url);
-	$result = json_decode(`$cmd`, true);
-	return $result;
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/movie/'.$id.'?api_key='.$apiKey.'&language=en-US'), true);
 }
 
-function lookupTmdb($search) {
+function changedTmdbMovies($start_date, $end_date, $results) {
 	global $config;
 	$apiKey = $config['thetvdb_api_key'];
-	$url = 'https://api.themoviedb.org/3/search/movie?api_key='.$apiKey.'&query='.urlencode($search);
-	$cmd = 'curl -s '.escapeshellarg($url);
-	$result = json_decode(`$cmd`, true);
-	return $result;
+	$finished = false;
+	$page = 1;
+	while ($finished == false) {
+		echo 'Getting Movie Changes from '.$start_date.' to '.$end_date.' page '.$page.PHP_EOL;
+		$response = json_decode(getcurlpage('https://api.themoviedb.org/3/movie/changes?api_key='.$apiKey.'&start_date='.$start_date.'&end_date='.$end_date.'&page='.$page), true);
+		foreach ($response['results'] as $data) {
+			$results[] = $data['id'];
+		}
+		if ($response['total_pages'] <= $page) {
+			$finished = true;
+		} else {
+			$page++;
+		}
+	}
+	return $results;
+}
+
+function lookupTmdbMovie($search) {
+	global $config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/search/movie?api_key='.$apiKey.'&query='.urlencode($search)), true);
 }
 
 global $db;
