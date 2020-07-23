@@ -52,7 +52,7 @@ Options:
 if (function_exists('posix_getpid')) {
 	$tmpDir = '/tmp/scanfiles-'.posix_getpid();
 } else {
-	$tmpDir = 'C:/Users/detain/AppData/Local/Temp/scanfiles-'.uniqid();
+	$tmpDir = 'C:\\Users\\detain\\AppData\\Local\\Temp\\scanfiles-'.uniqid();
 }
 
 
