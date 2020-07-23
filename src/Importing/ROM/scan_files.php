@@ -261,6 +261,7 @@ function loadFiles($path = null) {
 	if (is_null($path)) {
 		$tempFiles = $db->query("select * from files where host={$hostId} and parent is null");
 	} else {
+		$path = str_replace("'", '\\\\'."'", $path);
 		$tempFiles = $db->query("select * from files where host={$hostId} and path like '{$path}%' and parent is null");
 	}
 	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
