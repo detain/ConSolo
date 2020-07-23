@@ -217,7 +217,7 @@ function updateFile($path)  {
 			$fileData['path'] = $cleanPath;
 			$id = $db->insert('files')->cols($newData)->lowPriority($config['db_low_priority'])->query();
 			$paths[$cleanPath] = $id;
-			echo "  Added file #{$id} {$path} : ".json_encode($newData).PHP_EOL;
+			echo "  Added file #{$id} {$cleanPath} : ".json_encode($newData).PHP_EOL;
 		} else {
 			$id = $paths[$cleanPath];
 			$db->update('files')->cols($newData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
