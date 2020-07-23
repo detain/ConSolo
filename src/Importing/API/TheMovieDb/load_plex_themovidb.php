@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/inc.php';
+require_once __DIR__.'/../../../bootstrap.php';
 $files = loadJson('files');
 $plex = loadJson('plex');
 $tmdb = loadJson('themoviedb');
@@ -9,7 +9,7 @@ foreach ($plex as $idx => $plexData) {
 	if (preg_match('/^com\.plexapp\.agents\.themoviedb:\/\/(\d+)\?lang=en$/', $plexData['guid'], $matches)) {
 		$tmdb_id = $matches[1];
 		if (!array_key_exists($tmdb_id, $tmdb)) {
-			$movie = loadTmdb($tmdb_id);
+			$movie = loadTmdbMovie($tmdb_id);
 			$tmdb[$tmdb_id] = $movie;
 			$updates++;
 			echo '+';
