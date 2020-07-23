@@ -14,6 +14,33 @@ $config = require __DIR__.'/config.php';
 include_once __DIR__.'/stdObject.php';
 
 /**
+ * determines if the OS is windows
+ *
+ * @return bool true if windows
+ */
+function isWindows() {
+	return (DIRECTORY_SEPARATOR == '\\');
+}
+
+/**
+ * converts both windows and unix paths to the / format which works universally
+ *
+ * @param string $path the path to convert
+ * @return string the path converted
+ */
+function normalizePath($path) {
+	if (DIRECTORY_SEPARATOR == '/') {
+		return $path;
+	}
+	$path = str_replace( '\\', '/', $path );
+	$path = preg_replace( '|(?<=.)/+|', '/', $path );
+	if ( ':' === substr( $path, 1, 1 ) ) {
+		$path = ucfirst( $path );
+	}
+	return $path;
+}
+
+/**
  * gets a webpage via curl and returns the response.
  * @param string $url        the url of the page you want
  * @param string $postfields postfields in the format of "v1=10&v2=20&v3=30"
