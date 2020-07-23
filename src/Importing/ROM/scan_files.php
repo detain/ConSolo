@@ -84,7 +84,7 @@ function updateCompressedFile($path, $parentId)  {
 		}
 	}
 	if (DIRECTORY_SEPARATOR == '\\') {
-		$cmd = 'C:/Progra~2/GnuWin32/bin/file" -b -p '.escapeshellarg($path);
+		$cmd = 'C:/Progra~2/GnuWin32/bin/file -b -p '.escapeshellarg($path);
 	} else {
 		$cmd = 'exec file -b -p '.escapeshellarg($path);
 	}
@@ -223,7 +223,7 @@ function updateFile($path)  {
 	}
 	if ($useMagic == true && (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true)) {
 		if (DIRECTORY_SEPARATOR == '\\') {
-			$cmd = '"C:/Progra~2/GnuWin32/bin/file" -b -p '.escapeshellarg($path);
+			$cmd = 'C:/Progra~2/GnuWin32/bin/file -b -p '.escapeshellarg($path);
 		} else {
 			$cmd = 'exec file -b -p '.escapeshellarg($path);
 		}
