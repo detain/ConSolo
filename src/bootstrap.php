@@ -125,6 +125,7 @@ function cleanPath($path) {
 		$replace = $driveReplacements['replace'][$idx];
 		$path = preg_replace($search, $replace, $path); 
 	}
+	return $path;
 }
 
 global $db;
