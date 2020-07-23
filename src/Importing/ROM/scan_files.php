@@ -13,8 +13,8 @@ $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible h
 $compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $scanCompressed = true;
 $useMagic = true;
-$maxSize = 500000000;
-$useMaxSize = false;
+$maxSize = 10000000000; // 10gb
+$useMaxSize = true;
 if (isset($_SERVER['argc']) && $_SERVER['argc'] > 1) {
 	$paths = [];
 	for ($x = 1; $x < $_SERVER['argc']; $x++) {
@@ -188,7 +188,8 @@ function updateFile($path)  {
 	$cleanPath = cleanPath($path);
 	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
 	$pathStat = stat($path);
-	if ($useMaxSize == true && $pathStat['size'] >= $maxSize) {
+	if ($useMaxSize == true && bccomp($pathStat['size'], $maxSize) == 1) {
+		echo 'Skipping file "'.$path.'" as it exceeds max filesize ('.$pathStat['size'].' > '.$maxSize.')'.PHP_EOL;
 		return;
 	}
 	if (!array_key_exists($cleanPath, $paths)) {
