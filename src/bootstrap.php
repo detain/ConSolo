@@ -119,6 +119,14 @@ function lookupTmdbMovie($search) {
 	return json_decode(getcurlpage('https://api.themoviedb.org/3/search/movie?api_key='.$apiKey.'&query='.urlencode($search)), true);
 }
 
+function cleanPath($path) {
+	global $driveReplacements, $Windows;
+	foreach ($driveReplacements['search'] as $idx => $search) {
+		$replace = $driveReplacements['replace'][$idx];
+		$path = preg_replace($search, $replace, $path); 
+	}
+}
+
 global $db;
 $db = new \Workerman\MySQL\Connection($config['db_host'], $config['db_port'], $config['db_name'], $config['db_user'], $config['db_pass']);
 

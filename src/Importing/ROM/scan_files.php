@@ -145,10 +145,11 @@ function compressedFileHandler($path) {
 	global $db;
 	global $files, $paths, $compressionTypes, $tmpDir, $scanCompressed;
 	if ($scanCompressed == true) {
+		$cleanPath = cleanPath($path);
 		foreach ($compressionTypes as $idx => $compressionType) {
 			if (hasFileExt($path, $compressionType)) {
 				// handle compressed file
-				$parentId = $paths[$path];
+				$parentId = $paths[$cleanPath];
 				$rows = $db->query("select * from files where parent={$parentId}");
 				echo 'Found Compressed file #'.$parentId.' '.$path.' of type '.$compressionType.' with '.count($rows).' entries'.PHP_EOL;
 				if (count($rows) == 0) {
@@ -168,15 +169,16 @@ function updateFile($path)  {
 	*/
 	global $db;
 	global $files, $paths, $hashAlgos, $maxSize, $useMaxSize, $useMagic, $hostId, $config;
+	$cleanPath = cleanPath($path);
 	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
 	$pathStat = stat($path);
 	if ($useMaxSize == true && $pathStat['size'] >= $maxSize) {
 		return;
 	}
-	if (!array_key_exists($path, $paths)) {
+	if (!array_key_exists($cleanPath, $paths)) {
 		$fileData = [];
 	} else {
-		$fileData = $files[$paths[$path]];
+		$fileData = $files[$paths[$cleanPath]];
 	}
 	$newData = [];
 	foreach ($statFields as $statField) {
@@ -185,7 +187,7 @@ function updateFile($path)  {
 		}
 		$fileData[$statField] = $pathStat[$statField];
 	}
-	if (array_key_exists($path, $paths) && $files[$paths[$path]]['mtime'] == $fileData['mtime'] && $files[$paths[$path]]['size'] == $fileData['size']) {
+	if (array_key_exists($cleanPath, $paths) && $files[$paths[$cleanPath]]['mtime'] == $fileData['mtime'] && $files[$paths[$cleanPath]]['size'] == $fileData['size']) {
 		$return = true;
 		$reread = false;
 	} else {
@@ -210,21 +212,21 @@ function updateFile($path)  {
 		$return = false;    
 	}
 	if ($return === false) {
-		if (!isset($paths[$path])) {
-			$newData['path'] = $path;
-			$fileData['path'] = $path;
+		if (!isset($paths[$cleanPath])) {
+			$newData['path'] = $cleanPath;
+			$fileData['path'] = $cleanPath;
 			$id = $db->insert('files')->cols($newData)->lowPriority($config['db_low_priority'])->query();
-			$paths[$path] = $id;
+			$paths[$cleanPath] = $id;
 			echo "  Added file #{$id} {$path} : ".json_encode($newData).PHP_EOL;
 		} else {
-			$id = $paths[$path];
+			$id = $paths[$cleanPath];
 			$db->update('files')->cols($newData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
-			echo "  Updated file #{$paths[$path]} {$path} : ".json_encode($newData).PHP_EOL;
+			echo "  Updated file #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($newData).PHP_EOL;
 		}
 		$files[$id] = $fileData;
 	}
 	if ($reread === true) {
-		$id = $paths[$path];
+		$id = $paths[$cleanPath];
 		$db->delete('files')->where('parent='.$id)->lowPriority($config['db_low_priority'])->query();
 	}
 	compressedFileHandler($path);
@@ -232,6 +234,7 @@ function updateFile($path)  {
 
 function updateDir($path) {
 	global $files, $skipGlobs;
+	$cleanPath = cleanPath($path);
 	foreach (glob($path.'/*') as $subPath) {
 		$bad = false;
 		foreach ($skipGlobs as $skipGlob) {
@@ -262,7 +265,8 @@ function loadFiles($path = null) {
 		$tempFiles = $db->query("select * from files where host={$hostId} and parent is null");
 	} else {
 		$path = str_replace("'", '\\'."'", $path);
-		$tempFiles = $db->query("select * from files where host={$hostId} and path like '{$path}%' and parent is null");
+		$cleanPath = cleanPath($path);
+		$tempFiles = $db->query("select * from files where host={$hostId} and path like '{$cleanPath}%' and parent is null");
 	}
 	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
 	foreach ($tempFiles as $idx => $data) {
