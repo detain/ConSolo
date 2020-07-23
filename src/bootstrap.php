@@ -100,7 +100,7 @@ $twigloader = new \Twig\Loader\FilesystemLoader(__DIR__.'/Views');
 $twig = new \Twig\Environment($twigloader, array('/tmp/twig_cache'));
 
 global $hostId, $hostData;
-$uname = posix_uname();
-$hostData = $db->query("select * from hosts where name='{$uname['nodename']}'");
-$hostData = count($hostData) == 0 ? ['id' => null, 'name' => $uname['nodename']] : $hostData[0];
+$hostname = gethostname();
+$hostData = $db->query("select * from hosts where name='{$hostname}'");
+$hostData = count($hostData) == 0 ? ['id' => null, 'name' => $hostname] : $hostData[0];
 $hostId = $hostData['id'];
