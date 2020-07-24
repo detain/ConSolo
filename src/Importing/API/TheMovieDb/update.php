@@ -6,7 +6,7 @@ $imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_
 */
 global $db;
 global $config;
-$result = $db->query("select * from config where config.key='tmdb_movies'");
+$result = $db->query("select * from config where field='tmdb_movies'");
 $tmdbIds = [];
 $now = time();
 $updateExisting = false;
@@ -88,11 +88,19 @@ foreach ($tmdbIds as $idx => $tmdbId) {
 	}
 	
 }
-$db->insert('config')
-	->cols([
-		'key' => 'tmdb_movies',
-		'value' => $now 
-	])
-	->lowPriority($config['db_low_priority'])
-	->query();
+if ($updateExisting == true) {
+	$db->update('config')
+		->cols(['value' => $now])
+		->where('field="tmdb_movies"')
+		->lowPriority($config['db_low_priority'])
+		->query();
+} else {
+	$db->insert('config')
+		->cols([
+			'field' => 'tmdb_movies',
+			'value' => $now 
+		])
+		->lowPriority($config['db_low_priority'])
+		->query();
+}
 echo 'Wrote '.$updates.' updates'.PHP_EOL;        
