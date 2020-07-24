@@ -10,7 +10,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 */
 global $db;
 $configKey = 'tosec';
-$row = $db->query("select * from config where config.key='{$configKey}'");
+$row = $db->query("select * from config where field='{$configKey}'");
 if (count($row) == 0) {
 	$last = 0;
 	$db->query("insert into config values ('{$configKey}','0')");
@@ -35,4 +35,4 @@ unlink('dats.zip');
 foreach (glob($dir.'/TOSEC*') as $tosecdir) {
 	(new \Detain\ConSolo\Importing\DAT\ImportDat())->go(basename($tosecdir), $tosecdir.'/*', $dataDir);
 }
-$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
+$db->query("update config set config.value='{$version}' where field='{$configKey}'"); 

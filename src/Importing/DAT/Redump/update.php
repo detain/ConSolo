@@ -10,7 +10,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 */
 global $db;
 $configKey = 'redump';
-$row = $db->query("select * from config where config.key='{$configKey}'");
+$row = $db->query("select * from config where field='{$configKey}'");
 if (count($row) == 0) {
 	$last = 0;
 	$db->query("insert into config values ('{$configKey}','0')");
@@ -34,4 +34,4 @@ foreach ($urls as $url) {
 	unlink('dats.zip');
 	$import->go($type, $glob, $dataDir);
 }
-//$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
+//$db->query("update config set config.value='{$version}' where field='{$configKey}'"); 

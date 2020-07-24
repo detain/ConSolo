@@ -54,7 +54,7 @@ function RunArray(&$data) {
 
 $dataDir = '/storage/local/ConSolo/data';
 $configKey = 'mame';
-$row = $db->query("select * from config where config.key='{$configKey}'");
+$row = $db->query("select * from config where field='{$configKey}'");
 if (count($row) == 0) {
 	$last = 0;
 	$db->query("insert into config values ('{$configKey}','0')");
@@ -187,4 +187,4 @@ foreach ($xml as $list) {
 	echo "done\n";
 }
 //echo `rm -rf /tmp/update;`;
-$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
+$db->query("update config set config.value='{$version}' where field='{$configKey}'"); 

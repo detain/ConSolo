@@ -12,7 +12,7 @@ use Goutte\Client;
 */
 global $db;
 $configKey = 'nointro';
-$row = $db->query("select * from config where config.key='{$configKey}'");
+$row = $db->query("select * from config where field='{$configKey}'");
 if (count($row) == 0) {
 	$last = 0;
 	$db->query("insert into config values ('{$configKey}','0')");
@@ -39,4 +39,4 @@ echo `rm -rf {$dir};`;
 echo `7z x -o{$dir} dats.zip;`;
 unlink('dats.zip');
 (new \Detain\ConSolo\Importing\DAT\ImportDat())->go($type, $glob, $dataDir);
-$db->query("update config set config.value='{$version}' where config.key='{$configKey}'"); 
+$db->query("update config set config.value='{$version}' where field='{$configKey}'"); 

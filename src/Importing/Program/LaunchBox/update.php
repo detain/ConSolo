@@ -10,7 +10,7 @@ $url = 'https://gamesdb.launchbox-app.com/Metadata.zip';
 $tablePrefix = 'launchbox_';
 $tableSuffix = 's';
 $configKey = 'launchbox';
-$row = $db->query("select * from config where config.key='{$configKey}'");
+$row = $db->query("select * from config where field='{$configKey}'");
 if (count($row) == 0) {
 	$last = 0;
 	$db->query("insert into config values ('{$configKey}','0')");
@@ -108,4 +108,4 @@ foreach (['Files', 'Mame', 'Metadata'] as $name) {
 	echo 'written!'.PHP_EOL;
 	unlink($name.'.xml');
 }
-$db->query("update config set config.value='{$modified}' where config.key='{$configKey}'"); 
+$db->query("update config set config.value='{$modified}' where field='{$configKey}'"); 
