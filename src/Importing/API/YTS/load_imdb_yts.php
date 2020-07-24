@@ -16,10 +16,12 @@ $result = $db->query("select id from imdb where id in (select imdb_code from yts
 foreach ($result as $data) {
 	$existingIds[] = $data['id'];
 }
+$imdbIds = array_diff($imdbIds, $existingIds);
 $updates = 0;
+$total = count($imdbIds);
 foreach ($imdbIds as $imdbId) {
-	echo '# '.$imdbId.PHP_EOL;
-	if (!in_array($imdbId, $existingIds)) {
+	echo '# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
+	//if (!in_array($imdbId, $existingIds)) {
 		$imdbCode = preg_replace('/^tt/','', $imdbId);
 		$title = new \Imdb\Title($imdbCode);
 		$imdb = [];
@@ -38,6 +40,6 @@ foreach ($imdbIds as $imdbId) {
 			->lowPriority($config['db_low_priority'])
 			->query();            
 		$updates++;                   
-	}
+	//}
 }
 echo 'Loaded '.$updates.' Movies!'.PHP_EOL;
