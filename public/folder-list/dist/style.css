@@ -1,0 +1,129 @@
+/* angular-ui-tree default CSS */
+.angular-ui-tree-empty {
+  border: 1px dashed #bbb;
+  min-height: 100px;
+  background-color: #e5e5e5;
+  background-image: -webkit-linear-gradient(45deg, #fff 25%, transparent 0, transparent 75%, #fff 0, #fff), -webkit-linear-gradient(45deg, #fff 25%, transparent 0, transparent 75%, #fff 0, #fff);
+  background-image: linear-gradient(45deg, #fff 25%, transparent 0, transparent 75%, #fff 0, #fff), linear-gradient(45deg, #fff 25%, transparent 0, transparent 75%, #fff 0, #fff);
+  background-size: 60px 60px;
+  background-position: 0 0,30px 30px;
+  pointer-events: none;
+}
+
+.angular-ui-tree-nodes {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.angular-ui-tree-nodes .angular-ui-tree-nodes {
+  padding-left: 20px;
+}
+
+.angular-ui-tree-node, .angular-ui-tree-placeholder {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  min-height: 20px;
+  line-height: 20px;
+}
+
+.angular-ui-tree .hidden {
+  display: none;
+}
+
+.angular-ui-tree li[collapsed=true] .angular-ui-tree-nodes {
+  display: none;
+}
+
+.angular-ui-tree-placeholder {
+  margin: 10px;
+  padding: 0;
+  min-height: 30px;
+}
+
+.angular-ui-tree-handle {
+  cursor: move;
+  text-decoration: none;
+  font-weight: 700;
+  box-sizing: border-box;
+  min-height: 20px;
+  line-height: 20px;
+}
+
+.angular-ui-tree-drag {
+  position: absolute;
+  pointer-events: none;
+  z-index: 999;
+  opacity: .8;
+}
+
+.angular-ui-tree-drag .tree-node-content {
+  margin-top: 0;
+}
+
+body {
+  background-color: #333;
+  font-size: 16px;
+  font-family: arial;
+}
+
+h2 {
+  text-align: center;
+  color: white;
+  font-size: 2em;
+  margin-top: 1em;
+}
+
+.container {
+  width: 500px;
+  margin: 10% auto;
+  background-color: white;
+  padding: 5em;
+  box-shadow: 2px 2px 6px black;
+}
+
+.file-drop-zone {
+  outline: 3px dotted lightgray;
+  height: 28.5em;
+  padding: 6px;
+  overflow-y: scroll;
+  transition: all .3s;
+}
+.file-drop-zone:hover .file-drop-message {
+  opacity: .7;
+}
+
+.file-drop-zone.active {
+  outline: 3px solid #0D9B49;
+  box-shadow: 0px 0px 30px #bbb inset;
+}
+
+.file-drop-message {
+  padding: 0.3em;
+  text-align: center;
+  background-color: darkgrey;
+  color: #efefef;
+  transition: all .3s;
+}
+
+.folder {
+  padding: .25em .4em;
+  transition: all .25s;
+}
+.folder .pull-right {
+  opacity: 0;
+}
+.folder.active, .folder:hover {
+  background-color: #bbb;
+  color: #fff;
+}
+.folder:hover .pull-right {
+  opacity: 1;
+  color: white;
+}
+
+p {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

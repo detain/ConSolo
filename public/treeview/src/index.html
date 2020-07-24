@@ -1,0 +1,28 @@
+<div id="app">
+
+    <Tree :data="sortedArray" draggable="draggable" cross-tree="cross-tree" class="scrollbar text">
+        <div slot-scope="{data, store}">
+
+            <v-icon @click="store.toggleOpen(data)">{{data.open? data.folder_open:data.folder_close}}</v-icon>
+            <v-icon>{{ files[data.file] }}</v-icon>
+            <span :class="{highlight:data.editable}" @contextmenu.prevent="execContextMenu(data)">{{data.text}}</span>
+
+            <span v-if="data.error===1">
+
+                        <v-icon @mouseover="onMouseOver(data)" @mouseout="onMouseOut(data)">{{data.error_img}} </v-icon>
+                          <span v-if="data.hovering">Error in file</span>
+
+            </span>
+
+        </div>
+    </Tree>
+
+    
+    <vue-context ref="menu">
+        <ul class="context-menu">
+            <li v-for="cmd in ctxMenu_cmds" @click="onCtxClick( ctxMenu_id, cmd)" class="context-menu-item"> <i class='fa fa-file' id="context-menu-icon"></i><span class="context-menu-span">{{contextMenuText(cmd)}}</span></li>
+        </ul>
+    </vue-context>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue-context@3.4.0/dist/vue-context.min.js"></script>

@@ -1,0 +1,6 @@
+#app
+  ul
+    li(v-for='item in items.results')
+      img(:src='image + item.poster_path', alt='')
+      section
+        p {{ item.overview }}

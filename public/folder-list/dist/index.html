@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Folder List</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<h2>Folder List</h2>
+<div class='container' ng-app="app">
+  <div class="row" ng-controller="folderController as vm">
+    <div id="uploadDocs_folders" class="col-md-12">
+      <h3>Folders <button class="btn pull-right"></i><i class="fa fa-folder"></i> <i class="fa fa-plus"></i></button></h3>
+      <br>
+      <div ng-show="vm.areFoldersFound()" class="form-group">
+        <input type="text" class="form-control" placeholder="Search folders" ng-change="vm.filterFolders()" ng-model="vm.str_folderFilter">
+      </div>      
+      
+      <div class="file-drop-zone">
+        <div ng-show="vm.foldersLoading" style="padding: 1em;" class="ng-hide">
+          Loading
+        </div>
+        <div ng-show="vm.areFoldersFound()" class="file-drop-message text-center">Drop files onto folders</div>
+        <br>
+        <div ng-show="!vm.areFoldersFound() && !vm.foldersLoading" style="padding: 1em;" class="ng-hide">
+          No folders found
+          <form class="ng-pristine ng-valid">
+            <legend>Add top-level folder</legend>
+            <div class="form-group">
+              <label class="control-label" for="tlfName">Folder Name: </label>
+              <input class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="vm.tlfName" id="tlfName" type="text">
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary" ng-click="vm.addFolder(vm.tlfName, null)">Add</button>
+            </div>
+          </form>
+        </div>
+
+        <div ui-tree="vm.treeOptions" data-collapsed="true">
+          <ol ui-tree-nodes ng-model="vm.folders" id="tree-root">
+            <li ng-repeat="item in vm.folders" ui-tree-node ng-hide="vm.isHidden(item)" ng-click="vm.toggleFolder(this)">
+              <div class=folder>
+                <span> <i class="fa" ng-class="{'fa-folder-open': !vm.isNodeCollapsed(item), 'fa-folder': vm.isNodeCollapsed(item) }"></i></span> 
+                &nbsp;&nbsp;{{item.title}}                
+                <span><i class="fa fa-upload pull-right" data-toggle="tooltip" data-placement="top" title="Upload here"></i></span>
+                <span><i class="fa fa-plus pull-right" data-toggle="tooltip" data-placement="top" title="Add subfolder"></i></span>
+              </div>
+              <!-- children -->
+              <ol ui-tree-nodes ng-model="item.nodes">
+                <li ng-repeat="subItem in item.nodes" ui-tree-node ng-hide="vm.isHidden(subItem)" >
+                  <div class=folder>
+                    <span> <i class="fa" ng-class="{'fa-folder-open': !vm.isNodeCollapsed(subItem), 'fa-folder': vm.isNodeCollapsed(subItem) }"></i></span>
+                    &nbsp;&nbsp;{{subItem.title}}
+                    <span><i class="fa fa-plus pull-right" data-toggle="tooltip" data-placement="top" title="Add subfolder"></i></span>
+                    <span><i class="fa fa-upload pull-right" data-toggle="tooltip" data-placement="top" title="Upload here"></i></span>
+                  </div> 
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
