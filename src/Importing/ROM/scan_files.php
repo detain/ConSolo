@@ -297,11 +297,11 @@ function loadFiles($path = null) {
 	$files = [];
 	$paths = [];
 	if (is_null($path)) {
-		$tempFiles = $db->query("select *, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files where host={$hostId} and parent is null");
+		$tempFiles = $db->query("select *, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files f1 where host={$hostId} and parent is null");
 	} else {
 		$cleanPath = cleanPath($path);
 		$cleanPath = str_replace("'", '\\'."'", $cleanPath);
-		$tempFiles = $db->query("select *, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files where host={$hostId} and path like '{$cleanPath}%' and parent is null");
+		$tempFiles = $db->query("select *, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files f1 where host={$hostId} and path like '{$cleanPath}%' and parent is null");
 	}
 	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
 	foreach ($tempFiles as $idx => $data) {
