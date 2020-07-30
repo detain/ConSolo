@@ -262,7 +262,9 @@ function updateFile($path)  {
 		$id = $paths[$cleanPath];
 		$db->delete('files')->where('parent='.$id)->lowPriority($config['db_low_priority'])->query();
 	}
-	compressedFileHandler($path);
+	if ($fileData['num_files'] == 0) {
+		compressedFileHandler($path);
+	}
 }
 
 function updateDir($path) {
@@ -295,11 +297,11 @@ function loadFiles($path = null) {
 	$files = [];
 	$paths = [];
 	if (is_null($path)) {
-		$tempFiles = $db->query("select * from files where host={$hostId} and parent is null");
+		$tempFiles = $db->query("select *, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files where host={$hostId} and parent is null");
 	} else {
 		$cleanPath = cleanPath($path);
 		$cleanPath = str_replace("'", '\\'."'", $cleanPath);
-		$tempFiles = $db->query("select * from files where host={$hostId} and path like '{$cleanPath}%' and parent is null");
+		$tempFiles = $db->query("select *, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files where host={$hostId} and path like '{$cleanPath}%' and parent is null");
 	}
 	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
 	foreach ($tempFiles as $idx => $data) {
