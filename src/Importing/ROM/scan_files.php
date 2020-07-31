@@ -262,7 +262,7 @@ function updateFile($path)  {
 		$id = $paths[$cleanPath];
 		$db->delete('files')->where('parent='.$id)->lowPriority($config['db_low_priority'])->query();
 	}
-	if ($fileData['num_files'] == 0) {
+	if (!array_key_exists('num_files', $fileData) || $fileData['num_files'] == 0) {
 		compressedFileHandler($path);
 	}
 }
