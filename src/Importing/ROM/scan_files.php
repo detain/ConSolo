@@ -325,10 +325,10 @@ global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompres
 foreach ($pathGlobs as $pathGlob) {
 	foreach (glob($pathGlob) as $path) {
 		echo "ROM Path - {$path}\n";
-		echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
+		$mem_usage = memory_get_usage();
 		loadFiles($path);
-		echo "Loaded ".count($files)." Files\n";
-		echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
+		$mem_usage = memory_get_usage() - $mem_usage;
+		echo "Loaded ".count($files)." Files ({$mem_usage} Memory Used by Files)\n";
 		if (is_dir($path)) {
 			updateDir($path);
 		} else {
