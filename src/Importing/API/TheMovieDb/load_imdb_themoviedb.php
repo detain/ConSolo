@@ -46,14 +46,18 @@ foreach ($imdbIds as $imdbId) {
 				$imdb[$field] = $title->$field;
 			}
 		}
-		$db->insert('imdb')
-			->cols([
-				'id' => $imdbId, 
-				'doc' => json_encode($imdb)
-			])
-			->lowPriority($config['db_low_priority'])
-			->query();            
-		$updates++;                   
+		try {
+			$db->insert('imdb')
+				->cols([
+					'id' => $imdbId, 
+					'doc' => json_encode($imdb)
+				])
+				->lowPriority($config['db_low_priority'])
+				->query();            
+			$updates++;                   
+		} catch  (PDOException $E) {
+			echo "Exception error ".$e->getMessage().PHP_EOL;
+		}
 	//}
 }
 echo 'Loaded '.$updates.' Movies!'.PHP_EOL;
