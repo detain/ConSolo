@@ -7,17 +7,24 @@ $imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_
 global $db;
 global $config;
 $imdbIds = [];
-$result = $db->query("select imdb_code from yts");
+$result = $db->query("select imdb_id from tmdb where imdb_id != 'null'  and imdb_id != ''");
 foreach ($result as $data) {
-	$imdbIds[] = $data['imdb_code'];
+	$imdbIds[] = $data['imdb_id'];
 }
+echo 'Loaded '.count($imdbIds).' TMDB->IMDB IDs'.PHP_EOL;
 $existingIds = [];
-$result = $db->query("select id from imdb where id in (select imdb_code from yts)");
+$result = $db->query("select id from imdb where id in (select imdb_id from tmdb where imdb_id != 'null'  and imdb_id != '')");
 foreach ($result as $data) {
 	$existingIds[] = $data['id'];
 }
+echo 'Loaded '.count($existingIds).' Existing IMDB IDs'.PHP_EOL;
 $imdbIds = array_diff($imdbIds, $existingIds);
+echo 'Found '.count($imdbIds).' New IMDB IDs'.PHP_EOL;
 $updates = 0;
+if ($_SERVER['argc'] > 1 && $_SERVER['argv'][1] == '-r')
+	rsort($imdbIds);
+else
+	sort($imdbIds);
 $total = count($imdbIds);
 foreach ($imdbIds as $imdbId) {
 	echo '# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
