@@ -102,7 +102,10 @@ function updateCompressedDir($path, $parentId) {
 	} else {
 		$cmd = 'exec find '.escapeshellarg($path).' -type f';
 	}
-	$paths = explode("\n", trim(`{$cmd}`));
+	$paths = trim(`{$cmd}`);
+	if ($paths == '')
+		return;
+	$paths = explode("\n", $paths);
 	foreach ($paths as $subPath) {
 		$bad = false;
 		foreach ($skipGlobs as $skipGlob) {
