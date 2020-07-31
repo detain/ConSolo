@@ -34,7 +34,14 @@ foreach ($imdbIds as $imdbId) {
 		$imdb = [];
 		foreach ($imdbFields as $field) {
 			if (method_exists($title, $field)) {
-				$imdb[$field] = $title->$field();
+				try {
+					$imdb[$field] = $title->$field();
+				} catch (Imdb\Exception\Http $e) {
+					echo "exception error ".$e->getMessage().PHP_EOL;
+					if (isset($imdb[$field])) {
+						unset($imdb[$field]);
+					}
+				}
 			} else {
 				$imdb[$field] = $title->$field;
 			}
