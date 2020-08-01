@@ -21,22 +21,56 @@ echo 'Loaded '.count($existingIds).' Existing IMDB IDs'.PHP_EOL;
 $imdbIds = array_diff($imdbIds, $existingIds);
 echo 'Found '.count($imdbIds).' New IMDB IDs'.PHP_EOL;
 $updates = 0;
-if ($_SERVER['argc'] > 1 && $_SERVER['argv'][1] == '-r')
-	rsort($imdbIds);
-else
-	sort($imdbIds);
+$divide = 1;
+$part = 1;
+$config = new \Imdb\Config();
+if ($_SERVER['argc'] > 1) {
+	$program = array_shift($_SERVER['argv']);
+	while (count($_SERVER['argv']) > 0) {
+		$arg = array_shift($_SERVER['argv']);
+		if ($arg == '-d') {
+			$divide = array_shift($_SERVER['argv']);
+		} elseif ($arg == '-p') {
+			$part = array_shift($_SERVER['argv']);
+		} elseif ($arg == '-i') {
+			$ip = array_shift($_SERVER['argv']);
+			$config->bind_ip_address = $ip;
+		} elseif ($arg == '-r') {
+			rsort($imdbIds);
+		} elseif ($arg == '-s') {
+			sort($imdbIds);
+		} else {
+			echo "
+Syntax: {$program} <-d #> <-p #> <-r> <-s>
+
+ -d #       Divide IDs into # Parts, defaults to 1
+ -p #       Part # of Divided IDs to display, defaults to 1
+ -i ip      Optional IP address to bind to
+ -r         reverse sort
+ -s         sort
+			";
+		}
+	}
+}
 $total = count($imdbIds);
-foreach ($imdbIds as $imdbId) {
+$partSize = ceil($total / $divide);
+$start = ($part - 1) * $partSize;
+$end = $part * $partSize;
+if ($end > $total) {
+	$end = $total;
+}
+for ($x = $start; $x < $end; $x++) {
+	$imdbId = $imdbIds[$x];
 	echo '# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
 	//if (!in_array($imdbId, $existingIds)) {
 		$imdbCode = preg_replace('/^tt/','', $imdbId);
-		$title = new \Imdb\Title($imdbCode);
+		$title = new \Imdb\Title($imdbCode, $config);
 		$imdb = [];
 		foreach ($imdbFields as $field) {
 			if (method_exists($title, $field)) {
 				try {
 					$imdb[$field] = $title->$field();
-				} catch (Imdb\Exception\Http $e) {
+				} catch (\Imdb\Exception\Http $e) {
 					echo "exception error ".$e->getMessage().PHP_EOL;
 					if (isset($imdb[$field])) {
 						unset($imdb[$field]);
@@ -55,7 +89,7 @@ foreach ($imdbIds as $imdbId) {
 				->lowPriority($config['db_low_priority'])
 				->query();            
 			$updates++;                   
-		} catch  (PDOException $E) {
+		} catch  (\PDOException $E) {
 			echo "Exception error ".$e->getMessage().PHP_EOL;
 		}
 	//}
