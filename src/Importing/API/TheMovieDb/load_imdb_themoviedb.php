@@ -23,7 +23,7 @@ echo 'Found '.count($imdbIds).' New IMDB IDs'.PHP_EOL;
 $updates = 0;
 $divide = 1;
 $part = 1;
-$config = new \Imdb\Config();
+$imdbConfig = new \Imdb\Config();
 if ($_SERVER['argc'] > 1) {
 	$program = array_shift($_SERVER['argv']);
 	while (count($_SERVER['argv']) > 0) {
@@ -34,7 +34,7 @@ if ($_SERVER['argc'] > 1) {
 			$part = array_shift($_SERVER['argv']);
 		} elseif ($arg == '-i') {
 			$ip = array_shift($_SERVER['argv']);
-			$config->bind_ip_address = $ip;
+			$imdbConfig->bind_ip_address = $ip;
 		} elseif ($arg == '-r') {
 			rsort($imdbIds);
 		} elseif ($arg == '-s') {
@@ -59,12 +59,16 @@ $end = $part * $partSize;
 if ($end > $total) {
 	$end = $total;
 }
-for ($x = $start; $x < $end; $x++) {
-	$imdbId = $imdbIds[$x];
+$imdbIds = array_slice($imdbIds, $start, $end - 1);
+$total = count($imdbIds);
+echo 'Divided them into a section of '.$total.' ids'.PHP_EOL;
+foreach ($imdbIds as $imdbId) {
+	if (trim($imdbId) == '')
+		continue;
 	echo '# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
 	//if (!in_array($imdbId, $existingIds)) {
 		$imdbCode = preg_replace('/^tt/','', $imdbId);
-		$title = new \Imdb\Title($imdbCode, $config);
+		$title = new \Imdb\Title($imdbCode, $imdbConfig);
 		$imdb = [];
 		foreach ($imdbFields as $field) {
 			if (method_exists($title, $field)) {
