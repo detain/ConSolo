@@ -61,7 +61,7 @@ function updateCompressedFile($path, $parentId)  {
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	global $files, $tmpDir, $compressedHashAlgos, $useMagic, $config;
+	global $files, $tmpDir, $compressedHashAlgos, $useMagic, $config, $hostId;
 	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks
 	$parentData = $files[$parentId];
 	$parentPath = $parentData['path'];
@@ -77,6 +77,10 @@ function updateCompressedFile($path, $parentId)  {
 		}
 		$fileData[$statField] = $pathStat[$statField];
 	}
+	if (!isset($fileData['host']) || $fileData['host'] != $hostId) {
+		$newData['host'] = $hostId;
+	}
+	$fileData['host'] = $hostId;
 	foreach ($compressedHashAlgos as $hashAlgo) {
 		if (!isset($fileData[$hashAlgo])) {
 			$newData[$hashAlgo] = hash_file($hashAlgo, $path);
