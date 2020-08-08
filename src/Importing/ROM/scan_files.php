@@ -334,6 +334,8 @@ global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompres
 foreach ($pathGlobs as $pathGlob) {
 	foreach (glob($pathGlob) as $path) {
 		echo "ROM Path - {$path}\n";
+		$files = [];
+		$paths = [];
 		$mem_usage = memory_get_usage();
 		loadFiles($path);
 		$mem_usage = memory_get_usage() - $mem_usage;
