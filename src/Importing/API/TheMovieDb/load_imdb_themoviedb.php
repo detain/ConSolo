@@ -54,12 +54,15 @@ Syntax: {$program} <-d #> <-p #> <-r> <-s>
 }
 $total = count($imdbIds);
 $partSize = ceil($total / $divide);
+echo $total.' Total IDs in '.$divide.' Parts = '.$partSize.' IDs/part'.PHP_EOL;
 $start = ($part - 1) * $partSize;
 $end = $part * $partSize;
 if ($end > $total) {
 	$end = $total;
 }
-$imdbIds = array_slice($imdbIds, $start, $end - 1);
+$imdbIdsNew = array_slice($imdbIds, $start, $partSize);
+$imdbIds = $imdbIdsNew;
+unset($imdbIdsNew);
 $total = count($imdbIds);
 echo 'Divided them into a section of '.$total.' ids'.PHP_EOL;
 foreach ($imdbIds as $imdbId) {
