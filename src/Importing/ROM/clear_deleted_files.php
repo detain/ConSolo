@@ -21,7 +21,7 @@ function loadFiles($path = null) {
 	if (is_null($path)) {
 		$tempFiles = $db->query("select id,path from files where host={$hostId} and parent is null");
 	} else {
-		$tempFiles = $db->query("select id,path from files where path like '{$path}%' and host={$hostId} and parent is null");
+		$tempFiles = $db->query("select id,path from files where host={$hostId} and parent is null and path like '{$path}%'");
 	}
 	echo '[Line '.__LINE__.'] Current Memory Usage (after load query): '.memory_get_usage().PHP_EOL;
 	foreach ($tempFiles as $idx => $data) {
@@ -52,10 +52,10 @@ if (isset($pathGlobs)) {
 	$globbedPaths = [null];
 }
 foreach ($globbedPaths as $path) {
-	echo "ROM Path - {$path}\n";
+	echo 'ROM Path - '.(is_null($path) ? 'All' : $path).PHP_EOL;
 	echo '[Line '.__LINE__.'] Current Memory Usage (b4 loading files): '.memory_get_usage().PHP_EOL;
 	loadFiles($path);
-	echo "Loaded ".count($files)." Files\n";
+	echo "Loaded ".count($paths)." Files\n";
 	echo '[Line '.__LINE__.'] Current Memory Usage (after loading files): '.memory_get_usage().PHP_EOL;
 	foreach ($paths as $path => $fileId) {
 		if (!file_exists($path)) {
