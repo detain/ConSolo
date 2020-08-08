@@ -8,20 +8,20 @@
 require_once __DIR__.'/../../bootstrap.php';
 
 
-$pathGlobs = ['/storage/*/roms'];
+$pathGlobs = ['/storage/roms*/roms', '/storage/movies*', '/storage/music'];
 
 function loadFiles($path = null) {
 	/**
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	global $files, $paths;
+	global $files, $paths, $hostId;
 	$files = [];
 	$paths = [];
 	if (is_null($path)) {
-		$tempFiles = $db->query("select * from files where parent is null");
+		$tempFiles = $db->query("select * from files where host={$hostId} and parent is null");
 	} else {
-		$tempFiles = $db->query("select * from files where path like '{$path}%' and parent is null");
+		$tempFiles = $db->query("select * from files where path like '{$path}%' and host={$hostId} and parent is null");
 	}
 	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
 	foreach ($tempFiles as $idx => $data) {
@@ -40,10 +40,11 @@ function loadFiles($path = null) {
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $config;
+global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $config, $hostId;
 $deleting = [];
 $deleted = 0;
 $maxDeleting = 100;
+echo 'Clearing Deleted Files from DB for Host '.$hostId.PHP_EOL;
 foreach ($pathGlobs as $pathGlob) {
 	foreach (glob($pathGlob) as $path) {
 		echo "ROM Path - {$path}\n";
