@@ -8,31 +8,27 @@
 require_once __DIR__.'/../../bootstrap.php';
 
 
-$pathGlobs = ['/storage/*/roms'];
+//$pathGlobs = ['/storage/roms*/roms', '/storage/movies*', '/storage/music'];
 
 function loadFiles($path = null) {
 	/**
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	global $files, $paths;
+	global $files, $paths, $hostId;
 	$files = [];
 	$paths = [];
 	if (is_null($path)) {
-		$tempFiles = $db->query("select * from files where parent is null");
+		$tempFiles = $db->query("select id,path from files where host={$hostId} and parent is null");
 	} else {
-		$tempFiles = $db->query("select * from files where path like '{$path}%' and parent is null");
+		$tempFiles = $db->query("select id,path from files where path like '{$path}%' and host={$hostId} and parent is null");
 	}
-	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
+	echo '[Line '.__LINE__.'] Current Memory Usage (after load query): '.memory_get_usage().PHP_EOL;
 	foreach ($tempFiles as $idx => $data) {
-		$id = $data['id'];
-		unset($data['id']);
-		unset($data['parent']);
-		$files[$id] = $data;
-		$paths[$data['path']] = $id;
-		unset($tempFiles[$idx]);        
+		$paths[$data['path']] = $data['id'];
 	}
-	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
+	unset($tempFiles);
+	echo '[Line '.__LINE__.'] Current Memory Usage (after parsing into array of path+ids): '.memory_get_usage().PHP_EOL;
 }
 
 
@@ -40,36 +36,47 @@ function loadFiles($path = null) {
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $config;
+global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $config, $hostId;
 $deleting = [];
 $deleted = 0;
 $maxDeleting = 100;
-foreach ($pathGlobs as $pathGlob) {
-	foreach (glob($pathGlob) as $path) {
-		echo "ROM Path - {$path}\n";
-		echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
-		loadFiles($path);
-		echo "Loaded ".count($files)." Files\n";
-		echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
-		foreach ($paths as $path => $fileId) {
-			if (!file_exists($path)) {
-				echo '-'.PHP_EOL.'Removing '.$path.' ';
-				$deleted++;
-				$deleting[] = $fileId;
-				$deletingCount = count($deleting);
-				if ($deletingCount >= $maxDeleting) {
-					echo "Running delete query on {$deletingCount} files\n";
-					$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
-					$deleting = [];
-				}
-			} else {
+echo 'Clearing Deleted Files from DB for Host '.$hostId.PHP_EOL;
+$globbedPaths = [];
+if (isset($pathGlobs)) {
+	foreach ($pathGlobs as $pathGlob) {
+		foreach (glob($pathGlob) as $path) {
+			$globbedPaths[] = $path;
+		}
+	}
+} else {
+	$globbedPaths = [null];
+}
+foreach ($globbedPaths as $path) {
+	echo "ROM Path - {$path}\n";
+	echo '[Line '.__LINE__.'] Current Memory Usage (b4 loading files): '.memory_get_usage().PHP_EOL;
+	loadFiles($path);
+	echo "Loaded ".count($files)." Files\n";
+	echo '[Line '.__LINE__.'] Current Memory Usage (after loading files): '.memory_get_usage().PHP_EOL;
+	foreach ($paths as $path => $fileId) {
+		if (!file_exists($path)) {
+			echo '-'.PHP_EOL.'Removing '.$path.' ';
+			$deleted++;
+			$deleting[] = $fileId;
+			$deletingCount = count($deleting);
+			if ($deletingCount >= $maxDeleting) {
+				echo "Running delete query on {$deletingCount} files\n";
+				$db->delete('files')->where('parent in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
+				$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
+				$deleting = [];
 			}
+		} else {
 		}
 	}
 }
 $deletingCount = count($deleting);
 if ($deletingCount > 0) {
 	echo "Running delete query on {$deletingCount} files\n";
+	$db->delete('files')->where('parent in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
 	$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
 	$deleting = [];
 }

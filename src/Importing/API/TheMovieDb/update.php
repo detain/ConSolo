@@ -30,7 +30,7 @@ if (!$result) {
 	$interval = 86400 * 14;
 	echo 'Loading Movie Updates...';
 	while ($caughtUp == false) {
-		$startDate = date('Y-m-d', $start);
+		$startDate = date('Y-m-d', $start - 86400);
 		$end = $start + $interval;
 		if ($end > $now) {
 			$end = $now;
@@ -44,6 +44,7 @@ if (!$result) {
 	}
 	echo 'done'.PHP_EOL;    
 }
+echo count($tmdbIds).' Pending TMDB IDs Loaded';
 echo 'Loading Existing TMDB Entries...';
 $existingIds = [];
 $result = $db->query("select id from tmdb");
