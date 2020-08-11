@@ -1054,12 +1054,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tboothman/imdbphp.git",
-                "reference": "f67933d38b6ce2b7f46950b530ab3756a0127562"
+                "reference": "87316553ada2e1c290d39fc9e368ff8935e10458"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tboothman/imdbphp/zipball/f67933d38b6ce2b7f46950b530ab3756a0127562",
-                "reference": "f67933d38b6ce2b7f46950b530ab3756a0127562",
+                "url": "https://api.github.com/repos/tboothman/imdbphp/zipball/87316553ada2e1c290d39fc9e368ff8935e10458",
+                "reference": "87316553ada2e1c290d39fc9e368ff8935e10458",
                 "shasum": ""
             },
             "require": {
@@ -1087,7 +1087,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Library for retrieving film and tv information from IMDb",
-            "time": "2020-06-13T23:13:29+00:00"
+            "time": "2020-08-10T20:28:29+00:00"
         },
         {
             "name": "kevinrob/guzzle-cache-middleware",
@@ -1690,18 +1690,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nrk/predis.git",
-                "reference": "111d100ee389d624036b46b35ed0c9ac59c71313"
+                "reference": "de9cd905bb51932ca3536fef9404db8b19f0a744"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/111d100ee389d624036b46b35ed0c9ac59c71313",
-                "reference": "111d100ee389d624036b46b35ed0c9ac59c71313",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/de9cd905bb51932ca3536fef9404db8b19f0a744",
+                "reference": "de9cd905bb51932ca3536fef9404db8b19f0a744",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.9"
             },
             "require-dev": {
+                "cweagans/composer-patches": "^1.6",
                 "phpunit/phpunit": "~4.8"
             },
             "suggest": {
@@ -1709,6 +1710,18 @@
                 "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
             },
             "type": "library",
+            "extra": {
+                "composer-exit-on-patch-failure": true,
+                "patches": {
+                    "phpunit/phpunit-mock-objects": {
+                        "Fix PHP 7 and 8 compatibility": "./tests/phpunit_mock_objects.patch"
+                    },
+                    "phpunit/phpunit": {
+                        "Fix PHP 7 compatibility": "./tests/phpunit_php7.patch",
+                        "Fix PHP 8 compatibility": "./tests/phpunit_php8.patch"
+                    }
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Predis\\": "src/"
@@ -1732,7 +1745,17 @@
                 "predis",
                 "redis"
             ],
-            "time": "2017-07-12T14:39:17+00:00"
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/tillkruss",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tillkruss",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-08-11T19:05:47+00:00"
         },
         {
             "name": "psr/http-message",
@@ -2545,12 +2568,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "38ea77863c1b13199948363e9cf7f7dd35a06e37"
+                "reference": "a9e4cf90fc47b0ffbb90ee79f24be1b7c5ce82dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/38ea77863c1b13199948363e9cf7f7dd35a06e37",
-                "reference": "38ea77863c1b13199948363e9cf7f7dd35a06e37",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/a9e4cf90fc47b0ffbb90ee79f24be1b7c5ce82dc",
+                "reference": "a9e4cf90fc47b0ffbb90ee79f24be1b7c5ce82dc",
                 "shasum": ""
             },
             "conflict": {
@@ -2625,8 +2648,8 @@
                 "gregwar/rst": "<1.0.3",
                 "guzzlehttp/guzzle": ">=4-rc.2,<4.2.4|>=5,<5.3.1|>=6,<6.2.1",
                 "illuminate/auth": ">=4,<4.0.99|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.10",
-                "illuminate/cookie": ">=4,<=4.0.11|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.42|>=5.6,<5.6.30",
-                "illuminate/database": ">=4,<4.0.99|>=4.1,<4.1.29",
+                "illuminate/cookie": ">=4,<=4.0.11|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<=5.5.44|>=5.6,<5.6.30|>=6,<6.18.31|>=7,<7.22.4",
+                "illuminate/database": ">=4,<4.0.99|>=4.1,<4.1.29|>=5.5,<=5.5.44|>=6,<6.18.34|>=7,<7.23.2",
                 "illuminate/encryption": ">=4,<=4.0.11|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.40|>=5.6,<5.6.15",
                 "illuminate/view": ">=7,<7.1.2",
                 "ivankristianto/phpwhois": "<=4.3",
@@ -2637,7 +2660,7 @@
                 "kitodo/presentation": "<3.1.2",
                 "kreait/firebase-php": ">=3.2,<3.8.1",
                 "la-haute-societe/tcpdf": "<6.2.22",
-                "laravel/framework": ">=4,<4.0.99|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<5.5.42|>=5.6,<5.6.30|>=7,<7.1.2",
+                "laravel/framework": ">=4,<4.0.99|>=4.1,<=4.1.31|>=4.2,<=4.2.22|>=5,<=5.0.35|>=5.1,<=5.1.46|>=5.2,<=5.2.45|>=5.3,<=5.3.31|>=5.4,<=5.4.36|>=5.5,<=5.5.49|>=5.6,<5.6.30|>=6,<6.18.34|>=7,<7.23.2",
                 "laravel/socialite": ">=1,<1.0.99|>=2,<2.0.10",
                 "league/commonmark": "<0.18.3",
                 "librenms/librenms": "<1.53",
@@ -2654,6 +2677,7 @@
                 "october/backend": ">=1.0.319,<1.0.467",
                 "october/cms": ">=1.0.319,<1.0.466",
                 "october/october": ">=1.0.319,<1.0.466",
+                "october/rain": ">=1.0.319,<1.0.468",
                 "onelogin/php-saml": "<2.10.4",
                 "oneup/uploader-bundle": "<1.9.3|>=2,<2.1.5",
                 "openid/php-openid": "<2.3",
@@ -2713,6 +2737,7 @@
                 "ssddanbrown/bookstack": "<0.29.2",
                 "stormpath/sdk": ">=0,<9.9.99",
                 "studio-42/elfinder": "<2.1.49",
+                "sulu/sulu": "<1.6.34|>=2,<2.0.10|>=2.1,<2.1.1",
                 "swiftmailer/swiftmailer": ">=4,<5.4.5",
                 "sylius/admin-bundle": ">=1,<1.0.17|>=1.1,<1.1.9|>=1.2,<1.2.2",
                 "sylius/grid": ">=1,<1.1.19|>=1.2,<1.2.18|>=1.3,<1.3.13|>=1.4,<1.4.5|>=1.5,<1.5.1",
@@ -2830,7 +2855,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-31T18:02:22+00:00"
+            "time": "2020-08-08T10:05:44+00:00"
         },
         {
             "name": "rtheunissen/guzzle-log-middleware",
@@ -2890,12 +2915,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RubixML/RubixML.git",
-                "reference": "412f9554246e4f57806980d6d9ab36031073b1a4"
+                "reference": "d13cd3c61d90159b07bbf8b4ea5fdafc955bf352"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/412f9554246e4f57806980d6d9ab36031073b1a4",
-                "reference": "412f9554246e4f57806980d6d9ab36031073b1a4",
+                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/d13cd3c61d90159b07bbf8b4ea5fdafc955bf352",
+                "reference": "d13cd3c61d90159b07bbf8b4ea5fdafc955bf352",
                 "shasum": ""
             },
             "require": {
@@ -3035,7 +3060,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-07-30T04:44:23+00:00"
+            "time": "2020-08-11T00:02:45+00:00"
         },
         {
             "name": "rubix/tensor",
@@ -3247,12 +3272,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "fc66039e3138db2fc54ee9ad30646d99c4495691"
+                "reference": "702ee651db23dc452bf1fd6dea6ca2f671ed2681"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/fc66039e3138db2fc54ee9ad30646d99c4495691",
-                "reference": "fc66039e3138db2fc54ee9ad30646d99c4495691",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/702ee651db23dc452bf1fd6dea6ca2f671ed2681",
+                "reference": "702ee651db23dc452bf1fd6dea6ca2f671ed2681",
                 "shasum": ""
             },
             "require": {
@@ -3310,7 +3335,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-16T09:41:49+00:00"
+            "time": "2020-08-09T09:13:53+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3539,12 +3564,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "bc6549d068d0160e0f10f7a5a23c7d1406b95ebe"
+                "reference": "045643b91eaa34c4c37150ac477765c13552af33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/bc6549d068d0160e0f10f7a5a23c7d1406b95ebe",
-                "reference": "bc6549d068d0160e0f10f7a5a23c7d1406b95ebe",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/045643b91eaa34c4c37150ac477765c13552af33",
+                "reference": "045643b91eaa34c4c37150ac477765c13552af33",
                 "shasum": ""
             },
             "require": {
@@ -3616,7 +3641,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-14T12:35:20+00:00"
+            "time": "2020-08-04T21:02:56+00:00"
         },
         {
             "name": "symfony/polyfill-intl-normalizer",
@@ -4012,12 +4037,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "a8ea9d97353294eb6783f2894ef8cee99a045822"
+                "reference": "f5a824d26e8f1d292011792d186f3c56638aec16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/a8ea9d97353294eb6783f2894ef8cee99a045822",
-                "reference": "a8ea9d97353294eb6783f2894ef8cee99a045822",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/f5a824d26e8f1d292011792d186f3c56638aec16",
+                "reference": "f5a824d26e8f1d292011792d186f3c56638aec16",
                 "shasum": ""
             },
             "require": {
@@ -4094,7 +4119,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-23T08:31:43+00:00"
+            "time": "2020-08-10T07:31:28+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -4177,12 +4202,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "2125805a1a4e57f2340bc566c3013ca94d2722dc"
+                "reference": "88de6fdecbbd6bccb0a3dbad4246ed94b7d59e23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/2125805a1a4e57f2340bc566c3013ca94d2722dc",
-                "reference": "2125805a1a4e57f2340bc566c3013ca94d2722dc",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/88de6fdecbbd6bccb0a3dbad4246ed94b7d59e23",
+                "reference": "88de6fdecbbd6bccb0a3dbad4246ed94b7d59e23",
                 "shasum": ""
             },
             "require": {
@@ -4260,7 +4285,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-24T13:34:53+00:00"
+            "time": "2020-08-10T07:27:51+00:00"
         },
         {
             "name": "tightenco/collect",
@@ -4318,12 +4343,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "57ca24c5f3a079aced47dc1b8688ee5752367f15"
+                "reference": "23fb28296ecd9374fbdb9e0158545b5118b1be30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/57ca24c5f3a079aced47dc1b8688ee5752367f15",
-                "reference": "57ca24c5f3a079aced47dc1b8688ee5752367f15",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/23fb28296ecd9374fbdb9e0158545b5118b1be30",
+                "reference": "23fb28296ecd9374fbdb9e0158545b5118b1be30",
                 "shasum": ""
             },
             "require": {
@@ -4374,18 +4399,6 @@
             ],
             "funding": [
                 {
-                    "url": "https://certification.symfony.com/",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://live.symfony.com/",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://symfony.com/cloud/",
-                    "type": "custom"
-                },
-                {
                     "url": "https://github.com/fabpot",
                     "type": "github"
                 },
@@ -4394,7 +4407,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-06T13:35:21+00:00"
+            "time": "2020-08-05T15:14:16+00:00"
         },
         {
             "name": "workerman/channel",
@@ -4500,12 +4513,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/Workerman.git",
-                "reference": "db063b0c792cc2498e80159217e21a923f72d407"
+                "reference": "db5b89365d9f5c1d98e0542108e1dae335ce2d7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/Workerman/zipball/db063b0c792cc2498e80159217e21a923f72d407",
-                "reference": "db063b0c792cc2498e80159217e21a923f72d407",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/db5b89365d9f5c1d98e0542108e1dae335ce2d7e",
+                "reference": "db5b89365d9f5c1d98e0542108e1dae335ce2d7e",
                 "shasum": ""
             },
             "require": {
@@ -4538,7 +4551,7 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2020-07-31T10:19:15+00:00"
+            "time": "2020-08-10T05:16:58+00:00"
         },
         {
             "name": "wyndow/fuzzywuzzy",

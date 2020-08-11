@@ -68,7 +68,7 @@ echo 'Divided them into a section of '.$total.' ids'.PHP_EOL;
 foreach ($imdbIds as $imdbId) {
 	if (trim($imdbId) == '')
 		continue;
-	echo '# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
+	echo (isset($ip) ? 'IP '.$ip.' ' : '').'# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
 	//if (!in_array($imdbId, $existingIds)) {
 		$imdbCode = preg_replace('/^tt/','', $imdbId);
 		$title = new \Imdb\Title($imdbCode, $imdbConfig);
@@ -78,7 +78,7 @@ foreach ($imdbIds as $imdbId) {
 				try {
 					$imdb[$field] = $title->$field();
 				} catch (\Imdb\Exception\Http $e) {
-					echo "exception error ".$e->getMessage().PHP_EOL;
+					echo (isset($ip) ? 'IP '.$ip.' ' : '')."exception error ".$e->getMessage().PHP_EOL;
 					if (isset($imdb[$field])) {
 						unset($imdb[$field]);
 					}
@@ -97,7 +97,7 @@ foreach ($imdbIds as $imdbId) {
 				->query();            
 			$updates++;                   
 		} catch  (\PDOException $E) {
-			echo "Exception error ".$e->getMessage().PHP_EOL;
+			echo (isset($ip) ? 'IP '.$ip.' ' : '')."Exception error ".$e->getMessage().PHP_EOL;
 		}
 	//}
 }
