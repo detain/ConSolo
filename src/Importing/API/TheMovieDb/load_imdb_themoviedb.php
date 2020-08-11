@@ -68,6 +68,8 @@ echo 'Divided them into a section of '.$total.' ids'.PHP_EOL;
 foreach ($imdbIds as $imdbId) {
 	if (trim($imdbId) == '')
 		continue;
+	if (file_exists(__DIR__.'/stop'))
+		break;
 	echo (isset($ip) ? 'IP '.$ip.' ' : '').'# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
 	//if (!in_array($imdbId, $existingIds)) {
 		$imdbCode = preg_replace('/^tt/','', $imdbId);
