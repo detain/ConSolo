@@ -60,17 +60,21 @@ $end = $part * $partSize;
 if ($end > $total) {
 	$end = $total;
 }
-$imdbIdsNew = array_slice($imdbIds, $start, $partSize);
-$imdbIds = $imdbIdsNew;
-unset($imdbIdsNew);
+if ($divide > 1) {
+	$imdbIdsNew = array_slice($imdbIds, $start, $partSize);
+	$imdbIds = $imdbIdsNew;
+	unset($imdbIdsNew);
+}
 $total = count($imdbIds);
-echo 'Divided them into a section of '.$total.' ids'.PHP_EOL;
+$counter = 0;
+echo '['.$part.'/'.$divide.'] #'.$counter.' '.(isset($ip) ? 'IP '.$ip.' ' : '').'Divided them into a section of '.$total.' ids'.PHP_EOL;
 foreach ($imdbIds as $imdbId) {
 	if (trim($imdbId) == '')
 		continue;
 	if (file_exists(__DIR__.'/stop'))
 		break;
-	echo (isset($ip) ? 'IP '.$ip.' ' : '').'# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
+	$counter++;
+	echo '['.$part.'/'.$divide.'] #'.$counter.' '.(isset($ip) ? 'IP '.$ip.' ' : '').'# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
 	//if (!in_array($imdbId, $existingIds)) {
 		$imdbCode = preg_replace('/^tt/','', $imdbId);
 		$title = new \Imdb\Title($imdbCode, $imdbConfig);
@@ -80,7 +84,7 @@ foreach ($imdbIds as $imdbId) {
 				try {
 					$imdb[$field] = $title->$field();
 				} catch (\Imdb\Exception\Http $e) {
-					echo (isset($ip) ? 'IP '.$ip.' ' : '')."exception error ".$e->getMessage().PHP_EOL;
+					echo '['.$part.'/'.$divide.'] '.(isset($ip) ? 'IP '.$ip.' ' : '')."exception error ".$e->getMessage().PHP_EOL;
 					if (isset($imdb[$field])) {
 						unset($imdb[$field]);
 					}
@@ -99,8 +103,8 @@ foreach ($imdbIds as $imdbId) {
 				->query();            
 			$updates++;                   
 		} catch  (\PDOException $E) {
-			echo (isset($ip) ? 'IP '.$ip.' ' : '')."Exception error ".$e->getMessage().PHP_EOL;
+			echo '['.$part.'/'.$divide.'] '.(isset($ip) ? 'IP '.$ip.' ' : '')."Exception error ".$e->getMessage().PHP_EOL;
 		}
 	//}
 }
-echo 'Loaded '.$updates.' Movies!'.PHP_EOL;
+echo '['.$part.'/'.$divide.'] '.(isset($ip) ? 'IP '.$ip.' ' : '').'Loaded '.$updates.' Movies!'.PHP_EOL;
