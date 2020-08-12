@@ -310,6 +310,7 @@ function loadFiles($path = null) {
 	} else {
 		$cleanPath = cleanPath($path);
 		$cleanPath = str_replace("'", '\\'."'", $cleanPath);
+		echo 'Searching Path '.$cleanPath.PHP_EOL;
 		$tempFiles = $db->query("select *, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files f1 where host={$hostId} and path like '{$cleanPath}%' and parent is null");
 	}
 	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
@@ -317,6 +318,8 @@ function loadFiles($path = null) {
 		$id = $data['id'];
 		unset($data['id']);
 		unset($data['parent']);
+		$data['path'] = cleanPath($path);
+		echo 'Searching Path '.$data['path'].PHP_EOL;
 		$files[$id] = $data;
 		$paths[$data['path']] = $id;
 		unset($tempFiles[$idx]);        
