@@ -27,7 +27,7 @@ echo `wget -q {$url} -O {$zipFile};`;
 echo `unzip -o {$zipFile};`;
 unlink($zipFile);
 $tables = [];
-foreach (['Files', 'Mame', 'Metadata'] as $name) {
+foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 	echo $name.'	reading..';
 	$xml = file_get_contents($name.'.xml');
 	echo 'read!  parsing..';
@@ -70,16 +70,16 @@ foreach (['Files', 'Mame', 'Metadata'] as $name) {
 		$create[] = '`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT';
 		foreach ($tables[$type] as $key => $row) {
 			if ($row['bool'] === true)
-				$create[] = '`'.$key.'` VARCHAR(6) DEFAULT NULL';
+				$create[] = '`'.$key.'` VARCHAR(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL';
 				//$create[] = '`'.$key.'` BOOLEAN DEFAULT NULL';
 			elseif ($row['int'] == true)
 				$create[] = '`'.$key.'` BIGINT DEFAULT NULL';
 			elseif ($row['float'] == true)
 				$create[] = '`'.$key.'` FLOAT DEFAULT NULL';
 			elseif ($row['length'] > 190)
-				$create[] = '`'.$key.'` TEXT DEFAULT NULL';
+				$create[] = '`'.$key.'` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL';
 			else
-				$create[] = '`'.$key.'` VARCHAR('.($row['length'] + 1).') DEFAULT NULL';
+				$create[] = '`'.$key.'` VARCHAR('.($row['length'] + 1).') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL';
 		}
 		$create[] = 'PRIMARY KEY (`id`)';
 		$create = 'CREATE TABLE `'.$tablePrefix.$type.$tableSuffix.'` ('.PHP_EOL.'  '.implode(','.PHP_EOL.'  ', $create).PHP_EOL.') ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
