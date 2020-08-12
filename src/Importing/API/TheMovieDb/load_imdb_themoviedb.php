@@ -60,17 +60,21 @@ $end = $part * $partSize;
 if ($end > $total) {
 	$end = $total;
 }
-$imdbIdsNew = array_slice($imdbIds, $start, $partSize);
-$imdbIds = $imdbIdsNew;
-unset($imdbIdsNew);
+if ($divide > 1) {
+	$imdbIdsNew = array_slice($imdbIds, $start, $partSize);
+	$imdbIds = $imdbIdsNew;
+	unset($imdbIdsNew);
+}
 $total = count($imdbIds);
-echo '['.$part.'/'.$divide.'] '.(isset($ip) ? 'IP '.$ip.' ' : '').'Divided them into a section of '.$total.' ids'.PHP_EOL;
+$counter = 0;
+echo '['.$part.'/'.$divide.'] #'.$counter.' '.(isset($ip) ? 'IP '.$ip.' ' : '').'Divided them into a section of '.$total.' ids'.PHP_EOL;
 foreach ($imdbIds as $imdbId) {
 	if (trim($imdbId) == '')
 		continue;
 	if (file_exists(__DIR__.'/stop'))
 		break;
-	echo '['.$part.'/'.$divide.'] '.(isset($ip) ? 'IP '.$ip.' ' : '').'# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
+	$counter++;
+	echo '['.$part.'/'.$divide.'] #'.$counter.' '.(isset($ip) ? 'IP '.$ip.' ' : '').'# '.$imdbId.' '.$updates.'/'.$total.PHP_EOL;
 	//if (!in_array($imdbId, $existingIds)) {
 		$imdbCode = preg_replace('/^tt/','', $imdbId);
 		$title = new \Imdb\Title($imdbCode, $imdbConfig);
