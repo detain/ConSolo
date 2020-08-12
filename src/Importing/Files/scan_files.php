@@ -13,7 +13,7 @@ $hashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible h
 $compressedHashAlgos = ['md5', 'sha1', 'crc32']; // use hash_algos() to get all possible hashes
 $scanCompressed = true;
 $useMagic = true;
-$maxSize = 20000000000; // 20gb
+$maxSize = 18000000000; // 20gb
 $useMaxSize = true;
 if (isset($_SERVER['argc']) && $_SERVER['argc'] > 1) {
 	$paths = [];
