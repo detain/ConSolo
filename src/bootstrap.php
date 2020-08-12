@@ -163,7 +163,7 @@ if (DIRECTORY_SEPARATOR == '\\') {
 	if ($Windows == true) {
 		$drives = explode(PHP_EOL, trim(`mount|grep '^[A-Z]:\\\\* on'|cut -d: -f1`));
 		foreach ($drives as $drive) {
-			$driveReplacements['search'][] = '|^'.str_replace('#', $drive, $DrivePattern).'/|';
+			$driveReplacements['search'][] = '|^'.str_replace('#', $drive, $DrivePattern).'/|i';
 			$driveReplacements['replace'][] = strtoupper($drive).':/';
 		}
 	}
