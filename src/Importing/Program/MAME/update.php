@@ -67,21 +67,22 @@ if (intval($version) <= intval($last)) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
 
-/*
+echo 'Downloading MAME '.$version.PHP_EOL;
 echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_64bit.exe -O mame.exe;`;
 echo `rm -rf /tmp/update;`;
+echo 'Uncompressing MAME '.$version.PHP_EOL;
 echo `7z x -o/tmp/update mame.exe;`;
 unlink('mame.exe');
-*/
+echo `mkdir -p {$dataDir}/xml/mame;`;
 if (!file_exists($dataDir.'/xml/mame/xml-'.$version.'.xml')) {
 	echo 'Generating XML'.PHP_EOL;
-	echo `mame -listxml > {$dataDir}/xml/mame/xml-{$version}.xml;`;
-	//echo `cd /tmp/update; wine64 mame64.exe -listxml > {$dataDir}/xml/mame/xml-{$version}.xml;`;
+	//echo `mame -listxml > {$dataDir}/xml/mame/xml-{$version}.xml;`;
+	echo `cd /tmp/update/; wine64 mame64.exe -listxml | pv > {$dataDir}/xml/mame/xml-{$version}.xml;`;
 }
 if (!file_exists($dataDir.'/xml/mame/software-'.$version.'.xml')) {
 	echo 'Generating Software'.PHP_EOL;
 	echo `mame -listsoftware > {$dataDir}/xml/mame/software-{$version}.xml;`;
-	//echo `cd /tmp/update; wine64 mame64.exe -listsoftware > {$dataDir}/xml/mame/software-{$version}.xml;`;
+	echo `cd /tmp/update/; wine64 mame64.exe -listsoftware | pv > {$dataDir}/xml/mame/software-{$version}.xml;`;
 }
 
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
@@ -91,12 +92,12 @@ foreach ($txt as $list) {
 	echo "done\n";
 
 }*/
-
 echo 'Clearing out old DB data';
-$db->query("delete from mame_machines");
-$db->query("delete from mame_software");
+echo `rm -rf /tmp/update;`;
 $db->query("truncate mame_machine_roms");
 $db->query("truncate mame_software_roms");
+$db->query("delete from mame_machines");
+$db->query("delete from mame_software");
 $db->query("alter table mame_machines auto_increment = 1");
 $db->query("alter table mame_software auto_increment = 1");
 echo ' done!'.PHP_EOL;
