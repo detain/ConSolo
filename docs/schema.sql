@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.20, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.21, for Linux (x86_64)
 --
 -- Host: localhost    Database: consolo
 -- ------------------------------------------------------
--- Server version	8.0.20-0ubuntu0.20.04.1
+-- Server version	8.0.21-0ubuntu0.20.04.4
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,10 +23,10 @@ DROP TABLE IF EXISTS `config`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `config` (
-  `key` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `field` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
-  PRIMARY KEY (`key`),
-  UNIQUE KEY `key_UNIQUE` (`key`)
+  PRIMARY KEY (`field`),
+  UNIQUE KEY `key_UNIQUE` (`field`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -190,6 +190,24 @@ CREATE TABLE `dat_samples` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `documents`
+--
+
+DROP TABLE IF EXISTS `documents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `documents` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `doc` json NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `slug_UNIQUE` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Extra Information';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `files`
 --
 
@@ -201,21 +219,22 @@ CREATE TABLE `files` (
   `path` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `size` bigint unsigned NOT NULL,
   `parent` bigint unsigned DEFAULT NULL,
-  `mtime` bigint NOT NULL DEFAULT '0',
+  `mtime` bigint unsigned NOT NULL DEFAULT '0',
   `magic` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
   `md5` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `sha1` char(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `crc32` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `host` int DEFAULT NULL,
-  `extra` text COLLATE utf8mb4_unicode_ci,
+  `host` int unsigned NOT NULL,
+  `extra` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
-  KEY `files_parent_fk_idx` (`parent`),
-  KEY `files_md5_key` (`md5`),
-  KEY `files_crc_key` (`crc32`),
-  KEY `files_sha_key` (`sha1`),
-  KEY `files_file_path` (`path`)
-) ENGINE=InnoDB AUTO_INCREMENT=7802981 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `U_files_host_parent_path` (`host`,`parent`,`path`),
+  KEY `IDX_files_host` (`host`) /*!80000 INVISIBLE */,
+  KEY `IDX_files_parent` (`parent`),
+  KEY `IDX_files_path` (`path`),
+  CONSTRAINT `FK_files_host` FOREIGN KEY (`host`) REFERENCES `hosts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_files_parent_file` FOREIGN KEY (`parent`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11052631 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,45 +277,27 @@ DROP TABLE IF EXISTS `imdb`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `imdb` (
   `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(2000) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.title'))) STORED,
+  `title` varchar(600) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.title'))) VIRTUAL,
+  `year` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.year'))) VIRTUAL,
+  `genre` varchar(200) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.genre'))) VIRTUAL,
+  `rating` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.rating'))) VIRTUAL,
+  `comment` mediumtext COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.comment'))) VIRTUAL,
+  `tagline` varchar(2000) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.tagline'))) VIRTUAL,
+  `imdbsite` varchar(200) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.imdbsite'))) VIRTUAL,
+  `main_url` varchar(2000) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.main_url'))) VIRTUAL,
+  `movietype` varchar(200) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.movietype'))) VIRTUAL,
+  `orig_title` varchar(500) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.orig_title'))) VIRTUAL,
+  `mpaa_reason` varchar(2000) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.mpaa_reason'))) VIRTUAL,
+  `plotoutline` varchar(5000) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.plotoutline'))) VIRTUAL,
   `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `doc` json NOT NULL,
   `_json_schema` json GENERATED ALWAYS AS (_utf8mb4'{"type":"object"}') VIRTUAL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `imdb_movies`
---
-
-DROP TABLE IF EXISTS `imdb_movies`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `imdb_movies` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `imdb_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `year` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `votes` int DEFAULT NULL,
-  `title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tagline` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `seasons` int DEFAULT NULL,
-  `runtime` int DEFAULT NULL,
-  `rating` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `plotoutline` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `photo_localurl` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `orig_title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mpaa_reason` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `movietype` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `main_url` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_serial` tinyint DEFAULT NULL,
-  `imdbsite` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `genre` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `comment` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `extra` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `year_idx` (`year`) /*!80000 INVISIBLE */,
+  KEY `rating_idx` (`rating`) /*!80000 INVISIBLE */,
+  KEY `genre_idx` (`genre`),
+  KEY `title_idx` (`title`) /*!80000 INVISIBLE */
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -549,7 +550,7 @@ CREATE TABLE `mame_machine_roms` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `mame_machine_rom_machine_fk_idx` (`machine_id`),
   CONSTRAINT `mame_machine_rom_machine_fk` FOREIGN KEY (`machine_id`) REFERENCES `mame_machines` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2182996 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -574,7 +575,7 @@ CREATE TABLE `mame_machines` (
   `isdevice` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `runnable` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=292310 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -597,7 +598,7 @@ CREATE TABLE `mame_software` (
   `cloneof` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `mame_software_platform_key` (`platform_description`)
-) ENGINE=InnoDB AUTO_INCREMENT=867724 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11805 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -621,7 +622,7 @@ CREATE TABLE `mame_software_roms` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `mame_software_rom_software_fk_idx` (`software_id`),
   CONSTRAINT `mame_software_rom_software_fk` FOREIGN KEY (`software_id`) REFERENCES `mame_software` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1420703 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15996 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -938,39 +939,6 @@ CREATE TABLE `tgdb_publishers` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `themoviedb_movies`
---
-
-DROP TABLE IF EXISTS `themoviedb_movies`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `themoviedb_movies` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `adult` tinyint DEFAULT NULL,
-  `backdrop_path` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `budget` int DEFAULT NULL,
-  `homepage` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `imdb_id` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `original_language` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `original_title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `overview` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `popularity` float DEFAULT NULL,
-  `poster_path` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `release_date` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `revenue` int DEFAULT NULL,
-  `runtime` int DEFAULT NULL,
-  `status` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tagline` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `video` tinyint DEFAULT NULL,
-  `vote_average` float DEFAULT NULL,
-  `vote_count` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `tmdb`
 --
 
@@ -979,12 +947,32 @@ DROP TABLE IF EXISTS `tmdb`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tmdb` (
   `id` int unsigned GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.id'))) STORED NOT NULL,
-  `title` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.title'))) STORED,
+  `title` varchar(600) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.title'))) STORED,
+  `adult` tinyint GENERATED ALWAYS AS ((json_unquote(json_extract(`doc`,_utf8mb4'$.adult')) = _utf8mb4'true')) VIRTUAL,
+  `backdrop_path` varchar(200) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.backdrop_path'))) VIRTUAL,
+  `budget` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.budget'))) VIRTUAL,
+  `homepage` varchar(500) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.homepage'))) VIRTUAL,
+  `imdb_id` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.imdb_id'))) STORED,
+  `original_language` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.original_language'))) VIRTUAL,
+  `original_title` varchar(500) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.original_title'))) VIRTUAL,
+  `overview` mediumtext COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.overview'))) VIRTUAL,
+  `popularity` float GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.popularity'))) VIRTUAL,
+  `poster_path` varchar(200) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.poster_path'))) VIRTUAL,
+  `release_date` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.release_date'))) VIRTUAL,
+  `revenue` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.revenue'))) VIRTUAL,
+  `runtime` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.runtime'))) VIRTUAL,
+  `status` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.status'))) VIRTUAL,
+  `tagline` varchar(2000) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.tagline'))) VIRTUAL,
+  `vote_average` float GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.vote_average'))) VIRTUAL,
+  `vote_count` int GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.vote_count'))) VIRTUAL,
+  `video` tinyint GENERATED ALWAYS AS ((json_unquote(json_extract(`doc`,_utf8mb4'$.video')) = _utf8mb4'true')) VIRTUAL,
   `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `doc` json NOT NULL,
   `_json_schema` json GENERATED ALWAYS AS (_utf8mb4'{"type":"object"}') VIRTUAL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `title_idx` (`title`),
+  KEY `imdb_id_idx` (`imdb_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1063,4 +1051,4 @@ CREATE TABLE `yts_torrents` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-23  4:53:35
+-- Dump completed on 2020-08-12  6:54:52
