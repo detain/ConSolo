@@ -152,7 +152,7 @@ if (DIRECTORY_SEPARATOR == '\\') {
 		// Cygwin Linux in Windows
 		$Windows = true;
 		$DrivePattern = '/cygwin/#';
-	} elseif (file_exists('/usr/bin/wslvar') && (`wslvar -s OS`) == 'Windows_NT') {
+	} elseif (file_exists('/usr/bin/wslvar') && trim(`wslvar -s OS`) == 'Windows_NT') {
 		// WSL Linux in Windows
 		$Windows = true;
 		$DrivePattern = '/mnt/#';
