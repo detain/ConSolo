@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a782bbaa1b55211ac2058279a6de9c4",
+    "content-hash": "5b077d0580ef1fdfe3013d7678189a1c",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1276,6 +1276,49 @@
             "time": "2020-03-10T12:33:11+00:00"
         },
         {
+            "name": "lucascavalcante/fuzzy-search",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lucascavalcante/fuzzy-search.git",
+                "reference": "4f904078378f0f7e3cc6776f95db4e14bd781c3a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lucascavalcante/fuzzy-search/zipball/4f904078378f0f7e3cc6776f95db4e14bd781c3a",
+                "reference": "4f904078378f0f7e3cc6776f95db4e14bd781c3a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FuzzySearch\\": "src/FuzzySearch"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lucas Cavalcante",
+                    "email": "lucascavalcante@gmail.com"
+                }
+            ],
+            "description": "A PHP library that turns easy fuzzy string searching",
+            "keywords": [
+                "fuzzy",
+                "matching",
+                "search",
+                "searching",
+                "string"
+            ],
+            "time": "2019-06-28T13:13:19+00:00"
+        },
+        {
             "name": "moinax/tvdb",
             "version": "1.0.6.x-dev",
             "source": {
@@ -1689,13 +1732,13 @@
             "version": "v1.1.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nrk/predis.git",
-                "reference": "de9cd905bb51932ca3536fef9404db8b19f0a744"
+                "url": "https://github.com/predishq/predis.git",
+                "reference": "a6bd25412e68e7b2b03bb87fbbf5f94c5d0a1b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/de9cd905bb51932ca3536fef9404db8b19f0a744",
-                "reference": "de9cd905bb51932ca3536fef9404db8b19f0a744",
+                "url": "https://api.github.com/repos/predishq/predis/zipball/a6bd25412e68e7b2b03bb87fbbf5f94c5d0a1b6b",
+                "reference": "a6bd25412e68e7b2b03bb87fbbf5f94c5d0a1b6b",
                 "shasum": ""
             },
             "require": {
@@ -1735,11 +1778,17 @@
                 {
                     "name": "Daniele Alessandri",
                     "email": "suppakilla@gmail.com",
-                    "homepage": "http://clorophilla.net"
+                    "homepage": "http://clorophilla.net",
+                    "role": "Creator & Maintainer"
+                },
+                {
+                    "name": "Till Krüss",
+                    "homepage": "https://till.im",
+                    "role": "Maintainer"
                 }
             ],
             "description": "Flexible and feature-complete Redis client for PHP and HHVM",
-            "homepage": "http://github.com/nrk/predis",
+            "homepage": "http://github.com/predishq/predis",
             "keywords": [
                 "nosql",
                 "predis",
@@ -1747,15 +1796,11 @@
             ],
             "funding": [
                 {
-                    "url": "https://www.paypal.me/tillkruss",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/tillkruss",
+                    "url": "https://github.com/sponsors/tillkruss",
                     "type": "github"
                 }
             ],
-            "time": "2020-08-11T19:05:47+00:00"
+            "time": "2020-08-12T19:00:08+00:00"
         },
         {
             "name": "psr/http-message",
@@ -2915,12 +2960,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RubixML/RubixML.git",
-                "reference": "d13cd3c61d90159b07bbf8b4ea5fdafc955bf352"
+                "reference": "9501234e11e12c0276fcfb0363daf6a687a5d9fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/d13cd3c61d90159b07bbf8b4ea5fdafc955bf352",
-                "reference": "d13cd3c61d90159b07bbf8b4ea5fdafc955bf352",
+                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/9501234e11e12c0276fcfb0363daf6a687a5d9fa",
+                "reference": "9501234e11e12c0276fcfb0363daf6a687a5d9fa",
                 "shasum": ""
             },
             "require": {
@@ -3060,7 +3105,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-08-11T00:02:45+00:00"
+            "time": "2020-08-12T22:21:06+00:00"
         },
         {
             "name": "rubix/tensor",
@@ -4286,6 +4331,76 @@
                 }
             ],
             "time": "2020-08-10T07:27:51+00:00"
+        },
+        {
+            "name": "teamtnt/tntsearch",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/teamtnt/tntsearch.git",
+                "reference": "643cd9fff07aad9faae7bf4fb716f9f91a9697dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/643cd9fff07aad9faae7bf4fb716f9f91a9697dc",
+                "reference": "643cd9fff07aad9faae7bf4fb716f9f91a9697dc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-pdo_sqlite": "*",
+                "ext-sqlite3": "*",
+                "php": "~7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TeamTNT\\TNTSearch\\": "src"
+                },
+                "files": [
+                    "helper/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nenad Tičarić",
+                    "email": "nticaric@gmail.com",
+                    "homepage": "http://www.tntstudio.us",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A fully featured full text search engine written in PHP",
+            "homepage": "https://github.com/teamtnt/tntsearch",
+            "keywords": [
+                "Fuzzy search",
+                "fulltext",
+                "geosearch",
+                "search",
+                "teamtnt",
+                "tntsearch"
+            ],
+            "funding": [
+                {
+                    "url": "https://ko-fi.com/nticaric",
+                    "type": "ko_fi"
+                },
+                {
+                    "url": "https://opencollective.com/tntsearch",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://www.patreon.com/nticaric",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-04-27T11:35:17+00:00"
         },
         {
             "name": "tightenco/collect",

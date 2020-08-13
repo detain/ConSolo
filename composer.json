@@ -16,7 +16,6 @@
         "ext-pcntl": "*",
         "ext-posix": "*",
         "fabpot/goutte": "*",
-        "loilo/fuse": "*",
         "react/child-process": "*",
         "react/event-loop": "*",
         "react/http-client": "*",
@@ -35,6 +34,9 @@
         "workerman/globaldata": "*",
         "workerman/mysql": "*",
         "workerman/workerman": "*",
+        "loilo/fuse": "*",
+        "teamtnt/tntsearch": "*",
+        "lucascavalcante/fuzzy-search": "*",
         "wyndow/fuzzywuzzy": "*"
     },
     "autoload": {
@@ -42,5 +44,7 @@
             "Detain\\ConSolo\\": "src/",
             "Detain\\ConSolo\\Web\\": "public/"
         }
+    },
+    "require-dev": {
     }
 }
