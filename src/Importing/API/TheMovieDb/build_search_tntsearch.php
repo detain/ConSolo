@@ -20,7 +20,6 @@ $tnt->loadConfig([
 ]);
 echo 'Creating and Running Indexing';
 $indexer = $tnt->createIndex('movie.index');
-$indexer->steps = 1000;
 $indexer->query('select id, title, year from movie_titles;');
 $indexer->run();
 echo '  done'.PHP_EOL;
