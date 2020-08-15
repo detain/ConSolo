@@ -41,6 +41,30 @@ $patterns = [
 	'%t %y',
 	'%t'
 ];
+$ext = [
+	'good' => ['mp4', 'avi', 'mkv', 'ogm', 'm4v'],
+	'bad' => ['ini', 'db', 'txt'],
+	'related' => ['srt', 'ass', 'ssa', 'sup', 'idx', 'sub', 'srm', 'Srt2Utf-8', 'nfo', 'smi'],
+];
+$ext['known'] = array_merge($ext['good'], $ext['bad'], $ext['related']);
+$results = $db->query("select * from files where parent is null and (path like 'D:/Movies/%' or path like '/storage/movies%')");
+foreach ($results as $result) {
+	$extra = !is_null($result['extra']) ? json_decode($result['extra'], true) : [];
+	if (!isset($extra['tmdb_id'])) {
+		$pathInfo = pathinfo($result['path']);
+		if (in_array($pathInfo['extension'], $ext['good'])) {
+			$name = $pathInfo['filename'];
+			if (strpos($name, ' ') === false) {
+				$name = preg_replace('/\.([^\.])/', ' \1', $name);
+			}
+			//echo "$name\n";
+		} elseif (!in_array($pathInfo['extension'], $ext['known'])) {
+			echo "Unknown extension '{$pathInfo['extension']}' encountered on '{$path}'\n";
+		} else {
+			continue;
+		}
+	}
+}
 echo "Selecting titles...";
 $results = $db->query("select title, substring(release_date, 1, 4) as year from tmdb");
 echo "done".PHP_EOL;
@@ -50,8 +74,8 @@ $maxOrigLength = 0;
 $maxLength = 0;
 $fuseData = [];
 foreach ($results as $idx => $data) {
-	if (strlen($data['title']) > 200) {
-		$data['title'] = substr($data['title'], 0, 200);
+	if (strlen($data['title']) > 250) {
+		$data['title'] = substr($data['title'], 0, 250);
 	}
 	
 	$fuseData[] = $data;
@@ -65,7 +89,7 @@ $fuzzy = new FuzzySearch($fuseData, 'title');
 echo "done".PHP_EOL;
 $maxDistance = 25;
 echo 'Searching...';
-$results = $fuzzy->search('10.Things.I.Hate.About.You.1999.1080p.BrRip.x264.BOKUTOX.YIFY', $maxDistance);
+$results = $fuzzy->search('Under Suspicion 1991 1080p BluRay x264-[YTS LT]', $maxDistance);
 //$results = $fuzzy->search('10 Things I Hate About You (1999) 720p', $maxDistance);
 echo "done".PHP_EOL;
 print_r($results);
