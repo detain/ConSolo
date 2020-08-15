@@ -234,7 +234,7 @@ CREATE TABLE `files` (
   KEY `IDX_files_path` (`path`),
   CONSTRAINT `FK_files_host` FOREIGN KEY (`host`) REFERENCES `hosts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_files_parent_file` FOREIGN KEY (`parent`) REFERENCES `files` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11092945 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11199207 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,9 +276,9 @@ DROP TABLE IF EXISTS `imdb`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `imdb` (
-  `id` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title` varchar(600) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.title'))) VIRTUAL,
-  `year` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.year'))) VIRTUAL,
+  `id` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(600) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.title'))) STORED,
+  `year` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.year'))) STORED,
   `genre` varchar(200) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.genre'))) VIRTUAL,
   `rating` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.rating'))) VIRTUAL,
   `comment` mediumtext COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.comment'))) VIRTUAL,
@@ -294,10 +294,9 @@ CREATE TABLE `imdb` (
   `_json_schema` json GENERATED ALWAYS AS (_utf8mb4'{"type":"object"}') VIRTUAL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `year_idx` (`year`) /*!80000 INVISIBLE */,
   KEY `rating_idx` (`rating`) /*!80000 INVISIBLE */,
   KEY `genre_idx` (`genre`),
-  KEY `title_idx` (`title`) /*!80000 INVISIBLE */
+  FULLTEXT KEY `ft_imdb_titleyear` (`title`,`year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -626,6 +625,43 @@ CREATE TABLE `mame_software_roms` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `movie_titles`
+--
+
+DROP TABLE IF EXISTS `movie_titles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `movie_titles` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(600) NOT NULL,
+  `year` char(4) NOT NULL,
+  `source` enum('imdb','tmdb') NOT NULL,
+  `source_id` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `idx_title` (`title`),
+  KEY `idx_year` (`year`),
+  FULLTEXT KEY `ft_movie_titles_titleyear` (`title`,`year`)
+) ENGINE=InnoDB AUTO_INCREMENT=2042562 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `movies`
+--
+
+DROP TABLE IF EXISTS `movies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `movies` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `file_id` bigint unsigned NOT NULL,
+  `imdb_id` varchar(15) DEFAULT NULL,
+  `tmdb_id` int(10) unsigned zerofill NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8082 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `oldcomputers_emulator_platforms`
 --
 
@@ -802,7 +838,7 @@ CREATE TABLE `tgdb_game_alternates` (
   `game` int unsigned NOT NULL,
   `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=81477 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11641 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -817,7 +853,7 @@ CREATE TABLE `tgdb_game_developers` (
   `game` int unsigned NOT NULL,
   `developer` int unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=374399 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53487 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -832,7 +868,7 @@ CREATE TABLE `tgdb_game_genres` (
   `game` int unsigned NOT NULL,
   `genre` int unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=574067 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82011 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -847,7 +883,7 @@ CREATE TABLE `tgdb_game_publishers` (
   `game` int unsigned NOT NULL,
   `publisher` int unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=369583 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52799 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -948,6 +984,7 @@ DROP TABLE IF EXISTS `tmdb`;
 CREATE TABLE `tmdb` (
   `id` int unsigned GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.id'))) STORED NOT NULL,
   `title` varchar(600) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.title'))) STORED,
+  `year` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (substr(json_unquote(json_extract(`doc`,_utf8mb4'$.release_date')),1,4)) STORED,
   `adult` tinyint GENERATED ALWAYS AS ((json_unquote(json_extract(`doc`,_utf8mb4'$.adult')) = _utf8mb4'true')) VIRTUAL,
   `backdrop_path` varchar(200) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.backdrop_path'))) VIRTUAL,
   `budget` varchar(45) COLLATE utf8mb4_unicode_ci GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4'$.budget'))) VIRTUAL,
@@ -972,7 +1009,8 @@ CREATE TABLE `tmdb` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `title_idx` (`title`),
-  KEY `imdb_id_idx` (`imdb_id`)
+  KEY `imdb_id_idx` (`imdb_id`),
+  FULLTEXT KEY `ft_tmdb_titleyear` (`title`,`year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1051,4 +1089,4 @@ CREATE TABLE `yts_torrents` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-12 11:07:04
+-- Dump completed on 2020-08-15  9:18:53
