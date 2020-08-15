@@ -134,33 +134,41 @@ $db = new \Workerman\MySQL\Connection($config['db_host'], $config['db_port'], $c
 global $twig;
 $twigloader = new \Twig\Loader\FilesystemLoader(__DIR__.'/Views');
 $twig = new \Twig\Environment($twigloader, array('/tmp/twig_cache'));
-global $driveReplacements, $Windows;
+global $driveReplacements, $Windows, $Linux;
 $driveReplacements = ['search' => [], 'replace' => []];
 if (DIRECTORY_SEPARATOR == '\\') {
 	$Windows = true;
+	$Linux = false;
 	$driveReplacements['search'][] = '|\\\\|';
 	$driveReplacements['replace'][] = '/';
 	$driveReplacements['search'][] = '|(?<=.)/+|';
 	$driveReplacements['replace'][] = '/';
-} else {
+}
+if (file_exists('/usr/bin/uname') || file_exists('/usr/bin/uname.exe')) {
+	$Linux = true;
 	$os = trim(`uname -o`);
 	if ($os == 'Msys') {
 		// MingW Linux in Windows
+		//echo 'MinGW Linux Detected'.PHP_EOL;
 		$Windows = true;
 		$DrivePattern = '/#';
 	} elseif ($os == 'Cygwin') {
 		// Cygwin Linux in Windows
+		//echo 'Cygwin Linux Detected'.PHP_EOL;
 		$Windows = true;
 		$DrivePattern = '/cygwin/#';
 	} elseif (file_exists('/usr/bin/wslvar') && trim(`wslvar -s OS`) == 'Windows_NT') {
 		// WSL Linux in Windows
+		//echo 'WSL Linux Detected'.PHP_EOL;
 		$Windows = true;
 		$DrivePattern = '/mnt/#';
 	} else {
+		//echo 'Linux OS Detected'.PHP_EOL;
 		// Linux
 		$Windows = false;
 	}
 	if ($Windows == true) {
+		//echo 'Windows OS Detected'.PHP_EOL;
 		$drives = explode(PHP_EOL, trim(`mount|grep '^[A-Z]:\\\\* on'|cut -d: -f1`));
 		foreach ($drives as $drive) {
 			$driveReplacements['search'][] = '|^'.str_replace('#', $drive, $DrivePattern).'/|i';

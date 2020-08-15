@@ -61,7 +61,7 @@ function updateCompressedFile($path, $parentId)  {
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	global $files, $tmpDir, $compressedHashAlgos, $useMagic, $config, $hostId;
+	global $files, $tmpDir, $compressedHashAlgos, $useMagic, $config, $hostId, $Linux;
 	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks
 	$parentData = $files[$parentId];
 	$parentPath = $parentData['path'];
@@ -87,7 +87,8 @@ function updateCompressedFile($path, $parentId)  {
 			$fileData[$hashAlgo] = hash_file($hashAlgo, $path);
 		}
 	}
-	if (DIRECTORY_SEPARATOR == '\\') {
+	//if (DIRECTORY_SEPARATOR == '\\') {
+	if (!$Linux) {
 		//$cmd = 'C:/Progra~2/GnuWin32/bin/file -b -p '.escapeshellarg($path);
 		$cmd = 'E:/Installs/cygwin64/bin/file.exe -b -p '.escapeshellarg($path);
 	} else {
@@ -101,8 +102,9 @@ function updateCompressedFile($path, $parentId)  {
 }
 
 function updateCompressedDir($path, $parentId) {
-	global $files, $skipGlobs;
-	if (DIRECTORY_SEPARATOR == '\\') {
+	global $files, $skipGlobs, $Linux;
+	//if (DIRECTORY_SEPARATOR == '\\') {
+	if (!$Linux) {
 		$cmd = 'e:/Installs/cygwin64/bin/find.exe '.escapeshellarg($path).' -type f';
 	} else {
 		$cmd = 'exec find '.escapeshellarg($path).' -type f';
@@ -142,9 +144,10 @@ function cleanUtf8($text) {
 }
 
 function cleanTmpDir() {
-	global $tmpDir;
+	global $tmpDir, $Linux;
 	echo 'Cleaning Temp Dir '.$tmpDir.PHP_EOL;
-	if (DIRECTORY_SEPARATOR == '\\') {
+	//if (DIRECTORY_SEPARATOR == '\\') {
+	if (!$Linux) {
 		passthru('rmdir /s /q '.$tmpDir);
 	} else {
 		passthru('rm -rf '.$tmpDir);
@@ -152,11 +155,12 @@ function cleanTmpDir() {
 }
 
 function extractCompressedFile($path, $compressionType) {
-	global $tmpDir;
+	global $tmpDir, $Linux;
 	cleanTmpDir();
 	mkdir($tmpDir);
 	$escapedFile = escapeshellarg($path);
-	if (DIRECTORY_SEPARATOR == '\\') {
+	//if (DIRECTORY_SEPARATOR == '\\') {
+	if (!$Linux) {
 		passthru('e:/Installs/7-Zip/7z.exe x -o'.$tmpDir.' '.escapeshellarg($path), $return);
 	} else {
 		passthru('exec 7z x -o'.$tmpDir.' '.escapeshellarg($path), $return);
@@ -204,8 +208,9 @@ function updateFile($path)  {
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	global $files, $paths, $hashAlgos, $maxSize, $useMaxSize, $useMagic, $hostId, $config;
+	global $files, $paths, $hashAlgos, $maxSize, $useMaxSize, $useMagic, $hostId, $config, $Linux;
 	$cleanPath = cleanPath($path);
+	//echo "Path:       {$path}\nClean Path: {$cleanPath}\n";exit;
 	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
 	$pathStat = stat($path);
 	if ($useMaxSize == true && bccomp($pathStat['size'], $maxSize) == 1) {
@@ -243,7 +248,8 @@ function updateFile($path)  {
 		}
 	}
 	if ($useMagic == true && (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true)) {
-		if (DIRECTORY_SEPARATOR == '\\') {
+		//if (DIRECTORY_SEPARATOR == '\\') {
+		if (!$Linux) {
 			//$cmd = 'C:/Progra~2/GnuWin32/bin/file -b -p '.escapeshellarg($path);
 			$cmd = 'E:/Installs/cygwin64/bin/file.exe -b -p '.escapeshellarg($path);
 		} else {
@@ -318,8 +324,8 @@ function loadFiles($path = null) {
 		$id = $data['id'];
 		unset($data['id']);
 		unset($data['parent']);
-		$data['path'] = cleanPath($path);
-		echo 'Searching Path '.$data['path'].PHP_EOL;
+		//$data['path'] = str_replace('!', '\\!', cleanPath($data['path']));
+		//echo 'Searching Path '.$data['path'].PHP_EOL;
 		$files[$id] = $data;
 		$paths[$data['path']] = $id;
 		unset($tempFiles[$idx]);        
