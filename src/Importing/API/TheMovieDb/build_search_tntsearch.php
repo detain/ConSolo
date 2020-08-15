@@ -18,11 +18,9 @@ $tnt->loadConfig([
 	'storage'   => __DIR__.'/../../../../data/tntsearch/',
 	'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class//optional
 ]);
-echo 'Creating and Running TMDB Indexing';
-$indexer = $tnt->createIndex('tmdb.index');
-$indexer->query('select id, title, release_date from tmdb;');
-//$indexer->setLanguage('german');
-//$indexer->setPrimaryKey('article_id'); // if your primary key is different than id
-//$indexer->includePrimaryKey(); // make the primary key searchable
+echo 'Creating and Running Indexing';
+$indexer = $tnt->createIndex('movie.index');
+$indexer->steps = 1000;
+$indexer->query('select id, title, year from movie_titles;');
 $indexer->run();
 echo '  done'.PHP_EOL;

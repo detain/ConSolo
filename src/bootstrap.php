@@ -14,6 +14,96 @@ $config = require __DIR__.'/config.php';
 include_once __DIR__.'/stdObject.php';
 
 /**
+ * converts the arguments to a list of fields and values , for use with the make_insert_query() function
+ *
+ * @param mixed $args associated array of arguments in the format of  field => value
+ * @return false|array false if no arguments, or an array with the first element being an array of fields, the next being an array of values.
+ */
+function get_insert_query_fields_values($args)
+{
+	global $mysqlLinkId;
+	if (count($args) > 0) {
+		$query_values = [];
+		$query_fields = [];
+		foreach ($args as $key => $value) {
+			$query_fields[] = '`'.$key.'`';
+			if (null === $value) {
+				$query_values[] = 'NULL';
+			} elseif (is_bool($value)) {
+				if ($value == true) {
+					$query_values[] = 'true';
+				} else {
+					$query_values[] = 'false';
+				}
+			} elseif (is_int($value)) {
+				$query_values[] = $value;
+			} elseif (is_array($value)) {
+				$query_values[] = $value[0];
+			} else {
+				$query_values[] = "'" . $mysqlLinkId->real_escape_string($value) . "'";
+			}
+		}
+		return [$query_fields, $query_values];
+	}
+	return false;
+}
+
+/**
+ * builds an SQL Insert Query with the given parameters.
+ * it should properly handle different variable types.
+ *
+ * to pass a string as a direct mysql call and avoid it being escaped or put in quotes,
+ * pass the element in an array
+ *
+ * <code>
+ *
+ *    echo make_insert_query('invoices', array(
+ *        'invoices_id' => NULL,
+ *        'invoices_description' => $service_types[$ssl]['services_name'],
+ *        'invoices_amount' => $ssl_cost,
+ *        'invoices_custid' => $custid,
+ *        'invoices_type' => 1,
+ *        'invoices_date' => mysql_now(),
+ *        'invoices_group' => 0,
+ *        'invoices_extra' => 0,
+ *        'invoices_paid' => 0,
+ *        'invoices_module' => 'ssl',
+ *        'invoices_due_date' => mysql_date_add(null, $settings['SUSPEND_DAYS'].' day')
+ *  ));
+ *
+ * </code>
+ *
+ * Example Output:
+ *    insert into invoices (`invoices_id`, `invoices_description`, `invoices_amount`, `invoices_custid`, `invoices_type`, `invoices_date`, `invoices_group`, `invoices_extra`, `invoices_paid`, `invoices_module`, `invoices_due_date`) values (NULL, '(Repeat Invoice: 2500101) .ws Domain Name Registration', '23.00', '4579', 1, '12:01:01 01:12:33', 0, 2500101, 0, 'domains', '12:12:01 01:12:33')
+ *
+ * @param string           $table          the table name to insert the values into
+ * @param array            $args           associated array of arguments in the format of  field => value
+ * @param array|bool|false $duplicate_args if specified, the query will add an ON DUPLICATE KEY text, these are the fields to update on duplicate, if not specified it does not add this part to the query.
+ * @return string the SQL insert string
+ */
+function make_insert_query($table, $args, $duplicate_args = false)
+{
+	if (count($args) > 0) {
+		list($query_fields, $query_values) = get_insert_query_fields_values($args);
+		$query = "insert into {$table} (" . implode(', ', $query_fields).') values ('.implode(', ', $query_values).')';
+		if (is_array($duplicate_args)) {
+			list($duplicate_query_fields, $duplicate_query_values) = get_insert_query_fields_values($duplicate_args);
+			$duplicate_fields = [];
+			foreach ($duplicate_query_fields as $idx => $field) {
+				$duplicate_fields[] = $field.'='.$duplicate_query_values[$idx];
+			}
+			if (count($duplicate_fields) > 0) {
+				$query .= ' on duplicate key update '.implode(', ', $duplicate_fields);
+			}
+		}
+		//myadmin_log('myadmin', 'debug', $query, __LINE__, __FILE__);
+		return $query;
+	} else {
+		return '';
+	}
+}
+
+/**
  * determines if the OS is windows
  *
  * @return bool true if windows
@@ -128,8 +218,18 @@ function cleanPath($path) {
 	return $path;
 }
 
-global $db;
+global $db, $mysqlLinkId;
+$characterSet = 'utf8mb4';
+$collation = 'utf8mb4_unicode_ci';
 $db = new \Workerman\MySQL\Connection($config['db_host'], $config['db_port'], $config['db_name'], $config['db_user'], $config['db_pass']);
+$mysqlLinkId = mysqli_init();
+$mysqlLinkId->options(MYSQLI_INIT_COMMAND, "SET NAMES {$characterSet} COLLATE {$collation}, COLLATION_CONNECTION = {$collation}, COLLATION_DATABASE = {$collation}");
+if (isset($config['db_port']) && $config['db_port'] != '')
+	$mysqlLinkId->real_connect($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name'], $config['db_port']);
+else
+	$mysqlLinkId->real_connect($config['db_host'], $config['db_user'], $config['db_pass'], $config['db_name']);
+$mysqlLinkId->set_charset($characterSet);
+
 
 global $twig;
 $twigloader = new \Twig\Loader\FilesystemLoader(__DIR__.'/Views');

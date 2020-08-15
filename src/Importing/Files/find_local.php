@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'/inc.php';
-$tags = ['webrip', 'brrip', 'bluray', 'dvdrip', '2160p', '1080p', '720p', '640p', '480p', 'unrated', 'extended'];
+$tags = ['webrip', 'brrip', 'bluray', 'dvdrip', '2160p', '1080p', '10800p', '720p', '640p', '480p', 'x264', 'x265', 'yify', 'xvid', '4k', 'ac3', '1080'];
 $files = loadJson('files');
 $missingFiles = $files;
 foreach (glob('/storage/movies*/*') as $fileName) {
@@ -14,7 +14,7 @@ foreach (glob('/storage/movies*/*') as $fileName) {
 		'year' => false,
 		'imdb_id' => false,
 		'tmdb_id' => false,
-        'yts_id' => false,
+		'yts_id' => false,
 		'file' => [
 			'name' => $fileName, 
 			'movieName' => $fileName, 
