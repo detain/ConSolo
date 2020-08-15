@@ -49,7 +49,7 @@ $charMap = array();
 $maxOrigLength = 0;
 $maxLength = 0;
 $fuseData = [];
-foreach ($fuseData as $idx => $data) {
+foreach ($results as $idx => $data) {
 	if (strlen($data['title']) > 200) {
 		$data['title'] = substr($data['title'], 0, 200);
 	}
@@ -59,14 +59,13 @@ foreach ($fuseData as $idx => $data) {
 	$fuseData[] = $data;
 }
 echo "done".PHP_EOL;
-echo $maxOrigLength.' max original length string'.PHP_EOL;
-echo $maxLength.' max length string'.PHP_EOL;
 //$fuseData = json_decode(file_get_contents(__DIR__.'/../../../../data/json/tmdb_fuse.json'), true);
 echo 'Initializing Search...';
 $fuzzy = new FuzzySearch($fuseData, 'title');
 echo "done".PHP_EOL;
 $maxDistance = 25;
 echo 'Searching...';
-$results = $fuzzy->search('10 Things I Hate About You (1999) 720p', $maxDistance);
+$results = $fuzzy->search('10.Things.I.Hate.About.You.1999.1080p.BrRip.x264.BOKUTOX.YIFY', $maxDistance);
+//$results = $fuzzy->search('10 Things I Hate About You (1999) 720p', $maxDistance);
 echo "done".PHP_EOL;
 print_r($results);

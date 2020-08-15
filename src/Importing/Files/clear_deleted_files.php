@@ -39,7 +39,7 @@ global $db;
 global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $config, $hostId;
 $deleting = [];
 $deleted = 0;
-$maxDeleting = 100;
+$maxDeleting = 5000;
 echo 'Clearing Deleted Files from DB for Host '.$hostId.PHP_EOL;
 $globbedPaths = [];
 if (isset($pathGlobs)) {
