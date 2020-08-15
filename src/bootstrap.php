@@ -244,7 +244,7 @@ if (DIRECTORY_SEPARATOR == '\\') {
 	$driveReplacements['search'][] = '|(?<=.)/+|';
 	$driveReplacements['replace'][] = '/';
 }
-if (file_exists('/usr/bin/uname') || file_exists('/usr/bin/uname.exe')) {
+if (file_exists('/usr/bin/uname') || file_exists('/usr/bin/uname.exe') || file_exists('/bin/uname') || file_exists('/bin/uname.exe')) {
 	$Linux = true;
 	$os = trim(`uname -o`);
 	if ($os == 'Msys') {

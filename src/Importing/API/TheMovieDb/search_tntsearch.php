@@ -2,9 +2,30 @@
 
 use TeamTNT\TNTSearch\TNTSearch;
 
+function handleMovieTitleResults($movieResult, &$extra, $result) {
+	global $db;
+	if ($movieResult['source'] == 'imdb') {
+		$otherResults = $db->query("select id from tmdb where imdb_id='{$movieResult['source_id']}'");
+		if (count($otherResults) > 0) {
+			$extra['imdb_id'] = $movieResult['source_id'];
+			$extra['tmdb_id'] = $otherResults[0]['id'];
+			$db->update('files')->cols(['extra' => json_encode($extra)])->where('id='.$result['id'])->query();
+			echo 'Updated file '.$result['id'].' set extra '.json_encode($extra).PHP_EOL;
+		}
+	} else {
+		$otherResults = $db->query("select imdb_id from tmdb where id='{$movieResult['source_id']}'");
+		if (count($otherResults) > 0) {
+			$extra['tmdb_id'] = $movieResult['source_id'];
+			$extra['imdb_id'] = $otherResults[0]['imdb_id'];
+			$db->update('files')->cols(['extra' => json_encode($extra)])->where('id='.$result['id'])->query();
+			echo 'Updated file '.$result['id'].' set extra '.json_encode($extra).PHP_EOL;
+		}                        
+	}    
+}                    
+
 require_once __DIR__.'/../../../bootstrap.php';
 
-global $config;
+global $config, $mysqlLinkId;
 global $db;
 $tnt = new TNTSearch;
 $tnt->loadConfig([
@@ -16,6 +37,7 @@ $tnt->loadConfig([
 	'storage'   => __DIR__.'/../../../../data/tntsearch/',
 	'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class//optional
 ]);
+$tnt->fuzziness = true;
 $ext = [
 	'good' => ['mp4', 'avi', 'mkv', 'ogm', 'm4v'],
 	'bad' => ['ini', 'db', 'txt'],
@@ -62,11 +84,34 @@ foreach ($results as $result) {
 			if ($junkStart !== false) {
 				$name = implode(' ', $nameParts);
 			}
-			//echo "File:{$pathInfo['filename']}\nName:{$name}\nLast Year:".($lastYear === false ? 'false' : $lastYear)."\nName No Year:{$nameNoYear}\nTags ".implode(', ', $fileTags)."\n\n";
-			$response = $tnt->search('('.$name.')', 10);
-			print_r($response);
-			$results = $db->query('select id, title, year, source, source_id from movie_titles where id in ("'.implode('","', $imdbResponse['ids']).'") order by field(id, "'.implode('","', $imdbResponse['ids']).'")');
-			print_r($results);			
+			echo "File:{$pathInfo['filename']}\nName:{$name}\nLast Year:".($lastYear === false ? 'false' : $lastYear)."\nName No Year:{$nameNoYear}\nTags ".implode(', ', $fileTags)."\n";
+			if ($lastYear) {
+				$movieResults = $db->query("select id, title,  year, source, source_id from movie_titles where title='".$mysqlLinkId->real_escape_string($nameNoYear)."' order by abs(year-{$lastYear})");
+				if (count($movieResults) > 0) {
+					echo 'Title + Year Matching'.PHP_EOL;
+					handleMovieTitleResults($movieResults[0], $extra, $result);
+					//print_r($movieResults);
+				}
+			} else {
+				$movieResults = $db->query("select id, title,  year, source, source_id from movie_titles where title='".$mysqlLinkId->real_escape_string($name)."'");
+				if (count($movieResults) > 0) {
+					echo 'Title Matching'.PHP_EOL;
+					handleMovieTitleResults($movieResults[0], $extra, $result);
+					//print_r($movieResults);
+				}
+			}
+			if (!is_array($movieResults) || count($movieResults) == 0) {
+				//$response = $tnt->search($name, 5);
+				$response = $tnt->searchBoolean('('.$name.')', 1);
+				if (count($response) > 0 && count($response['ids']) > 0) {
+					$movieResults = $db->query('select id, title, year, source, source_id from movie_titles where id in ("'.implode('","', $response['ids']).'") order by field(id, "'.implode('","', $response['ids']).'")');
+					if (count($movieResults) > 0) {
+						echo 'Search Matching'.PHP_EOL;
+						handleMovieTitleResults($movieResults[0], $extra, $result);                        
+						//print_r($movieResults);
+					}
+				}
+			}			
 		} elseif (!in_array($pathInfo['extension'], $ext['known'])) {
 			echo "Unknown extension '{$pathInfo['extension']}' encountered on '{$path}'\n";
 		} else {
