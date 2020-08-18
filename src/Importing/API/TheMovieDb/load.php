@@ -117,7 +117,7 @@ foreach ($lists as $list) {
 foreach ($lists as $list) {
 	echo 'Working on List '.$list.PHP_EOL;
 	if (in_array($list, ['movie']))
-		$field = 'title';
+		$field = 'credits';
 	elseif (in_array($list, ['tv_series']))
 		$field = 'name';
 	elseif (in_array($list, ['collection']))
@@ -130,7 +130,7 @@ foreach ($lists as $list) {
 		continue;
 	$ids = $db->select('id')
 		->from('tmdb_'.$list)
-		//->where($field.' is null')
+		->where($field.' is null')
 		->column();
 	$total = count($ids);
 	$partSize = ceil($total / $divide);
