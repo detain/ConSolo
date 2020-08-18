@@ -178,67 +178,85 @@ function putJson($tag, $data) {
 }
 
 function loadTmdbMovieGenres() {
-	global $config;
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/genre/movie/list?api_key='.$apiKey.'&language=en-US'), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/genre/movie/list?api_key='.$apiKey.'&language=en-US', '', $curl_config), true);
 }
 
 function loadTmdbTVGenres() {
-	global $config;
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/genre/tv/list?api_key='.$apiKey.'&language=en-US'), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/genre/tv/list?api_key='.$apiKey.'&language=en-US', '', $curl_config), true);
 }
 
 function loadTmdbCollection($id) {
-	global $config;
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/collection/'.$id.'?api_key='.$apiKey.'&language=en-US'), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/collection/'.$id.'?api_key='.$apiKey.'&language=en-US', '', $curl_config), true);
+}
+
+function loadTmdbTvNetwork($id) {
+	global $config, $curl_config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/network/'.$id.'?api_key='.$apiKey.'&language=en-US', '', $curl_config), true);
+}
+
+function loadTmdbKeyword($id) {
+	global $config, $curl_config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/keyword/'.$id.'?api_key='.$apiKey, '', $curl_config), true);
+}
+
+function loadTmdbProductionCompany($id) {
+	global $config, $curl_config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/company/'.$id.'?api_key='.$apiKey, '', $curl_config), true);
 }
 
 function loadTmdbConfiguration($id) {
-	global $config;
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/configuration?api_key='.$apiKey), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/configuration?api_key='.$apiKey, '', $curl_config), true);
 }
 
 function loadTmdbMovie($id) {
-	global $config;
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/movie/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,alternative_titles,credits,external_ids,images,keywords,release_dates,videos,translations,recommendations,similar,reviews,lists'), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/movie/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,alternative_titles,credits,external_ids,images,keywords,release_dates,videos,translations,recommendations,similar,reviews,lists', '', $curl_config), true);
 }
 
-function loadTmdbTV($id) {
-	global $config;
+function loadTmdbTvSeries($id) {
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/tv/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,alternative_titles,content_ratings,credits,episode_groups,external_ids,images,keywords,recommendations,reviews,screened_theatrically,similar,translations,videos'), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/tv/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,alternative_titles,content_ratings,credits,episode_groups,external_ids,images,keywords,recommendations,reviews,screened_theatrically,similar,translations,videos', '', $curl_config), true);
 }
 
-function loadTmdbTVSeason($id, $season) {
-	global $config;
+function loadTmdbTvSeason($id, $season) {
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/tv/'.$id.'/season/'.$season.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,credits,external_ids,images,videos'), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/tv/'.$id.'/season/'.$season.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,credits,external_ids,images,videos', '', $curl_config), true);
 }
 
-function loadTmdbTVEpisode($id, $season, $episode) {
-	global $config;
+function loadTmdbTvEpisode($id, $season, $episode) {
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/tv/'.$id.'/season/'.$season.'/episode/'.$episode.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,credits,external_ids,images,translations'), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/tv/'.$id.'/season/'.$season.'/episode/'.$episode.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,credits,external_ids,images,translations', '', $curl_config), true);
 }
 
 function loadTmdbPerson($id) {
-	global $config;
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/person/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=movie_credits,tv_credits,combined_credits,external_ids,images,tagged_images,translations'), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/person/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=movie_credits,tv_credits,combined_credits,external_ids,images,tagged_images,translations', '', $curl_config), true);
 }
 
 function changedTmdbMovies($start_date, $end_date, $results) {
-	global $config;
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
 	$finished = false;
 	$page = 1;
 	while ($finished == false) {
 		echo 'Getting Movie Changes from '.$start_date.' to '.$end_date.' page '.$page.PHP_EOL;
-		$response = json_decode(getcurlpage('https://api.themoviedb.org/3/movie/changes?api_key='.$apiKey.'&start_date='.$start_date.'&end_date='.$end_date.'&page='.$page), true);
+		$response = json_decode(getcurlpage('https://api.themoviedb.org/3/movie/changes?api_key='.$apiKey.'&start_date='.$start_date.'&end_date='.$end_date.'&page='.$page, '', $curl_config), true);
 		foreach ($response['results'] as $data) {
 			$results[] = $data['id'];
 		}
@@ -252,9 +270,9 @@ function changedTmdbMovies($start_date, $end_date, $results) {
 }
 
 function lookupTmdbMovie($search) {
-	global $config;
+	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/search/movie?api_key='.$apiKey.'&query='.urlencode($search)), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/search/movie?api_key='.$apiKey.'&query='.urlencode($search), '', $curl_config), true);
 }
 
 function cleanPath($path) {

@@ -5,7 +5,8 @@ $imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-global $config;
+global $config, $curl_config;
+$curl_config = [];
 foreach (['Movie', 'TV'] as $type) {
 	echo 'Loading and populating '.$type.' Genres..';
 	$ids = $db->select('id')
@@ -27,6 +28,44 @@ foreach (['Movie', 'TV'] as $type) {
 }
 $exportDate = ((int)date('H') >= 4 ? date('m_d_Y') : date('m_d_Y', $now - 86400));
 $lists = ['collection','tv_network','keyword','production_company','movie','tv_series','person'];
+if ($_SERVER['argc'] > 1) {
+	$program = array_shift($_SERVER['argv']);
+	while (count($_SERVER['argv']) > 0) {
+		$arg = array_shift($_SERVER['argv']);
+		if ($arg == '-l') {
+			$lists = explode(',', array_shift($_SERVER['argv']));
+		} elseif ($arg == '-d') {
+			$divide = array_shift($_SERVER['argv']);
+		} elseif ($arg == '-p') {
+			$part = array_shift($_SERVER['argv']);
+		} elseif ($arg == '-i') {
+			$ip = array_shift($_SERVER['argv']);
+			$curl_config[CURLOPT_INTERFACE] = $ip;
+		} elseif ($arg == '-r') {
+			rsort($imdbIds);
+		} elseif ($arg == '-s') {
+			sort($imdbIds);
+		} else {
+			echo "
+Syntax: {$program} <-l lists> <-d #> <-p #> <-r> <-s>
+
+ -l lists   sets the list to a comma seperated list of types to go through from
+			collection
+			tv_network
+			keyword
+			production_company
+			movie
+			tv_series
+			person 
+ -d #       Divide IDs into # Parts, defaults to 1
+ -p #       Part # of Divided IDs to display, defaults to 1
+ -i ip      Optional IP address to bind to
+ -r         reverse sort
+ -s         sort
+			";
+		}
+	}
+}
 foreach ($lists as $list) {
 	echo 'Working on List '.$list.PHP_EOL;
 	$Url = 'http://files.tmdb.org/p/exports/'.$list.'_ids_'.$exportDate.'.json.gz';
@@ -34,7 +73,7 @@ foreach ($lists as $list) {
 	$ids = $db->select('id')
 		->from('tmdb_'.$list)
 		->column();
-	if (is_null($ids))
+	if (!is_array($ids) && is_null($ids))
 		$ids = [];
 	echo count($ids).' loaded'.PHP_EOL;
 	echo 'Loading '.$list.' IDs '.$Url.PHP_EOL;
@@ -72,3 +111,34 @@ foreach ($lists as $list) {
 	unset($lines);    
 	echo 'done'.PHP_EOL;	
 }
+foreach ($lists as $list) {
+	echo 'Working on List '.$list.PHP_EOL;
+	if (in_array($list, ['movie']))
+		$field = 'title';
+	elseif (in_array($list, ['tv_series']))
+		$field = 'name';
+	elseif (in_array($list, ['collection']))
+		$field = 'overview';    
+	elseif (in_array($list, ['person']))
+		$field = 'gender';    
+	elseif (in_array($list, ['tv_network', 'production_company']))
+		$field = 'origin_country';    
+	else
+		continue;
+	$ids = $db->select('id')
+		->from('tmdb_'.$list)
+		//->where($field.' is null')
+		->column();
+	$total = count($ids);
+	foreach ($ids as $idx => $id) {
+		echo '['.$list.'] # '.$id.' ['.$idx.'/'.$total.']';
+		$func = 'loadTmdb'.str_replace(' ', '', ucwords(str_replace('_', ' ', $list)));
+		$response = call_user_func($func, $id);
+		$db->update('tmdb_'.$list)
+			->cols(['doc' => json_encode($response)])
+			->where('id='.$id)
+			->lowPriority($config['db_low_priority'])
+			->query();        
+		echo PHP_EOL;
+	}
+}	
