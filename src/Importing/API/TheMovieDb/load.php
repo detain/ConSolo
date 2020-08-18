@@ -28,6 +28,9 @@ foreach (['Movie', 'TV'] as $type) {
 }
 $exportDate = ((int)date('H') >= 4 ? date('m_d_Y') : date('m_d_Y', $now - 86400));
 $lists = ['collection','tv_network','keyword','production_company','movie','tv_series','person'];
+$updates = 0;
+$divide = 1;
+$part = 1;
 if ($_SERVER['argc'] > 1) {
 	$program = array_shift($_SERVER['argv']);
 	while (count($_SERVER['argv']) > 0) {
@@ -130,6 +133,19 @@ foreach ($lists as $list) {
 		//->where($field.' is null')
 		->column();
 	$total = count($ids);
+	$partSize = ceil($total / $divide);
+	echo $total.' Total IDs in '.$divide.' Parts = '.$partSize.' IDs/part'.PHP_EOL;
+	$start = ($part - 1) * $partSize;
+	$end = $part * $partSize;
+	if ($end > $total) {
+		$end = $total;
+	}
+	if ($divide > 1) {
+		$ids = array_slice($ids, $start, $partSize);
+		$total = count($ids);
+	}
+	$counter = 0;
+	echo '['.$part.'/'.$divide.'] #'.$counter.' '.(isset($ip) ? 'IP '.$ip.' ' : '').'Divided them into a section of '.$total.' ids'.PHP_EOL;
 	foreach ($ids as $idx => $id) {
 		echo '['.$list.'] # '.$id.' ['.$idx.'/'.$total.']';
 		$func = 'loadTmdb'.str_replace(' ', '', ucwords(str_replace('_', ' ', $list)));

@@ -61,11 +61,9 @@ if ($end > $total) {
 	$end = $total;
 }
 if ($divide > 1) {
-	$imdbIdsNew = array_slice($imdbIds, $start, $partSize);
-	$imdbIds = $imdbIdsNew;
-	unset($imdbIdsNew);
+	$imdbIds = array_slice($imdbIds, $start, $partSize);
+	$total = count($imdbIds);
 }
-$total = count($imdbIds);
 $counter = 0;
 echo '['.$part.'/'.$divide.'] #'.$counter.' '.(isset($ip) ? 'IP '.$ip.' ' : '').'Divided them into a section of '.$total.' ids'.PHP_EOL;
 foreach ($imdbIds as $imdbId) {
