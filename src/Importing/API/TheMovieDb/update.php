@@ -12,6 +12,7 @@ $now = time();
 $updateExisting = false;
 if (!$result) {
 	$exportDate = ((int)date('H') >= 4 ? date('m_d_Y') : date('m_d_Y', $now - 86400));
+	$lists = ['movie','tv_series','person','collection','tv_network','keyword','production_company'];
 	$movieUrl = 'http://files.tmdb.org/p/exports/movie_ids_'.$exportDate.'.json.gz';
 	$tvUrl = 'http://files.tmdb.org/p/exports/tv_series_ids_'.$exportDate.'.json.gz';
 	echo 'Loading Movie IDs '.$movieUrl.PHP_EOL;

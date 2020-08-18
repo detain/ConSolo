@@ -177,10 +177,58 @@ function putJson($tag, $data) {
 	echo '['.$tag.'] wrote '.count($data).' records to data file'.PHP_EOL;
 }
 
+function loadTmdbMovieGenres() {
+	global $config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/genre/movie/list?api_key='.$apiKey.'&language=en-US'), true);
+}
+
+function loadTmdbTVGenres() {
+	global $config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/genre/tv/list?api_key='.$apiKey.'&language=en-US'), true);
+}
+
+function loadTmdbCollection($id) {
+	global $config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/collection/'.$id.'?api_key='.$apiKey.'&language=en-US'), true);
+}
+
+function loadTmdbConfiguration($id) {
+	global $config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/configuration?api_key='.$apiKey), true);
+}
+
 function loadTmdbMovie($id) {
 	global $config;
 	$apiKey = $config['thetvdb_api_key'];
-	return json_decode(getcurlpage('https://api.themoviedb.org/3/movie/'.$id.'?api_key='.$apiKey.'&language=en-US'), true);
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/movie/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,alternative_titles,credits,external_ids,images,keywords,release_dates,videos,translations,recommendations,similar,reviews,lists'), true);
+}
+
+function loadTmdbTV($id) {
+	global $config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/tv/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,alternative_titles,content_ratings,credits,episode_groups,external_ids,images,keywords,recommendations,reviews,screened_theatrically,similar,translations,videos'), true);
+}
+
+function loadTmdbTVSeason($id, $season) {
+	global $config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/tv/'.$id.'/season/'.$season.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,credits,external_ids,images,videos'), true);
+}
+
+function loadTmdbTVEpisode($id, $season, $episode) {
+	global $config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/tv/'.$id.'/season/'.$season.'/episode/'.$episode.'?api_key='.$apiKey.'&language=en-US&append_to_response=account_states,credits,external_ids,images,translations'), true);
+}
+
+function loadTmdbPerson($id) {
+	global $config;
+	$apiKey = $config['thetvdb_api_key'];
+	return json_decode(getcurlpage('https://api.themoviedb.org/3/person/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=movie_credits,tv_credits,combined_credits,external_ids,images,tagged_images,translations'), true);
 }
 
 function changedTmdbMovies($start_date, $end_date, $results) {
