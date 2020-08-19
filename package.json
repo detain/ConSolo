@@ -28,8 +28,5 @@
     "pdfmake": "*",
     "vue": "*",
     "vuetify": "*"
-  },
-  "installConfig": {
-    "pnp": true
   }
 }
