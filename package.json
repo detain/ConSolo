@@ -26,5 +26,8 @@
     "jquery": "^3.5.1",
     "jszip": "^3.5.0",
     "pdfmake": "^0.1.68"
+  },
+  "installConfig": {
+    "pnp": true
   }
 }
