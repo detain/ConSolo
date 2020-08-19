@@ -55,8 +55,19 @@ foreach ($rows as $row) {
 	$existing[$row['tv_id']][] = $row['season_number'];
 }
 echo 'Loading TV Series ';
+$lookups = [];
 $rows = $db->query("select id, json_unquote(json_extract(`doc`,_utf8mb4'$.number_of_seasons')) as number_of_seasons from tmdb_tv_series");
-$total = count($rows);
+foreach ($rows as $row) {
+	echo ' #'.$row['id'];
+	for ($x = 1; $x <= $row['number_of_seasons']; $x++) {
+		if (!array_key_exists($row['id'], $existing) || !in_array($x, $existing[$row['id']])) {
+			echo ' S'.$x;
+			$lookups[] = [$row['id'], $x];
+		}
+	}		
+}
+echo 'done'.PHP_EOL;
+$total = count($lookups);
 $partSize = ceil($total / $divide);
 echo $total.' Total IDs in '.$divide.' Parts = '.$partSize.' IDs/part'.PHP_EOL;
 $start = ($part - 1) * $partSize;
@@ -65,25 +76,22 @@ if ($end > $total) {
 	$end = $total;
 }
 if ($divide > 1) {
-	$rows = array_slice($rows, $start, $partSize);
-	$total = count($rows);
+	$lookups = array_slice($lookups, $start, $partSize);
+	$total = count($lookups);
 }
-foreach ($rows as $row) {
-	echo ' #'.$row['id'];
-	for ($x = 1; $x <= $row['number_of_seasons']; $x++) {
-		if (!array_key_exists($row['id'], $existing) || !in_array($x, $existing[$row['id']])) {
-			echo ' S'.$x;
-			$response = loadTmdbTvSeason($row['id'], $x);
-			if (isset($response['_id'])) {
-				$db->insert('tmdb_tv_seasons')
-					->cols([
-						'tv_id' => $row['id'],
-						'doc' => json_encode($response)
-					])
-					->lowPriority($config['db_low_priority'])
-					->query();
-				
-			}
-		}
-	}		
+echo 'Performing '.$total.' Lookups: ';
+foreach ($lookups as $row) {
+	list($id, $x) = $row;
+	echo ' #'.$id.' S'.$x;
+	$response = loadTmdbTvSeason($id, $x);
+	if (isset($response['_id'])) {
+		$db->insert('tmdb_tv_seasons')
+			->cols([
+				'tv_id' => $id,
+				'doc' => json_encode($response)
+			])
+			->lowPriority($config['db_low_priority'])
+			->query();		
+	}
 }
+echo ' done'.PHP_EOL;
