@@ -7,7 +7,7 @@ $imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_
 global $db;
 global $config, $curl_config;
 $curl_config = [];
-$exportDate = ((int)date('H') >= 4 ? date('m_d_Y') : date('m_d_Y', $now - 86400));
+$exportDate = ((int)date('H') >= 4 ? date('m_d_Y') : date('m_d_Y', time() - 86400));
 $lists = ['collection','tv_network','keyword','production_company','movie','tv_series','person'];
 $updates = 0;
 $divide = 1;
