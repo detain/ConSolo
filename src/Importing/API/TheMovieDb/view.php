@@ -6,5 +6,5 @@ $imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_
 */
 global $db;
 global $config, $curl_config;
-$json = json_decode($db->single("select doc from tmdb_tv_series limit 1"), true);
+$json = json_decode($db->single("select doc from tmdb_person where id=2747419 limit 1"), true);
 print_r($json);
