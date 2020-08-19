@@ -74,7 +74,7 @@ foreach ($rows as $row) {
 		if (!array_key_exists($row['id'], $existing) || !in_array($x, $existing[$row['id']])) {
 			echo ' S'.$x;
 			$response = loadTmdbTvSeason($row['id'], $x);
-			if (isset($response['_id']))
+			if (isset($response['_id'])) {
 				$db->insert('tmdb_tv_seasons')
 					->cols([
 						'tv_id' => $row['id'],
@@ -82,6 +82,8 @@ foreach ($rows as $row) {
 					])
 					->lowPriority($config['db_low_priority'])
 					->query();
+				
+			}
 		}
 	}		
 }
