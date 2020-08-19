@@ -1,0 +1,30 @@
+{
+  "name": "ConSolo",
+  "version": "1.0.0",
+  "description": "from ROMs to Installed Populated Emulators and Frontends in under 12 parsecs!",
+  "main": "public/index.js",
+  "repository": "https://github.com/detain/ConSolo",
+  "author": "Joe Huss <detain@interserver.net>",
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "bootstrap": "^3",
+    "datatables.net-autofill-bs": "^*",
+    "datatables.net-bs": "^*",
+    "datatables.net-buttons-bs": "^*",
+    "datatables.net-colreorder-bs": "^*",
+    "datatables.net-fixedcolumns-bs": "^*",
+    "datatables.net-fixedheader-bs": "^*",
+    "datatables.net-keytable-bs": "^*",
+    "datatables.net-plugins": "^*",
+    "datatables.net-responsive-bs": "^*",
+    "datatables.net-rowgroup-bs": "^*",
+    "datatables.net-rowreorder-bs": "^*",
+    "datatables.net-scroller-bs": "^*",
+    "datatables.net-searchpanes-bs": "^*",
+    "datatables.net-select-bs": "^*",
+    "jquery": "^3.5.1",
+    "jszip": "^3.5.0",
+    "pdfmake": "^0.1.68"
+  }
+}
