@@ -44,10 +44,6 @@ if ($_SERVER['argc'] > 1) {
 		} elseif ($arg == '-i') {
 			$ip = array_shift($_SERVER['argv']);
 			$curl_config[CURLOPT_INTERFACE] = $ip;
-		} elseif ($arg == '-r') {
-			rsort($imdbIds);
-		} elseif ($arg == '-s') {
-			sort($imdbIds);
 		} else {
 			echo "
 Syntax: {$program} <-l lists> <-d #> <-p #> <-r> <-s>
@@ -63,9 +59,8 @@ Syntax: {$program} <-l lists> <-d #> <-p #> <-r> <-s>
  -d #       Divide IDs into # Parts, defaults to 1
  -p #       Part # of Divided IDs to display, defaults to 1
  -i ip      Optional IP address to bind to
- -r         reverse sort
- -s         sort
 			";
+			exit;
 		}
 	}
 }
