@@ -106,7 +106,8 @@ foreach ($lists as $list) {
 			echo 'done'.PHP_EOL;
 		}        
 	}
-	unset($lines);    
+	unset($lines);
+	unset($ids);    
 	echo 'done'.PHP_EOL;	
 }
 foreach ($lists as $list) {
