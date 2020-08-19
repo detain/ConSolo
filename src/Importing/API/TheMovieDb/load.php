@@ -145,11 +145,12 @@ foreach ($lists as $list) {
 		echo '['.$list.'] # '.$id.' ['.$idx.'/'.$total.']';
 		$func = 'loadTmdb'.str_replace(' ', '', ucwords(str_replace('_', ' ', $list)));
 		$response = call_user_func($func, $id);
-		$db->update('tmdb_'.$list)
-			->cols(['doc' => json_encode($response)])
-			->where('id='.$id)
-			->lowPriority($config['db_low_priority'])
-			->query();        
+		if (isset($response['id']))
+			$db->update('tmdb_'.$list)
+				->cols(['doc' => json_encode($response)])
+				->where('id='.$id)
+				->lowPriority($config['db_low_priority'])
+				->query();
 		echo PHP_EOL;
 	}
 }	
