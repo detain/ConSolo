@@ -7,13 +7,13 @@ $imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_
 global $db;
 global $config;
 $imdbIds = [];
-$result = $db->query("select imdb_id from tmdb where imdb_id != 'null'  and imdb_id != ''");
+$result = $db->query("select imdb_id from tmdb_movie where imdb_id != 'null'  and imdb_id != ''");
 foreach ($result as $data) {
 	$imdbIds[] = $data['imdb_id'];
 }
 echo 'Loaded '.count($imdbIds).' TMDB->IMDB IDs'.PHP_EOL;
 $existingIds = [];
-$result = $db->query("select id from imdb where id in (select imdb_id from tmdb where imdb_id != 'null'  and imdb_id != '')");
+$result = $db->query("select id from imdb where id in (select imdb_id from tmdb_movie where imdb_id != 'null'  and imdb_id != '')");
 foreach ($result as $data) {
 	$existingIds[] = $data['id'];
 }

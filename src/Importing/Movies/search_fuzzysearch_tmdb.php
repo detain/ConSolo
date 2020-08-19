@@ -48,7 +48,7 @@ $ext = [
 ];
 $tags = ['webrip', 'brrip', 'bluray', 'dvdrip', '2160p', '1080p', '10800p', '1080', '720p', '640p', '480p', '280p', '360p', 'x264', 'x265', 'yify', 'xvid', '4k', 'ac3'];
 $ext['known'] = array_merge($ext['good'], $ext['bad'], $ext['related']);
-//$results = $db->query("select min(substring(release_date, 1, 4)) as min_year, max(substring(release_date, 1, 4)) as max_year from tmdb where release_date != ''");
+//$results = $db->query("select min(substring(release_date, 1, 4)) as min_year, max(substring(release_date, 1, 4)) as max_year from tmdb_movie where release_date != ''");
 $results = $db->query("select min(year) as min_year, max(year) as max_year from imdb where year > 0");
 $minYear = (int)$results[0]['min_year'];
 $maxYear = (int)$results[0]['max_year'];
@@ -98,7 +98,7 @@ foreach ($results as $result) {
 }
 exit;
 echo "Selecting titles...";
-$results = $db->query("select title, substring(release_date, 1, 4) as year from tmdb");
+$results = $db->query("select title, substring(release_date, 1, 4) as year from tmdb_movie");
 echo "done".PHP_EOL;
 echo "cleaning titles...";
 $charMap = array();

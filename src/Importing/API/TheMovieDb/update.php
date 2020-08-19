@@ -48,7 +48,7 @@ if (!$result) {
 echo count($tmdbIds).' Pending TMDB IDs Loaded';
 echo 'Loading Existing TMDB Entries...';
 $existingIds = [];
-$result = $db->query("select id from tmdb");
+$result = $db->query("select id from tmdb_movie");
 foreach ($result as $data) {
 	$existingIds[] = $data['id'];
 }
@@ -68,7 +68,7 @@ foreach ($tmdbIds as $idx => $tmdbId) {
 		echo 'Missing "id" field in TMDB Movie '.$tmdbId.PHP_EOL;            
 	} else {
 		if ($updateExisting == true && in_array($tmdbId, $existingIds)) {
-			$db->update('tmdb')
+			$db->update('tmdb_movie')
 				->cols([
 					'doc' => json_encode($title)
 				])
@@ -78,7 +78,7 @@ foreach ($tmdbIds as $idx => $tmdbId) {
 			$updates++;
 			echo '# '.$tmdbId.' ['.$idx.'/'.$total.'] Update '.$updates.PHP_EOL;
 		} else {
-			$db->insert('tmdb')
+			$db->insert('tmdb_movie')
 				->cols([
 					'doc' => json_encode($title)
 				])

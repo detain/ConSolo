@@ -5,7 +5,7 @@ use TeamTNT\TNTSearch\TNTSearch;
 function handleMovieTitleResults($movieResult, &$extra, $result) {
 	global $db;
 	if ($movieResult['source'] == 'imdb') {
-		$otherResults = $db->query("select id from tmdb where imdb_id='{$movieResult['source_id']}'");
+		$otherResults = $db->query("select id from tmdb_movie where imdb_id='{$movieResult['source_id']}'");
 		if (count($otherResults) > 0) {
 			$extra['imdb_id'] = $movieResult['source_id'];
 			$extra['tmdb_id'] = $otherResults[0]['id'];
@@ -13,7 +13,7 @@ function handleMovieTitleResults($movieResult, &$extra, $result) {
 			echo 'Updated file '.$result['id'].' set extra '.json_encode($extra).PHP_EOL;
 		}
 	} else {
-		$otherResults = $db->query("select imdb_id from tmdb where id='{$movieResult['source_id']}'");
+		$otherResults = $db->query("select imdb_id from tmdb_movie where id='{$movieResult['source_id']}'");
 		if (count($otherResults) > 0) {
 			$extra['tmdb_id'] = $movieResult['source_id'];
 			$extra['imdb_id'] = $otherResults[0]['imdb_id'];

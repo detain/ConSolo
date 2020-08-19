@@ -20,7 +20,7 @@ $tnt->loadConfig([
 ]);
 echo 'Creating and Running TMDB Indexing';
 $indexer = $tnt->createIndex('tmdb.index');
-$indexer->query('select id, title, release_date from tmdb;');
+$indexer->query('select id, title, release_date from tmdb_movie;');
 //$indexer->setLanguage('german');
 //$indexer->setPrimaryKey('article_id'); // if your primary key is different than id
 //$indexer->includePrimaryKey(); // make the primary key searchable

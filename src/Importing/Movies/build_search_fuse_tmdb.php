@@ -17,7 +17,7 @@ $fuseData = [];
 echo "Loading TMDB starting at:";
 while (!$end) {
 	echo " $offset";
-	$tempFiles = $db->query("select * from tmdb limit $offset, $limit");
+	$tempFiles = $db->query("select * from tmdb_movie limit $offset, $limit");
 	foreach ($tempFiles as $idx => $data) {
 		$doc = json_decode($data['doc'], true);
 		$titles = [];

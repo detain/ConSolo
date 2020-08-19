@@ -32,7 +32,7 @@ foreach ($tempFiles as $idx => $data) {
 	}
 }
 echo PHP_EOL.'finished the imdb movies, now doing the tmdb movies ';
-$tempFiles = $db->query('select id, title, original_title, year from tmdb');
+$tempFiles = $db->query('select id, title, original_title, year from tmdb_movie');
 foreach ($tempFiles as $idx => $data) {
 	$titles = [];
 	$titles[] = $data['title'];
