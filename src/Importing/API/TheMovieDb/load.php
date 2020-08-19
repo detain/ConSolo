@@ -121,13 +121,15 @@ foreach ($lists as $list) {
 	elseif (in_array($list, ['person']))
 		$field = 'gender';    
 	elseif (in_array($list, ['tv_network', 'production_company']))
-		$field = 'origin_country';    
+		$field = 'origin_country';
 	else
 		continue;
 	$ids = $db->select('id')
 		->from('tmdb_'.$list)
 		->where($field.' is null')
 		->column();
+	if (is_null($ids))
+		$ids = [];
 	$total = count($ids);
 	$partSize = ceil($total / $divide);
 	echo $total.' Total IDs in '.$divide.' Parts = '.$partSize.' IDs/part'.PHP_EOL;
