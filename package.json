@@ -23,9 +23,11 @@
     "datatables.net-scroller-bs": "^*",
     "datatables.net-searchpanes-bs": "^*",
     "datatables.net-select-bs": "^*",
-    "jquery": "^3.5.1",
-    "jszip": "^3.5.0",
-    "pdfmake": "^0.1.68"
+    "jquery": "*",
+    "jszip": "*",
+    "pdfmake": "*",
+    "vue": "*",
+    "vuetify": "*"
   },
   "installConfig": {
     "pnp": true
