@@ -46,7 +46,7 @@ Syntax: {$program} <-l lists> <-d #> <-p #> <-r> <-s>
 	}
 }
 $existing = [];
-$rows = $db->query("select id,tv_id, season_number from tmdb_tv_seasons");
+$rows = $db->query("select id, tv_id, season_number from tmdb_tv_seasons");
 if (!is_array($rows))
 	$rows = [];
 foreach ($rows as $row) {
@@ -54,11 +54,25 @@ foreach ($rows as $row) {
 		$existing[$row['tv_id']] = [];
 	$existing[$row['tv_id']][] = $row['season_number'];
 }
+echo 'Loading TV Series ';
 $rows = $db->query("select id, json_unquote(json_extract(`doc`,_utf8mb4'$.number_of_seasons')) as number_of_seasons from tmdb_tv_series");
+$total = count($rows);
+$partSize = ceil($total / $divide);
+echo $total.' Total IDs in '.$divide.' Parts = '.$partSize.' IDs/part'.PHP_EOL;
+$start = ($part - 1) * $partSize;
+$end = $part * $partSize;
+if ($end > $total) {
+	$end = $total;
+}
+if ($divide > 1) {
+	$rows = array_slice($rows, $start, $partSize);
+	$total = count($rows);
+}
 foreach ($rows as $row) {
+	echo ' #'.$row['id'];
 	for ($x = 1; $x <= $row['number_of_seasons']; $x++) {
 		if (!array_key_exists($row['id'], $existing) || !in_array($x, $existing[$row['id']])) {
-			echo 'Loading TV Series '.$row['id'].' Season '.$x.PHP_EOL;
+			echo ' S'.$x;
 			$response = loadTmdbTvSeason($row['id'], $x);
 			if (isset($response['_id']))
 				$db->insert('tmdb_tv_seasons')
