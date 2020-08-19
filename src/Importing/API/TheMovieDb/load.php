@@ -79,7 +79,7 @@ foreach ($lists as $list) {
 	$json = '['.implode(',', $lines).']';
 	$lines = json_decode($json, true);    
 	echo 'Parsing '.count($lines).' Results..';
-	if (count($lines) == count($ids)) {
+	if (count($lines) == count($ids) || count($lines) == 0) {
 		echo 'skipping update due to matching id counts. ';
 	} else {
 		foreach ($lines as $idx => $line) {
