@@ -7,25 +7,6 @@ $imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_
 global $db;
 global $config, $curl_config;
 $curl_config = [];
-foreach (['Movie', 'TV'] as $type) {
-	echo 'Loading and populating '.$type.' Genres..';
-	$ids = $db->select('id')
-		->from('tmdb_'.strtolower($type).'_genre')
-		->column();
-	if (is_null($ids))
-		$ids = [];
-	$genres = call_user_func('loadTmdb'.$type.'Genres');
-	foreach ($genres['genres'] as $genre) {
-		if (!in_array($genre['id'], $ids)) {
-			echo 'added '.$genre['name'].' ';
-			$db->insert('tmdb_'.strtolower($type).'_genre')
-				->cols(['id' => $genre['id'], 'name' => $genre['name']])
-				->lowPriority($config['db_low_priority'])
-				->query();
-		}
-	}
-	echo 'done'.PHP_EOL;
-}
 $exportDate = ((int)date('H') >= 4 ? date('m_d_Y') : date('m_d_Y', $now - 86400));
 $lists = ['collection','tv_network','keyword','production_company','movie','tv_series','person'];
 $updates = 0;
@@ -63,6 +44,25 @@ Syntax: {$program} <-l lists> <-d #> <-p #> <-r> <-s>
 			exit;
 		}
 	}
+}
+foreach (['Movie', 'TV'] as $type) {
+	echo 'Loading and populating '.$type.' Genres..';
+	$ids = $db->select('id')
+		->from('tmdb_'.strtolower($type).'_genre')
+		->column();
+	if (is_null($ids))
+		$ids = [];
+	$genres = call_user_func('loadTmdb'.$type.'Genres');
+	foreach ($genres['genres'] as $genre) {
+		if (!in_array($genre['id'], $ids)) {
+			echo 'added '.$genre['name'].' ';
+			$db->insert('tmdb_'.strtolower($type).'_genre')
+				->cols(['id' => $genre['id'], 'name' => $genre['name']])
+				->lowPriority($config['db_low_priority'])
+				->query();
+		}
+	}
+	echo 'done'.PHP_EOL;
 }
 foreach ($lists as $list) {
 	echo 'Working on List '.$list.PHP_EOL;
