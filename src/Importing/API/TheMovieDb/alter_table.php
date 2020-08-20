@@ -19,8 +19,9 @@ $emptyKey = [
 	'count' => 0,
 	'types' => [],
 	'negative' => false,
-	'null' => false,
+	'null' => true,
 ];
+$storedFields = ['id', 'season_number'];
 foreach($suffixes as $suffix) {
 	$fields[$suffix] = [];
 	$offset = 0;
@@ -73,13 +74,35 @@ foreach($suffixes as $suffix) {
 		}
 		$offset += $limit;
 	}
+	$tableSchema = $db->row('show create table '.$table);
+	$schemaFields = [];
+	preg_match_all('/^  `([^`]*)` (.*),$/msuU', $tableSchema['Create Table'], $matches);	
+	//print_r($matches);
+	foreach ($matches[1] as $idx => $field) {
+		$schemaFields[$field] = [
+			'line' => $matches[0][$idx],
+			'setting' => $matches[2][$idx],
+			'null' => strpos($matches[0][$idx], ' NOT NULL') === false ? true : false,
+		];
+	}
 	$alters = [];
+	$comments = [];
 	foreach ($fields[$suffix] as $key => $data) {
 		if (!in_array('array', $data['types']) && !in_array('object', $data['types'])) {
+			$storage = in_array($key, $storedFields) ? 'STORED' : 'VIRTUAL';
 			if (in_array('string', $data['types']) && $data['maxLength'] > 3000) {
-				$field = 'text CHARACTER SET \'utf8mb4\' COLLATE \'utf8mb4_unicode_ci\'';
+				$field = 'text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
 			} elseif (in_array('string', $data['types'])) {
-				$field = 'varchar('.$data['maxLength'].') CHARACTER SET \'utf8mb4\' COLLATE \'utf8mb4_unicode_ci\'';
+				if ($data['maxLength'] > 1000) {
+					$data['maxLength'] = ceil($data['maxLength'] / 1000) * 1000;
+				} elseif ($data['maxLength'] > 100) {
+					$data['maxLength'] += $data['maxLength'];
+					$data['maxLength'] = ceil($data['maxLength'] / 100) * 100;
+				} elseif ($data['maxLength'] > 50) {
+					$data['maxLength'] += $data['maxLength'];
+					$data['maxLength'] = ceil($data['maxLength'] / 10) * 10;
+				}
+				$field = 'varchar('.$data['maxLength'].') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
 			} elseif (in_array('float', $data['types'])) {
 				$field = 'float'.($data['negative'] == false ? ' unsigned' : '');
 			} elseif (in_array('int', $data['types'])) {
@@ -90,15 +113,19 @@ foreach($suffixes as $suffix) {
 				$field = 'changeme';
 				echo 'Add handling for '.$table.' '.$key.' '.json_encode($data).PHP_EOL;
 			}
+			$fieldSetting = $field.' GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4\'$.'.$key.'\'))) '.$storage.($schemaFields[$key]['null'] === false ? ' NOT NULL' : '');
 			if (!in_array($key, $columns)) {
-				$alters[] = 'ADD COLUMN '.$key.' '.$field.' generated always as (json_unquote(json_extract(`doc`,_utf8mb4\'$.'.$key.'\'))) VIRTUAL AFTER '.$lastBeforeUpdated;
+				$alters[] = 'ADD COLUMN '.$key.' '.$fieldSetting.' AFTER '.$lastBeforeUpdated;
 				$lastBeforeUpdated = $key;
 			} else {
-				$alters[] = 'CHANGE COLUMN '.$key.' '.$key.' '.$field.' GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4\'$.'.$key.'\'))) VIRTUAL ';
+				if (str_replace(' CHARACTER SET utf8mb4', '', $schemaFields[$key]['setting']) != str_replace(' CHARACTER SET utf8mb4', '', $fieldSetting)) {
+					$comments[] = '--  '.$schemaFields[$key]['line'];
+					$alters[] = 'CHANGE COLUMN '.$key.' '.$key.' '.$fieldSetting;
+				}
 			}
 		}
 	}
 	if (count($alters) > 0) {
-		echo 'ALTER TABLE '.$table.PHP_EOL.' '.implode(','.PHP_EOL.' ', $alters).';'.PHP_EOL;
+		echo implode(','.PHP_EOL, $comments).PHP_EOL.'ALTER TABLE '.$table.PHP_EOL.implode(','.PHP_EOL, $alters).';'.PHP_EOL;
 	}
 }
