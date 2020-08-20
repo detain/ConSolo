@@ -18,6 +18,8 @@ $emptyKey = [
 	'maxLength' => 0,
 	'count' => 0,
 	'types' => [],
+	'negative' => false,
+	'null' => false,
 ];
 foreach($suffixes as $suffix) {
 	$fields[$suffix] = [];
@@ -43,21 +45,26 @@ foreach($suffixes as $suffix) {
 			foreach ($keys as $docKey) {
 				$key = array_key_exists($docKey, $fields[$suffix]) ? $fields[$suffix][$docKey] : $emptyKey;
 				$key['count']++;
-				if (is_array($doc[$docKey]))
+				$type = false;
+				if (is_array($doc[$docKey])) {
 					$type = 'array';
-				elseif (is_object($doc[$docKey]))
+				} elseif (is_object($doc[$docKey])) {
 					$type = 'object';
-				elseif (is_null($doc[$docKey]))
-					$type = 'null';
-				elseif (is_bool($doc[$docKey]))
+				} elseif (is_null($doc[$docKey])) {
+					$key['null'] = true;
+				} elseif (is_bool($doc[$docKey])) {
 					$type = 'bool';
-				elseif (is_float($doc[$docKey]))
+				} elseif (is_float($doc[$docKey])) {
+					if ((float)$doc[$docKey] < 0)
+						$key['negative'] = true;
 					$type = 'float';
-				elseif (is_numeric($doc[$docKey]) && $doc[$docKey] == (int)$doc[$docKey])
+				} elseif (is_numeric($doc[$docKey]) && $doc[$docKey] == (int)$doc[$docKey]) {
+					if ((int)$doc[$docKey] < 0)
+						$key['negative'] = true;
 					$type = 'int';
-				else
+				} else
 					$type = 'string';
-				if (!in_array($type, $key['types']))
+				if ($type !== false && !in_array($type, $key['types']))
 					$key['types'][] = $type;
 				if ($type != 'null' && $type != 'array' && strlen($doc[$docKey]) > $key['maxLength'])
 					$key['maxLength'] = strlen($doc[$docKey]);
@@ -74,11 +81,11 @@ foreach($suffixes as $suffix) {
 			} elseif (in_array('string', $data['types'])) {
 				$field = 'varchar('.$data['maxLength'].') CHARACTER SET \'utf8mb4\' COLLATE \'utf8mb4_unicode_ci\'';
 			} elseif (in_array('float', $data['types'])) {
-				$field = 'float';
+				$field = 'float'.($data['negative'] == false ? ' unsigned' : '');
 			} elseif (in_array('int', $data['types'])) {
-				$field = 'int';
+				$field = 'int'.($data['negative'] == false ? ' unsigned' : '');
 			} elseif (in_array('bool', $data['types'])) {
-				$field = 'tinyint';
+				$field = 'tinyint unsigned';
 			} else {
 				$field = 'changeme';
 				echo 'Add handling for '.$table.' '.$key.' '.json_encode($data).PHP_EOL;
