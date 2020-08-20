@@ -11,7 +11,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 */
 global $db;
 global $config, $curl_config;
-$suffixes = ['collection', 'keyword', 'production_company', 'tv_episodes', 'tv_network', 'tv_seasons', 'tv_series', 'movie', 'person'];
+$suffixes = ['imdb', 'tmdb_collection', 'tmdb_keyword', 'tmdb_production_company', 'tmdb_tv_episodes', 'tmdb_tv_network', 'tmdb_tv_seasons', 'tmdb_tv_series', 'tmdb_movie', 'tmdb_person'];
 $fields = [];
 $limit = 100000;
 $emptyKey = [
@@ -25,8 +25,8 @@ $storedFields = ['id', 'season_number', 'imdb_id', 'title'];
 foreach($suffixes as $suffix) {
 	$fields[$suffix] = [];
 	$offset = 0;
-	$table = 'tmdb_'.$suffix;
-	echo 'Working on '.$table.PHP_EOL;
+	$table = $suffix;
+	echo 'Working on '.$table;
 	$keys = $db->query('show columns from '.$table);
 	$columns = [];
 	$lastBeforeUpdated = '';
@@ -39,6 +39,7 @@ foreach($suffixes as $suffix) {
 		$columns[] = $column['Field'];
 	}
 	while ($docs = $db->column('select doc from '.$table.' limit '.$offset.', '.$limit)) {
+		echo ' #'.$offset.'-'.($offset+$limit);
 		//echo 'Loaded '.$table.' Offset '.$offset.PHP_EOL;
 		foreach ($docs as $doc) {
 			$doc = json_decode($doc, true);
@@ -74,6 +75,7 @@ foreach($suffixes as $suffix) {
 		}
 		$offset += $limit;
 	}
+	echo ' done'.PHP_EOL;
 	$tableSchema = $db->row('show create table '.$table);
 	$schemaFields = [];
 	preg_match_all('/^  `([^`]*)` (.*),$/msuU', $tableSchema['Create Table'], $matches);	
@@ -113,7 +115,7 @@ foreach($suffixes as $suffix) {
 				$field = 'changeme';
 				echo 'Add handling for '.$table.' '.$key.' '.json_encode($data).PHP_EOL;
 			}
-			$fieldSetting = $field.' GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4\'$.'.$key.'\'))) '.$storage.($schemaFields[$key]['null'] === false ? ' NOT NULL' : '');
+			$fieldSetting = $field.' GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4\'$.'.$key.'\'))'.(in_array('bool', $data['types']) ? ' = _utf8mb4\'true\'' : '').') '.$storage.((array_key_exists($key, $schemaFields) && $schemaFields[$key]['null'] === false) || $data['null'] === false ? ' NOT NULL' : '');
 			if (!in_array($key, $columns)) {
 				$alters[] = 'ADD COLUMN '.$key.' '.$fieldSetting.' AFTER '.$lastBeforeUpdated;
 				$lastBeforeUpdated = $key;
