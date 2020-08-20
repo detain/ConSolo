@@ -11,7 +11,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 */
 global $db;
 global $config, $curl_config;
-$suffixes = ['person', 'collection','keyword','production_company','tv_episodes','tv_network','tv_seasons','tv_series','movie'];
+$suffixes = ['collection', 'keyword', 'production_company', 'tv_episodes', 'tv_network', 'tv_seasons', 'tv_series', 'movie', 'person'];
 $fields = [];
 $limit = 100000;
 $emptyKey = [
@@ -41,8 +41,6 @@ foreach($suffixes as $suffix) {
 			$doc = json_decode($doc, true);
 			$keys = array_keys($doc);
 			foreach ($keys as $docKey) {
-				if (in_array($docKey, $columns))
-					continue;
 				$key = array_key_exists($docKey, $fields[$suffix]) ? $fields[$suffix][$docKey] : $emptyKey;
 				$key['count']++;
 				if (is_array($doc[$docKey]))
@@ -72,9 +70,9 @@ foreach($suffixes as $suffix) {
 	foreach ($fields[$suffix] as $key => $data) {
 		if (!in_array('array', $data['types']) && !in_array('object', $data['types'])) {
 			if (in_array('string', $data['types']) && $data['maxLength'] > 3000) {
-				$field = 'text';
+				$field = 'text CHARACTER SET \'utf8mb4\' COLLATE \'utf8mb4_unicode_ci\'';
 			} elseif (in_array('string', $data['types'])) {
-				$field = 'varchar('.$data['maxLength'].')';
+				$field = 'varchar('.$data['maxLength'].') CHARACTER SET \'utf8mb4\' COLLATE \'utf8mb4_unicode_ci\'';
 			} elseif (in_array('float', $data['types'])) {
 				$field = 'float';
 			} elseif (in_array('int', $data['types'])) {
@@ -85,11 +83,15 @@ foreach($suffixes as $suffix) {
 				$field = 'changeme';
 				echo 'Add handling for '.$table.' '.$key.' '.json_encode($data).PHP_EOL;
 			}
-			$alters[] = 'add column '.$key.' '.$field.' generated always as (json_unquote(json_extract(`doc`,_utf8mb4\'$.'.$key.'\'))) VIRTUAL AFTER '.$lastBeforeUpdated;
-			$lastBeforeUpdated = $key;
+			if (!in_array($key, $columns)) {
+				$alters[] = 'ADD COLUMN '.$key.' '.$field.' generated always as (json_unquote(json_extract(`doc`,_utf8mb4\'$.'.$key.'\'))) VIRTUAL AFTER '.$lastBeforeUpdated;
+				$lastBeforeUpdated = $key;
+			} else {
+				$alters[] = 'CHANGE COLUMN '.$key.' '.$key.' '.$field.' GENERATED ALWAYS AS (json_unquote(json_extract(`doc`,_utf8mb4\'$.'.$key.'\'))) VIRTUAL ';
+			}
 		}
 	}
 	if (count($alters) > 0) {
-		echo 'alter table '.$table.PHP_EOL.' '.implode(','.PHP_EOL.' ', $alters).';'.PHP_EOL;
+		echo 'ALTER TABLE '.$table.PHP_EOL.' '.implode(','.PHP_EOL.' ', $alters).';'.PHP_EOL;
 	}
 }
