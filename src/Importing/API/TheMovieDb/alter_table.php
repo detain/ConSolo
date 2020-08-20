@@ -6,7 +6,6 @@
 * based on the data it fineds
 */
 require_once __DIR__.'/../../../bootstrap.php';
-$imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_credits','director','episodes','genre','genres','get_episode_details','goofs','imdbsite','is_serial','keywords','languages','locations','main_url','movietype','mpaa','mpaa_reason','orig_title','photo_localurl','plot','plotoutline','producer','quotes','rating','runtime','seasons','sound','soundtrack','tagline','taglines','title','trailers','trivia','votes','writing','year'];
 /**
 * @var \Workerman\MySQL\Connection
 */
@@ -20,18 +19,30 @@ $emptyKey = [
 	'count' => 0,
 	'types' => [],
 ];
-echo sprintf("%20s  %15s  %7s %7s  %s\n", 'Table', 'Key', 'Max Len', 'Count', 'Types');
-echo '---------------------------------------------------------------------'.PHP_EOL;
 foreach($suffixes as $suffix) {
 	$fields[$suffix] = [];
 	$offset = 0;
 	$table = 'tmdb_'.$suffix;
+	echo 'Working on '.$table.PHP_EOL;
+	$keys = $db->query('show columns from '.$table);
+	$columns = [];
+	$lastBeforeUpdated = '';
+	$foundUpdated = false;
+	foreach ($keys as $column) {
+		if ($foundUpdated === false && $column['Field'] != 'updated')
+			$lastBeforeUpdated = $column['Field'];
+		elseif ($column['Field'] == 'updated')
+			$foundUpdated = true;
+		$columns[] = $column['Field'];
+	}
 	while ($docs = $db->column('select doc from '.$table.' limit '.$offset.', '.$limit)) {
 		//echo 'Loaded '.$table.' Offset '.$offset.PHP_EOL;
 		foreach ($docs as $doc) {
 			$doc = json_decode($doc, true);
 			$keys = array_keys($doc);
 			foreach ($keys as $docKey) {
+				if (in_array($docKey, $columns))
+					continue;
 				$key = array_key_exists($docKey, $fields[$suffix]) ? $fields[$suffix][$docKey] : $emptyKey;
 				$key['count']++;
 				if (is_array($doc[$docKey]))
@@ -50,14 +61,35 @@ foreach($suffixes as $suffix) {
 					$type = 'string';
 				if (!in_array($type, $key['types']))
 					$key['types'][] = $type;
-				if ($type != 'null' && $type != 'array' && mb_strlen($doc[$docKey]) > $key['maxLength'])
-					$key['maxLength'] = mb_strlen($doc[$docKey]);
+				if ($type != 'null' && $type != 'array' && strlen($doc[$docKey]) > $key['maxLength'])
+					$key['maxLength'] = strlen($doc[$docKey]);
 				$fields[$suffix][$docKey] = $key;
 			}
 		}
 		$offset += $limit;
 	}
+	$alters = [];
 	foreach ($fields[$suffix] as $key => $data) {
-		echo sprintf("%20s  %15s  %7d %7d  %s\n", $suffix, $key, $data['maxLength'], $data['count'], implode(',', $data['types']));
+		if (!in_array('array', $data['types']) && !in_array('object', $data['types'])) {
+			if (in_array('string', $data['types']) && $data['maxLength'] > 3000) {
+				$field = 'text';
+			} elseif (in_array('string', $data['types'])) {
+				$field = 'varchar('.$data['maxLength'].')';
+			} elseif (in_array('float', $data['types'])) {
+				$field = 'float';
+			} elseif (in_array('int', $data['types'])) {
+				$field = 'int';
+			} elseif (in_array('bool', $data['types'])) {
+				$field = 'tinyint';
+			} else {
+				$field = 'changeme';
+				echo 'Add handling for '.$table.' '.$key.' '.json_encode($data).PHP_EOL;
+			}
+			$alters[] = 'add column '.$key.' '.$field.' generated always as (json_unquote(json_extract(`doc`,_utf8mb4\'$.'.$key.'\'))) VIRTUAL AFTER '.$lastBeforeUpdated;
+			$lastBeforeUpdated = $key;
+		}
+	}
+	if (count($alters) > 0) {
+		echo 'alter table '.$table.PHP_EOL.' '.implode(','.PHP_EOL.' ', $alters).';'.PHP_EOL;
 	}
 }
