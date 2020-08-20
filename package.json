@@ -8,6 +8,7 @@
   "license": "GPL-3.0",
   "private": false,
   "dependencies": {
+    "axios": "^0.19.2",
     "bootstrap": "^3",
     "datatables.net-autofill-bs": "^*",
     "datatables.net-bs": "^*",
@@ -27,6 +28,7 @@
     "jszip": "*",
     "pdfmake": "*",
     "vue": "*",
+    "vue-axios": "^2.1.5",
     "vuetify": "*"
   }
 }
