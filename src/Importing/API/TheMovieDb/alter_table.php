@@ -21,7 +21,7 @@ $emptyKey = [
 	'negative' => false,
 	'null' => true,
 ];
-$storedFields = ['id', 'season_number'];
+$storedFields = ['id', 'season_number', 'imdb_id', 'title'];
 foreach($suffixes as $suffix) {
 	$fields[$suffix] = [];
 	$offset = 0;
