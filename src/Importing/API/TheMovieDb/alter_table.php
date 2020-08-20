@@ -11,7 +11,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 */
 global $db;
 global $config, $curl_config;
-$suffixes = ['collection','keyword','production_company','tv_episodes','tv_network','tv_seasons','tv_series','movie','person'];
+$suffixes = ['person', 'collection','keyword','production_company','tv_episodes','tv_network','tv_seasons','tv_series','movie'];
 $fields = [];
 $limit = 100000;
 $emptyKey = [
