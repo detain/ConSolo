@@ -45,8 +45,6 @@ foreach($suffixes as $suffix) {
 					->lowPriority($config['db_low_priority'])
 					->query();
 				echo '+';
-			} else {
-				echo '-';
 			}
 		}
 		$offset += $limit;
