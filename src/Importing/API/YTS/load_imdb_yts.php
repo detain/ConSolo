@@ -35,7 +35,7 @@ foreach ($imdbIds as $imdbId) {
 		$db->insert('imdb')
 			->cols([
 				'id' => $imdbId, 
-				'doc' => json_encode($imdb)
+				'doc' => json_encode($imdb, JSON_PRETTY_PRINT)
 			])
 			->lowPriority($config['db_low_priority'])
 			->query();            

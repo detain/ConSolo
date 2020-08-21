@@ -37,12 +37,12 @@ foreach($suffixes as $suffix) {
 			$fileName = $dataDir.'/'.$docData['id'].'.json';
 			if (!file_exists($fileName)) {
 				$doc = json_decode($docData['doc'], true);
+				$doc['id'] = $docData['id'];
 				$json = json_encode($doc, JSON_PRETTY_PRINT);
-				echo $json.PHP_EOL;exit;
 				file_put_contents($fileName, $json);
 				$db->update($table)
 					->cols(['doc' => $json])
-					->where('id='.$docData['id'])
+					->where("id='{$docData['id']}'")
 					->lowPriority($config['db_low_priority'])
 					->query();
 				echo '+';

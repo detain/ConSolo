@@ -89,7 +89,7 @@ foreach ($lists as $list) {
 			if (!in_array($line['id'], $ids)) {
 				//echo 'inserting '.$line;
 				$id = $db->insert('tmdb_'.$list)
-					->cols(['doc' => json_encode($line)])
+					->cols(['doc' => json_encode($line, JSON_PRETTY_PRINT)])
 					->lowPriority($config['db_low_priority'])
 					->query();
 				echo '+';
@@ -150,7 +150,7 @@ foreach ($lists as $list) {
 		$response = call_user_func($func, $id);
 		if (isset($response['id']))
 			$db->update('tmdb_'.$list)
-				->cols(['doc' => json_encode($response)])
+				->cols(['doc' => json_encode($response, JSON_PRETTY_PRINT)])
 				->where('id='.$id)
 				->lowPriority($config['db_low_priority'])
 				->query();

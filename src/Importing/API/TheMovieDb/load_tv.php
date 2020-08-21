@@ -88,7 +88,7 @@ foreach ($lookups as $row) {
 		$db->insert('tmdb_tv_seasons')
 			->cols([
 				'tv_id' => $id,
-				'doc' => json_encode($response)
+				'doc' => json_encode($response, JSON_PRETTY_PRINT)
 			])
 			->lowPriority($config['db_low_priority'])
 			->query();		

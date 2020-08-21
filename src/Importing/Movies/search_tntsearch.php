@@ -9,7 +9,10 @@ function handleMovieTitleResults($movieResult, &$extra, $result) {
 		if (count($otherResults) > 0) {
 			$extra['imdb_id'] = $movieResult['source_id'];
 			$extra['tmdb_id'] = $otherResults[0]['id'];
-			$db->update('files')->cols(['extra' => json_encode($extra)])->where('id='.$result['id'])->query();
+			$db->update('files')
+				->cols(['extra' => json_encode($extra, JSON_PRETTY_PRINT)])
+				->where('id='.$result['id'])
+				->query();
 			echo 'Updated file '.$result['id'].' set extra '.json_encode($extra).PHP_EOL;
 		}
 	} else {
@@ -17,7 +20,10 @@ function handleMovieTitleResults($movieResult, &$extra, $result) {
 		if (count($otherResults) > 0) {
 			$extra['tmdb_id'] = $movieResult['source_id'];
 			$extra['imdb_id'] = $otherResults[0]['imdb_id'];
-			$db->update('files')->cols(['extra' => json_encode($extra)])->where('id='.$result['id'])->query();
+			$db->update('files')
+				->cols(['extra' => json_encode($extra, JSON_PRETTY_PRINT)])
+				->where('id='.$result['id'])
+				->query();
 			echo 'Updated file '.$result['id'].' set extra '.json_encode($extra).PHP_EOL;
 		}                        
 	}    

@@ -77,6 +77,7 @@ foreach ($imdbIds as $imdbId) {
 		$imdbCode = preg_replace('/^tt/','', $imdbId);
 		$title = new \Imdb\Title($imdbCode, $imdbConfig);
 		$imdb = [];
+		$imdb['id'] = $imdbId;
 		foreach ($imdbFields as $field) {
 			if (method_exists($title, $field)) {
 				try {
@@ -95,7 +96,7 @@ foreach ($imdbIds as $imdbId) {
 			$db->insert('imdb')
 				->cols([
 					'id' => $imdbId, 
-					'doc' => json_encode($imdb)
+					'doc' => json_encode($imdb, JSON_PRETTY_PRINT)
 				])
 				->lowPriority($config['db_low_priority'])
 				->query();            

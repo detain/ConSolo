@@ -70,7 +70,7 @@ foreach ($tmdbIds as $idx => $tmdbId) {
 		if ($updateExisting == true && in_array($tmdbId, $existingIds)) {
 			$db->update('tmdb_movie')
 				->cols([
-					'doc' => json_encode($title)
+					'doc' => json_encode($title, JSON_PRETTY_PRINT)
 				])
 				->where('id='.$tmdbId)
 				->lowPriority($config['db_low_priority'])
@@ -80,7 +80,7 @@ foreach ($tmdbIds as $idx => $tmdbId) {
 		} else {
 			$db->insert('tmdb_movie')
 				->cols([
-					'doc' => json_encode($title)
+					'doc' => json_encode($title, JSON_PRETTY_PRINT)
 				])
 				->lowPriority($config['db_low_priority'])
 				->query();            
