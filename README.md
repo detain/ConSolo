@@ -10,6 +10,23 @@ Currently its a mass of scripts loosely tied together and development will be fo
 
 ## Features
 
+### Video Players
+
+<link href="/lib/video.js/dist/video-js.min.css" rel="stylesheet">
+<script src="/lib/video.js/dist/video.min.js"></script>
+<video id="my-player" class="video-js" controls preload="auto" poster="//vjs.zencdn.net/v/oceans.png" data-setup='{}'>
+  <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+  <source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
+  <source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
+  <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+</video>
+
+https://github.com/videojs/video.js
+https://videojs.com/
+https://github.com/google/shaka-player
+https://shaka-player-demo.appspot.com/docs/api/tutorial-welcome.html
+
+
 ### Automatic Discovery and Importing of Updating Data Sources
 
 * Data Sources

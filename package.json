@@ -27,6 +27,8 @@
     "jquery": "*",
     "jszip": "*",
     "pdfmake": "*",
+    "shaka-player": "^3.0.3",
+    "video.js": "^7.8.4",
     "vue": "*",
     "vue-axios": "^2.1.5",
     "vuetify": "*"
