@@ -11,7 +11,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 */
 global $db;
 global $config, $curl_config;
-$suffixes = ['tmdb_collection', 'tmdb_production_company', 'tmdb_tv_episodes', 'tmdb_tv_network', 'tmdb_tv_seasons', 'tmdb_tv_series', 'tmdb_movie', 'tmdb_person', 'imdb'];
+$suffixes = ['imdb', 'tmdb_collection', 'tmdb_production_company', 'tmdb_tv_episodes', 'tmdb_tv_network', 'tmdb_tv_seasons', 'tmdb_tv_series', 'tmdb_movie', 'tmdb_person'];
 $fields = [];
 $limit = 50000;
 $emptyKey = [
@@ -38,6 +38,7 @@ foreach($suffixes as $suffix) {
 			if (!file_exists($fileName)) {
 				$doc = json_decode($docData['doc'], true);
 				$json = json_encode($doc, JSON_PRETTY_PRINT);
+				echo $json.PHP_EOL;exit;
 				file_put_contents($fileName, $json);
 				$db->update($table)
 					->cols(['doc' => $json])
