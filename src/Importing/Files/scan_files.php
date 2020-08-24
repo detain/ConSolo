@@ -78,6 +78,7 @@ function updateCompressedFile($path, $parentId)  {
 		if (isMediainfo($pathInfo['extension']) && (!isset($fileData['mediainfo']) || $reread == true)) {
 			$cmd = 'exec mediainfo --Output=JSON '.escapeshellarg($path);
 			$fileData['extra']['mediainfo'] = json_decode(`$cmd`, true);
+			$fileData['extra']['mediainfo'] = $fileData['extra']['mediainfo']['media']['track'];
 			$return = false;    
 		}
 		if (isExifinfo($pathInfo['extension']) && (!isset($fileData['exifinfo']) || $reread == true)) {
@@ -105,7 +106,12 @@ function updateCompressedFile($path, $parentId)  {
 	$fileData['parent'] = $parentId;
 	if (array_key_exists('extra', $fileData))
 		$fileData['extra'] = json_encode($fileData['extra']);
+	$extraData = [];
+	$extraData['extra'] = $fileData['extra'];
+	unset($fileData['extra']);
 	$id = $db->insert('files')->cols($fileData)->lowPriority($config['db_low_priority'])->query();
+	$extraData['id'] = $id;
+	$db->insert('files_extra')->cols($extraData)->lowPriority($config['db_low_priority'])->query();
 	echo "  Added file #{$id} {$virtualPath} : ".json_encode($fileData)." from Compressed parent {$parentData['path']}\n";
 }
 
@@ -186,7 +192,7 @@ function compressedFileHandler($path) {
 			if (hasFileExt($path, $compressionType)) {
 				// handle compressed file
 				$parentId = $paths[$cleanPath];
-				$rows = $db->query("select * from files where parent={$parentId}");
+				$rows = $db->query("select files.*, extra from files left join files_extra using (id) where parent={$parentId}");
 				echo 'Found Compressed file #'.$parentId.' '.$path.' of type '.$compressionType.' with '.count($rows).' entries'.PHP_EOL;
 				if (count($rows) == 0) {
 					if (extractCompressedFile($path, $compressionType)) {
@@ -236,6 +242,7 @@ function updateFile($path)  {
 		if (isMediainfo($pathInfo['extension']) && (!isset($fileData['mediainfo']) || $reread == true)) {
 			$cmd = 'exec mediainfo --Output=JSON '.escapeshellarg($path);
 			$fileData['extra']['mediainfo'] = json_decode(`$cmd`, true);
+			$fileData['extra']['mediainfo'] = $fileData['extra']['mediainfo']['media']['track'];
 			$newData['extra'] = $fileData['extra'];
 			$return = false;    
 		}
@@ -266,12 +273,17 @@ function updateFile($path)  {
 		} else {
 			$cmd = 'exec file -b -p '.escapeshellarg($path);
 		}
-		$newData['extra']['magic'] = cleanUtf8(trim(`{$cmd}`));
-		$fileData['extra']['magic'] = $newData['extra']['magic'];
+		$fileData['extra']['magic'] = cleanUtf8(trim(`{$cmd}`));
+		$newData['extra'] = $fileData['extra'];
 		$return = false;    
 	}
 	if (array_key_exists('extra', $newData))
 		$newData['extra'] = json_encode($newData['extra']);
+	$extraData = [];
+	$extraData['extra'] = $fileData['extra'];
+	unset($fileData['extra']);
+	unset($newData['extra']);
+		
 	if ($return === false) {
 		if (!isset($paths[$cleanPath])) {
 			$newData['path'] = $cleanPath;
@@ -279,9 +291,12 @@ function updateFile($path)  {
 			$id = $db->insert('files')->cols($newData)->lowPriority($config['db_low_priority'])->query();
 			$paths[$cleanPath] = $id;
 			echo "  Added file #{$id} {$cleanPath} : ".json_encode($newData).PHP_EOL;
+			$extraData['id'] = $id;
+			$db->insert('files_extra')->cols($extraData)->lowPriority($config['db_low_priority'])->query();
 		} else {
 			$id = $paths[$cleanPath];
 			$db->update('files')->cols($newData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
+			$db->update('files_extra')->cols($extraData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
 			echo "  Updated file #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($newData).PHP_EOL;
 		}
 		$files[$id] = $fileData;
@@ -325,12 +340,12 @@ function loadFiles($path = null) {
 	$files = [];
 	$paths = [];
 	if (is_null($path)) {
-		$tempFiles = $db->query("select *, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files f1 where host={$hostId} and parent is null");
+		$tempFiles = $db->query("select f1.*, extra, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files f1 left join files_extra using (id) where host={$hostId} and parent is null");
 	} else {
 		$cleanPath = cleanPath($path);
 		$cleanPath = str_replace("'", '\\'."'", $cleanPath);
 		echo 'Searching Path '.$cleanPath.PHP_EOL;
-		$tempFiles = $db->query("select *, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files f1 where host={$hostId} and path like '{$cleanPath}%' and parent is null");
+		$tempFiles = $db->query("select f1.*, extra, (select count(*) from files f2 where f2.parent=f1.id) as num_files from files f1 left join files_extra using (id) where host={$hostId} and path like '{$cleanPath}%' and parent is null");
 	}
 	echo '[Line '.__LINE__.'] Current Memory Usage: '.memory_get_usage().PHP_EOL;
 	foreach ($tempFiles as $idx => $data) {
