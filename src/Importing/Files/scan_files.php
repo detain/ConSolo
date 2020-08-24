@@ -67,8 +67,7 @@ function updateCompressedFile($path, $parentId)  {
 	$parentPath = $parentData['path'];
 	$virtualPath = str_replace($tmpDir.'/', '', $path);
 	$linkedPath = str_replace($tmpDir.'/', $parentPath.'#', $path); 
-	$realPath = $path;
-	$pathStat = stat($realPath);
+	$pathStat = stat($path);
 	$fileData = [];
 	$newData = [];
 	foreach ($statFields as $statField) {
@@ -77,6 +76,22 @@ function updateCompressedFile($path, $parentId)  {
 		}
 		$fileData[$statField] = $pathStat[$statField];
 	}
+	$pathInfo = pathinfo($path);
+	if (array_key_exists('extension', $pathInfo)) {
+		if (isMediainfo($pathInfo['extension']) && (!isset($fileData['mediainfo']) || $reread == true)) {
+			$cmd = 'exec mediainfo --Output=JSON '.escapeshellarg($path);
+			$fileData['extra']['mediainfo'] = json_decode(`$cmd`, true);
+			$newData['extra'] = $fileData['extra'];
+			$return = false;    
+		}
+		if (isExifinfo($pathInfo['extension']) && (!isset($fileData['exifinfo']) || $reread == true)) {
+			$cmd = 'exec exiftool -j '.escapeshellarg($path);
+			$fileData['extra']['exifinfo'] = json_decode(`$cmd`, true);
+			$fileData['extra']['exifinfo'] = $fileData['extra']['exifinfo'][0];
+			$newData['extra'] = $fileData['extra'];
+			$return = false;    
+		}
+	}
 	if (!isset($fileData['host']) || $fileData['host'] != $hostId) {
 		$newData['host'] = $hostId;
 	}
@@ -84,7 +99,7 @@ function updateCompressedFile($path, $parentId)  {
 	foreach ($compressedHashAlgos as $hashAlgo) {
 		if (!isset($fileData[$hashAlgo])) {
 			$newData[$hashAlgo] = hash_file($hashAlgo, $path);
-			$fileData[$hashAlgo] = hash_file($hashAlgo, $path);
+			$fileData[$hashAlgo] = $newData[$hashAlgo];
 		}
 	}
 	//if (DIRECTORY_SEPARATOR == '\\') {
@@ -97,6 +112,8 @@ function updateCompressedFile($path, $parentId)  {
 	$fileData['magic'] = cleanUtf8(trim(`{$cmd}`));
 	$fileData['path'] = $virtualPath;
 	$fileData['parent'] = $parentId;
+	if (array_key_exists('extra', $newData))
+		$newData['extra'] = json_encode($newData['extra'], JSON_PRETTY_PRINT);
 	$id = $db->insert('files')->cols($fileData)->lowPriority($config['db_low_priority'])->query();
 	echo "  Added file #{$id} {$virtualPath} : ".json_encode($fileData)." from Compressed parent {$parentData['path']}\n";
 }
@@ -129,18 +146,6 @@ function updateCompressedDir($path, $parentId) {
 			}
 		}
 	}    
-}
-
-function cleanUtf8($text) {
-	$text = preg_replace('/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]'.
-	'|(?<=^|[\x00-\x7F])[\x80-\xBF]+'.
-	'|([\xC0\xC1]|[\xF0-\xFF])[\x80-\xBF]*'.
-	'|[\xC2-\xDF]((?![\x80-\xBF])|[\x80-\xBF]{2,})'.
-	'|[\xE0-\xEF](([\x80-\xBF](?![\x80-\xBF]))|(?![\x80-\xBF]{2})|[\x80-\xBF]{3,})/',
-	'ï¿½', $text);
-	$text = preg_replace('/\xE0[\x80-\x9F][\x80-\xBF]'.
-	'|\xED[\xA0-\xBF][\x80-\xBF]/S','?', $text);    
-	return $text;    
 }
 
 function cleanTmpDir() {
@@ -217,11 +222,10 @@ function updateFile($path)  {
 		echo 'Skipping file "'.$path.'" as it exceeds max filesize ('.$pathStat['size'].' > '.$maxSize.')'.PHP_EOL;
 		return;
 	}
-	if (!array_key_exists($cleanPath, $paths)) {
-		$fileData = [];
-	} else {
-		$fileData = $files[$paths[$cleanPath]];
-	}
+	$fileData = array_key_exists($cleanPath, $paths) ? $files[$paths[$cleanPath]] : [];
+	$fileData['extra'] = is_null($fileData['extra']) || $fileData['extra'] == '' ? [] : json_decode($fileData['extra'], true);
+	if (!is_array($fileData['extra']))
+		$fileData['extra'] = [];
 	$newData = [];
 	foreach ($statFields as $statField) {
 		if (!isset($fileData[$statField]) || $pathStat[$statField] != $fileData[$statField]) {
@@ -236,6 +240,22 @@ function updateFile($path)  {
 		$return = false;
 		$reread = true;        
 	}
+	$pathInfo = pathinfo($path);
+	if (array_key_exists('extension', $pathInfo)) {
+		if (isMediainfo($pathInfo['extension']) && (!isset($fileData['mediainfo']) || $reread == true)) {
+			$cmd = 'exec mediainfo --Output=JSON '.escapeshellarg($path);
+			$fileData['extra']['mediainfo'] = json_decode(`$cmd`, true);
+			$newData['extra'] = $fileData['extra'];
+			$return = false;    
+		}
+		if (isExifinfo($pathInfo['extension']) && (!isset($fileData['exifinfo']) || $reread == true)) {
+			$cmd = 'exec exiftool -j '.escapeshellarg($path);
+			$fileData['extra']['exifinfo'] = json_decode(`$cmd`, true);
+			$fileData['extra']['exifinfo'] = $fileData['extra']['exifinfo'][0];
+			$newData['extra'] = $fileData['extra'];
+			$return = false;    
+		}
+	}
 	if (!isset($fileData['host']) || $fileData['host'] != $hostId) {
 		$newData['host'] = $hostId;
 	}
@@ -244,7 +264,7 @@ function updateFile($path)  {
 		if (!isset($fileData[$hashAlgo]) || $reread == true) {
 			$return = false;
 			$newData[$hashAlgo] = hash_file($hashAlgo, $path);
-			$fileData[$hashAlgo] = hash_file($hashAlgo, $path);
+			$fileData[$hashAlgo] = $newData[$hashAlgo];
 		}
 	}
 	if ($useMagic == true && (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true)) {
@@ -259,6 +279,8 @@ function updateFile($path)  {
 		$fileData['magic'] = $newData['magic'];
 		$return = false;    
 	}
+	if (array_key_exists('extra', $newData))
+		$newData['extra'] = json_encode($newData['extra'], JSON_PRETTY_PRINT);
 	if ($return === false) {
 		if (!isset($paths[$cleanPath])) {
 			$newData['path'] = $cleanPath;
