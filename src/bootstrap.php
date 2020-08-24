@@ -13,6 +13,19 @@ global $config;
 $config = require __DIR__.'/config.php';
 include_once __DIR__.'/stdObject.php';
 
+
+function cleanUtf8($text) {
+	$text = preg_replace('/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]'.
+	'|(?<=^|[\x00-\x7F])[\x80-\xBF]+'.
+	'|([\xC0\xC1]|[\xF0-\xFF])[\x80-\xBF]*'.
+	'|[\xC2-\xDF]((?![\x80-\xBF])|[\x80-\xBF]{2,})'.
+	'|[\xE0-\xEF](([\x80-\xBF](?![\x80-\xBF]))|(?![\x80-\xBF]{2})|[\x80-\xBF]{3,})/',
+	'ï¿½', $text);
+	$text = preg_replace('/\xE0[\x80-\x9F][\x80-\xBF]'.
+	'|\xED[\xA0-\xBF][\x80-\xBF]/S','?', $text);    
+	return $text;    
+}
+
 /**
  * converts the arguments to a list of fields and values , for use with the make_insert_query() function
  *
@@ -101,6 +114,45 @@ function make_insert_query($table, $args, $duplicate_args = false)
 	} else {
 		return '';
 	}
+}
+
+/**
+* returns whether or not the given extension is one of the ones mediainfo supports
+* 
+* @param string $ext the file extension
+* @return bool
+*/
+function isMediainfo($ext) {
+	$validExt = ['aac','ac3','aifc','aiff','ape','asf','asp','ass','au','avi','avr','divx','dts','flac','idx','iff','ifo','irca',
+		'm1v','m2v','m4a','m4v','mac','mat','mka','mks','mkv','mov','mp2','mp3','mp4','mpeg','mpg','mpgv','mpv','ogg','ogm',
+		'paf','pvf','qt','rm','rmvb','rv','sami','sd2','smi','srm','srt','srt2utf-8','ssa','sub','sup','vob',
+		'w64','wav','wma','wmv','xds','xi','xvid'];
+	return in_array(strtolower($ext), $validExt);
+}
+
+/**
+* returns whether or not the given extension is one of the ones exifinfo supports
+* 
+* @param string $ext the file extension
+* @return bool
+*/
+function isExifinfo($ext) {
+	$validExt = ['3fr','3g2','3gp','3gp2','3gpp','a','aa','aae','aax','acfm','acr','afm','ai','aif','aifc','aiff','ait','amfm',
+		'ape','arq','arw','asf','avi','avif','azw','azw3','bmp','bpg','btf','chm','ciff','cos','cr2','cr3','crw','cs1','csv',
+		'dc3','dcm','dcp','dcr','dfont','dib','dic','dicm','divx','djv','djvu','dll','dng','doc','docm','docx','dot','dotm',
+		'dotx','dpx','dr4','dv','dvb','dvr-ms','dylib','eip','eps','epsf','epub','erf','exe','exif','exr','exv','f4a','f4b',
+		'f4p','f4v','fff','fla','flac','flif','flv','fpf','fpx','gif','gpr','gz','gzip','hdp','hdr','heic','heif','hif',
+		'htm','html','ical','icc','icm','ics','idml','iiq','ind','indd','indt','insv','inx','iso','itc','j2c','j2k','jng',
+		'jp2','jpc','jpe','jpeg','jpf','jpg','jpm','jpx','json','jxr','k25','kdc','key','kth','la','lfp','lfr','lnk','lrv',
+		'm2t','m2ts','m2v','m4a','m4b','m4p','m4v','max','mef','mie','mif','miff','mka','mks','mkv','mng','mobi','modd','moi',
+		'mos','mov','mp3','mp4','mpc','mpeg','mpg','mpo','mqv','mrw','mts','mxf','nef','nmbtemplate','nrw','numbers','o',
+		'odb','odc','odf','odg','ofr','ogg','ogv','opus','orf','otf','pac','pages','pbm','pcd','pct','pcx','pdb','pdf','pef',
+		'pfa','pfb','pfm','pgf','pgm','pict','plist','pmp','png','pot','potm','potx','ppam','ppax','ppm','pps','ppsm','ppsx',
+		'ppt','pptm','pptx','prc','ps','psb','psd','psdt','psp','pspimage','qif','qt','qti','qtif','r3d','ra','raf','ram',
+		'raw','rif','riff','rm','rmvb','rpm','rsrc','rtf','rv','rw2','rwl','rwz','seq','sketch','so','sr2','srf','srw',
+		'svg','swf','thm','thmx','tif','tiff','torrent','ts','ttc','ttf','txt','vcard','vcf','vob','vrd','vsd','wav','wdp',
+		'webm','webp','wma','wmv','wtv','wv','x3f','xcf','xhtml','xls','xlsb','xlsm','xlsx','xlt','xltm','xltx','xmp','yes'];
+	return in_array(strtolower($ext), $validExt);
 }
 
 /**
