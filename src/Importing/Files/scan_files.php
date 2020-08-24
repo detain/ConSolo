@@ -71,9 +71,6 @@ function updateCompressedFile($path, $parentId)  {
 	$fileData = [];
 	$newData = [];
 	foreach ($statFields as $statField) {
-		if (!isset($fileData[$statField]) || $pathStat[$statField] != $fileData[$statField]) {
-			$newData[$statField] = $pathStat[$statField];            
-		}
 		$fileData[$statField] = $pathStat[$statField];
 	}
 	$pathInfo = pathinfo($path);
@@ -81,25 +78,19 @@ function updateCompressedFile($path, $parentId)  {
 		if (isMediainfo($pathInfo['extension']) && (!isset($fileData['mediainfo']) || $reread == true)) {
 			$cmd = 'exec mediainfo --Output=JSON '.escapeshellarg($path);
 			$fileData['extra']['mediainfo'] = json_decode(`$cmd`, true);
-			$newData['extra'] = $fileData['extra'];
 			$return = false;    
 		}
 		if (isExifinfo($pathInfo['extension']) && (!isset($fileData['exifinfo']) || $reread == true)) {
 			$cmd = 'exec exiftool -j '.escapeshellarg($path);
 			$fileData['extra']['exifinfo'] = json_decode(`$cmd`, true);
 			$fileData['extra']['exifinfo'] = $fileData['extra']['exifinfo'][0];
-			$newData['extra'] = $fileData['extra'];
 			$return = false;    
 		}
-	}
-	if (!isset($fileData['host']) || $fileData['host'] != $hostId) {
-		$newData['host'] = $hostId;
 	}
 	$fileData['host'] = $hostId;
 	foreach ($compressedHashAlgos as $hashAlgo) {
 		if (!isset($fileData[$hashAlgo])) {
-			$newData[$hashAlgo] = hash_file($hashAlgo, $path);
-			$fileData[$hashAlgo] = $newData[$hashAlgo];
+			$fileData[$hashAlgo] = hash_file($hashAlgo, $path);
 		}
 	}
 	//if (DIRECTORY_SEPARATOR == '\\') {
@@ -109,11 +100,11 @@ function updateCompressedFile($path, $parentId)  {
 	} else {
 		$cmd = 'exec file -b -p '.escapeshellarg($path);
 	}
-	$fileData['magic'] = cleanUtf8(trim(`{$cmd}`));
+	$fileData['extra']['magic'] = cleanUtf8(trim(`{$cmd}`));
 	$fileData['path'] = $virtualPath;
 	$fileData['parent'] = $parentId;
-	if (array_key_exists('extra', $newData))
-		$newData['extra'] = json_encode($newData['extra'], JSON_PRETTY_PRINT);
+	if (array_key_exists('extra', $fileData))
+		$fileData['extra'] = json_encode($fileData['extra']);
 	$id = $db->insert('files')->cols($fileData)->lowPriority($config['db_low_priority'])->query();
 	echo "  Added file #{$id} {$virtualPath} : ".json_encode($fileData)." from Compressed parent {$parentData['path']}\n";
 }
@@ -267,7 +258,7 @@ function updateFile($path)  {
 			$fileData[$hashAlgo] = $newData[$hashAlgo];
 		}
 	}
-	if ($useMagic == true && (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true)) {
+	if ($useMagic == true && (!isset($fileData['extra']['magic']) || is_null($fileData['extra']['magic']) || $reread == true)) {
 		//if (DIRECTORY_SEPARATOR == '\\') {
 		if (!$Linux) {
 			//$cmd = 'C:/Progra~2/GnuWin32/bin/file -b -p '.escapeshellarg($path);
@@ -275,12 +266,12 @@ function updateFile($path)  {
 		} else {
 			$cmd = 'exec file -b -p '.escapeshellarg($path);
 		}
-		$newData['magic'] = cleanUtf8(trim(`{$cmd}`));
-		$fileData['magic'] = $newData['magic'];
+		$newData['extra']['magic'] = cleanUtf8(trim(`{$cmd}`));
+		$fileData['extra']['magic'] = $newData['extra']['magic'];
 		$return = false;    
 	}
 	if (array_key_exists('extra', $newData))
-		$newData['extra'] = json_encode($newData['extra'], JSON_PRETTY_PRINT);
+		$newData['extra'] = json_encode($newData['extra']);
 	if ($return === false) {
 		if (!isset($paths[$cleanPath])) {
 			$newData['path'] = $cleanPath;
