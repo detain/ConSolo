@@ -75,13 +75,13 @@ function updateCompressedFile($path, $parentId)  {
 	}
 	$pathInfo = pathinfo($path);
 	if (array_key_exists('extension', $pathInfo)) {
-		if (isMediainfo($pathInfo['extension']) && (!isset($fileData['mediainfo']) || $reread == true)) {
+		if (isMediainfo($pathInfo['extension']) && (!isset($fileData['extra']['mediainfo']) || $reread == true)) {
 			$cmd = 'exec mediainfo --Output=JSON '.escapeshellarg($path);
 			$fileData['extra']['mediainfo'] = json_decode(`$cmd`, true);
 			$fileData['extra']['mediainfo'] = $fileData['extra']['mediainfo']['media']['track'];
 			$return = false;    
 		}
-		if (isExifinfo($pathInfo['extension']) && (!isset($fileData['exifinfo']) || $reread == true)) {
+		if (isExifinfo($pathInfo['extension']) && (!isset($fileData['extra']['exifinfo']) || $reread == true)) {
 			$cmd = 'exec exiftool -j '.escapeshellarg($path);
 			$fileData['extra']['exifinfo'] = json_decode(`$cmd`, true);
 			$fileData['extra']['exifinfo'] = $fileData['extra']['exifinfo'][0];
@@ -239,14 +239,14 @@ function updateFile($path)  {
 	}
 	$pathInfo = pathinfo($path);
 	if (array_key_exists('extension', $pathInfo)) {
-		if (isMediainfo($pathInfo['extension']) && (!isset($fileData['mediainfo']) || $reread == true)) {
+		if (isMediainfo($pathInfo['extension']) && (!isset($fileData['extra']['mediainfo']) || $reread == true)) {
 			$cmd = 'exec mediainfo --Output=JSON '.escapeshellarg($path);
 			$fileData['extra']['mediainfo'] = json_decode(`$cmd`, true);
 			$fileData['extra']['mediainfo'] = $fileData['extra']['mediainfo']['media']['track'];
 			$newData['extra'] = $fileData['extra'];
 			$return = false;    
 		}
-		if (isExifinfo($pathInfo['extension']) && (!isset($fileData['exifinfo']) || $reread == true)) {
+		if (isExifinfo($pathInfo['extension']) && (!isset($fileData['extra']['exifinfo']) || $reread == true)) {
 			$cmd = 'exec exiftool -j '.escapeshellarg($path);
 			$fileData['extra']['exifinfo'] = json_decode(`$cmd`, true);
 			$fileData['extra']['exifinfo'] = $fileData['extra']['exifinfo'][0];
@@ -277,13 +277,13 @@ function updateFile($path)  {
 		$newData['extra'] = $fileData['extra'];
 		$return = false;    
 	}
-	if (array_key_exists('extra', $newData))
+	if (array_key_exists('extra', $newData)) {
 		$newData['extra'] = json_encode($newData['extra']);
-	$extraData = [];
-	$extraData['extra'] = $fileData['extra'];
-	unset($fileData['extra']);
-	unset($newData['extra']);
-		
+		$extraData = [];
+		$extraData['extra'] = $newData['extra'];
+		unset($fileData['extra']);
+		unset($newData['extra']);
+	}		
 	if ($return === false) {
 		if (!isset($paths[$cleanPath])) {
 			$newData['path'] = $cleanPath;
@@ -295,9 +295,11 @@ function updateFile($path)  {
 			$db->insert('files_extra')->cols($extraData)->lowPriority($config['db_low_priority'])->query();
 		} else {
 			$id = $paths[$cleanPath];
-			$db->update('files')->cols($newData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
-			$db->update('files_extra')->cols($extraData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
+			if (count($newData) > 0)
+						$db->update('files')->cols($newData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
 			echo "  Updated file #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($newData).PHP_EOL;
+			echo "  Updated file extra #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($extraData).PHP_EOL;
+			$db->update('files_extra')->cols($extraData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
 		}
 		$files[$id] = $fileData;
 	}
