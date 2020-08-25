@@ -1,0 +1,2315 @@
+<html>
+	<head>
+		<title>{{ data.title }} ({{ data.year }}) &#8212; ConSolo</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="cleartype" content="on">
+		<meta charset="utf-8">
+		<meta name="keywords" content="Movies, TV Shows, Streaming, Reviews, API, Actors, Actresses, Photos, User Ratings, Synopsis, Trailers, Teasers, Credits, Cast">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="320">
+		<meta name="viewport" content="width=1120">
+		<meta name="theme-color" content="#032541">
+		<link rel="manifest" href="/manifest.json?version=3">
+		<link rel="canonical" href="https://www.themoviedb.org/movie/{{ data.id }}-{{ data.title | slugify }}">
+		<link rel="search" type="application/opensearchdescription+xml" title="TMDb Search" href="/opensearch.xml">
+		<link rel="preconnect" href="https://image.tmdb.org/" crossorigin>
+		<meta property="og:title" content="{{ data.title }}">
+		<meta property="og:description" content="{{ data.overview }}">
+		<meta property="og:image" content="https://image.tmdb.org/t/p/w500{{ data.poster_path }}">
+		<meta property="og:image" content="https://image.tmdb.org/t/p/w780{{ data.backdrop_path }}">
+		<meta property="og:type" content="movie">
+		<meta property="og:url" content="https://www.themoviedb.org/movie/{{ data.id }}-{{ data.title | slugify }}?language=en-US">
+		<meta property="og:site_name" content="ConSolo">
+		<meta name="twitter:card" content="photo">
+		<meta name="twitter:title" content="{{ data.title }}">
+		<meta name="twitter:description" content="{{ data.overview }}">
+		<meta name="twitter:image" content="https://image.tmdb.org/t/p/w780{{ data.backdrop_path }}">
+		<meta name="twitter:image:width" content="780">
+		<meta name="twitter:image:height" content="439">
+		<meta name="twitter:site" content="@lorddetain">
+		<meta name="twitter:url" content="https://www.themoviedb.org/movie/{{ data.id }}-{{ data.title | slugify }}?language=en-US">
+		<meta name="description" content="{{ data.overview }}">
+		<link rel="stylesheet" href="https://www.themoviedb.org/assets/2/v4/fonts-f578d72aab1b29e57199fe0eefab11f965977296ecc398469564152d147e08c9.css" media="screen">
+		<link rel="stylesheet" href="https://www.themoviedb.org/assets/2/application-1b05ed16f639bb8aefa1d378ebafcb725417a8a82256c43e6071b897bd8c2e8d.css" media="screen">
+		<link rel="stylesheet" href="https://www.themoviedb.org/assets/2/v4/media-665e0a66787e5763b893509acf08a386c62c30a11a921db17a67246f08a4391e.css" media="screen">
+		<link rel="stylesheet" href="https://www.themoviedb.org/assets/2/v4/ott-8ba1c148276d5c56ba11f9d687d4a2baf77db72a1877bf63349cd824e94da015.css" media="screen">
+		<link rel="stylesheet" href="https://www.themoviedb.org/assets/2/v4/image-f3b526294b3458cf944014905881d178bcda4b47f03ea46cc7d0efd4e328c9e9.css" media="screen">
+		<script src="https://www.themoviedb.org/assets/2/lozad.min-7f803337d01a657607bca6b20e06f371c3895b36a5f2be03a8fa9b5e16c9a83e.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.12/vue.js"></script> -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.28/vue.js"></script>
+		<style>
+.k-tooltip.custom_theme {
+	background-color: #ffffff;
+	color: #000000;
+}
+.custom_theme .k-callout-n {
+	border-bottom-color: #ffffff;
+}
+.custom_theme .k-callout-e {
+	border-left-color: #ffffff;
+}
+.custom_theme .k-callout-w {
+	border-right-color: #ffffff;
+}
+.custom_theme .k-callout-s {
+	border-top-color: #ffffff;
+}
+#shortcut_bar_scroller.scroller_wrap,
+div.single_column_wrapper {
+	border-bottom: 1px solid rgba(2.35%, 43.53%, 84.71%, 1);
+}
+div.header.large.first {
+	border-bottom: 1px solid rgba(2.35%, 43.53%, 84.71%, 1);
+	background-position: right -200px top;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+section.inner_content section.header div.facts span.certification {
+	border: 1px solid rgba(100%, 100%, 100%, 0.6);
+	color: rgba(100%, 100%, 100%, 0.6);
+}
+section div.header.first div.single_column {
+	background: transparent;
+}
+section.inner_content section.header {
+	color: #ffffff;
+}
+section.inner_content a,
+section.media_panel div.menu ul li.active a {
+	color: #000;
+}
+section.inner_content a:hover,
+section.media_panel div.menu ul li.active a:hover {
+	color: #0066cc;
+}
+section.inner_content section.header ul.actions li.tooltip a,
+section.inner_content section.header ul.actions li.video a {
+	border-color: #ffffff;
+	color: #ffffff;
+}
+p.new_button a,
+section.media_panel div.menu ul li.view_all a,
+div.episode div.info span.episode_number,
+section.review div.review_container div.inner_content div.teaser p a {
+	color: #0066cc;
+}
+p.rounded.new_button a:hover {
+	color: #ffffff;
+}
+section.media_panel div.menu ul li.active,
+section.inner_content ul.shortcut_bar li.selected,
+section.inner_content ul.shortcut_bar li:hover {
+	border-color: #0066cc;
+}
+section.content_score div.content_score {
+	background-color: rgba(0%, 40%, 80%, 0.6);
+}
+div.settings_panel h3.background_color {
+	background-color: #0066cc;
+}
+section.inner_content div.custom_bg {
+	background-image: linear-gradient(
+		to right,
+		rgba(0%, 40%, 80%, 1) 150px,
+		rgba(4.71%, 47.06%, 89.41%, 0.84) 100%
+	);
+}
+section.inner_content.no_backdrop.poster div.custom_bg {
+	background-image: linear-gradient(
+		to right,
+		rgba(0%, 40%, 80%, 0.84) 0,
+		rgba(4.71%, 47.06%, 89.41%, 0.64) 100%
+	);
+}
+section.inner_content section.header a,
+section.inner_content section.header div.title a {
+	color: #ffffff;
+}
+p.new_button.rounded,
+section.content_score div.content_score div,
+div.leaderboard div.histogram div.bar span {
+	border-color: #0066cc;
+	background-color: #0066cc;
+}
+div.header.collection h2 {
+	color: #fff;
+}
+div.header.collection {
+	background-image: linear-gradient(
+			to right,
+			rgba(var(--tmdbDarkBlue), 1) 0%,
+			rgba(var(--tmdbDarkBlue), 0.6) 100%
+		),
+		url("https://image.tmdb.org/t/p/w1440_and_h320_multi_faces{{ item.belongs_to_collection.backdrop_path }}");
+	background-size: cover;
+	background-position: 50% 50%;
+}
+		</style>
+	</head>
+	<body>
+<div id="app">
+	<main id="main" class="smaller  subtle show_search_false">
+		<section class="inner_content movie_content backdrop poster">
+			<div id="shortcut_bar_scroller" class="scroller_wrap shortcut_bar_wrapper is_fading">
+				<ul id="new_shortcut_bar" class="dropdown_menu scroller k-widget k-reset k-header k-menu k-menu-horizontal" data-role="menu" tabindex="0" role="menubar">
+					<li class="true k-item k-menu-item k-state-default k-first" aria-haspopup="true" role="menuitem" style="z-index: auto;"><span class="k-link k-menu-link">
+							Overview
+							<span class="k-menu-expand-arrow k-icon k-i-arrow-60-down"></span></span>
+						<div class="k-animation-container" style="width: 202.533px; height: 272px; overflow: hidden; z-index: 10002; top: 45px; left: 0px; box-sizing: content-box; display: none; position: absolute;" aria-hidden="true">
+							<ul class="media group k-group k-menu-group k-popup k-reset" role="menu" style="max-height: 831px; overflow: auto; position: absolute; font-size: 16px; font-stretch: 100%; font-style: normal; font-weight: 400; line-height: 24px; display: none;" data-role="popup" aria-hidden="true">
+								<li class="k-item k-menu-item k-state-default k-first" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}" class="k-link k-menu-link">Main</a></li>
+								<li class="k-item k-menu-item k-state-default" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/titles" class="k-link k-menu-link">Alternative Titles</a></li>
+								<li class="k-item k-menu-item k-state-default" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/cast" class="k-link k-menu-link">Cast &amp; Crew</a></li>
+								<li class="k-item k-menu-item k-state-default" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/releases" class="k-link k-menu-link">Release Dates</a></li>
+								<li class="k-item k-menu-item k-state-default" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/translations" class="k-link k-menu-link">Translations</a></li>
+								<li class="spacer k-item k-menu-item k-state-default" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/changes" title="Changes" class="k-link k-menu-link">Changes</a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="false k-item k-menu-item k-state-default" aria-haspopup="true" role="menuitem"><span class="k-link k-menu-link">
+							Media
+							<span class="k-menu-expand-arrow k-icon k-i-arrow-60-down"></span></span>
+						<ul class="media number_group k-group k-menu-group" role="menu" aria-hidden="true">
+							<li class="k-item k-menu-item k-state-default k-first" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/images/backdrops" class="k-link k-menu-link">Backdrops <span class="count">9</span></a></li>
+							<li class="k-item k-menu-item k-state-default" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/images/posters" class="k-link k-menu-link">Posters <span class="count">26</span></a></li>
+							<li aria-haspopup="true" class="k-item k-menu-item k-state-default k-last" role="menuitem"><span class="k-link k-menu-link">
+									Videos
+									<span class="k-menu-expand-arrow k-icon k-i-arrow-60-right"></span></span>
+								<ul class="number_group k-group k-menu-group" role="menu" aria-hidden="true">
+									<li class="k-item k-menu-item k-state-default k-first k-last" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/videos?active_nav_item=Trailers" class="k-link k-menu-link">Trailers <span class="count">1</span></a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li class="false k-item k-menu-item k-state-default" aria-haspopup="true" role="menuitem"><span class="k-link k-menu-link">
+							Fandom
+							<span class="k-menu-expand-arrow k-icon k-i-arrow-60-down"></span></span>
+						<ul class="media k-group k-menu-group" role="menu" aria-hidden="true">
+							<li aria-haspopup="true" class="k-item k-menu-item k-state-default k-first" role="menuitem"><span class="k-link k-menu-link">
+									Discussions
+									<span class="k-menu-expand-arrow k-icon k-i-arrow-60-right"></span></span>
+								<ul class="number_group k-group k-menu-group" role="menu" aria-hidden="true">
+									<li class="k-item k-menu-item k-state-default k-first" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/discuss" class="k-link k-menu-link">Overview</a></li>
+									<li class="k-item k-menu-item k-state-default" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/discuss/category/5047951f760ee3318900009a" class="k-link k-menu-link">General <span class="count">0</span></a></li>
+									<li class="k-item k-menu-item k-state-default k-last" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/discuss/category/504794a319c29527aa000640" class="k-link k-menu-link">Content Issues <span class="count">0</span></a></li>
+								</ul>
+							</li>
+							<li class="k-item k-menu-item k-state-default k-last" role="menuitem"><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/reviews" class="k-link k-menu-link">Reviews</a></li>
+						</ul>
+					</li>
+					<li aria-haspopup="true" class="k-item k-menu-item k-state-default k-last" role="menuitem"><span class="k-link k-menu-link">
+							Share
+							<span class="k-menu-expand-arrow k-icon k-i-arrow-60-down"></span></span>
+						<ul class="media k-group k-menu-group" role="menu" aria-hidden="true">
+							<li class="k-item k-menu-item k-state-default k-first" role="menuitem"><a id="share" class="no_click k-link k-menu-link" href="#" title="Share">Share Link</a></li>
+							<li class="k-item k-menu-item k-state-default" role="menuitem"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.themoviedb.org%2Fmovie%2F{{ item.id }}-{{ item.title | slugify }}" target="_blank" rel="noopener" class="k-link k-menu-link">Facebook</a></li>
+							<li class="k-item k-menu-item k-state-default k-last" role="menuitem"><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.themoviedb.org%2Fmovie%2F{{ item.id }}-{{ item.title | slugify }}&amp;text={{ item.title }} @themoviedb&amp;related=themoviedb" target="_blank" rel="noopener" class="k-link k-menu-link">Tweet</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="header large border first" :style="item.backdrop_path | bgImage">
+				<div class="keyboard_s custom_bg">
+					<div class="single_column">
+						<section id="original_header" class="images inner">
+							<div class="poster_wrapper true">
+								<div class="poster">
+									<div class="image_content backdrop">
+										<img class="poster lazyload" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ item.poster_path }}" data-src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ item.poster_path }}" data-srcset="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ item.poster_path }} 1x, https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ item.poster_path }} 2x" alt="{{ item.title }}" srcset="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ item.poster_path }} 1x, https://image.tmdb.org/t/p/w600_and_h900_bestv2{{ item.poster_path }} 2x" data-loaded="true">
+									</div>
+									<div class="zoom">
+										<a href="#" class="no_click"><span class="glyphicons_v2 fullscreen white"></span> Expand</a>
+									</div>
+								</div>
+								<div class="ott_offer">
+									<div class="text_wrapper">
+										<div class="loading_wrapper">
+											<div class="ball-scale-multiple loader white">
+												<div></div>
+												<div></div>
+												<div></div>
+											</div>
+										</div>
+										<div class="button">
+											<div class="provider">
+												<img src="https://images.justwatch.com/icon/147638351/s100" alt="Now Streaming on Disney Plus" width="36" height="36">
+											</div>
+											<div class="text">
+												<span>
+													<h4>Now Streaming</h4>
+													<h3><a class="no_click" href="/movie/{{ item.id }}-{{ item.title | slugify }}/watch" title="Now Streaming on Disney Plus">Watch Now</a></h3>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="header_poster_wrapper true">
+								<section class="header poster">
+									<div class="title ott_true" dir="auto">
+										<h2 class="14">
+											<a href="/movie/{{ item.id }}-{{ item.title | slugify }}">{{ item.title }}</a>
+											<span class="tag release_date">({{ item.year }})</span>
+										</h2>
+										<div class="facts">
+											<span class="certification">
+												G
+											</span>
+											<span class="release">
+												{{ item.release_date }} (US)
+											</span>
+											<!-- <span class="genres" v-for="(genre, index) in item.genres">
+												<a href="/genre/{{ genre.id }}-{{ genre.name | slugify }}/movie">{{ genre.name }}</a><span v-if="index == genres.length - 1">,&nbsp;</span>
+											</span> -->
+											<span class="runtime">
+												{{ item.runtime }}
+											</span>
+										</div>
+									</div>
+									<ul class="auto actions">
+										<li class="chart">
+											<div class="consensus details">
+												<div class="outer_ring">
+													<div class="user_score_chart" data-percent="58.0" data-track-color="#423d0f" data-bar-color="#d2d531">
+														<div class="percent">
+															<span class="icon icon-r58"></span>
+														</div>
+														<canvas height="60" width="60"></canvas>
+													</div>
+												</div>
+											</div>
+											<div class="text">User<br>Score</div>
+										</li>
+										<li class="tooltip use_tooltip list tooltip_hover" title="Add to list" data-role="tooltip">
+											<a class="no_click" href="#"><span class="glyphicons_v2 thumbnails-list white"></span></a>
+										</li>
+										<li class="tooltip use_tooltip" title="Mark as favorite" data-role="tooltip">
+											<a id="favourite" class="no_click add_to_account_list favourite" href="#"><span class="glyphicons_v2 heart white false"></span></a>
+										</li>
+										<li class="tooltip use_tooltip" title="Add to your watchlist" data-role="tooltip">
+											<a id="watchlist" class="no_click add_to_account_list watchlist" href="#"><span class="glyphicons_v2 bookmark white false"></span></a>
+										</li>
+										<li class="tooltip use_tooltip rating tooltip_hover" title="Rate It!" data-role="tooltip">
+											<a id="rate_it" class="no_click rating" href="#"><span class="glyphicons_v2 star white false"></span></a>
+										</li>
+										<li class="video none">
+											<a class="no_click play_trailer" href="#" :data-site="item.videos.results[0].site" :data-id="item.videos.results[0].key" data-title="Play {{ item.videos.results[0].type }}"><span class="glyphicons_v2 play invert svg"></span> Play {{ item.videos.results[0].type }}</a>
+										</li>
+									</ul>
+									<div class="header_info">
+										<h3 class="tagline" dir="auto">{{ item.tagline }}.</h3>
+										<h3 dir="auto">Overview</h3>
+										<div class="overview" dir="auto">
+											<p>{{ item.overview }}</p>
+										</div>
+										<ol class="people no_image">
+											<li class="profile" v-for="(person, index) in item.credits.crew" v-if="person.job === 'Director'">
+												<p><a href="/person/{{ person.id }}-{{ person.name | slugify }}">{{ person.name }}</a></p>
+												<p class="character">{{ person.job }}</p>
+											</li>
+											<li class="profile" v-for="(person, index) in item.credits.crew" v-if="person.job === 'Screenplay'">
+												<p><a href="/person/{{ person.id }}-{{ person.name | slugify }}">{{ person.name }}</a></p>
+												<p class="character">{{ person.job }}</p>
+											</li>
+										</ol>
+									</div>
+								</section>
+							</div>
+						</section>
+						<div id="ott_offers_window" class="hidden">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="media_v4" class="media movie_v4 header_large">
+				<div class="column_wrapper">
+					<div class="content_wrapper">
+						<div>
+							<div class="white_column">
+								<section class="panel top_billed scroller">
+									<h3 dir="auto">Top Billed Cast</h3>
+									<div id="cast_scroller" class="scroller_wrap should_fade is_fading">
+										<ol class="people scroller" v-for="person in item.credits.cast">
+											<li class="card">
+												<a href="/person/{{ person.id }}-{{ person.name | slugify }}">
+													<img class="profile lazyload" data-src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" data-srcset="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }} 1x, https://image.tmdb.org/t/p/w276_and_h350_face{{ person.profile_path }} 2x" alt="{{ person.name }}" src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" srcset="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }} 1x, https://image.tmdb.org/t/p/w276_and_h350_face{{ person.profile_path }} 2x" data-loaded="true">
+												</a>
+												<p><a href="/person/{{ person.id }}-{{ person.name | slugify }}">{{ person.name }}</a></p>
+												<p class="character">{{ person.character }}</p>
+											</li>
+											<li class="filler view_more">
+												<p><a href="/movie/{{ item.id }}-{{ item.title | slugify }}/cast">View More <span class="glyphicons_v2 arrow-thin-right"></span></a></p>
+											</li>
+										</ol>
+										<div class="style_wrapper"></div>
+									</div>
+									<p class="new_button"><a class="" href="/movie/{{ item.id }}-{{ item.title | slugify }}/cast">Full Cast &amp; Crew</a></p>
+								</section>
+								<section class="panel media_panel social_panel">
+									<section class="review">
+										<div class="menu">
+											<h3 dir="auto">Social</h3>
+											<ul>
+												<li class="active" dir="auto"><a id="reviews" class="media_panel" href="#">Reviews <span>0</span></a></li>
+												<li class="" dir="auto"><a id="discussions" class="media_panel" href="#">Discussions <span>0</span></a></li>
+											</ul>
+										</div>
+										<div class="content">
+											<div class="original_content">
+												<div class="review_container zero">
+													<div class="content zero">
+														<p class="no_margin" dir="auto">
+															We don't have any reviews for {{ item.title }}. Would you like to <a href="/review/new?media_type=movie&amp;media_id=4bc8b31c017a3c122d05c003">write one</a>?
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
+								</section>
+								<section class="panel media_panel media scroller">
+									<div class="menu">
+										<h3 dir="auto">Media</h3>
+										<ul>
+											<li class="active" dir="auto"><a id="popular" class="media_panel" href="#">Most Popular</a></li>
+											<li dir="auto"><a id="videos" class="media_panel" href="#">Videos <span>1</span></a></li>
+											<li dir="auto"><a id="backdrops" class="media_panel" href="#">Backdrops <span>9</span></a></li>
+											<li dir="auto"><a id="posters" class="media_panel" href="#">Posters <span>26</span></a></li>
+											<li class="view_all"></li>
+										</ul>
+									</div>
+									<div id="media_scroller" class="scroller_wrap should_fade is_fading">
+										<div class="h_scroller content scroller">
+											<div class="video card no_border">
+												<div class="wrapper" style="background-image: url('https://i.ytimg.com/vi/{{ item.videos.results[0].key }}/hqdefault.jpg');">
+													<a class="no_click play_trailer" href="/video/play?key={{ item.videos.results[0].key }}" data-site="{{ item.videos.results[0].site }}" data-id="{{ item.videos.results[0].key }}" data-title="{{ item.title }} ({{ item.year }}) {{ item.videos.results[0].type }}">
+														<div class="play_background"><span class="glyphicons_v2 play invert svg"></span></div>
+													</a>
+												</div>
+											</div>
+											<div class="backdrop">
+												<img class="backdrop lazyload" data-src="https://image.tmdb.org/t/p/w533_and_h300_bestv2{{ item.backdrop_path }}" data-srcset="https://image.tmdb.org/t/p/w533_and_h300_bestv2{{ item.backdrop_path }} 1x, https://image.tmdb.org/t/p/w1066_and_h600_bestv2{{ item.backdrop_path }} 2x" alt="{{ item.title }}" src="https://image.tmdb.org/t/p/w533_and_h300_bestv2{{ item.backdrop_path }}" srcset="https://image.tmdb.org/t/p/w533_and_h300_bestv2{{ item.backdrop_path }} 1x, https://image.tmdb.org/t/p/w1066_and_h600_bestv2{{ item.backdrop_path }} 2x" data-loaded="true">
+											</div>
+											<div class="poster">
+												<img class="poster" src="https://image.tmdb.org/t/p/w220_and_h330_face{{ item.poster_path }}" srcset="https://image.tmdb.org/t/p/w220_and_h330_face{{ item.poster_path }} 1x, https://image.tmdb.org/t/p/w440_and_h660_face{{ item.poster_path }} 2x" alt="{{ item.title }}">
+											</div>
+										</div>
+									</div>
+								</section>
+								<section class="panel collection">
+									<div id="collection_waypoint" class="collection" style="">
+										<div class="header collection">
+											<div>
+												<h2>Part of the {{ item.belongs_to_collection.name }}</h2>
+												<p>Includes {{ item.title }}, 102 Dalmatians</p>
+											</div>
+											<p class="new_button rounded"><a href="/collection/{{ item.belongs_to_collection.id }}-{{ item.title | slugify }}-live-action-collection">View the Collection</a></p>
+										</div>
+									</div>
+								</section>
+								<section class="panel recommendations scroller">
+									<div id="recommendation_waypoint" style="">
+										<h3 dir="auto">Recommendations</h3>
+										<div id="recommendation_scroller" class="scroller_wrap should_fade is_fading">
+											<div class="scroller" v-for="(recommendation, index) in item.recommendations.results">
+												<div class="item mini backdrop mini_card">
+													<div class="image_content">
+														<a href="/movie/{{ recommendation.id }}" title="{{ recommendation.title }}" alt="{{ recommendation.original_title }}">
+															<img class="backdrop lazyload" data-src="https://image.tmdb.org/t/p/w250_and_h141_face{{ recommendation.backdrop_path }}" data-srcset="https://image.tmdb.org/t/p/w250_and_h141_face{{ recommendation.backdrop_path }} 1x, https://image.tmdb.org/t/p/w500_and_h282_face{{ recommendation.backdrop_path }} 2x" alt="{{ recommendation.title }}" src="https://image.tmdb.org/t/p/w250_and_h141_face{{ recommendation.backdrop_path }}" srcset="https://image.tmdb.org/t/p/w250_and_h141_face{{ recommendation.backdrop_path }} 1x, https://image.tmdb.org/t/p/w500_and_h282_face{{ recommendation.backdrop_path }} 2x" data-loaded="true">
+															<div class="meta">
+																<span class="release_date"><span class="glyphicons_v2 calendar"></span> {{ recommendation.release_date }}</span>
+																<span>
+																	<span id="rating_4bc8ad66017a3c122d05170e" class="glyphicons_v2 star right rating"></span>
+																	<span id="favourite_4bc8ad66017a3c122d05170e" class="glyphicons_v2 heart favourite list_action" data-media-type="movie"></span>
+																	<span id="favourite_4bc8ad66017a3c122d05170e_value" class="hide">Add to your favorite list</span>
+																	<span id="watchlist_4bc8ad66017a3c122d05170e" class="glyphicons_v2 bookmark watchlist list_action" data-media-type="movie"></span>
+																	<span id="watchlist_4bc8ad66017a3c122d05170e_value" class="hide">Add to your watchlist</span>
+																</span>
+															</div>
+														</a>
+													</div>
+													<p class="movie flex">
+														<a class="title" href="/movie/{{ recommendation.id }}" title="{{ recommendation.title }}" alt="{{ recommendation.original_title }}"><bdi>{{ recommendation.title }}</bdi></a>
+														<span class="vote_average">{{ recommendation.vote_average * 10 }}%</span>
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+						<div class="grey_column">
+							<div>
+								<section class="split_column">
+									<div>
+										<div class="column no_bottom_pad">
+											<section class="facts left_column">
+												<div class="social_links">
+													<div class="homepage">
+														<a class="social_link" title="Visit JustWatch" href="https://www.justwatch.com/us/movie/{{ item.title | slugify }}" target="_blank" rel="noopener" data-role="tooltip"><span class="glyphicons_v2 justwatch"></span></a>
+													</div>
+												</div>
+												<p>
+													<strong><bdi>Status</bdi></strong> {{ item.status | capitalize }}
+												</p>
+												<p><strong><bdi>Original Language</bdi></strong> {{ item.original_language }}</p>
+												<p><strong><bdi>Budget</bdi></strong> {{ item.budget | currency }}</p>
+												<p><strong><bdi>Revenue</bdi></strong> {{ item.revenue | currency }}</p>
+											</section>
+											<section class="keywords right_column">
+												<h4><bdi>Keywords</bdi></h4>
+												<ul v-for="(keyword, index in item.keywords.keywords">
+													<li><a href="/keyword/{{ keyword.id }}-{{ keyword.name | slugify }}/movie">{{ keyword.name }}</a></li>
+												</ul>
+											</section>
+										</div>
+									</div>
+									<div>
+										<section class="content_score">
+											<h4 dir="auto">Content Score</h4>
+											<div class="content_score">
+												<div class="false" style="width: 100%;">
+													<p>100</p>
+												</div>
+											</div>
+											<p dir="auto">Yes! Looking good!</p>
+										</section>
+									</div>
+									<div class="">
+										<p class="rounded new_button pad"><a class="" href="/movie/{{ item.id }}-{{ item.title | slugify }}/edit">edit page</a></p>
+									</div>
+									<div class="keyboard_shortcut_text">
+										<p><a id="keyboard_shortcuts" class="no_click" href="#"><span class="glyphicons_v2 keyboard"></span> Keyboard Shortcuts</a></p>
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+</div>
+		<script>
+var defaultItem = {
+	id: 0,
+	adult: false,
+	lists: {},
+	title: "101 Dalmatians",
+	video: false,
+	budget: 54000000,
+	genres: [, { id: 35, name: "Comedy" }, { id: 10751, name: "Family" }],
+	images: { posters: [], backdrops: [] },
+	status: "Released",
+	videos: {
+		results: [
+			{
+				id: "5a11117392514138e7044dbc",
+				key: "K2CTJS12RdI",
+				name: "101 Dalmatians (1996) Trailer",
+				site: "YouTube",
+				size: 480,
+				type: "Trailer",
+				iso_639_1: "en",
+				iso_3166_1: "US"
+			}
+		]
+	},
+	credits: {
+		cast: [
+			{
+				id: 515,
+				name: "Glenn Close",
+				order: 0,
+				gender: 1,
+				cast_id: 10,
+				character: "Cruella De Vil",
+				credit_id: "52fe44769251416c75035a2b",
+				profile_path: "/8FlKKFpUZ72oTpVKdVsjMmq1CWQ.jpg"
+			},
+			{
+				id: 8447,
+				name: "Jeff Daniels",
+				order: 1,
+				gender: 2,
+				cast_id: 11,
+				character: "Roger Dearly",
+				credit_id: "52fe44769251416c75035a2f",
+				profile_path: "/r0mkZJZnTSJO3HJRsMW5HtszxE8.jpg"
+			},
+			{
+				id: 20810,
+				name: "Joely Richardson",
+				order: 2,
+				gender: 1,
+				cast_id: 12,
+				character: "Anita Campbell-Green",
+				credit_id: "52fe44769251416c75035a33",
+				profile_path: "/Qf5EWbR8GUGITww7XAwTRoO4uP.jpg"
+			},
+			{
+				id: 23709,
+				name: "Joan Plowright",
+				order: 3,
+				gender: 1,
+				cast_id: 13,
+				character: "Nanny",
+				credit_id: "52fe44769251416c75035a37",
+				profile_path: "/un5wsOnz22Rvl82niE0LGAVxggQ.jpg"
+			},
+			{
+				id: 41419,
+				name: "Hugh Laurie",
+				order: 4,
+				gender: 2,
+				cast_id: 14,
+				character: "Jasper",
+				credit_id: "52fe44769251416c75035a3b",
+				profile_path: "/akArncggHnusP5jxzMBKmJDRrMo.jpg"
+			},
+			{
+				id: 20999,
+				name: "Mark Williams",
+				order: 5,
+				gender: 2,
+				cast_id: 18,
+				character: "Horace",
+				credit_id: "5a4e310a0e0a26480b00b422",
+				profile_path: "/gdlEDhxSmPv3hWHbpTuwCI5Jrtk.jpg"
+			},
+			{
+				id: 940,
+				name: "John Shrapnel",
+				order: 6,
+				gender: 2,
+				cast_id: 19,
+				character: "L. Skinner",
+				credit_id: "5a4e3126925141734300a913",
+				profile_path: "/A4Wmltbkz3sz79GcBkLeTqwfkvE.jpg"
+			},
+			{
+				id: 41043,
+				name: "Tim McInnerny",
+				order: 7,
+				gender: 2,
+				cast_id: 20,
+				character: "Alonzo",
+				credit_id: "5a4e3148c3a3683b7d00a5e4",
+				profile_path: "/nOLjLixEDo1xFhBmAfRLMKwB9Fv.jpg"
+			},
+			{
+				id: 67028,
+				name: "Hugh Fraser",
+				order: 8,
+				gender: 2,
+				cast_id: 21,
+				character: "Frederick",
+				credit_id: "5a4e318c0e0a26481a00ad2e",
+				profile_path: "/acBJGtwZGCFJdMHrAVsZDyv2qRX.jpg"
+			},
+			{
+				id: 115283,
+				name: "Michael Percival",
+				order: 9,
+				gender: 2,
+				cast_id: 25,
+				character: "Police Inspector",
+				credit_id: "5f02c14a15959f00375ad507",
+				profile_path: "/mYjwg4JgZ9rbc0yI2Rxn1XBjZyg.jpg"
+			},
+			{
+				id: 49968,
+				name: "Neville Phillips",
+				order: 10,
+				gender: 2,
+				cast_id: 26,
+				character: "Minister",
+				credit_id: "5f02c158f03174003959ea2f",
+				profile_path: "/t3vIAKqdcMkt8MN0UdYxnD95H04.jpg"
+			},
+			{
+				id: 42642,
+				name: "John Benfield",
+				order: 11,
+				gender: 2,
+				cast_id: 27,
+				character: "Doorman",
+				credit_id: "5f02c176dd258900379d9810",
+				profile_path: "/rNyJjeAP0PnQnKukqNbRMZHpxX6.jpg"
+			},
+			{
+				id: 15831,
+				name: "Frank Welker",
+				order: 12,
+				gender: 2,
+				cast_id: 22,
+				character: "Pongo / Pordy (voice)",
+				credit_id: "5a4e337cc3a3683b7800bc93",
+				profile_path: "/b3gImArbw13mMKJIe9leFc9YYb7.jpg"
+			},
+			{
+				id: 214701,
+				name: "Sherry Lynn",
+				order: 13,
+				gender: 1,
+				cast_id: 17,
+				character: "Additional Dialogue Replacement (voice)",
+				credit_id: "59f54ad1c3a3682e4c005cb7",
+				profile_path: "/cp7SYig9JVbBWgc2YD4wEUNQGzh.jpg"
+			},
+			{
+				id: 84493,
+				name: "Mickie McGowan",
+				order: 14,
+				gender: 1,
+				cast_id: 23,
+				character: "Additional Dialogue Replacement (voice)",
+				credit_id: "5aaf533c0e0a26782703451c",
+				profile_path: "/4K1HF10EvDjdaIoDAnWqFZjnmvk.jpg"
+			},
+			{
+				id: 1944781,
+				name: "Gerald Paris",
+				order: 15,
+				gender: 0,
+				cast_id: 28,
+				character: "Doctor",
+				credit_id: "5f02c1ae8a0e9b00359910f0",
+				profile_path: null
+			},
+			{
+				id: 1215232,
+				name: "Brian Capron",
+				order: 16,
+				gender: 2,
+				cast_id: 29,
+				character: "Television News Reporter",
+				credit_id: "5f02c1cef0317400365ec11e",
+				profile_path: null
+			},
+			{
+				id: 202402,
+				name: "Harry Fielder",
+				order: 17,
+				gender: 2,
+				cast_id: 30,
+				character: "Passerby",
+				credit_id: "5f02c1fcdd2589003a9d2be4",
+				profile_path: "/jsZ0clQ7wzDgJGQnWGHeE8rBGG4.jpg"
+			},
+			{
+				id: 2559085,
+				name: "Toby Hinson",
+				order: 18,
+				gender: 0,
+				cast_id: 31,
+				character: "Man In Park",
+				credit_id: "5f02c2107caa470035e2f40f",
+				profile_path: "/gsrrtfdEO2vB7qBBFIAaAQbyqDW.jpg"
+			}
+		],
+		crew: [
+			{
+				id: 7714,
+				job: "Music",
+				name: "Michael Kamen",
+				gender: 2,
+				credit_id: "52fe44769251416c75035a15",
+				department: "Sound",
+				profile_path: null
+			},
+			{
+				id: 7783,
+				job: "Director of Photography",
+				name: "Adrian Biddle",
+				gender: 2,
+				credit_id: "52fe44769251416c75035a1b",
+				department: "Camera",
+				profile_path: "/GdwwoTQ9ZaCQhlqiZt5heyxOzs.jpg"
+			},
+			{
+				id: 11505,
+				job: "Screenplay",
+				name: "John Hughes",
+				gender: 2,
+				credit_id: "52fe44769251416c750359fd",
+				department: "Writing",
+				profile_path: "/dFVgYYRY1R0aUCYvfEah00Iwzlt.jpg"
+			},
+			{
+				id: 11505,
+				job: "Producer",
+				name: "John Hughes",
+				gender: 2,
+				credit_id: "52fe44769251416c75035a03",
+				department: "Production",
+				profile_path: "/dFVgYYRY1R0aUCYvfEah00Iwzlt.jpg"
+			},
+			{
+				id: 16567,
+				job: "Editor",
+				name: "Larry Bock",
+				gender: 2,
+				credit_id: "52fe44769251416c75035a21",
+				department: "Editing",
+				profile_path: null
+			},
+			{
+				id: 18356,
+				job: "Director",
+				name: "Stephen Herek",
+				gender: 2,
+				credit_id: "52fe44769251416c750359f7",
+				department: "Directing",
+				profile_path: "/ni2MxgHBvzzYj9OzHpQ3yHkar79.jpg"
+			},
+			{
+				id: 11302,
+				job: "Executive Producer",
+				name: "Edward S. Feldman",
+				gender: 2,
+				credit_id: "52fe44769251416c75035a0f",
+				department: "Production",
+				profile_path: null
+			},
+			{
+				id: 58015,
+				job: "Producer",
+				name: "Ricardo Mestres",
+				gender: 2,
+				credit_id: "52fe44769251416c75035a09",
+				department: "Production",
+				profile_path: null
+			},
+			{
+				id: 58720,
+				job: "Editor",
+				name: "Trudy Ship",
+				gender: 1,
+				credit_id: "52fe44769251416c75035a27",
+				department: "Editing",
+				profile_path: null
+			},
+			{
+				id: 1460488,
+				job: "Animation",
+				name: "John Dillon",
+				gender: 0,
+				credit_id: "55478fd6c3a3680ce800b569",
+				department: "Visual Effects",
+				profile_path: null
+			},
+			{
+				id: 1460505,
+				job: "Animation",
+				name: "Rich Draper",
+				gender: 0,
+				credit_id: "554448a092514174da00049e",
+				department: "Visual Effects",
+				profile_path: null
+			},
+			{
+				id: 1713268,
+				job: "Carpenter",
+				name: "Peter N. Brown",
+				gender: 2,
+				credit_id: "5bbe22c7c3a36857dc00e6aa",
+				department: "Crew",
+				profile_path: null
+			}
+		]
+	},
+	imdb_id: "tt0115433",
+	revenue: 320689294,
+	reviews: { page: 1, results: [], total_pages: 0, total_results: 0 },
+	runtime: 103,
+	similar: {
+		page: 1,
+		results: [
+			{
+				id: 12230,
+				adult: false,
+				title: "One Hundred and One Dalmatians",
+				video: false,
+				overview:
+					"When a litter of dalmatian puppies are abducted by the minions of Cruella De Vil, the parents must find them before she uses them for a diabolical fashion statement.\r In a Disney animation classic, Dalmatian Pongo is tired of his bachelor-dog life. He spies lovely Perdita and maneuvers his master, Roger, into meeting Perdita's owner, Anita. The owners fall in love and marry, keeping Pongo and Perdita together too. After Perdita gives birth to a litter of 15 puppies, Anita's old school friend Cruella De Vil wants to buy them all. Roger declines her offer, so Cruella hires the criminal Badun brothers to steal them -- so she can have a fur coat.",
+				genre_ids: [12, 16, 35, 10751],
+				popularity: 15.387,
+				vote_count: 4363,
+				poster_path: "/9klDisS1sVb5LljRhpYJ0TUbPzt.jpg",
+				release_date: "1961-01-25",
+				vote_average: 7.1,
+				backdrop_path: "/npb2nrqJZDsintMTh6XOxNXfyG2.jpg",
+				original_title: "One Hundred and One Dalmatians",
+				original_language: "en"
+			},
+			{
+				id: 13654,
+				adult: false,
+				title: "101 Dalmatians II: Patch's London Adventure",
+				video: false,
+				overview:
+					"Being one of 101 takes its toll on Patch, who doesn't feel unique. When he's accidentally left behind on moving day, he meets his idol, Thunderbolt, who enlists him on a publicity campaign.",
+				genre_ids: [10751, 12, 35, 16],
+				popularity: 17.577,
+				vote_count: 775,
+				poster_path: "/mcl56J7tDPjzEesgpX4UPgAdbvf.jpg",
+				release_date: "2003-03-02",
+				vote_average: 5.9,
+				backdrop_path: "/102o4nnZtS0bR9osDz7cRc7WO6n.jpg",
+				original_title: "101 Dalmatians II: Patch's London Adventure",
+				original_language: "en"
+			},
+			{
+				id: 10481,
+				adult: false,
+				title: "102 Dalmatians",
+				video: false,
+				overview:
+					"Get ready for a howling good time as an all new assortment of irresistible animal heroes are unleashed in this great family tail! In an unlikely alliance, the outrageous Waddlesworth... a parrot who thinks he's a Rottweiler... teams up with Oddball... an un-marked Dalmation puppy eager to earn her spots! Together they embark on a laugh-packed quest to outwit the ever-scheming Cruella De Vil",
+				genre_ids: [35, 10751],
+				popularity: 8.739,
+				vote_count: 919,
+				poster_path: "/dSxnIika9yWwTvEbpsmoGdeh65E.jpg",
+				release_date: "2000-10-07",
+				vote_average: 5.5,
+				backdrop_path: "/gfwDO5Cx3ovGHauTURI4NHdB9MH.jpg",
+				original_title: "102 Dalmatians",
+				original_language: "en"
+			},
+			{
+				id: 20497,
+				adult: false,
+				title: "Ballet Shoes",
+				video: false,
+				overview:
+					"An unusual explorer named Gum and his kindly niece adopt three orphans -- Pauline, Petrova and Posy -- and raise them as sisters in 1930s London. But the girls must fend for themselves when Gum doesn't return from one of his adventures. Together, they nurture their passions for acting, aviation and ballet in this charming TV adaptation of Noel Streatfield's novel.",
+				genre_ids: [18, 10751, 10770],
+				popularity: 16.908,
+				vote_count: 199,
+				poster_path: "/bJAOuC0GLL1PHuefC8Ed8C0ja6m.jpg",
+				release_date: "2008-08-26",
+				vote_average: 6.4,
+				backdrop_path: null,
+				original_title: "Ballet Shoes",
+				original_language: "en"
+			},
+			{
+				id: 9598,
+				adult: false,
+				title: "Babe",
+				video: false,
+				overview:
+					"Babe is a little pig who doesn't quite know his place in the world. With a bunch of odd friends, like Ferdinand the duck who thinks he is a rooster and Fly the dog he calls mom, Babe realizes that he has the makings to become the greatest sheep pig of all time, and Farmer Hogget knows it. With the help of the sheep dogs Babe learns that a pig can be anything that he wants to be.",
+				genre_ids: [35, 18, 14, 10751],
+				popularity: 14.96,
+				vote_count: 1946,
+				poster_path: "/bjDIp0b5TQRx4kF8l9TKeUANLTp.jpg",
+				release_date: "1995-07-18",
+				vote_average: 6.1,
+				backdrop_path: "/agkZziO4ZPAsVfKUrJD68lys08P.jpg",
+				original_title: "Babe",
+				original_language: "en"
+			},
+			{
+				id: 346648,
+				adult: false,
+				title: "Paddington 2",
+				video: false,
+				overview:
+					"Paddington, now happily settled with the Browns, picks up a series of odd jobs to buy the perfect present for his Aunt Lucy, but it is stolen.",
+				genre_ids: [12, 35, 10751],
+				popularity: 13.262,
+				vote_count: 1236,
+				poster_path: "/zuXMvSQq9F7H29qzuUm0qyUqw6m.jpg",
+				release_date: "2017-11-09",
+				vote_average: 7.5,
+				backdrop_path: "/mxIrSooBPUoPBukIRFBxjYudQoT.jpg",
+				original_title: "Paddington 2",
+				original_language: "en"
+			},
+			{
+				id: 606856,
+				adult: false,
+				title: "Togo",
+				video: false,
+				overview:
+					"The untold true story set in the winter of 1925 that takes you across the treacherous terrain of the Alaskan tundra for an exhilarating and uplifting adventure that will test the strength, courage and determination of one man, Leonhard Seppala, and his lead sled dog, Togo.",
+				genre_ids: [12, 18, 36, 10751],
+				popularity: 13.865,
+				vote_count: 838,
+				poster_path: "/wX0QD36a80hxulcizz7tyahYOF8.jpg",
+				release_date: "2019-12-19",
+				vote_average: 8.2,
+				backdrop_path: "/2Jr2OBzoLLOYqQWnyN4eicZv0sL.jpg",
+				original_title: "Togo",
+				original_language: "en"
+			},
+			{
+				id: 267935,
+				adult: false,
+				title: "The BFG",
+				video: false,
+				overview:
+					"The BFG is no ordinary bone-crunching giant. He is far too nice and jumbly. It's lucky for Sophie that he is. Had she been carried off in the middle of the night by the Bloodbottler, or any of the other giants\u2014rather than the BFG\u2014she would have soon become breakfast. When Sophie hears that the giants are flush-bunking off to England to swollomp a few nice little chiddlers, she decides she must stop them once and for all. And the BFG is going to help her!",
+				genre_ids: [12, 10751, 14],
+				popularity: 12.599,
+				vote_count: 2367,
+				poster_path: "/4zawxGJIH43DcoGG9Ui0WoIcrQC.jpg",
+				release_date: "2016-06-01",
+				vote_average: 6.2,
+				backdrop_path: "/tOTtJelsPKX0bvSdvDVL2ou3cGS.jpg",
+				original_title: "The BFG",
+				original_language: "en"
+			},
+			{
+				id: 10992,
+				adult: false,
+				title: "Cats & Dogs",
+				video: false,
+				overview:
+					"When a professor develops a vaccine that eliminates human allergies to dogs, he unwittingly upsets the fragile balance of power between cats and dogs and touches off an epic battle for pet supremacy. The fur flies as the feline faction, led by Mr. Tinkles, squares off against wide-eyed puppy Lou and his canine cohorts.",
+				genre_ids: [35, 10751],
+				popularity: 11.273,
+				vote_count: 1048,
+				poster_path: "/77dmCJelVTBPBwbTppiisQx0e82.jpg",
+				release_date: "2001-07-04",
+				vote_average: 5.3,
+				backdrop_path: "/bFSqeI42Zu95dqPcClBaOcRkahv.jpg",
+				original_title: "Cats & Dogs",
+				original_language: "en"
+			},
+			{
+				id: 334304,
+				adult: false,
+				title: "Belle and Sebastian: The Adventure Continues",
+				video: false,
+				overview:
+					"September, 1945. Sebastian impatiently waits for the return of his friend Angelina, whom he has not seen for two years. When the plane carrying the young woman to her small village in the Alps is reported to have crashed in the mountains, Sebastian is convinced that Angelina is still alive. Along with his faithful dog Belle, Sebastian embarks on the most dangerous adventure of his life.",
+				genre_ids: [12, 10751],
+				popularity: 13.081,
+				vote_count: 232,
+				poster_path: "/uYkVrKgknXPouuftxNG5kWMbwLw.jpg",
+				release_date: "2015-12-08",
+				vote_average: 6.9,
+				backdrop_path: "/uFumw3r1ESRImMJ4BNgAtLrc0QF.jpg",
+				original_title: "Belle et S\u00e9bastien, l'aventure continue",
+				original_language: "fr"
+			},
+			{
+				id: 47354,
+				adult: false,
+				title: "K-9: P.I.",
+				video: false,
+				overview:
+					"Dooley and his K-9 partner Jerry Lee are ready to retire from the police force. But before he can retire with his pension he must work as a P.I. to find a set of high tech computer chips.",
+				genre_ids: [28, 35, 80],
+				popularity: 7.71,
+				vote_count: 100,
+				poster_path: "/lkI06uQJCnujYoN6MJzjnsxryaI.jpg",
+				release_date: "2002-07-30",
+				vote_average: 5.7,
+				backdrop_path: "/jZ4yF8FJGybE7daRV5RdJGj7E5v.jpg",
+				original_title: "K-9: P.I.",
+				original_language: "en"
+			},
+			{
+				id: 4917,
+				adult: false,
+				title: "A Boy and His Dog",
+				video: false,
+				overview:
+					"Set in the year 2024 in post-apocalyptic America, 18-year old Vic and his telepathic dog, Blood, are scavengers in the desolate wilderness ravaged by World War IV, where survivors must battle for food, shelter, and sexual companionship in the desert-like wasteland. Vic and Blood eke out a meager existence, foraging for food and fighting gangs of cutthroats.",
+				genre_ids: [35, 18, 878],
+				popularity: 8.198,
+				vote_count: 194,
+				poster_path: "/s4vkM7B6Ss7IUgkruTzxnrXnakq.jpg",
+				release_date: "1975-11-20",
+				vote_average: 6.3,
+				backdrop_path: null,
+				original_title: "A Boy and His Dog",
+				original_language: "en"
+			},
+			{
+				id: 29918,
+				adult: false,
+				title: "Lassie",
+				video: false,
+				overview:
+					"An update of the Lassie legend stars Thomas Guiry as a troubled city kid whose family retreats to the country, where he befriends the famous collie and changes for the better. Conflict develops when a ruthless sheep rancher causes trouble for everyone.",
+				genre_ids: [12, 10751],
+				popularity: 7.797,
+				vote_count: 134,
+				poster_path: "/5Tz2rzFivQKmMBz5T8Cj7M7CdnI.jpg",
+				release_date: "1994-07-22",
+				vote_average: 6,
+				backdrop_path: "/5cnEaSt9K4OO8bK98pTucQufCLY.jpg",
+				original_title: "Lassie",
+				original_language: "en"
+			},
+			{
+				id: 11982,
+				adult: false,
+				title: "Look Who's Talking Now!",
+				video: false,
+				overview:
+					"When Samantha LeBon hatches a scheme to spend a romantic Christmas with her new employee -- the unsuspecting, blithesome James -- his wife, their kids and their two dogs, Rocks and Daphne, must rescue him before he makes a terrible mistake.",
+				genre_ids: [35, 10749, 10751],
+				popularity: 10.222,
+				vote_count: 626,
+				poster_path: "/73JahFiizkMVsrrslXInmNK54nC.jpg",
+				release_date: "1993-11-05",
+				vote_average: 5.2,
+				backdrop_path: "/nGwlHqVQjPjRPPxEiJuaXYoOuIl.jpg",
+				original_title: "Look Who's Talking Now!",
+				original_language: "en"
+			},
+			{
+				id: 10438,
+				adult: false,
+				title: "Beethoven's 2nd",
+				video: false,
+				overview:
+					"Beethoven is back -- and this time, he has a whole brood with him now that he's met his canine match, Missy, and fathered a family. The only problem is that Missy's owner, Regina, wants to sell the puppies and tear the clan apart. It's up to Beethoven and the Newton kids to save the day and keep everyone together.",
+				genre_ids: [35, 10751],
+				popularity: 13.937,
+				vote_count: 634,
+				poster_path: "/biH5hW1BRfEr13oCizuAzpdBf2l.jpg",
+				release_date: "1993-12-14",
+				vote_average: 5.5,
+				backdrop_path: "/6mWSPWbfUFSZ3oA0MB9OYUcWM1j.jpg",
+				original_title: "Beethoven's 2nd",
+				original_language: "en"
+			},
+			{
+				id: 14306,
+				adult: false,
+				title: "Marley & Me",
+				video: false,
+				overview:
+					"A newly married couple who, in the process of starting a family, learn many of life's important lessons from their trouble-loving retriever, Marley. Packed with plenty of laughs to lighten the load, the film explores the highs and lows of marriage, maturity and confronting one's own mortality, as seen through the lens of family life with a dog.",
+				genre_ids: [35, 10751],
+				popularity: 10.998,
+				vote_count: 3330,
+				poster_path: "/pnB6hjTKylb0Ve2nUWt16gzkErr.jpg",
+				release_date: "2008-12-25",
+				vote_average: 7.2,
+				backdrop_path: "/tVoWbAAfTDIhTeo78SbA2V6mv8E.jpg",
+				original_title: "Marley & Me",
+				original_language: "en"
+			},
+			{
+				id: 10345,
+				adult: false,
+				title: "K-9",
+				video: false,
+				overview:
+					'The extravagant cop Michael Dooley needs some help to fight a drug dealer who has tried to kill him. A "friend" gives him a dog named Jerry Lee (Officer Lewis), who has been trained to smell drugs. With his help, Dooley sets out to put his enemy behind the bars, but Jerry Lee has a personality of his own and works only when he wants to. On the other hand, the dog is quite good at destroying Dooley\'s car, house and sex-life...',
+				genre_ids: [28, 35, 80],
+				popularity: 8.914,
+				vote_count: 555,
+				poster_path: "/21mBNUe0X4WYywe6w5DyihltmAn.jpg",
+				release_date: "1989-04-28",
+				vote_average: 5.9,
+				backdrop_path: "/cpeXyg83ONQCMGcTixIJ4pNcNlN.jpg",
+				original_title: "K-9",
+				original_language: "en"
+			},
+			{
+				id: 14749,
+				adult: false,
+				title: "Space Buddies",
+				video: false,
+				overview:
+					"B-Dawg, Mudbud, Budderball, and all the rest of the Buddies are back, but this time, they're setting their sights even higher -- as in, the moon! With the help of their new pals Spudnick (voiced by Jason Earles) and Gravity, these pooches are go for launch. But to pull off their moon landing and make it home safely, our canine heroes will have to summon all their bravery and imagination...",
+				genre_ids: [35, 12, 18, 10751],
+				popularity: 8.416,
+				vote_count: 102,
+				poster_path: "/zdfc6vrNQMttoaQvUbyYb6BvvGF.jpg",
+				release_date: "2009-02-02",
+				vote_average: 5.2,
+				backdrop_path: "/zGNigh4ttmRCSsewWKv4VHFqbyA.jpg",
+				original_title: "Space Buddies",
+				original_language: "en"
+			},
+			{
+				id: 17917,
+				adult: false,
+				title: "Oliver!",
+				video: false,
+				overview:
+					"Musical adaptation of Charles Dickens' Oliver Twist, a classic tale of an orphan who runs away from the workhouse and joins up with a group of boys headed by the Artful Dodger and trained to be pickpockets by master thief Fagin.",
+				genre_ids: [18, 10402, 10751],
+				popularity: 10.032,
+				vote_count: 230,
+				poster_path: "/1PdONz8NKpEVRJU9Lkcmg7F8aAQ.jpg",
+				release_date: "1968-09-26",
+				vote_average: 7,
+				backdrop_path: "/4RpCpe6TAWFPH4pmBh8uewQA5h.jpg",
+				original_title: "Oliver!",
+				original_language: "en"
+			},
+			{
+				id: 400617,
+				adult: false,
+				title: "Phantom Thread",
+				video: false,
+				overview:
+					"Renowned British dressmaker Reynolds Woodcock comes across Alma, a young, strong-willed woman, who soon becomes a fixture in his life as his muse and lover.",
+				genre_ids: [18, 10749],
+				popularity: 11.858,
+				vote_count: 2225,
+				poster_path: "/yZ8j8xKk2xQ1d88hB8YG6LZfRQj.jpg",
+				release_date: "2017-12-25",
+				vote_average: 7.3,
+				backdrop_path: "/vpRMzPqHC03I7hPPET4Av2OT8dI.jpg",
+				original_title: "Phantom Thread",
+				original_language: "en"
+			}
+		],
+		total_pages: 4,
+		total_results: 71
+	},
+	tagline: "So many dogs. So little time.",
+	homepage: "",
+	keywords: {
+		keywords: [
+			{ id: 212, name: "london, england" },
+			{ id: 5154, name: "fur" },
+			{ id: 7024, name: "fashion designer" },
+			{ id: 8841, name: "puppy" },
+			{ id: 14814, name: "fur coat" },
+			{ id: 15101, name: "based on children's book" },
+			{ id: 15162, name: "dog" },
+			{ id: 158369, name: "dalmatian" },
+			{ id: 166726, name: "female villain" },
+			{ id: 245230, name: "live action remake" }
+		]
+	},
+	overview:
+		"An evil high-fashion designer plots to steal Dalmatian puppies in order to make an extravagant fur coat, but instead creates an extravagant mess.",
+	popularity: 15.383,
+	vote_count: 2213,
+	poster_path: "/8o2ADoAyG796UwTjwBFjPyBz0yG.jpg",
+	external_ids: {
+		imdb_id: "tt0115433",
+		twitter_id: null,
+		facebook_id: null,
+		instagram_id: null
+	},
+	release_date: "1996-11-17",
+	translations: {
+		translations: [
+			{
+				data: {
+					title: "101 \u0434\u0430\u043b\u043c\u0430\u0442\u0438\u043d\u0446\u0438",
+					runtime: 103,
+					tagline: "",
+					homepage: "",
+					overview:
+						"\u0412 \u041b\u043e\u043d\u0434\u043e\u043d, \u0432 \u043c\u0430\u043b\u044a\u043a \u0430\u043f\u0430\u0440\u0442\u0430\u043c\u0435\u043d\u0442, \u0420\u043e\u0434\u0436\u044a\u0440 \u0438 \u0410\u043d\u0438\u0442\u0430 \u0441\u0435 \u0440\u0430\u0434\u0432\u0430\u0442 \u043e\u0442 \u0440\u0430\u0436\u0434\u0430\u043d\u0435\u0442\u043e \u043d\u0430 15 \u043a\u0443\u0447\u0435\u043d\u0446\u0430. \u041d\u043e \u043a\u043e\u0433\u0430\u0442\u043e \u0433-\u0436\u0430 \u0414\u0435 \u0412\u0438\u043b \u0440\u0430\u0437\u0431\u0438\u0440\u0430 \u0437\u0430 \u043f\u043e\u044f\u0432\u0430\u0442\u0430 \u043d\u0430 \u043f\u0435\u0442\u043d\u0438\u0441\u0442\u0438\u0442\u0435 \u043a\u0443\u0442\u0440\u0435\u0442\u0430, \u0438\u0437\u043f\u0440\u0430\u0449\u0430 \u0441\u0432\u043e\u0438\u0442\u0435 \u0441\u043b\u0443\u0433\u0438 \u0414\u0436\u0430\u0441\u043f\u044a\u0440 \u0438 \u0425\u043e\u0440\u0430\u0441 \u0434\u0430 \u0433\u0438 \u043e\u0442\u043a\u0440\u0430\u0434\u043d\u0430\u0442. \u0417\u0430\u043f\u043e\u0447\u0432\u0430 \u0435\u0434\u043d\u0430 \u043d\u0430\u0434\u043f\u0440\u0435\u0432\u0430\u0440\u0430 \u0441 \u0432\u0440\u0435\u043c\u0435\u0442\u043e, \u0438\u0437\u043f\u044a\u043b\u043d\u0435\u043d\u0430 \u0441 \u0432\u044a\u043b\u043d\u0443\u0432\u0430\u0449\u0438 \u043c\u043e\u043c\u0435\u043d\u0442\u0438, \u0432 \u043a\u043e\u0438\u0442\u043e \u043a\u0443\u0447\u0435\u043d\u0446\u0430\u0442\u0430 \u0441\u0435 \u043e\u043f\u0438\u0442\u0432\u0430\u0442 \u0434\u0430 \u043d\u0430\u0434\u0445\u0438\u0442\u0440\u044f\u0442 \u043f\u043e\u0445\u0438\u0442\u0438\u0442\u0435\u043b\u0438\u0442\u0435 \u0441\u0438."
+				},
+				name:
+					"\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438 \u0435\u0437\u0438\u043a",
+				iso_639_1: "bg",
+				iso_3166_1: "BG",
+				english_name: "Bulgarian"
+			},
+			{
+				data: {
+					title: "101 dalmatin\u016f",
+					runtime: 103,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Roger navrhuje po\u010d\u00edta\u010dov\u00e9 hry. Anita navrhuje luxusn\u00ed m\u00f3du v sal\u00f3nu d\u00e9monick\u00e9 Cruelly De Vil. Bez p\u0159i\u010din\u011bn\u00ed sv\u00fdch ps\u016f by se ti dva v obrovsk\u00e9m Lond\u00fdn\u011b nikdy nesezn\u00e1mili. Na\u0161t\u011bst\u00ed se Roger\u016fv dalmatin Pongo na prvn\u00ed pohled zamiloval do Anitiny dalmatinky Perdy a i kdy\u017e jeho vzplanut\u00ed zpo\u010d\u00e1tku p\u0159ineslo majitel\u016fm n\u011bkolik roztomil\u00fdch nep\u0159\u00edjemnost\u00ed (jako nap\u0159\u00edklad podzimn\u00ed koupel v jez\u00edrku uprost\u0159ed parku), v\u0161echno se rychle v dobr\u00e9 obr\u00e1tilo. Zal\u00edben\u00ed v sob\u011b toti\u017e na\u0161li nejenom dalmatinov\u00e9, ale i Roger s Anitou. Je po svatb\u011b. Zat\u00edmco Anita je teprve t\u011bhotn\u00e1, Perdy u\u017e povila hromadu roztomil\u00fdch \u0161t\u011b\u0148\u00e1tek. V\u0161ichni jsou \u0161\u0165astn\u00ed a film by v tu chv\u00edli mohl skon\u010dit, kdyby do d\u011bje razantn\u011b nevstoupila \u010f\u00e1belsky proradn\u00e1 a zl\u00e1 Cruellla. Ji\u017e d\u00e1vno ztratila zdrav\u00fd rozum a m\u00edsto srdce m\u00e1 nejsp\u00ed\u0161 kus chladn\u00e9ho mramoru. Od jist\u00e9 doby je posedl\u00e1 zvr\u00e1cenou touhou po ko\u017eichu z jemn\u00fdch k\u016f\u017ei\u010dek \u0161t\u011b\u0148\u00e1tek dalmatin\u016f."
+				},
+				name: "\u010cesk\u00fd",
+				iso_639_1: "cs",
+				iso_3166_1: "CZ",
+				english_name: "Czech"
+			},
+			{
+				data: {
+					title: "101 Dalmatinere",
+					runtime: 99,
+					tagline: "S\u00e5 mange hunde. S\u00e5 lidt tid.",
+					homepage: "",
+					overview:
+						"Den skurkagtige Cruella De Vil er besat af pels - frem for alt pelse fra dalmatiner-hvalpe. Denne bizarre smag falder ikke i god jord hos Cruellas designer Anita og hendes mand Robert. Det bliver ikke bedre af, at deres egne dalmatinere Pongo og Perle f\u00e5r et bed\u00e5rende kuld hvalpe... Denne lykkelige familiefor\u00f8gelse g\u00e5r selvf\u00f8lgelig ikke Cruellas n\u00e6se forbi. Hun g\u00f8r alt for at overbevise Anita og Robert om at s\u00e6lge hvalpene til hende. Da det mislykkes, beslutter Cruella sig for at stj\u00e6le dem. Nu starter hundehistoriens st\u00f8rste redningsaktion.  Se 101 lyslevende dalmatinere og en fantastisk Glenn Close, som den skurkagtige Cruella De Vil. Oplev et h\u00e6sbl\u00e6sende eventyr, fyldt med humor og se en slutning, hvor Cruella f\u00e5r lige hvad hun fortjener."
+				},
+				name: "Dansk",
+				iso_639_1: "da",
+				iso_3166_1: "DK",
+				english_name: "Danish"
+			},
+			{
+				data: {
+					title: "101 Dalmatiner",
+					runtime: 103,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Modedesignerin Anita und Computerspielautor Roger treffen durch einen Zufall aufeinander. Die beiden Dalmatinerfreunde verlieben sich ineinander und verlieren keine Zeit mit gro\u00dfem Nachdenken. Sie heiraten: mit dabei sind ihre Dalmatiner Perdita und Pongo. Die stattlichen Hunde bekommen bald Nachwuchs. Aber schon kurz nachdem sie auf die Welt gekommen sind, droht den Neugeborenen Gefahr. Die Welpen der stolzen Hunde werden von Anitas Boss Cruella De Vil gekidnappt, die die jungen Dalmatiner stielt, um aus ihnen einen Mantel zu schneidern. Mit Unterst\u00fctzung anderer Tiere starten Pongo und Perdita eine Rettungsaktion, um alle Dalmatiner zu befreien, die sich in den F\u00e4ngen der b\u00f6swilligen Cruella De Vil befinden. Es entbrennt ein rasanter Kampf, bei dem De Vil keineswegs klein beigeben will."
+				},
+				name: "Deutsch",
+				iso_639_1: "de",
+				iso_3166_1: "DE",
+				english_name: "German"
+			},
+			{
+				data: {
+					title:
+						"\u03a4\u03b1 101 \u03c3\u03ba\u03c5\u03bb\u03b9\u03ac \u03c4\u03b7\u03c2 \u0394\u03b1\u03bb\u03bc\u03b1\u03c4\u03af\u03b1\u03c2",
+					runtime: 103,
+					tagline: "",
+					homepage: "",
+					overview:
+						"\u0397 \u0391\u03bd\u03af\u03c4\u03b1 \u03ba\u03b1\u03b9 \u03bf \u03a1\u03cc\u03c4\u03b6\u03b5\u03c1 \u03b5\u03af\u03bd\u03b1\u03b9 \u03ad\u03bd\u03b1 \u03b5\u03c1\u03c9\u03c4\u03b5\u03c5\u03bc\u03ad\u03bd\u03bf \u03b6\u03b5\u03c5\u03b3\u03ac\u03c1\u03b9 \u03c0\u03bf\u03c5 \u03c0\u03b1\u03bd\u03c4\u03c1\u03b5\u03cd\u03bf\u03bd\u03c4\u03b1\u03b9, \u03b5\u03bd\u03ce \u03ad\u03c7\u03bf\u03c5\u03bd \u03ba\u03b1\u03b9 \u03ad\u03bd\u03b1 \u03b6\u03b5\u03c5\u03b3\u03ac\u03c1\u03b9 \u03c3\u03ba\u03c5\u03bb\u03b9\u03ac \u0394\u03b1\u03bb\u03bc\u03b1\u03c4\u03af\u03b1\u03c2, \u03c4\u03b7\u03bd \u03a0\u03b5\u03c1\u03bd\u03c4\u03af\u03c4\u03b1 \u03ba\u03b1\u03b9 \u03c4\u03bf\u03bd \u03a0\u03cc\u03bd\u03b3\u03ba\u03bf! \u0397 \u03b1\u03b4\u03af\u03c3\u03c4\u03b1\u03ba\u03c4\u03b7 \u039a\u03c1\u03bf\u03c5\u03ad\u03bb\u03b1 \u039d\u03c4\u03b5 \u0392\u03b9\u03bb, \u03c4\u03bf \u03b1\u03c6\u03b5\u03bd\u03c4\u03b9\u03ba\u03cc \u03c4\u03b7\u03c2 \u0391\u03bd\u03af\u03c4\u03b1, \u03b1\u03c0\u03b1\u03b3\u03ac\u03b3\u03b5\u03b9 \u03c4\u03b1 \u03ba\u03bf\u03c5\u03c4\u03ac\u03b2\u03b9\u03b1 \u03c4\u03bf\u03c5\u03c2 \u03bc\u03b5 \u03c3\u03ba\u03bf\u03c0\u03cc \u03bd\u03b1 \u03c6\u03c4\u03b9\u03ac\u03be\u03b5\u03b9 \u03c4\u03bf \u03c0\u03b1\u03bb\u03c4\u03cc \u03c4\u03c9\u03bd \u03bf\u03bd\u03b5\u03af\u03c1\u03c9\u03bd \u03c4\u03b7\u03c2. \u0388\u03c4\u03c3\u03b9 \u03c4\u03ce\u03c1\u03b1 \u03cc\u03bb\u03bf\u03b9 \u03bc\u03b1\u03b6\u03af \u03b8\u03b1 \u03c0\u03c1\u03bf\u03c3\u03c0\u03b1\u03b8\u03ae\u03c3\u03bf\u03c5\u03bd \u03bd\u03b1 \u03c3\u03ce\u03c3\u03bf\u03c5\u03bd \u03ba\u03b1\u03b9 \u03c4\u03b1 99 \u03b1\u03ba\u03cc\u03bc\u03b1 \u03c3\u03ba\u03c5\u03bb\u03ac\u03ba\u03b9\u03b1 \u03b1\u03c0\u03cc \u03c4\u03b1 \u03c7\u03ad\u03c1\u03b9\u03b1 \u03c4\u03b7\u03c2 \u03ba\u03b1\u03ba\u03b9\u03ac\u03c2 \u039a\u03c1\u03bf\u03c5\u03ad\u03bb\u03b1."
+				},
+				name: "\u03b5\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac",
+				iso_639_1: "el",
+				iso_3166_1: "GR",
+				english_name: "Greek"
+			},
+			{
+				data: {
+					title: "",
+					runtime: 103,
+					tagline: "So many dogs. So little time.",
+					homepage: "",
+					overview:
+						"An evil high-fashion designer plots to steal Dalmatian puppies in order to make an extravagant fur coat, but instead creates an extravagant mess."
+				},
+				name: "English",
+				iso_639_1: "en",
+				iso_3166_1: "US",
+				english_name: "English"
+			},
+			{
+				data: {
+					title: "101 d\u00e1lmatas (\u00a1M\u00e1s vivos que nunca!)",
+					runtime: 102,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Obsesionada por obtener la aut\u00e9ntica piel de d\u00e1lmatas para crear su nueva l\u00ednea de moda, Cruella de Vil no se detiene ante nada. Cuando Anita, una de sus mejores dise\u00f1adoras, le cuenta lo contentos que est\u00e1n ella y su marido Roger, porque su pareja de d\u00e1lmatas, Pongo y Perlita, van a tener cachorros, la mente de Cruella empieza a maquinar para hacerse con los peque\u00f1os. (FILMAFFINITY)"
+				},
+				name: "Espa\u00f1ol",
+				iso_639_1: "es",
+				iso_3166_1: "ES",
+				english_name: "Spanish"
+			},
+			{
+				data: {
+					title: "101 Dalmatas: Ahora la magia es real",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Obsesionada por obtener la aut\u00e9ntica piel de d\u00e1lmatas para crear su nueva l\u00ednea de moda, Cruella de Vil no se detiene ante nada. Cuando Anita, una de sus mejores dise\u00f1adoras, le cuenta lo contentos que est\u00e1n ella y su marido Roger, porque su pareja de d\u00e1lmatas, Pongo y Perlita, van a tener cachorros, la mente de Cruella empieza a maquinar para quedarse con los peque\u00f1os"
+				},
+				name: "Espa\u00f1ol",
+				iso_639_1: "es",
+				iso_3166_1: "MX",
+				english_name: "Spanish"
+			},
+			{
+				data: {
+					title: "101 Dalmatialaista",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Pongo huolehtii is\u00e4nn\u00e4st\u00e4\u00e4n kunnon koiran tavoin, mutta perheenlis\u00e4ys Perditan kanssa poikii uusia harmeja. Ilke\u00e4 Cruella De Vil palvoo turkiksia ja on iskenyt silm\u00e4ns\u00e4 suloiseen pentueeseen. Apunaan t\u00f6rp\u00f6t konnat Jasper ja Jesper Cruella punoon julmia juonia. Mutta moni muukin tahtoo pist\u00e4\u00e4 tassunsa Cruellan keitoksiin - ja melkoinen soppa siit\u00e4 syntyykin! Veike\u00e4t el\u00e4inyst\u00e4v\u00e4t eiv\u00e4t j\u00e4t\u00e4 pentuja pulaan, vaan kaikenkarvaisia koiruuksia j\u00e4rjestet\u00e4\u00e4n konnien harmiksi. Lemmikkihistorian suurin pelastusoperaatio voi alkaa..."
+				},
+				name: "suomi",
+				iso_639_1: "fi",
+				iso_3166_1: "FI",
+				english_name: "Finnish"
+			},
+			{
+				data: {
+					title: "Les 101 dalmatiens",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Pongo et Perdy, superbes dalmatiens, vivent \u00e0 Londres avec leurs maitres respectifs; Roger, concepteur de jeux vid\u00e9o et Anita, dessinatrice de mode pour la maison de couture de Cruella d'Enfer. Lorsqu'ils se croisent au parc, c'est le coup de foudre autant pour les chiens que pour les maitres. Et c'est ainsi que, quelques mois plus tard, les deux couples attendent un heureux \u00e9v\u00e8nement. Mais Cruella, obsed\u00e9e par la fourrure, enl\u00e8ve Pongo et Perdy."
+				},
+				name: "Fran\u00e7ais",
+				iso_639_1: "fr",
+				iso_3166_1: "CA",
+				english_name: "French"
+			},
+			{
+				data: {
+					title: "Les 101 Dalmatiens",
+					runtime: 102,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Pongo et Perdy, superbes dalmatiens, vivent a Londres avec leurs maitres respectifs, Roger, concepteur de jeux vid\u00e9o et Anita, dessinatrice de mode pour la maison de couture de Cruella d'Enfer. Lorsqu'ils se croisent au parc, c'est le coup de foudre autant pour les chiens que pour les maitres. Et c'est ainsi que, quelques mois plus tard, les deux couples attendent un heureux \u00e9v\u00e8nement. Mais Cruella, obs\u00e9d\u00e9e par la fourrure, enl\u00e8ve Pongo et Perdy."
+				},
+				name: "Fran\u00e7ais",
+				iso_639_1: "fr",
+				iso_3166_1: "FR",
+				english_name: "French"
+			},
+			{
+				data: {
+					title:
+						"101 \u05db\u05dc\u05d1\u05d9\u05dd \u05d5\u05d2\u05e0\u05d1\u05d9\u05dd",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						'\u05dc\u05d0\u05d7\u05e8 \u05e9\u05d4\u05ea\u05d0\u05d4\u05d1\u05d5 \u05d6\u05d5\u05d2 \u05d4\u05d3\u05dc\u05de\u05d8\u05d9\u05dd \u05d5\u05d4\u05d1\u05d9\u05d0\u05d5 \u05dc\u05d7\u05ea\u05d5\u05e0\u05ea \u05d4\u05d1\u05e2\u05dc\u05d9\u05dd \u05e9\u05dc\u05d4\u05dd, \u05d9\u05d5\u05e6\u05d0\u05d9\u05dd \u05d4\u05d0\u05e8\u05d1\u05e2\u05d4 \u05d1\u05e2\u05e7\u05d1\u05d5\u05ea \u05d7\u05d5\u05d8\u05e4\u05d9 \u05db\u05dc\u05d1\u05d9\u05dd \u05d3\u05dc\u05de\u05d8\u05d9\u05d9\u05dd. \u05e4\u05d5\u05e0\u05d2\u05d5 \u05d5\u05e4\u05e8\u05d3\u05d9 \u05d4\u05dd \u05d6\u05d5\u05d2 \u05d4\u05d3\u05dc\u05de\u05d8\u05d9\u05dd \u05d4\u05de\u05d0\u05d5\u05d4\u05d1 \u05e9\u05de\u05d5\u05d1\u05d9\u05dc \u05d0\u05ea \u05d4\u05d7\u05d1\u05d5\u05e8\u05d4. \u05e7\u05e8\u05d5\u05d0\u05dc\u05d4 \u05d3\u05d5\u05d5\u05d9\u05dc (\u05e7\u05dc\u05d5\u05d6) \u05d4\u05d9\u05d0 \u05d4\u05d7\u05d5\u05d8\u05e4\u05ea \u05d4\u05d0\u05db\u05d6\u05e8\u05d9\u05ea \u05e9\u05de\u05d7\u05d6\u05d9\u05e7\u05d4 \u05e2\u05e9\u05e8\u05d5\u05ea \u05d3\u05dc\u05de\u05d8\u05d9\u05dd \u05d5\u05d7\u05d9\u05d5\u05ea \u05d0\u05d7\u05e8\u05d5\u05ea \u05d1\u05db\u05dc\u05d9\u05d0\u05d4. \u05d4\u05d7\u05d5\u05d8\u05e4\u05d9\u05dd \u05de\u05d5\u05db\u05e0\u05e2\u05d9\u05dd \u05dc\u05d0\u05d7\u05e8 \u05de\u05e8\u05d3\u05e4\u05d9\u05dd \u05e7\u05d5\u05de\u05d9\u05d9\u05dd \u05d5\u05de\u05dc\u05d0\u05d9 \u05e4\u05e2\u05d5\u05dc\u05d4, \u05d5\u05de\u05d5\u05e1\u05d2\u05e8\u05d9\u05dd \u05dc\u05de\u05e9\u05d8\u05e8\u05d4. "101 \u05db\u05dc\u05d1\u05d9\u05dd" \u05de\u05d1\u05d5\u05e1\u05e1 \u05e2\u05dc \u05e1\u05e8\u05d8 \u05d0\u05e0\u05d9\u05de\u05e6\u05d9\u05d4 \u05d1\u05e2\u05dc \u05d0\u05d5\u05ea\u05d5 \u05e9\u05dd \u05de-1961, \u05d2\u05dd \u05d4\u05d5\u05d0 \u05e1\u05d5\u05d7\u05e3 \u05d5\u05de\u05e6\u05dc\u05d9\u05d7, \u05d1\u05d4\u05e4\u05e7\u05ea \u05d0\u05d5\u05dc\u05e4\u05e0\u05d9 \u05d5\u05d5\u05dc\u05d8 \u05d3\u05d9\u05e1\u05e0\u05d9.'
+				},
+				name: "\u05e2\u05b4\u05d1\u05b0\u05e8\u05b4\u05d9\u05ea",
+				iso_639_1: "he",
+				iso_3166_1: "IL",
+				english_name: "Hebrew"
+			},
+			{
+				data: {
+					title: "101 kiskutya",
+					runtime: 0,
+					tagline: "Olyan sok kiskutya, olyan kev\u00e9s id\u0151.",
+					homepage: "",
+					overview:
+						"Roger (Jeff Daniels) \u00e9s Anita (Joely Richardson) a parkban ismerkednek \u00f6ssze kuty\u00e1iknak k\u00f6sz\u00f6nhet\u0151en. Szerelem els\u0151 l\u00e1t\u00e1sra, ak\u00e1rcsak a k\u00e9t dalmata k\u00f6z\u00f6tt, akik hamarosan 101 p\u00f6tty\u00f6s kiskuty\u00e1val \u00e1ll\u00edtanak haza. Az idillnek azonban hamar v\u00e9ge szakad, a velej\u00e9ig gonosz Sz\u00f6rnyella De Fr\u00e1sz (Glenn Close) szemet vet a j\u00f3sz\u00e1gokra, \u00e9s elrabolja a kiskuty\u00e1kat, hogy \u00fajabb sz\u0151rmebund\u00e1t varrathasson mag\u00e1nak."
+				},
+				name: "Magyar",
+				iso_639_1: "hu",
+				iso_3166_1: "HU",
+				english_name: "Hungarian"
+			},
+			{
+				data: {
+					title: "La carica dei 101 - Questa volta la magia \u00e8 vera",
+					runtime: 103,
+					tagline: "",
+					homepage: "",
+					overview:
+						"A Londra Rudy, creatore di videogiochi, e Anita, impiegata presso l'azienda di Crudelia De Mon, si incontrano in modo movimentato in un parco, a causa dell'irruenza dei loro cani dalmata, rispettivamente Pongo e Peggy. Rudy e Anita si sposano, vanno in una casa nuova, dove poco dopo Peggy d\u00e0 alla luce una cucciolata di piccoli dalmati. La perfida Crudelia, grande amante di pellicce, si precipita a casa dei due per acquistare i neonati. Anita si oppone ma Crudelia non rinuncia. Quando i cuccioli sono soli in casa con la domestica, arrivano due ladruncoli e li portano su un camion in un palazzo diroccato fuori Londra, dove si trova gi\u00e0 un gran numero di altri dalmata scomparsi negli ultimi tempi."
+				},
+				name: "Italiano",
+				iso_639_1: "it",
+				iso_3166_1: "IT",
+				english_name: "Italian"
+			},
+			{
+				data: {
+					title: "101 \u30ef\u30f3\u30aa\u30fc\u30ef\u30f3",
+					runtime: 103,
+					tagline:
+						"\u3044\u307e\u3001\u5922\u304c\u73fe\u5b9f\u306b\u306a\u308b\u3002",
+					homepage: "",
+					overview:
+						"\u30b2\u30fc\u30e0\u30fb\u30c7\u30b6\u30a4\u30ca\u30fc\u306e\u30ed\u30b8\u30e3\u30fc\u306f\u611b\u72ac\u30dd\u30f3\u30b4\u3068\u30ed\u30f3\u30c9\u30f3\u306b\u66ae\u3089\u3057\u3066\u3044\u305f\u3002\u3042\u308b\u65e5\u3001\u6563\u6b69\u306e\u9014\u4e2d\u3067\u4e8c\u4eba\u306f\u30a2\u30cb\u30bf\u3068\u5f7c\u5973\u306e\u611b\u72ac\u30d1\u30fc\u30c7\u30a3\u30bf\u306b\u51fa\u4f1a\u3044\u3001\u30ed\u30b8\u30e3\u30fc\u306f\u30a2\u30cb\u30bf\u3068\u3001\u30dd\u30f3\u30b4\u306f\u30d1\u30fc\u30c7\u30a3\u30bf\u3068\u604b\u306b\u843d\u3061\u308b\u3002 \u30dd\u30f3\u30b4\u3068\u30d1\u30fc\u30c7\u30a3\u30bf\u306b\u306f15\u5339\u306e\u5b50\u72ac\u304c\u751f\u307e\u308c\u308b\u304c\u30a2\u30cb\u30bf\u306e\u4e0a\u53f8\u3067\u3042\u308b\u30af\u30eb\u30a8\u30e9\u306f\u305d\u306e\u5b50\u72ac\u305f\u3061\u306e\u6bdb\u76ae\u3067\u30b3\u30fc\u30c8\u3092\u4f5c\u308d\u3046\u3068\u4f01\u3093\u3067\u3044\u305f\u3002"
+				},
+				name: "\u65e5\u672c\u8a9e",
+				iso_639_1: "ja",
+				iso_3166_1: "JP",
+				english_name: "Japanese"
+			},
+			{
+				data: {
+					title: "101 \ub2ec\ub9c8\uc2dc\uc548",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						"\ub85c\uc800(\uc81c\ud504 \ub2e4\ub2c8\uc5d8)\ub294 \ucef4\ud4e8\ud130 \uac8c\uc784 \ud504\ub85c\uadf8\ub798\uba38\ub85c \ud401\uace0\ub77c\ub294 \ub2ec\ub9c8\uc2dc\uc548\uacfc \ud568\uaed8 \uc0b0\ucc45\uc744 \ub098\uc654\ub2e4\uac00 \uacf5\uc6d0\uc5d0\uc11c \ud37c\ub514\ub77c\ub294 \uc554\ucef7 \ub2ec\ub9c8\uc2dc\uc548\uc744 \ub9cc\ub09c\ub2e4. \ud401\uace0\uc640 \ud37c\ub514\ub294 \uc11c\ub85c\uc5d0\uac8c \ubc18\ud588\uace0 \ud37c\ub514\uc758 \uc8fc\uc778\uc778 \uc544\ub2c8\ud0c0(\uc870\uc5d8\ub9ac \ub9ac\ucc98\ub4dc\uc2a8)\uc640 \ub85c\uc800 \ub610\ud55c \uadf8\ub4e4 \ub355\uc5d0 \uc5f0\uc778\uc73c\ub85c \ubc1c\uc804\ud588\ub2e4. \uadf8\ub4e4\uc740 \ud55c \uac00\uc871\uc774 \ub418\uc5c8\uace0, \ud37c\ub514\ub294 15\ub9c8\ub9ac\ub098 \ub418\ub294 \uc810\ubc15\uc774 \ub2ec\ub9c8\uc2dc\uc548\uc744 \ub0b3\ub294\ub2e4. \ud55c\ud3b8 \uc544\ub2c8\ud0c0\uac00 \uadfc\ubb34\ud558\ub294 \ubaa8\ud53c\ud68c\uc0ac\uc758 \ud06c\ub8e8\ub810\ub77c(\uae00\ub80c \ud074\ub85c\uc988)\ub294 \ub3d9\ubb3c\uc6d0\uc758 \ud638\ub791\uc774\ub3c4 \uc7a1\uc544\uc11c \uac00\uc8fd \ucf54\ud2b8\ub97c \ud574 \uc785\uc744 \uc815\ub3c4\ub85c \uac00\uc8fd\uc5d0 \uc5f4\uc911\ud558\ub294 \uc0ac\ub78c\uc774\ub2e4. \ucfe0\ub8e8\ub810\ub77c\ub294 \uc544\ub2c8\ud0c0\uc758 \ub2ec\ub9c8\uc2dc\uc548\uc744 \ubcf4\uace0 \ub2ec\ub9c8\uc2dc\uc548\uc744 \uc7a1\uc544\uc11c \ucf54\ud2b8\ub97c \ud574 \uc785\uc744 \uafc8\uc5d0 \ubd80\ud480\uc5b4 \uc788\uace0, \uae09\uae30\uc57c \ub2ec\ub9c8\uc2dc\uc548\uc744 \uc7a1\uc744 \uc74c\ubaa8\ub97c \uafb8\ubbfc\ub2e4."
+				},
+				name: "\ud55c\uad6d\uc5b4/\uc870\uc120\ub9d0",
+				iso_639_1: "ko",
+				iso_3166_1: "KR",
+				english_name: "Korean"
+			},
+			{
+				data: {
+					title: "101 Dalmatinere",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview: ""
+				},
+				name: "Bokm\u00e5l",
+				iso_639_1: "nb",
+				iso_3166_1: "NO",
+				english_name: "Norwegian Bokm\u00e5l"
+			},
+			{
+				data: {
+					title: "101 Echte Dalmati\u00ebrs",
+					runtime: 103,
+					tagline: "",
+					homepage: "",
+					overview:
+						"De gemene Cruella de Vil is een mode-gigante met een gevaarlijke liefde voor bont. Cruella's mode-ontwerpster Anita en haar echtgenoot Roger zijn dolblij als hun dalmati\u00ebrs Pongo en Perdita de trotse ouders worden van een nest schattige puppies. Als Cruella hier van hoort, zet ze alles op alles om de vachtjes van de Dalmati\u00ebrs pups te pakken te krijgen voor haar nieuwe kledinglijn."
+				},
+				name: "Nederlands",
+				iso_639_1: "nl",
+				iso_3166_1: "NL",
+				english_name: "Dutch"
+			},
+			{
+				data: {
+					title: "101 Dalmatinere",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Den ondsinnede Cruella De Vil er besatt av pelser og fremfor alt pelser av dalmatinervalper. Cruellas designer Anita og hennes mann Roger synes mildt sagt at den bisarre smaken er smakl\u00f8s. Inntrykket blir ikke s\u00e6rlig bedre etter at deres egne to dalmatinere Pongo og Perdita f\u00e5r et bed\u00e5rende kull valper.\u2026 Cruella oppdager naturligvis dette, og gj\u00f8r alt for \u00e5 overbevise Anita og Roger om at de b\u00f8r selge valpene til henne. N\u00e5r Cruella mislykkes med sine overtalelseskunster, bestemmer hun seg i stedet for \u00e5 stjele dem. Dermed har hundehistoriens st\u00f8rste redningsaksjon startet. Se 101 sprell levende dalmatinere og en fantastisk Glenn Close som den skurkeaktige Cruella De Vil. Opplev et hjertegripende eventyr, fylt med befriende humor og en slutt som ikke kommer f\u00f8r Cruella selv f\u00e5r p\u00e5 pelsen s\u00e5 det svir."
+				},
+				name: "Norsk",
+				iso_639_1: "no",
+				iso_3166_1: "NO",
+				english_name: "Norwegian"
+			},
+			{
+				data: {
+					title: "101 dalmaty\u0144czyk\u00f3w",
+					runtime: 103,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Anita i Roger poznaj\u0105 si\u0119 dzi\u0119ki czworono\u017cnym pupilom. Znajomo\u015b\u0107 przeradza si\u0119 w mi\u0142o\u015b\u0107, nie tylko mi\u0119dzy lud\u017ami, lecz tak\u017ce mi\u0119dzy dalmaty\u0144czykami. Wkr\u00f3tce na \u015bwiat przychodzi pi\u0119tna\u015bcie nakrapianych szczeniak\u00f3w. Szefowa Anity, demoniczna Cruella, zaczyna marzy\u0107 o futrze z dalmaty\u0144czyk\u00f3w. Wynajmuje dw\u00f3jk\u0119 opryszk\u00f3w, kt\u00f3rzy maj\u0105 za zadanie porwa\u0107 pieski. Maluchy trafiaj\u0105 do gromady innych szczeniak\u00f3w uwi\u0119zionych w domu Cruelli. Ich opiekunowie szybko organizuj\u0105 akcj\u0119 ratunkow\u0105."
+				},
+				name: "Polski",
+				iso_639_1: "pl",
+				iso_3166_1: "PL",
+				english_name: "Polish"
+			},
+			{
+				data: {
+					title: "101 D\u00e1lmatas",
+					runtime: 103,
+					tagline: "Tantos c\u00e3es. T\u00e3o pouco tempo.",
+					homepage: "",
+					overview:
+						"A designer de moda Anita e o programador de jogos para computador Roger se encontram, se apaixonam e se casam junto com seus d\u00e1lmatas Perdita e Pongo. Mas os filhotinhos dos orgulhosos Perdita e Pongo s\u00e3o sequestrados pela chefe de Anita, a Cruella De Vil, que est\u00e1 roubando filhotes de d\u00e1lmatas para fazer o casaco de peles que ela definiu como seu preferido. Com a ajuda do reino animal brit\u00e2nico, Pongo e Perdita partem para encontrar e resgatar seus filhotes de seus tem\u00edveis sequestradores, Jasper e Hor\u00e1cio. Acabam encontrando alguns mais."
+				},
+				name: "Portugu\u00eas",
+				iso_639_1: "pt",
+				iso_3166_1: "BR",
+				english_name: "Portuguese"
+			},
+			{
+				data: {
+					title: "101 D\u00e1lmatas",
+					runtime: 103,
+					tagline: "Tantos c\u00e3es. T\u00e3o pouco tempo.",
+					homepage: "",
+					overview:
+						"Roger \u00e9 programador de jogos. Anita \u00e9 designer de moda. Ambos nutrem uma paix\u00e3o por d\u00e1lmatas e decidem casar-se, juntamente com os seus c\u00e3es, Pongo e Perdita. Mas a patr\u00f5es de Anita tamb\u00e9m tem uma paix\u00e3o: peles de animais. E est\u00e1 decidida a usar os filhotes d\u00e1lmatas dela, e muitos outros, para um monumental casaco. Cabe a Pongo e Perdita a tarefa de resgatarem os seus filhotes, e muitos outros mais, da morte certa."
+				},
+				name: "Portugu\u00eas",
+				iso_639_1: "pt",
+				iso_3166_1: "PT",
+				english_name: "Portuguese"
+			},
+			{
+				data: {
+					title: "101 dalma\u021bieni",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview: ""
+				},
+				name: "Rom\u00e2n\u0103",
+				iso_639_1: "ro",
+				iso_3166_1: "RO",
+				english_name: "Romanian"
+			},
+			{
+				data: {
+					title: "101 \u0434\u0430\u043b\u043c\u0430\u0442\u0438\u043d\u0435\u0446",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						"\u042d\u0442\u0430 \u0437\u0430\u0431\u0430\u0432\u043d\u0430\u044f \u0438\u0441\u0442\u043e\u0440\u0438\u044f \u043f\u0440\u043e\u0438\u0437\u043e\u0448\u043b\u0430 \u0432 \u0410\u043d\u0433\u043b\u0438\u0438 \u043d\u0430 \u0420\u043e\u0436\u0434\u0435\u0441\u0442\u0432\u043e\u2026 \u0417\u043b\u043e\u0434\u0435\u0439\u043a\u0430 \u041a\u0440\u0443\u044d\u043b\u043b\u0430 \u0414\u044d \u0412\u0438\u043b \u0440\u0435\u0448\u0430\u0435\u0442 \u0443\u043a\u0440\u0430\u0441\u0442\u044c \u0440\u043e\u0432\u043d\u043e 101 \u0434\u0430\u043b\u043c\u0430\u0442\u0438\u043d\u0446\u0430, \u0447\u0442\u043e\u0431\u044b \u043f\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u044c \u043a\u043e\u043b\u043b\u0435\u043a\u0446\u0438\u044e \u0441\u0432\u043e\u0438\u0445 \u043c\u0435\u0445\u043e\u0432\u044b\u0445 \u0438\u0437\u0434\u0435\u043b\u0438\u0439. \u041e\u0434\u043d\u0430\u043a\u043e \u043e\u043d\u0430 \u0435\u0449\u0435 \u043d\u0435 \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u0435\u0442, \u0447\u0442\u043e \u0435\u0435 \u0436\u0434\u0435\u0442, \u0432\u0435\u0434\u044c \u0445\u043e\u0437\u044f\u0435\u0432\u0430 \u0438 \u0440\u043e\u0434\u0438\u0442\u0435\u043b\u0438 \u043c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0445 \u043f\u044f\u0442\u043d\u0438\u0441\u0442\u044b\u0445 \u0449\u0435\u043d\u043a\u043e\u0432 \u043d\u0435 \u0431\u0443\u0434\u0443\u0442 \u0441\u0438\u0434\u0435\u0442\u044c \u0441\u043b\u043e\u0436\u0430 \u0440\u0443\u043a\u0438\u2026"
+				},
+				name: "P\u0443\u0441\u0441\u043a\u0438\u0439",
+				iso_639_1: "ru",
+				iso_3166_1: "RU",
+				english_name: "Russian"
+			},
+			{
+				data: {
+					title: "101 dalmat\u00edncov",
+					runtime: 103,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Roger navrhuje po\u010d\u00edta\u010dov\u00e9 hry. Anita luxusn\u00fa m\u00f3du v sal\u00f3ne Cruelly De Vil. Bez pri\u010dinenia svojich psov sa do seba zamiluj\u00fa. V\u0161etci s\u00fa \u0161\u0165astn\u00ed a\u017e na diabolsk\u00fa Cruellu. U\u017e d\u00e1vno stratila zdrav\u00fd rozum a miesto srdca m\u00e1 kus chladn\u00e9ho mramoru. Od istej doby je posadnut\u00e1 t\u00fa\u017ebou po ko\u017euchu s dalmat\u00edncov. A preto\u017ee Roger a Anita odmietli novo naroden\u00e9 \u0161teniatka preda\u0165, poslala Cruella svojich pomocn\u00edkov, aby ich ukradli."
+				},
+				name: "Sloven\u010dina",
+				iso_639_1: "sk",
+				iso_3166_1: "SK",
+				english_name: "Slovak"
+			},
+			{
+				data: {
+					title: "101 dalmatinec",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview: ""
+				},
+				name: "Sloven\u0161\u010dina",
+				iso_639_1: "sl",
+				iso_3166_1: "SI",
+				english_name: "Slovenian"
+			},
+			{
+				data: {
+					title: "101 dalmatiner",
+					runtime: 99,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Den illvilliga Cruella De Vil \u00e4r besatt av p\u00e4lsar - framf\u00f6r allt p\u00e4lsar av dalmatinervalpar. F\u00f6r Cruellas designer Anita och hennes man Roger \u00e4r denna bisarra smak illa nog. Och \u00e4n v\u00e4rre blir det n\u00e4r deras egna tv\u00e5 dalmatiner Pongo och Perdita, f\u00e5r en bed\u00e5rande kull valpar... Denna lyckliga tilldragelse undg\u00e5r f\u00f6rst\u00e5s inte Cruella. Hon g\u00f6r allt f\u00f6r att \u00f6vertyga Anita och Roger att s\u00e4lja valparna till henne. Men n\u00e4r Cruella misslyckas best\u00e4mmer hon sig ist\u00e4llet f\u00f6r att stj\u00e4la dem. D\u00e4rmed har hundhistoriens st\u00f6rsta r\u00e4ddnings\u00e4ventyr tagit sin b\u00f6rjan."
+				},
+				name: "svenska",
+				iso_639_1: "sv",
+				iso_3166_1: "SE",
+				english_name: "Swedish"
+			},
+			{
+				data: {
+					title:
+						"101 \u0e44\u0e2d\u0e49\u0e08\u0e38\u0e14\u0e21\u0e2b\u0e32\u0e2a\u0e19\u0e38\u0e01",
+					runtime: 102,
+					tagline:
+						"101 \u0e44\u0e2d\u0e49\u0e08\u0e38\u0e14\u0e21\u0e2b\u0e32\u0e2a\u0e19\u0e38\u0e01",
+					homepage: "",
+					overview:
+						"\u0e40\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e23\u0e32\u0e27\u0e01\u0e32\u0e23\u0e1c\u0e08\u0e0d\u0e20\u0e31\u0e22\u0e02\u0e2d\u0e07\u0e25\u0e39\u0e01\u0e2a\u0e38\u0e19\u0e31\u0e02 99 \u0e15\u0e31\u0e27 \u0e17\u0e35\u0e48\u0e19\u0e32\u0e07\u0e15\u0e31\u0e27\u0e23\u0e49\u0e32\u0e22 \u0e04\u0e23\u0e39\u0e40\u0e2d\u0e25\u0e25\u0e32 \u0e40\u0e14\u0e2d \u0e27\u0e34\u0e25 \u0e08\u0e31\u0e1a\u0e15\u0e31\u0e27\u0e44\u0e1b \u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e19\u0e33\u0e02\u0e19\u0e21\u0e32\u0e17\u0e33\u0e40\u0e1b\u0e47\u0e19\u0e40\u0e2a\u0e37\u0e49\u0e2d\u0e04\u0e25\u0e38\u0e21\u0e25\u0e32\u0e22\u0e08\u0e38\u0e14 \u0e2a\u0e27\u0e22\u0e2a\u0e30\u0e14\u0e38\u0e14\u0e15\u0e32 \u0e17\u0e33\u0e43\u0e2b\u0e49\u0e1e\u0e2d\u0e07\u0e42\u0e01\u0e41\u0e25\u0e30\u0e40\u0e1e\u0e2d\u0e23\u0e4c\u0e14\u0e35 \u0e1e\u0e48\u0e2d-\u0e41\u0e21\u0e48\u0e02\u0e2d\u0e07\u0e40\u0e08\u0e49\u0e32\u0e15\u0e31\u0e27\u0e40\u0e25\u0e47\u0e01 \u0e15\u0e49\u0e2d\u0e07\u0e23\u0e30\u0e14\u0e21\u0e1e\u0e25\u0e1c\u0e2d\u0e07\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e19\u0e2a\u0e38\u0e19\u0e31\u0e02\u0e2d\u0e2d\u0e01\u0e15\u0e34\u0e14\u0e15\u0e32\u0e21\u0e2b\u0e32\u0e25\u0e39\u0e01\u0e19\u0e49\u0e2d\u0e22 \u0e01\u0e48\u0e2d\u0e19\u0e17\u0e35\u0e48\u0e17\u0e38\u0e01\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e08\u0e30\u0e2a\u0e32\u0e22\u0e44\u0e1b"
+				},
+				name: "\u0e20\u0e32\u0e29\u0e32\u0e44\u0e17\u0e22",
+				iso_639_1: "th",
+				iso_3166_1: "TH",
+				english_name: "Thai"
+			},
+			{
+				data: {
+					title: "101 Dalma\u00e7yal\u0131",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						"Dalma\u00e7yal\u0131 Pongo ve Perdy ve onlar\u0131n sevgili sahipleri Roger ve Anita, Londra daki k\u00fc\u00e7\u00fck dairelerinde 15 yavru k\u00f6peklerinin d\u00fcnyaya gelmelerinden \u00e7ok mutluydular. Ta ki, puanl\u0131 k\u00fcrk tutkunu Bayan De Vil ve onun beceriksiz adamlar\u0131, Jasper ve Horace, yeni do\u011fan yavrularla beraber, Londra'daki di\u011fer b\u00fct\u00fcn yavrular\u0131 ka\u00e7\u0131rana kadar. Pongo ve Perdy yavrucuklar\u0131 kurtarmak i\u00e7in kasabadaki t\u00fcm hayvanlar\u0131 bir araya toplamal\u0131yd\u0131. Yavru k\u00f6peklerin, onlar\u0131 tutsak eden Cruella ve adamlar\u0131n\u0131 alt etmek i\u00e7in yapt\u0131klar\u0131 planlar, onlara curcunayla dolu heyecan veren bir maceraya g\u00f6t\u00fcrecek."
+				},
+				name: "T\u00fcrk\u00e7e",
+				iso_639_1: "tr",
+				iso_3166_1: "TR",
+				english_name: "Turkish"
+			},
+			{
+				data: {
+					title:
+						"101 \u0434\u0430\u043b\u043c\u0430\u0442\u0438\u043d\u0435\u0446\u044c",
+					runtime: 103,
+					tagline: "",
+					homepage: "",
+					overview:
+						"\u0417\u043b\u043e\u0447\u0438\u043d\u043d\u0438\u0446\u044f \u041a\u0440\u0443\u0435\u043b\u043b\u0430 \u0414\u0435 \u0412\u0456\u043b \u0432\u0438\u0440\u0456\u0448\u0443\u0454 \u0432\u043a\u0440\u0430\u0441\u0442\u0438 \u0440\u0456\u0432\u043d\u043e 101 \u0434\u0430\u043b\u043c\u0430\u0442\u0438\u043d\u0446\u044f, \u0449\u043e\u0431 \u043f\u043e\u043f\u043e\u0432\u043d\u0438\u0442\u0438 \u043a\u043e\u043b\u0435\u043a\u0446\u0456\u044e \u0441\u0432\u043e\u0457\u0445 \u0445\u0443\u0442\u0440\u044f\u043d\u0438\u0445 \u0432\u0438\u0440\u043e\u0431\u0456\u0432. \u041e\u0434\u043d\u0430\u043a \u0432\u043e\u043d\u0430 \u0449\u0435 \u043d\u0435 \u0443\u044f\u0432\u043b\u044f\u0454, \u0449\u043e \u0457\u0457 \u0447\u0435\u043a\u0430\u0454, \u0430\u0434\u0436\u0435 \u0433\u043e\u0441\u043f\u043e\u0434\u0430\u0440\u0456 \u0456 \u0431\u0430\u0442\u044c\u043a\u0438 \u043c\u0430\u043b\u0435\u043d\u044c\u043a\u0438\u0445 \u043f\u043b\u044f\u043c\u0438\u0441\u0442\u0438\u0445 \u0446\u0443\u0446\u0435\u043d\u044f\u0442 \u043d\u0435 \u0441\u0438\u0434\u0456\u0442\u0438\u043c\u0443\u0442\u044c \u0441\u043a\u043b\u0430\u0432\u0448\u0438 \u0440\u0443\u043a\u0438."
+				},
+				name: "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0438\u0439",
+				iso_639_1: "uk",
+				iso_3166_1: "UA",
+				english_name: "Ukrainian"
+			},
+			{
+				data: {
+					title: "101 Ch\u00fa Ch\u00f3 \u0110\u1ed1m",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						"C\u00e2u chuy\u1ec7n x\u1ea3y ra t\u1ea1i London. C\u00f3 m\u1ed9t ch\u00fa ch\u00f3 \u0111\u1ed1m t\u00ean l\u00e0 Pongo, s\u1ed1ng chung v\u1edbi c\u1eadu ch\u1ee7 Roger Radcliff - chuy\u00ean vi\u1ebft nh\u1ea1c v\u00e0 s\u1ed1ng \u0111\u1ed9c th\u00e2n. C\u1eadu \u0111\u00e3 t\u00ecm v\u1ee3 cho c\u1eadu ch\u1ee7 c\u1ee7a m\u00ecnh v\u00e0 t\u00ecm \u0111\u01b0\u1ee3c m\u1ed9t n\u1eeda cho ch\u00ednh m\u00ecnh, n\u00e0ng ch\u00f3 \u0111\u1ed1m Perdita. H\u1ecd s\u1ed1ng v\u1edbi nhau th\u1eadt h\u1ea1nh ph\u00fac... cho \u0111\u1ebfn khi Perdita sinh h\u1ea1 15 ch\u00fa ch\u00f3 con. M\u1ee5 ch\u1ee7 nh\u00e0 Cruella Devil say m\u00ea \u0111i\u00ean cu\u1ed1ng nh\u1eefng chi\u1ebfc \u00e1o l\u00f4ng th\u00fa, \u0111\u00e3 \u0111\u00e1nh c\u1eafp b\u1ea7y ch\u00f3 \u0111\u1ed1m con. S\u1ed1 ph\u1eadn c\u1ee7a Pongo v\u00e0 Perdita ch\u1eafc ch\u1eafn c\u0169ng s\u1ebd t\u1ed3i t\u1ec7 nh\u01b0 th\u1ebf n\u1ebfu nh\u01b0 hai ng\u01b0\u1eddi ch\u1ee7 t\u1ed1t b\u1ee5ng c\u1ee7a ch\u00fang quy\u1ebft \u0111\u1ecbnh b\u1eb1ng m\u1ecdi c\u00e1ch t\u00ecm l\u1ea1i c\u00e1c c\u1ee5c c\u01b0ng c\u1ee7a m\u00ecnh. Trong cu\u1ed9c h\u00e0nh tr\u00ecnh \u0111\u00f3, t\u00ecnh c\u1edd h\u1ecd l\u1ea1i \u0111\u01b0\u1ee3c chi\u00eam ng\u01b0\u1ee1ng th\u00eam 99 ch\u00fa ch\u00f3 \u0111\u1ed1m tuy\u1ec7t \u0111\u1eb9p kh\u00e1c."
+				},
+				name: "Ti\u1ebfng Vi\u1ec7t",
+				iso_639_1: "vi",
+				iso_3166_1: "VN",
+				english_name: "Vietnamese"
+			},
+			{
+				data: {
+					title: "101\u771f\u72d7",
+					runtime: 0,
+					tagline: "",
+					homepage: "",
+					overview:
+						"\u7f57\u6770\uff08\u6770\u592b\u2022\u4e39\u5c3c\u5c14\u65af Jeff Daniels \u9970\uff09\u548c\u5b89\u59ae\uff08\u6731\u8389\u2022\u7406\u67e5\u5fb7\u68ee Joely Richardson \u9970\uff09\u5854\u6240\u517b\u7684\u6591\u70b9\u72d7\u5728\u548c\u4e3b\u4eba\u6563\u6b65\u65f6\u4e00\u89c1\u949f\u60c5\uff0c\u7f57\u6770\u548c\u5b89\u59ae\u5854\u4e5f\u56e0\u6b64\u8d70\u5230\u4e86\u4e00\u8d77\u3002\u4e0d\u4e45\uff0c\u4e24\u53ea\u6591\u70b9\u72d7\u5c31\u751f\u4e86\u4e00\u7a9d\u5c0f\u72d7\u3002\u4e00\u5bb6\u4eba\u751f\u6d3b\u5f97\u5341\u5206\u5f00\u5fc3\u3002 \u7136\u800c\uff0c\u5b89\u59ae\u5854\u7684\u53d8\u6001\u8001\u677f\u60f3\u7528\u6591\u70b9\u72d7\u76ae\u505a\u4e00\u4ef6\u76ae\u8863\uff0c\u5728\u906d\u5230\u4e86\u7f57\u6770\u548c\u5b89\u59ae\u5854\u7684\u62d2\u7edd\u540e\uff0c\u5979\u6d3e\u4eba\u63b3\u8d70\u4e86\u8fd9\u7a9d\u5c0f\u72d7\u3002\u7f57\u6770\u592b\u5987\u4e00\u65e9\u9192\u6765\u53d1\u73b0\u5c0f\u72d7\u4e0d\u89c1\u4e86\uff0c\u6025\u5207\u91cc\u56db\u51fa\u5bfb\u627e\uff0c\u7136\u800c\u97f3\u8baf\u5168\u65e0\u3002\u4e24\u4eba\u7684\u7231\u72ac\u8fd9\u65f6\u6309\u637a\u4e0d\u4f4f\uff0c\u5728\u52a8\u7269\u670b\u53cb\u4eec\u7684\u5e2e\u52a9\u4e0b\uff0c\u72ec\u81ea\u524d\u5f80\u4e86\u864e\u7a74\u2026\u2026"
+				},
+				name: "\u666e\u901a\u8bdd",
+				iso_639_1: "zh",
+				iso_3166_1: "CN",
+				english_name: "Mandarin"
+			}
+		]
+	},
+	vote_average: 5.8,
+	backdrop_path: "/mz75dVXfen4J1Z0R8DbTenXNywz.jpg",
+	release_dates: {
+		results: [
+			{
+				iso_3166_1: "GB",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1996-12-13T00:00:00.000Z",
+						certification: "U"
+					}
+				]
+			},
+			{
+				iso_3166_1: "DK",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1997-03-14T00:00:00.000Z",
+						certification: "7"
+					}
+				]
+			},
+			{
+				iso_3166_1: "NL",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1997-02-20T00:00:00.000Z",
+						certification: "6"
+					},
+					{
+						note: "DVD",
+						type: 5,
+						iso_639_1: "",
+						release_date: "1998-06-06T00:00:00.000Z",
+						certification: "6"
+					},
+					{
+						note: "Net 5",
+						type: 6,
+						iso_639_1: "",
+						release_date: "2008-06-07T00:00:00.000Z",
+						certification: "6"
+					}
+				]
+			},
+			{
+				iso_3166_1: "DE",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1997-03-06T00:00:00.000Z",
+						certification: "0"
+					}
+				]
+			},
+			{
+				iso_3166_1: "SE",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1997-02-07T00:00:00.000Z",
+						certification: "7"
+					},
+					{
+						note: "DVD release",
+						type: 5,
+						iso_639_1: "",
+						release_date: "1998-09-28T00:00:00.000Z",
+						certification: "7"
+					}
+				]
+			},
+			{
+				iso_3166_1: "PT",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1997-03-10T00:00:00.000Z",
+						certification: "M/6"
+					}
+				]
+			},
+			{
+				iso_3166_1: "GR",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1997-03-14T00:00:00.000Z",
+						certification: "G"
+					}
+				]
+			},
+			{
+				iso_3166_1: "ES",
+				release_dates: [
+					{
+						type: 3,
+						iso_639_1: "es",
+						release_date: "1997-02-28T00:00:00.000Z",
+						certification: "7"
+					}
+				]
+			},
+			{
+				iso_3166_1: "AU",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1996-12-05T00:00:00.000Z",
+						certification: "G"
+					}
+				]
+			},
+			{
+				iso_3166_1: "US",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1996-11-17T00:00:00.000Z",
+						certification: "G"
+					}
+				]
+			},
+			{
+				iso_3166_1: "IE",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: null,
+						release_date: "1996-12-13T00:00:00.000Z",
+						certification: "G"
+					}
+				]
+			},
+			{
+				iso_3166_1: "FR",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1997-03-26T00:00:00.000Z",
+						certification: "U"
+					}
+				]
+			},
+			{
+				iso_3166_1: "BR",
+				release_dates: [
+					{
+						note: "",
+						type: 3,
+						iso_639_1: "",
+						release_date: "1996-12-14T00:00:00.000Z",
+						certification: "Livre"
+					}
+				]
+			}
+		]
+	},
+	original_title: "101 Dalmatians",
+	recommendations: {
+		page: 1,
+		results: [
+			{
+				id: 10481,
+				adult: false,
+				title: "102 Dalmatians",
+				video: false,
+				overview:
+					"Get ready for a howling good time as an all new assortment of irresistible animal heroes are unleashed in this great family tail! In an unlikely alliance, the outrageous Waddlesworth... a parrot who thinks he's a Rottweiler... teams up with Oddball... an un-marked Dalmation puppy eager to earn her spots! Together they embark on a laugh-packed quest to outwit the ever-scheming Cruella De Vil",
+				genre_ids: [35, 10751],
+				popularity: 8.739,
+				vote_count: 919,
+				poster_path: "/dSxnIika9yWwTvEbpsmoGdeh65E.jpg",
+				release_date: "2000-10-07",
+				vote_average: 5.5,
+				backdrop_path: "/gfwDO5Cx3ovGHauTURI4NHdB9MH.jpg",
+				original_title: "102 Dalmatians",
+				original_language: "en"
+			},
+			{
+				id: 10137,
+				adult: false,
+				title: "Stuart Little",
+				video: false,
+				overview:
+					"The adventures of a heroic and debonair stalwart mouse named Stuart Little with human qualities, who faces some comic misadventures while searching for his lost bird friend and living with a human family as their child.",
+				genre_ids: [16, 35, 14, 10751],
+				popularity: 18.835,
+				vote_count: 2918,
+				poster_path: "/oe7greuYjA4mKazwHSd6ImZzh11.jpg",
+				release_date: "1999-12-17",
+				vote_average: 6,
+				backdrop_path: "/eDN9AA0IkGuuQKuINFvENisI79t.jpg",
+				original_title: "Stuart Little",
+				original_language: "en"
+			},
+			{
+				id: 9598,
+				adult: false,
+				title: "Babe",
+				video: false,
+				overview:
+					"Babe is a little pig who doesn't quite know his place in the world. With a bunch of odd friends, like Ferdinand the duck who thinks he is a rooster and Fly the dog he calls mom, Babe realizes that he has the makings to become the greatest sheep pig of all time, and Farmer Hogget knows it. With the help of the sheep dogs Babe learns that a pig can be anything that he wants to be.",
+				genre_ids: [35, 18, 14, 10751],
+				popularity: 14.96,
+				vote_count: 1946,
+				poster_path: "/bjDIp0b5TQRx4kF8l9TKeUANLTp.jpg",
+				release_date: "1995-07-18",
+				vote_average: 6.1,
+				backdrop_path: "/agkZziO4ZPAsVfKUrJD68lys08P.jpg",
+				original_title: "Babe",
+				original_language: "en"
+			},
+			{
+				id: 3050,
+				adult: false,
+				title: "Doctor Dolittle",
+				video: false,
+				overview:
+					"A successful physician and devoted family man, John Dolittle seems to have the world by the tail, until a long suppressed talent he possessed as a child, the ability to communicate with animals is suddenly reawakened with a vengeance! Now every creature within squawking distance wants the good doctor's advice, unleashing an outrageous chain of events that turns his world upside down!",
+				genre_ids: [35, 10751, 14],
+				popularity: 12.617,
+				vote_count: 2101,
+				poster_path: "/tLrchGMIkdo1KamQJA6fwvDQEy0.jpg",
+				release_date: "1998-06-22",
+				vote_average: 5.6,
+				backdrop_path: "/oBDXHLuNNbLouDrO2QZzaurtkXG.jpg",
+				original_title: "Doctor Dolittle",
+				original_language: "en"
+			},
+			{
+				id: 11806,
+				adult: false,
+				title: "Beethoven",
+				video: false,
+				overview:
+					'The Newton family live in their comfortable home, but there seems to something missing. This "hole" is filled by a small puppy, who walks into their home and their lives. Beethoven, as he is named, grows into a giant of a dog... a St Bernard. Doctor Varnick, the local vet has a secret and horrible sideline, which requires lots of dogs for experiments. Beethoven is on the bad doctor\'s list.',
+				genre_ids: [35, 10751],
+				popularity: 12.03,
+				vote_count: 1319,
+				poster_path: "/mVb3r5ZOeopEbCbx6kuIAjUz20F.jpg",
+				release_date: "1992-04-03",
+				vote_average: 5.7,
+				backdrop_path: "/Ac0q1CDYWKcgCQRz6SfxslXNsw6.jpg",
+				original_title: "Beethoven",
+				original_language: "en"
+			},
+			{
+				id: 10603,
+				adult: false,
+				title: "George of the Jungle",
+				video: false,
+				overview:
+					"Deep in the African jungle, a baby named George, the sole survivor of a plane crash, is raised by gorillas. George grows up to be a buff and lovable klutz who has a rain forest full of animal friends: Tookie, his big-beaked toucan messenger; Ape, a witty talking gorilla; and Shep, a peanut-loving pooch of an elephant. But when poachers mess with George's pals, the King Of Swing swings into action.",
+				genre_ids: [12, 35, 10749, 10751],
+				popularity: 15.333,
+				vote_count: 1311,
+				poster_path: "/3ezRDeK5RGvsq1Yui0tYVQhxDdu.jpg",
+				release_date: "1997-07-15",
+				vote_average: 5.5,
+				backdrop_path: "/1NKhtSu3BC44oECCMzQfnfFMylo.jpg",
+				original_title: "George of the Jungle",
+				original_language: "en"
+			},
+			{
+				id: 12230,
+				adult: false,
+				title: "One Hundred and One Dalmatians",
+				video: false,
+				overview:
+					"When a litter of dalmatian puppies are abducted by the minions of Cruella De Vil, the parents must find them before she uses them for a diabolical fashion statement.\r In a Disney animation classic, Dalmatian Pongo is tired of his bachelor-dog life. He spies lovely Perdita and maneuvers his master, Roger, into meeting Perdita's owner, Anita. The owners fall in love and marry, keeping Pongo and Perdita together too. After Perdita gives birth to a litter of 15 puppies, Anita's old school friend Cruella De Vil wants to buy them all. Roger declines her offer, so Cruella hires the criminal Badun brothers to steal them -- so she can have a fur coat.",
+				genre_ids: [12, 16, 35, 10751],
+				popularity: 15.387,
+				vote_count: 4363,
+				poster_path: "/9klDisS1sVb5LljRhpYJ0TUbPzt.jpg",
+				release_date: "1961-01-25",
+				vote_average: 7.1,
+				backdrop_path: "/npb2nrqJZDsintMTh6XOxNXfyG2.jpg",
+				original_title: "One Hundred and One Dalmatians",
+				original_language: "en"
+			},
+			{
+				id: 888,
+				adult: false,
+				title: "The Flintstones",
+				video: false,
+				overview:
+					"Modern Stone Age family the Flintstones hit the big screen in this live-action version of the classic cartoon. Fred helps Barney adopt a child. Barney sees an opportunity to repay him when Slate Mining tests its employees to find a new executive. But no good deed goes unpunished.",
+				genre_ids: [14, 35, 10751],
+				popularity: 13.82,
+				vote_count: 1589,
+				poster_path: "/ocsb0qiGlcn6UlcDRHa3xxSCc8Y.jpg",
+				release_date: "1994-05-26",
+				vote_average: 5.2,
+				backdrop_path: "/4byUSbNrjqCSjqVYrJU6AxqyZYr.jpg",
+				original_title: "The Flintstones",
+				original_language: "en"
+			},
+			{
+				id: 9574,
+				adult: false,
+				title: "Flubber",
+				video: false,
+				overview:
+					"Professor Phillip Brainard, an absent minded professor, works with his assistant Weebo, trying to create a substance that's a new source of energy and that will save Medfield College where his sweetheart Sara is the president. He has missed his wedding twice, and on the afternoon of his third wedding, Professor Brainard creates flubber, which allows objects to fly through the air.",
+				genre_ids: [35, 10751, 878],
+				popularity: 15.614,
+				vote_count: 1578,
+				poster_path: "/bnKvk04icAyCO1KjqhsaEXBO9aJ.jpg",
+				release_date: "1997-11-26",
+				vote_average: 5.6,
+				backdrop_path: "/oTZED8sgWjZ9es3azbRD1lDOFdS.jpg",
+				original_title: "Flubber",
+				original_language: "en"
+			},
+			{
+				id: 8839,
+				adult: false,
+				title: "Casper",
+				video: false,
+				overview:
+					'Furious that her late father only willed her his gloomy-looking mansion rather than his millions, Carrigan Crittenden is ready to burn the place to the ground when she discovers a map to a treasure hidden in the house. But when she enters the rickety mansion to seek her claim, she is frightened away by a wicked wave of ghosts. Determined to get her hands on this hidden fortune, she hires afterlife therapist Dr. James Harvey to exorcise the ghosts from the mansion. Harvey and his daughter Kat move in, and soon Kat meets Casper, the ghost of a young boy who\'s "the friendliest ghost you know." But not so friendly are Casper\'s uncles--Stretch, Fatso and Stinkie--who are determined to drive all "fleshies" away.',
+				genre_ids: [14, 35, 10751],
+				popularity: 11.656,
+				vote_count: 3148,
+				poster_path: "/2ah8fNJFZVU3vcXhU5xfAYi2eym.jpg",
+				release_date: "1995-05-26",
+				vote_average: 6.3,
+				backdrop_path: "/yDjTmd4Wgq7qkXBAobjHyfeyYZg.jpg",
+				original_title: "Casper",
+				original_language: "en"
+			},
+			{
+				id: 10996,
+				adult: false,
+				title: "Stuart Little 2",
+				video: false,
+				overview:
+					"Stuart, an adorable white mouse, still lives happily with his adoptive family, the Littles, on the east side of Manhattan's Central Park. More crazy mouse adventures are in store as Stuart, his human brother, George, and their mischievous cat, Snowbell, set out to rescue a friend.",
+				genre_ids: [10751, 12, 16, 35],
+				popularity: 11.409,
+				vote_count: 1602,
+				poster_path: "/hjfeMLWqJY44mqqJKZSa6jx4Y1j.jpg",
+				release_date: "2002-07-19",
+				vote_average: 5.6,
+				backdrop_path: "/wiGez9vknlmmdF31bZyjV58gayH.jpg",
+				original_title: "Stuart Little 2",
+				original_language: "en"
+			},
+			{
+				id: 10340,
+				adult: false,
+				title: "Lady and the Tramp",
+				video: false,
+				overview:
+					"Lady, a golden cocker spaniel, meets up with a mongrel dog who calls himself the Tramp. He is obviously from the wrong side of town, but happenings at Lady's home make her decide to travel with him for a while.",
+				genre_ids: [16, 10749, 10751],
+				popularity: 18.246,
+				vote_count: 3611,
+				poster_path: "/wXKeGea4htM7Yz3yo7hYXbs3FhV.jpg",
+				release_date: "1955-06-22",
+				vote_average: 7.1,
+				backdrop_path: "/deZYjgLWPHStzvk7hCgf8pBqFdC.jpg",
+				original_title: "Lady and the Tramp",
+				original_language: "en"
+			},
+			{
+				id: 9354,
+				adult: false,
+				title: "Honey, I Shrunk the Kids",
+				video: false,
+				overview:
+					"The scientist father of a teenage girl and boy accidentally shrinks his and two other neighborhood teens to the size of insects. Now the teens must fight diminutive dangers as the father searches for them.",
+				genre_ids: [12, 35, 878, 10751],
+				popularity: 12.461,
+				vote_count: 1953,
+				poster_path: "/omQOzahi2NIeiYznNxHFDvNbvo6.jpg",
+				release_date: "1989-06-23",
+				vote_average: 6.2,
+				backdrop_path: "/laV6kBX7AvA52WHlCOd6F4rcVHz.jpg",
+				original_title: "Honey, I Shrunk the Kids",
+				original_language: "en"
+			},
+			{
+				id: 8920,
+				adult: false,
+				title: "Garfield",
+				video: false,
+				overview:
+					"Garfield, the fat, lazy, lasagna lover, has everything a cat could want. But when Jon, in an effort to impress the Liz - the vet and an old high-school crush - adopts a dog named Odie and brings him home, Garfield gets the one thing he doesn't want. Competition.",
+				genre_ids: [16, 35, 10751],
+				popularity: 14.377,
+				vote_count: 2542,
+				poster_path: "/5hKlKh62yIR03XHZxwFs3EaIFfD.jpg",
+				release_date: "2004-06-10",
+				vote_average: 5.6,
+				backdrop_path: "/junnAqHA7O9DDpjCu6cjjSzR2R2.jpg",
+				original_title: "Garfield",
+				original_language: "en"
+			},
+			{
+				id: 10992,
+				adult: false,
+				title: "Cats & Dogs",
+				video: false,
+				overview:
+					"When a professor develops a vaccine that eliminates human allergies to dogs, he unwittingly upsets the fragile balance of power between cats and dogs and touches off an epic battle for pet supremacy. The fur flies as the feline faction, led by Mr. Tinkles, squares off against wide-eyed puppy Lou and his canine cohorts.",
+				genre_ids: [35, 10751],
+				popularity: 11.273,
+				vote_count: 1048,
+				poster_path: "/77dmCJelVTBPBwbTppiisQx0e82.jpg",
+				release_date: "2001-07-04",
+				vote_average: 5.3,
+				backdrop_path: "/bFSqeI42Zu95dqPcClBaOcRkahv.jpg",
+				original_title: "Cats & Dogs",
+				original_language: "en"
+			},
+			{
+				id: 10545,
+				adult: false,
+				title: "The Hunchback of Notre Dame",
+				video: false,
+				overview:
+					"When Quasimodo defies the evil Frollo and ventures out to the Festival of Fools, the cruel crowd jeers him. Rescued by fellow outcast the gypsy Esmeralda, Quasi soon finds himself battling to save the people and the city he loves.",
+				genre_ids: [16, 18, 10751],
+				popularity: 12.6,
+				vote_count: 3456,
+				poster_path: "/r7V92gY3AMO6li17MmGTixAnFcv.jpg",
+				release_date: "1996-06-21",
+				vote_average: 7.1,
+				backdrop_path: "/oslaee3VX9kJAjVezbjZKlEJDzn.jpg",
+				original_title: "The Hunchback of Notre Dame",
+				original_language: "en"
+			},
+			{
+				id: 10054,
+				adult: false,
+				title: "Spy Kids",
+				video: false,
+				overview:
+					"Carmen and Juni think their parents are boring. Little do they know that in their day, Gregorio and Ingrid Cortez were the top secret agents from their respective countries. They gave up that life to raise their children. Now, the disappearances of several of their old colleagues forces the Cortez' return from retirement. What they didn't count on was Carmen and Juni joining the \"family business.\"",
+				genre_ids: [28, 35, 10751, 12],
+				popularity: 12.903,
+				vote_count: 2317,
+				poster_path: "/urb5Wf4yffJQ2KwAuSPxCbOM8HA.jpg",
+				release_date: "2001-03-18",
+				vote_average: 5.8,
+				backdrop_path: "/8eqrTjeswE5yWsAHu3qPRQYJxCO.jpg",
+				original_title: "Spy Kids",
+				original_language: "en"
+			},
+			{
+				id: 3170,
+				adult: false,
+				title: "Bambi",
+				video: false,
+				overview:
+					"Bambi's tale unfolds from season to season as the young prince of the forest learns about life, love, and friends.",
+				genre_ids: [16, 18, 10751],
+				popularity: 17.812,
+				vote_count: 3894,
+				poster_path: "/wV9e2y4myJ4KMFsyFfWYcUOawyK.jpg",
+				release_date: "1942-08-14",
+				vote_average: 7,
+				backdrop_path: "/fgIeKLbmPLof5cb88Wod0CWhWTE.jpg",
+				original_title: "Bambi",
+				original_language: "en"
+			},
+			{
+				id: 10693,
+				adult: false,
+				title: "Peter Pan",
+				video: false,
+				overview:
+					"Leaving the safety of their nursery behind, Wendy, Michael and John follow Peter Pan to a magical world where childhood lasts forever. But while in Neverland, the kids must face Captain Hook and foil his attempts to get rid of Peter for good.",
+				genre_ids: [16, 10751, 12, 14],
+				popularity: 18.829,
+				vote_count: 3763,
+				poster_path: "/6UTZmeQcxbtW32MyR5nKIx7ID4f.jpg",
+				release_date: "1953-02-05",
+				vote_average: 7.2,
+				backdrop_path: "/qNJCFMniyLAnEyGn5ja52ieLlLR.jpg",
+				original_title: "Peter Pan",
+				original_language: "en"
+			},
+			{
+				id: 9327,
+				adult: false,
+				title: "The Nutty Professor",
+				video: false,
+				overview:
+					"Eddie Murphy stars as shy Dr. Sherman Klump, a kind, brilliant, 'calorifically challenged' genetic professor. When beautiful Carla Purty joins the university faculty, Sherman grows desperate to whittle his 400-pound frame down to size and win her heart. So, with one swig of his experimental fat-reducing serum, Sherman becomes 'Buddy Love', a fast-talking, pumped-up , plumped down Don Juan.",
+				genre_ids: [14, 35, 10749, 878],
+				popularity: 11.127,
+				vote_count: 2015,
+				poster_path: "/fMtb5aZoLRNbMnCkatFsTmPRfl5.jpg",
+				release_date: "1996-06-26",
+				vote_average: 5.6,
+				backdrop_path: "/gHFuLHxruielBcMEZx1WowxbRWS.jpg",
+				original_title: "The Nutty Professor",
+				original_language: "en"
+			}
+		],
+		total_pages: 2,
+		total_results: 40
+	},
+	spoken_languages: [{ name: "English", iso_639_1: "en" }],
+	original_language: "en",
+	alternative_titles: {
+		titles: [
+			{
+				type: "",
+				title: "101 Dalmatiner \u2013 Diesmal sind die Hunde echt",
+				iso_3166_1: "DE"
+			},
+			{ type: "", title: "101 D\u00e1lmatas", iso_3166_1: "ES" },
+			{ type: "", title: "101 Dalmatialaista", iso_3166_1: "FI" },
+			{ type: "", title: "101 Dalmatians", iso_3166_1: "GB" },
+			{ type: "", title: "101 kiskutya", iso_3166_1: "HU" },
+			{
+				type: "",
+				title:
+					"101 \u05db\u05dc\u05d1\u05d9\u05dd \u05d5\u05d2\u05e0\u05d1\u05d9\u05dd",
+				iso_3166_1: "IL"
+			},
+			{
+				type: "",
+				title:
+					"\u05e2\u05dc \u05db\u05dc\u05d1\u05d9\u05dd \u05d5\u05d2\u05e0\u05d1\u05d9\u05dd 2",
+				iso_3166_1: "IL"
+			},
+			{
+				type: "",
+				title: "101 Dalmatas: Ahora la magia es real",
+				iso_3166_1: "MX"
+			},
+			{ type: "", title: "101 Echte Dalmati\u00ebrs", iso_3166_1: "NL" },
+			{ type: "", title: "101 dalmaty\u0144czyk\u00f3w", iso_3166_1: "PL" },
+			{ type: "Alternative spelling", title: "101 Dalmations", iso_3166_1: "US" },
+			{ type: "", title: "Disney's 101 Dalmatians", iso_3166_1: "US" }
+		]
+	},
+	production_companies: [
+		{
+			id: 2173,
+			name: "Great Oaks Entertainment",
+			logo_path: null,
+			origin_country: ""
+		},
+		{
+			id: 2,
+			name: "Walt Disney Pictures",
+			logo_path: "/wdrCwmRnLFJhEoH8GSfymY85KHT.png",
+			origin_country: "US"
+		}
+	],
+	production_countries: [
+		{ name: "United Kingdom", iso_3166_1: "GB" },
+		{ name: "United States of America", iso_3166_1: "US" }
+	],
+	belongs_to_collection: {
+		id: 124916,
+		name: "101 Dalmatians (Live-Action) Collection",
+		poster_path: "/oSeIai1ioj4dbq7WgbPzpsSCzkS.jpg",
+		backdrop_path: "/eTaNHqpi7VldgcrDetfTzk4FeDi.jpg"
+	}
+};
+
+	  var observer = lozad('.lazyload', {
+		loaded: function(e) {
+		  e.classList.add('lazyloaded');
+		}
+	  });
+	  observer.observe();
+
+Vue.filter('bgImage',  function(value) {
+	  return 'background-image: url("https://image.tmdb.org/t/p/w1920_and_h800_multi_faces'+ value +'");';
+})
+
+Vue.filter("slugify", function (value) {
+	value = value.replace(/^\s+|\s+$/g, ""); // trim
+	value = value.toLowerCase();
+	// remove accents, swap ñ for n, etc
+	var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+	var to = "aaaaaeeeeeiiiiooooouuuunc------";
+	for (var i = 0, l = from.length; i < l; i++) {
+		value = value.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+	}
+	value = value
+		.replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+		.replace(/\s+/g, "-") // collapse whitespace and replace by -
+		.replace(/-+/g, "-"); // collapse dashes
+
+	return value;
+});
+
+var slug = function (str) {
+	str = str.replace(/^\s+|\s+$/g, ""); // trim
+	str = str.toLowerCase();
+
+	// remove accents, swap ñ for n, etc
+	var from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+	var to = "aaaaaeeeeeiiiiooooouuuunc------";
+	for (var i = 0, l = from.length; i < l; i++) {
+		str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
+	}
+	str = str
+		.replace(/[^a-z0-9 -]/g, "") // remove invalid chars
+		.replace(/\s+/g, "-") // collapse whitespace and replace by -
+		.replace(/-+/g, "-"); // collapse dashes
+
+	return str;
+};
+
+new Vue({
+	el: "#app",
+	data() {
+		return {
+			item: defaultItem
+		};
+	},
+	components: {},
+	mounted() {
+		axios
+			.get("https://consolo.is.cc/movie.php?id=11674")
+			.then((response) => (this.item = response.movie));
+	}
+});
+		</script>
+	</body>
+</html>
