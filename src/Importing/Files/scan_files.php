@@ -109,9 +109,17 @@ function updateCompressedFile($path, $parentId)  {
 	$extraData = [];
 	$extraData['extra'] = $fileData['extra'];
 	unset($fileData['extra']);
-	$id = $db->insert('files')->cols($fileData)->lowPriority($config['db_low_priority'])->query();
+	$id = $db
+		->insert('files')
+		->cols($fileData)
+		->lowPriority($config['db_low_priority'])
+		->query();
 	$extraData['id'] = $id;
-	$db->insert('files_extra')->cols($extraData)->lowPriority($config['db_low_priority'])->query();
+	$db
+		->insert('files_extra')
+		->cols($extraData)
+		->lowPriority($config['db_low_priority'])
+		->query();
 	echo "  Added file #{$id} {$virtualPath} : ".json_encode($fileData)." from Compressed parent {$parentData['path']}\n";
 }
 
@@ -288,26 +296,50 @@ function updateFile($path)  {
 		if (!isset($paths[$cleanPath])) {
 			$newData['path'] = $cleanPath;
 			$fileData['path'] = $cleanPath;
-			$id = $db->insert('files')->cols($newData)->lowPriority($config['db_low_priority'])->query();
+			$id = $db
+				->insert('files')
+				->cols($newData)
+				->lowPriority($config['db_low_priority'])
+				->query();
 			$paths[$cleanPath] = $id;
 			echo "  Added file #{$id} {$cleanPath} : ".json_encode($newData).PHP_EOL;
 			$extraData['id'] = $id;
-			$db->insert('files_extra')->cols($extraData)->lowPriority($config['db_low_priority'])->query();
+			$db
+				->insert('files_extra')
+				->cols($extraData)
+				->lowPriority($config['db_low_priority'])
+				->query();
 			echo "  Added file extra #{$id} {$cleanPath} : ".json_encode($extraData).PHP_EOL;
 		} else {
 			$id = $paths[$cleanPath];
 			if (count($newData) > 0) {
-						$db->update('files')->cols($newData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
-						echo "  Updated file #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($newData).PHP_EOL;
+				$db
+					->update('files')
+					->cols($newData)
+					->where('id='.$id)
+					->lowPriority($config['db_low_priority'])
+					->query();
+				echo "  Updated file #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($newData).PHP_EOL;
 			}
-			echo "  Updated file extra #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($extraData).PHP_EOL;
-			$db->update('files_extra')->cols($extraData)->where('id='.$id)->lowPriority($config['db_low_priority'])->query();
+			if (isset($extraData)) {
+				echo "  Updated file extra #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($extraData).PHP_EOL;
+				$db
+					->update('files_extra')
+					->cols($extraData)
+					->where('id='.$id)
+					->lowPriority($config['db_low_priority'])
+					->query();
+			}
 		}
 		$files[$id] = $fileData;
 	}
 	if ($reread === true) {
 		$id = $paths[$cleanPath];
-		$db->delete('files')->where('parent='.$id)->lowPriority($config['db_low_priority'])->query();
+		$db
+			->delete('files')
+			->where('parent='.$id)
+			->lowPriority($config['db_low_priority'])
+			->query();
 	}
 	if (!array_key_exists('num_files', $fileData) || $fileData['num_files'] == 0) {
 		compressedFileHandler($path);
