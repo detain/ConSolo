@@ -1,161 +1,161 @@
 <!DOCTYPE html>
 <html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>CodePen - TViFy</title>
-  <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TVify</title>
+	<head>
+		<meta charset="UTF-8">
+		<title>CodePen - TViFy</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>TVify</title>
 
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css'>
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.0/css/perfect-scrollbar.css'>
-<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'><link rel="stylesheet" href="./tvify.css">
+		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css'>
+		<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.0/css/perfect-scrollbar.css'>
+		<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'><link rel="stylesheet" href="./tvify.css">
 
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<body>
-    <div class="video-trailer">
-            <div class="close-trailer"><i class="material-icons">close</i></div>
-    </div>
-    <header>
-      <nav>
-        <ul class="navbar">
-          <li id='search-link' data-activities="search">      
-            <i class="material-icons" >search</i>
-          </li>
-          <li data-activities="airplay">      
-            <i class="material-icons" >airplay</i>
-          </li>
-          <li class="disabled" id="trailer" data-activities="trailer">      
-            <i class="material-icons" >play_arrow</i>
-          </li>
-          <li data-activities="refresh">      
-            <i class="material-icons" >refresh</i>          
-          </li>
-          <li class="disabled" data-activities="list">      
-            <i class="material-icons" >list</i>
-          </li>
-          <li class="disabled" data-activities="favorites">      
-            <i class="material-icons" >whatshot</i>
-          </li>
-          <li id="back" data-activities="back" class="disabled">      
-            <i class="material-icons" >arrow_back
-          </i>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <div class="app">
-      <div class="had-container">
-        <div class="row">
-<div id="modal1" class="modal">           <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
-          </div>
-                      <div class="col s12 menu-section">
-                        <div id="search" class="search col s6 offset-s3 valign-wrapper">
-                <form>
-                  <input type="text" placeholder="Buscar Peli">
-                  <button type="submit" name="btn">
-                    <i class="material-icons">search</i>
-                  </button>
-                </form>
-            </div>
-            <div class="close"><i class="material-icons">close</i></div>
+	</head>
+	<body>
+	<!-- partial:index.partial.html -->
+	<body>
+		<div class="video-trailer">
+			<div class="close-trailer"><i class="material-icons">close</i></div>
+		</div>
+		<header>
+			<nav>
+				<ul class="navbar">
+					<li id='search-link' data-activities="search">      
+						<i class="material-icons" >search</i>
+					</li>
+					<li data-activities="airplay">      
+						<i class="material-icons" >airplay</i>
+					</li>
+					<li class="disabled" id="trailer" data-activities="trailer">      
+						<i class="material-icons" >play_arrow</i>
+					</li>
+					<li data-activities="refresh">      
+						<i class="material-icons" >refresh</i>          
+					</li>
+					<li class="disabled" data-activities="list">      
+						<i class="material-icons" >list</i>
+					</li>
+					<li class="disabled" data-activities="favorites">      
+						<i class="material-icons" >whatshot</i>
+					</li>
+					<li id="back" data-activities="back" class="disabled">      
+						<i class="material-icons" >arrow_back
+						</i>
+					</li>
+				</ul>
+			</nav>
+		</header>
+		<div class="app">
+			<div class="had-container">
+				<div class="row">
+					<div id="modal1" class="modal">           <div class="modal-content">
+							<h4>Modal Header</h4>
+							<p>A bunch of text</p>
+						</div>
+						<div class="modal-footer">
+							<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+						</div>
+					</div>
+					<div class="col s12 menu-section">
+						<div id="search" class="search col s6 offset-s3 valign-wrapper">
+							<form>
+								<input type="text" placeholder="Buscar Peli">
+								<button type="submit" name="btn">
+									<i class="material-icons">search</i>
+								</button>
+							</form>
+						</div>
+						<div class="close"><i class="material-icons">close</i></div>
 
-                    </div>
+					</div>
 
 
-    
-          
-          <div class="col s12 m9 l10 main">
-            <div class="main-head col s12">
-              <div class="col head-logo">
-                <h3>TViFY</h3>
-              </div>
-              <div class="col head-info hide-on-med-and-down">
-                <ul class="valign-wrapper">
-                  <li>
-                    <i class="material-icons">airplay</i>
-                      Film Information
-                  </li>
-                    <li>
-                      <i class="material-icons">show_chart</i>
-                      Pulse
-                  </li>
-                   <li>
-                    <i class="material-icons">remove_red_eye</i>
-                     Prime Streaming
-                  </li>
-                </ul>
-              </div>
-              <div class="head-config right-align">
-                <ul class="valign-wrapper right">
-                  <li>
-                    <i class="material-icons">sync</i>
-                  </li>
-                    <li>
-                      <i class="material-icons">settings</i>
-                  </li>
-                   <li>
-                    <i class="material-icons">remove_red_eye</i>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col s12 movie-view">
-              <div class="shadow"></div>
 
-            </div>
-            <div class="main-watchlist col s12">
-              <div class="watchlist-head">
-                <div class="col s3 watchlist-title">
-                  <p>Watchlist</p>
-                </div>
-                <div class="col s9 watchtlist-movie-tv right-align">
-                  <ul class="valign-wrapper">
-                    <li>Movie</li>
-                    <li>Tv</li>
-                  </ul>
-                </div>
-              </div>
-              <div id="main" class="watchlist-list">
-                <div class="col s12 load">
-                  <div class="col s4 offset-s4 spinner">
-                </div>
-              </div>
-              <div id="watchlist" class="col s12 watchlist"></div>
 
-              </div>
-            </div>
-          </div>
-          <div class="col m3 l2 hide-on-small-only upcoming">
-            <div class="col s12 upcoming-head valign-wrapper">
-              <h6 class="center">UPCOMING</h6>
-            </div>
-            <div class="col s12 upcoming-list">
-              <ul>
-                <li>
+					<div class="col s12 m9 l10 main">
+						<div class="main-head col s12">
+							<div class="col head-logo">
+								<h3>TViFY</h3>
+							</div>
+							<div class="col head-info hide-on-med-and-down">
+								<ul class="valign-wrapper">
+									<li>
+										<i class="material-icons">airplay</i>
+										Film Information
+									</li>
+									<li>
+										<i class="material-icons">show_chart</i>
+										Pulse
+									</li>
+									<li>
+										<i class="material-icons">remove_red_eye</i>
+										Prime Streaming
+									</li>
+								</ul>
+							</div>
+							<div class="head-config right-align">
+								<ul class="valign-wrapper right">
+									<li>
+										<i class="material-icons">sync</i>
+									</li>
+									<li>
+										<i class="material-icons">settings</i>
+									</li>
+									<li>
+										<i class="material-icons">remove_red_eye</i>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="col s12 movie-view">
+							<div class="shadow"></div>
 
-                </li>
+						</div>
+						<div class="main-watchlist col s12">
+							<div class="watchlist-head">
+								<div class="col s3 watchlist-title">
+									<p>Watchlist</p>
+								</div>
+								<div class="col s9 watchtlist-movie-tv right-align">
+									<ul class="valign-wrapper">
+										<li>Movie</li>
+										<li>Tv</li>
+									</ul>
+								</div>
+							</div>
+							<div id="main" class="watchlist-list">
+								<div class="col s12 load">
+									<div class="col s4 offset-s4 spinner">
+									</div>
+								</div>
+								<div id="watchlist" class="col s12 watchlist"></div>
 
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.0/js/perfect-scrollbar.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.0/js/perfect-scrollbar.jquery.js'></script><script  src="./tvify.js"></script>
+							</div>
+						</div>
+					</div>
+					<div class="col m3 l2 hide-on-small-only upcoming">
+						<div class="col s12 upcoming-head valign-wrapper">
+							<h6 class="center">UPCOMING</h6>
+						</div>
+						<div class="col s12 upcoming-list">
+							<ul>
+								<li>
 
-</body>
+								</li>
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<!-- partial -->
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.0/js/perfect-scrollbar.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.8.0/js/perfect-scrollbar.jquery.js'></script><script  src="./tvify.js"></script>
+
+	</body>
 </html>

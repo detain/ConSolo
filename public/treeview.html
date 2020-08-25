@@ -1,50 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>CodePen - rapid m2m treeview</title>
-  <link rel='stylesheet' href='https://cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css'>
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons'>
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@1.5.11/dist/vuetify.min.css'><link rel="stylesheet" href="./treeview.css">
+	<head>
+		<meta charset="UTF-8">
+		<title>CodePen - rapid m2m treeview</title>
+		<link rel='stylesheet' href='https://cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css'>
+		<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons'>
+		<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@1.5.11/dist/vuetify.min.css'><link rel="stylesheet" href="./treeview.css">
 
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<div id="app">
+	</head>
+	<body>
+		<!-- partial:index.partial.html -->
+		<div id="app">
 
-    <Tree :data="sortedArray" draggable="draggable" cross-tree="cross-tree" class="scrollbar text">
-        <div slot-scope="{data, store}">
+			<Tree :data="sortedArray" draggable="draggable" cross-tree="cross-tree" class="scrollbar text">
+				<div slot-scope="{data, store}">
 
-            <v-icon @click="store.toggleOpen(data)">{{data.open? data.folder_open:data.folder_close}}</v-icon>
-            <v-icon>{{ files[data.file] }}</v-icon>
-            <span :class="{highlight:data.editable}" @contextmenu.prevent="execContextMenu(data)">{{data.text}}</span>
+					<v-icon @click="store.toggleOpen(data)">{{data.open? data.folder_open:data.folder_close}}</v-icon>
+					<v-icon>{{ files[data.file] }}</v-icon>
+					<span :class="{highlight:data.editable}" @contextmenu.prevent="execContextMenu(data)">{{data.text}}</span>
 
-            <span v-if="data.error===1">
+					<span v-if="data.error===1">
 
-                        <v-icon @mouseover="onMouseOver(data)" @mouseout="onMouseOut(data)">{{data.error_img}} </v-icon>
-                          <span v-if="data.hovering">Error in file</span>
+						<v-icon @mouseover="onMouseOver(data)" @mouseout="onMouseOut(data)">{{data.error_img}} </v-icon>
+						<span v-if="data.hovering">Error in file</span>
 
-            </span>
+					</span>
 
-        </div>
-    </Tree>
+				</div>
+			</Tree>
 
-    
-    <vue-context ref="menu">
-        <ul class="context-menu">
-            <li v-for="cmd in ctxMenu_cmds" @click="onCtxClick( ctxMenu_id, cmd)" class="context-menu-item"> <i class='fa fa-file' id="context-menu-icon"></i><span class="context-menu-span">{{contextMenuText(cmd)}}</span></li>
-        </ul>
-    </vue-context>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue-context@3.4.0/dist/vue-context.min.js"></script>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js'></script>
-<script src='https://unpkg.com/vue-draggable-nested-tree@latest/dist/vue-draggable-nested-tree.js'></script>
-<script src='https://unpkg.com/tree-helper@latest/dist/tree-helper.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/vuetify@1.5.11/dist/vuetify.min.js'></script><script  src="./treeview.js"></script>
+			<vue-context ref="menu">
+				<ul class="context-menu">
+					<li v-for="cmd in ctxMenu_cmds" @click="onCtxClick( ctxMenu_id, cmd)" class="context-menu-item"> <i class='fa fa-file' id="context-menu-icon"></i><span class="context-menu-span">{{contextMenuText(cmd)}}</span></li>
+				</ul>
+			</vue-context>
+		</div>
 
-</body>
+		<script src="https://cdn.jsdelivr.net/npm/vue-context@3.4.0/dist/vue-context.min.js"></script>
+		<!-- partial -->
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js'></script>
+		<script src='https://unpkg.com/vue-draggable-nested-tree@latest/dist/vue-draggable-nested-tree.js'></script>
+		<script src='https://unpkg.com/tree-helper@latest/dist/tree-helper.js'></script>
+		<script src='https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js'></script>
+		<script src='https://cdn.jsdelivr.net/npm/vue/dist/vue.js'></script>
+		<script src='https://cdn.jsdelivr.net/npm/vuetify@1.5.11/dist/vuetify.min.js'></script><script  src="./treeview.js"></script>
+
+	</body>
 </html>

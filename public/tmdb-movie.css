@@ -1,96 +1,96 @@
 html, body {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  font-family: 'Roboto', sans-serif;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	font-family: 'Roboto', sans-serif;
 }
 
 #container #bk {
-  width: 2100px;
-  height: 1200px;
-  position: absolute;
-  left: calc((100vw - 2480px)/2);
-  top: calc((100vh - 1230px)/2);
-  transition: .3s ease-out;
+	width: 2100px;
+	height: 1200px;
+	position: absolute;
+	left: calc((100vw - 2480px)/2);
+	top: calc((100vh - 1230px)/2);
+	transition: .3s ease-out;
 }
 #container #bk .item {
-  width: 300px;
-  height: 400px;
-  float: left;
-  transition: .5s ease-out;
-  position: relative;
-  perspective: 600px;
+	width: 300px;
+	height: 400px;
+	float: left;
+	transition: .5s ease-out;
+	position: relative;
+	perspective: 600px;
 }
 #container #bk .item__front {
-  width: 300px;
-  height: 400px;
-  overflow: hidden;
-  position: absolute;
-  left: 0;
-  z-index: 900;
-  transform-style: preserve-3d;
-  transform: rotateX(0deg) rotateY(0deg);
-  backface-visibility: hidden;
-  transition: all .8s ease-in-out;
+	width: 300px;
+	height: 400px;
+	overflow: hidden;
+	position: absolute;
+	left: 0;
+	z-index: 900;
+	transform-style: preserve-3d;
+	transform: rotateX(0deg) rotateY(0deg);
+	backface-visibility: hidden;
+	transition: all .8s ease-in-out;
 }
 #container #bk .item__front img {
-  max-width: 100%;
+	max-width: 100%;
 }
 #container #bk .item__back {
-  width: 300px;
-  height: 400px;
-  padding: 40px;
-  z-index: 1000;
-  box-sizing: border-box;
-  position: absolute;
-  left: 0px;
-  transition: .5s ease-out;
-  transform: rotateY(-180deg);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transition: all .8s ease-in-out;
-  overflow: hidden;
-  color: #fff;
+	width: 300px;
+	height: 400px;
+	padding: 40px;
+	z-index: 1000;
+	box-sizing: border-box;
+	position: absolute;
+	left: 0px;
+	transition: .5s ease-out;
+	transform: rotateY(-180deg);
+	transform-style: preserve-3d;
+	backface-visibility: hidden;
+	transition: all .8s ease-in-out;
+	overflow: hidden;
+	color: #fff;
 }
 #container #bk .item__back:after {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.9);
-  position: absolute;
-  top: 0;
-  left: 0;
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.9);
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 #container #bk .item__back h2 {
-  margin: 0;
-  margin-bottom: 15px;
-  color: #fff;
-  position: relative;
-  z-index: 5;
-  box-shadow: 240px 42px 58px -8px rgba(0, 0, 0, 0);
+	margin: 0;
+	margin-bottom: 15px;
+	color: #fff;
+	position: relative;
+	z-index: 5;
+	box-shadow: 240px 42px 58px -8px rgba(0, 0, 0, 0);
 }
 #container #bk .item__back p {
-  position: relative;
-  z-index: 5;
-  box-shadow: 240px 42px 58px -8px rgba(0, 0, 0, 0);
+	position: relative;
+	z-index: 5;
+	box-shadow: 240px 42px 58px -8px rgba(0, 0, 0, 0);
 }
 #container #bk .item__back img {
-  max-width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
+	max-width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
 }
 #container #bk .flip .item__front {
-  z-index: 900;
-  transform: rotateY(180deg);
+	z-index: 900;
+	transform: rotateY(180deg);
 }
 #container #bk .flip .item__back {
-  background: #333;
-  z-index: 1000;
-  transform: rotateX(0deg) rotateY(0deg);
+	background: #333;
+	z-index: 1000;
+	transform: rotateX(0deg) rotateY(0deg);
 }

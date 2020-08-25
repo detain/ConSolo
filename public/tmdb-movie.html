@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>CodePen - TMDB API - Movie bulletin</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" rel="stylesheet">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato'><link rel="stylesheet" href="tmdb-movie.css">
+	<head>
+		<meta charset="UTF-8">
+		<title>CodePen - TMDB API - Movie bulletin</title>
+		<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" rel="stylesheet">
+		<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato'><link rel="stylesheet" href="tmdb-movie.css">
 
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<div id="app">
-  <div id="container">
-    <div id="bk">
-      <item v-for="movie in movies" v-bind:movie="movie"></item>
-    </div>
-  </div>
-</div>
+	</head>
+	<body>
+		<!-- partial:index.partial.html -->
+		<div id="app">
+			<div id="container">
+				<div id="bk">
+					<item v-for="movie in movies" v-bind:movie="movie"></item>
+				</div>
+			</div>
+		</div>
 
-<template id="item-box">
-  <div class="item">
-    <div class="item__front">
-      <img :src="movie.poster_path" alt="" />
-    </div>
-    <div class="item__back">
-      <h2>{{movie.title}}</h2>
-      <p>{{movie.overview}}</p>
-      <img :src="movie.poster_path" alt="" />
-    </div>
-  </div>
-</template>
-<!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js'></script><script  src="tmdb-movie.js"></script>
+		<template id="item-box">
+			<div class="item">
+				<div class="item__front">
+					<img :src="movie.poster_path" alt="" />
+				</div>
+				<div class="item__back">
+					<h2>{{movie.title}}</h2>
+					<p>{{movie.overview}}</p>
+					<img :src="movie.poster_path" alt="" />
+				</div>
+			</div>
+		</template>
+		<!-- partial -->
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js'></script><script  src="tmdb-movie.js"></script>
 
-</body>
+	</body>
 </html>
