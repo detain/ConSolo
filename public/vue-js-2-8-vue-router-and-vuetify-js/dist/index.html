@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Vue.js 2 #8 vue-router and Vuetify.js</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'>
+<link rel='stylesheet' href='https://unpkg.com/vuetify@1.5.16/dist/vuetify.min.css'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div id="app">
+  <v-toolbar>
+    <v-toolbar-title>Fullstack Series</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items>
+      <v-btn flat href="#/">Home</v-btn>
+      <v-btn flat href='#/about-us'>About us</v-btn>
+      <v-btn flat href='#/contact'>Contact</v-btn>
+      <v-btn flat href='#/test'>Test</v-btn>
+    </v-toolbar-items>
+  </v-toolbar>
+  <transition name="fade">
+    <router-view></router-view>
+  </transition>
+</div>
+<!-- partial -->
+  <script src='https://unpkg.com/vue'></script>
+<script src='https://unpkg.com/vue-router/dist/vue-router.js'></script>
+<script src='https://unpkg.com/vuetify@1.5.16/dist/vuetify.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>

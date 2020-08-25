@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Vue.js And Vuetify Quick Prototypes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900'>
+<link rel='stylesheet' href='https://cdn.materialdesignicons.com/4.4.95/css/materialdesignicons.min.css'>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div id="app">
+  <v-app>
+    <v-navigation-drawer app fixed v-model="drawer">
+      <v-list dense nav>
+
+        <v-list-item to="/home">
+          <v-list-item-action>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item to="/tasks">
+          <v-list-item-action>
+            <v-icon>mdi-calendar-check</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Tasks</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item to="/about">
+          <v-list-item-action>
+            <v-icon>mdi-help-circle</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>About</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Sign Out</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar app fixed color="primary">
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Vuetify Prototype</v-toolbar-title>
+
+      <div class="flex-grow-1"></div>
+
+      <v-btn icon>
+        <v-badge color="accent" overlap>
+          <template v-slot:badge>4</template>
+          <v-icon>mdi-bell</v-icon>
+        </v-badge>
+      </v-btn>
+
+      <v-btn icon>
+        <v-badge color="accent" overlap>
+          <template v-slot:badge>3</template>
+          <v-icon>mdi-email</v-icon>
+        </v-badge>
+      </v-btn>
+
+      <div class="d-flex">
+        <v-avatar>
+          <img :src="'https://stevensegallery.com/100/100/?rand=' + Math.random()" />
+        </v-avatar>
+        <div class="d-none d-sm-flex flex-row align-center mx-2">
+          <div class="flex-column">
+            <div class="body-1">Steven Seagal</div>
+            <div class="body-2 font-weight-light">Head of Security</div>
+          </div>
+        </div>
+      </div>
+    </v-app-bar>
+
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+
+    <v-footer app inset color="primary" height="auto">
+      <v-container fluid>
+        <v-row align="start" justify="center" no-gutters>
+          <v-col cols="12">
+            <div class="text-center">
+              <a class="black--text" href="https://ivanreyne.ninja">Made by Ivan Reyné, enjoy!</a>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-footer>
+  </v-app>
+</div>
+
+<div id="home" class="vue-component-def">
+  <v-container fluid>
+    <v-row align="start" justify="center">
+      <v-col cols="12">
+        <h1 class="text-center">Home Dashboard</h1>
+      </v-col>
+    </v-row>
+    <v-row align="start" justify="start">
+      <v-col md="3">
+
+        <v-card class="mx-auto">
+          <v-img class="white--text" height="200px" :src="'https://placeimg.com/400/200/nature?rand=' + Math.random()">
+            <v-card-title class="align-end fill-height">Lorem ipsum</v-card-title>
+          </v-img>
+
+          <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus.</v-card-text>
+
+          <v-card-actions>
+            <v-btn>Action</v-btn>
+            <div class="flex-grow-1"></div>
+            <v-btn icon>
+              <v-icon>mdi-heart-outline</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+      </v-col>
+      <v-col md="6">
+
+        <v-card class="mx-auto">
+          <v-img class="white--text" height="200px" :src="'https://placeimg.com/400/200/nature?rand=' + Math.random()">
+            <v-card-title class="align-end fill-height">Lorem ipsum dolor sit amet</v-card-title>
+          </v-img>
+
+          <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus. Sed lacinia ut arcu eget dignissim. Phasellus eget dapibus mauris. Duis et interdum ex, eu
+            pellentesque lectus. Phasellus gravida ligula in purus tincidunt vehicula nec sit amet orci. Donec et auctor sapien. Cras lobortis ante nisl, non faucibus sem luctus id. Quisque tristique ante eget pharetra posuere.</v-card-text>
+
+          <v-card-actions>
+            <v-btn color="primary">Action</v-btn>
+            <v-btn color="accent" outlined>Action</v-btn>
+            <div class="flex-grow-1"></div>
+            <v-btn icon>
+              <v-icon>mdi-email-outline</v-icon>
+            </v-btn>
+            <v-btn icon>
+              <v-icon>mdi-heart-outline</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+      </v-col>
+      <v-col md="3">
+
+        <v-card class="mx-auto">
+          <v-card-title>
+            <p class="headline">Card List</p>
+          </v-card-title>
+
+          <v-list two-line>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>Item 1</v-list-item-title>
+                <v-list-item-subtitle>Item 1 description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus.</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-btn icon>
+                  <v-icon color="accent">mdi-star</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>Item 2</v-list-item-title>
+                <v-list-item-subtitle>Item 2 description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus.</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-btn icon>
+                  <v-icon color="accent">mdi-star-half</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>Item 3</v-list-item-title>
+                <v-list-item-subtitle>Item 3 description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus.</v-list-item-subtitle>
+              </v-list-item-content>
+
+              <v-list-item-action>
+                <v-btn icon>
+                  <v-icon color="grey lighten-1">mdi-star-outline</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list>
+
+          <v-card-actions>
+            <v-btn color="accent" outlined>Action</v-btn>
+            <div class="flex-grow-1"></div>
+            <v-btn icon>
+              <v-icon>mdi-email-outline</v-icon>
+            </v-btn>
+            <v-btn icon>
+              <v-icon>mdi-heart-outline</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+      </v-col>
+    </v-row>
+    <v-row align="start" justify="start">
+      <v-col md="6">
+
+        <v-card class="mx-auto">
+          <v-img class="white--text" height="200px" :src="'https://placeimg.com/600/200/nature?rand=' + Math.random()">
+            <v-card-title class="align-end fill-height">Lorem ipsum dolor sit amet</v-card-title>
+          </v-img>
+
+          <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus.</v-card-text>
+
+          <v-card-actions>
+            <v-btn color="primary">Action</v-btn>
+            <v-btn>Action</v-btn>
+            <div class="flex-grow-1"></div>
+            <v-btn icon>
+              <v-icon>mdi-heart-outline</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+      </v-col>
+    </v-row>
+  </v-container>
+</div>
+
+<div id="tasks" class="vue-component-def">
+  <v-container fluid>
+    <v-row align="start" justify="center">
+      <v-col cols="12">
+
+        <v-card class="mx-auto">
+          <v-img class="white--text" height="200px" :src="'https://placeimg.com/600/200/nature?rand=' + Math.random()">
+            <v-card-title class="align-end fill-height">Lorem ipsum dolor sit amet</v-card-title>
+          </v-img>
+
+          <v-card-text>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus. Sed lacinia ut arcu eget dignissim. Phasellus eget dapibus mauris. Duis et interdum ex, eu pellentesque
+            lectus. Phasellus gravida ligula in purus tincidunt vehicula nec sit amet orci. Donec et auctor sapien. Cras lobortis ante nisl, non faucibus sem luctus id. Quisque tristique ante eget pharetra posuere.
+          </v-card-text>
+
+          <v-list two-line>
+            <v-list-item to="/tasks/detail">
+              <v-list-item-content>
+                <v-list-item-title>Item 1</v-list-item-title>
+                <v-list-item-subtitle>Item 1 description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus. Sed lacinia ut arcu eget dignissim.</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-btn icon>
+                  <v-icon color="grey lighten-1">mdi-star-outline</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+            <v-list-item to="/tasks/detail">
+              <v-list-item-content>
+                <v-list-item-title>Item 2</v-list-item-title>
+                <v-list-item-subtitle>Item 2 description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus. Sed lacinia ut arcu eget dignissim.</v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-btn icon>
+                  <v-icon color="grey lighten-1">mdi-star-outline</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+            <v-list-item to="/tasks/detail">
+              <v-list-item-content>
+                <v-list-item-title>Item 3</v-list-item-title>
+                <v-list-item-subtitle>Item 3 description - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus. Sed lacinia ut arcu eget dignissim.</v-list-item-subtitle>
+              </v-list-item-content>
+
+              <v-list-item-action>
+                <v-btn icon>
+                  <v-icon color="grey lighten-1">mdi-star-outline</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list>
+
+          <v-card-actions>
+            <v-btn color="primary">Action</v-btn>
+            <v-btn outlined>Action</v-btn>
+            <div class="flex-grow-1"></div>
+            <v-btn icon>
+              <v-icon>mdi-heart-outline</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+      </v-col>
+    </v-row>
+  </v-container>
+</div>
+
+<div id="tasks-detail" class="vue-component-def">
+  <v-container fluid>
+    <v-row align="start" justify="center">
+      <v-col cols="12">
+
+        <v-card class="mx-auto">
+          <v-img class="white--text" height="100px" :src="'https://placeimg.com/600/100/nature?rand=' + Math.random()">
+            <v-card-title class="align-end fill-height">Task detail</v-card-title>
+          </v-img>
+
+          <v-card-text>
+            <p>Task detail - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus. Sed lacinia ut arcu eget dignissim. Phasellus eget dapibus mauris. Duis et
+              interdum ex, eu pellentesque lectus. Phasellus gravida ligula in purus tincidunt vehicula nec sit amet orci. Donec et auctor sapien. Cras lobortis ante nisl, non faucibus sem luctus id. Quisque tristique ante eget pharetra posuere.</p>
+            <p>Nunc in erat at nisl mattis sagittis. Sed viverra ipsum quis nisl venenatis, non tincidunt lectus viverra. Phasellus placerat molestie pellentesque. Fusce non enim eleifend, sagittis risus a, cursus ante. Donec sagittis lobortis magna sed
+              imperdiet. Suspendisse ultrices tellus id ex vehicula, eu mattis nisl vulputate. Maecenas quis sapien nibh. Quisque nec eros nibh. Mauris accumsan finibus quam, eget viverra magna molestie et. Suspendisse accumsan porta mi. Morbi eu dui
+              euismod turpis ultrices placerat vitae ac magna. Quisque elementum id quam vel viverra. Fusce sit amet nunc nec nunc dignissim semper. Proin imperdiet, felis vitae aliquam vulputate, tortor nisi feugiat eros, eget molestie mi mi nec dui.
+              Sed vel risus sit amet mi pretium dictum id ac mauris. Morbi vitae quam eget nulla semper lacinia.</p>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn color="primary">Action</v-btn>
+            <v-btn outlined>Action</v-btn>
+            <div class="flex-grow-1"></div>
+            <v-btn icon>
+              <v-icon>mdi-heart-outline</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+      </v-col>
+    </v-row>
+  </v-container>
+</div>
+
+<div id="about" class="vue-component-def">
+  <v-container fluid>
+    <v-row align="start" justify="center">
+      <v-col cols="12">
+
+        <v-card class="mx-auto">
+          <v-img class="white--text" height="200px" :src="'https://placeimg.com/600/200/nature?rand=' + Math.random()">
+            <v-card-title class="align-end fill-height">Lorem ipsum dolor sit amet</v-card-title>
+          </v-img>
+
+          <v-card-text>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eleifend elit quis lorem malesuada lobortis. Cras et est nec libero venenatis cursus. Sed lacinia ut arcu eget dignissim. Phasellus eget dapibus mauris. Duis et interdum ex,
+              eu pellentesque lectus. Phasellus gravida ligula in purus tincidunt vehicula nec sit amet orci. Donec et auctor sapien. Cras lobortis ante nisl, non faucibus sem luctus id. Quisque tristique ante eget pharetra posuere.</p>
+            <p>Nunc in erat at nisl mattis sagittis. Sed viverra ipsum quis nisl venenatis, non tincidunt lectus viverra. Phasellus placerat molestie pellentesque. Fusce non enim eleifend, sagittis risus a, cursus ante. Donec sagittis lobortis magna sed
+              imperdiet. Suspendisse ultrices tellus id ex vehicula, eu mattis nisl vulputate. Maecenas quis sapien nibh. Quisque nec eros nibh. Mauris accumsan finibus quam, eget viverra magna molestie et. Suspendisse accumsan porta mi. Morbi eu dui
+              euismod turpis ultrices placerat vitae ac magna. Quisque elementum id quam vel viverra. Fusce sit amet nunc nec nunc dignissim semper. Proin imperdiet, felis vitae aliquam vulputate, tortor nisi feugiat eros, eget molestie mi mi nec dui.
+              Sed vel risus sit amet mi pretium dictum id ac mauris. Morbi vitae quam eget nulla semper lacinia.</p>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn color="primary">Action</v-btn>
+            <v-btn outlined>Action</v-btn>
+            <div class="flex-grow-1"></div>
+            <v-btn icon>
+              <v-icon>mdi-heart-outline</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+
+      </v-col>
+    </v-row>
+  </v-container>
+</div>
+<!-- partial -->
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/vue-router@3.1.3/dist/vue-router.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>

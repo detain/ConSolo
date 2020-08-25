@@ -1,0 +1,15 @@
+<div id="app">
+  <v-toolbar>
+    <v-toolbar-title>Fullstack Series</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items>
+      <v-btn flat href="#/">Home</v-btn>
+      <v-btn flat href='#/about-us'>About us</v-btn>
+      <v-btn flat href='#/contact'>Contact</v-btn>
+      <v-btn flat href='#/test'>Test</v-btn>
+    </v-toolbar-items>
+  </v-toolbar>
+  <transition name="fade">
+    <router-view></router-view>
+  </transition>
+</div>

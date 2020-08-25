@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Vuetify Example Pen</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'>
+<link rel='stylesheet' href='https://unpkg.com/vuetify@1.0.11/dist/vuetify.min.css'>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div id="app">
+  <v-app id="inspire">
+    <v-layout>
+      <v-flex xs12 sm6 offset-sm3>
+        <v-card dark>
+          <v-card-actions>
+            <v-select label="Size" :items="items" v-model="size"></v-select>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+          <v-container fluid v-bind="{ [`grid-list-${size}`]: true }" style="height:300px">
+            <v-layout row wrap>
+              <v-flex
+                xs4
+                v-for="n in 50"
+                :key="n"
+              >
+                <v-card flat tile>
+                  <v-card-media
+                    :src="`https://unsplash.it/150/300?image=${Math.floor(Math.random() * 100) + 1}`"
+                    height="150px"
+                  >
+                  </v-card-media>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-app>
+</div>
+<!-- partial -->
+  <script src='https://unpkg.com/babel-polyfill/dist/polyfill.min.js'></script>
+<script src='https://unpkg.com/vue/dist/vue.js'></script>
+<script src='https://unpkg.com/vuetify@1.0.11/dist/vuetify.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
