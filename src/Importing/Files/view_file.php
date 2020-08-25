@@ -15,6 +15,6 @@ require_once __DIR__.'/../../bootstrap.php';
 global $db;
 global $files, $db, $paths, $skipGlobs, $compressionTypes, $tmpDir, $scanCompressed, $hashAlgos, $compressedHashAlgos, $maxSize, $useMaxSize, $useMagic;
 
-$result = $db->row("select * from files where id={$_SERVER['argv'][1]}");
+$result = $db->row("select * from files left join files_extra using (id) where id={$_SERVER['argv'][1]}");
 $result['extra'] = json_decode($result['extra'], true);
 print_r($result);
