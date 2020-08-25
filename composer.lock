@@ -2052,12 +2052,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "2ce537d75e610550f5337e41b2a971417999b028"
+                "reference": "802abac55e129266e342d33ea53a03303c4fb3df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/2ce537d75e610550f5337e41b2a971417999b028",
-                "reference": "2ce537d75e610550f5337e41b2a971417999b028",
+                "url": "https://api.github.com/repos/predis/predis/zipball/802abac55e129266e342d33ea53a03303c4fb3df",
+                "reference": "802abac55e129266e342d33ea53a03303c4fb3df",
                 "shasum": ""
             },
             "require": {
@@ -2119,7 +2119,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-18T21:00:59+00:00"
+            "time": "2020-08-24T14:20:06+00:00"
         },
         {
             "name": "psr/http-message",
@@ -3280,12 +3280,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RubixML/RubixML.git",
-                "reference": "71a18e3638d9a0bd468145e3db57646fc469a6fa"
+                "reference": "421816cbed58931647a960c3d5f282dacfb0adca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/71a18e3638d9a0bd468145e3db57646fc469a6fa",
-                "reference": "71a18e3638d9a0bd468145e3db57646fc469a6fa",
+                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/421816cbed58931647a960c3d5f282dacfb0adca",
+                "reference": "421816cbed58931647a960c3d5f282dacfb0adca",
                 "shasum": ""
             },
             "require": {
@@ -3426,7 +3426,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-08-19T23:47:37+00:00"
+            "time": "2020-08-25T04:44:41+00:00"
         },
         {
             "name": "rubix/tensor",
@@ -3786,12 +3786,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "b68b7ca348fcedadca6dc1e75e64dd3c397d9263"
+                "reference": "9f64b03ee93d7cf7426f7f417e6292361235e5b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/b68b7ca348fcedadca6dc1e75e64dd3c397d9263",
-                "reference": "b68b7ca348fcedadca6dc1e75e64dd3c397d9263",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/9f64b03ee93d7cf7426f7f417e6292361235e5b4",
+                "reference": "9f64b03ee93d7cf7426f7f417e6292361235e5b4",
                 "shasum": ""
             },
             "require": {
@@ -3842,7 +3842,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-17T10:01:44+00:00"
+            "time": "2020-08-21T17:20:41+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -4910,12 +4910,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "23fb28296ecd9374fbdb9e0158545b5118b1be30"
+                "reference": "7c8e7e028b2a625fb38b6b5fef88bdcfe810776f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/23fb28296ecd9374fbdb9e0158545b5118b1be30",
-                "reference": "23fb28296ecd9374fbdb9e0158545b5118b1be30",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7c8e7e028b2a625fb38b6b5fef88bdcfe810776f",
+                "reference": "7c8e7e028b2a625fb38b6b5fef88bdcfe810776f",
                 "shasum": ""
             },
             "require": {
@@ -4930,7 +4930,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -4974,7 +4974,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-05T15:14:16+00:00"
+            "time": "2020-08-24T10:15:25+00:00"
         },
         {
             "name": "workerman/channel",
