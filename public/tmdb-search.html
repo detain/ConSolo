@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - TMDb Movie Search (Vanilla JS)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="tmdb-search.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>TMDb Movie Search</title>
+</head>
+
+<body>
+  <div id="container">
+    <div class="search-container">
+      <input type="text" placeholder="Search for a movie" id="search">
+      <button onclick="findMovies()" id="searchButton"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" id="searchIcon">
+<path fill="none" stroke="#fff" stroke-width="36" stroke-linecap="round" d="m280,278a153,153 0 1,0-2,2l170,170m-91-117 110,110-26,26-110-110"/>
+</svg></button>
+    </div>
+    <div id="results">
+      <div id="movie">
+        <div class="movie-details-container">
+          <div class="column column-md"><img src="https://image.tmdb.org/t/p/w500/2i0OOjvi7CqNQA6ZtYJtL65P9oZ.jpg" id="poster">
+          </div>
+          <div class="column column-md">
+            <h1 id="title">My Neighbor Totoro<span id="date"> (1988)</span></h1>
+            <div class="row">
+              <span class="badge"><span id="status">Released</span>
+              </span>
+            </div>
+            <div class="row">
+              1 hour 26 minutes | Fantasy, Animation, Family | 16 April 1988
+            </div>
+            <h3 id="tagline">These strange creatures still exist in Japan. Probably.</h3>
+            <div id="overview">
+              <p id="synopsis">Two sisters move to the country with their father in order to be closer to their hospitalized mother, and discover the surrounding trees are inhabited by Totoros, magical spirits of the forest. When the youngest runs away from home, the
+                older sister seeks help from the spirits to find her.</p>
+            </div>
+            <div class="row">
+              <h2>Company Credits</h2>
+              <div id="companies">Studio Ghibli, Nibariki, Tokuma Japan Communications Co. Ltd.</div>
+            </div>
+            <div class="row">
+              <h2>Countries</h2>
+              <div id="countries">Japan</div>
+            </div>
+            <div class="row">
+              <h2>Box Office</h2>
+              <div id="budget"><strong>Budget:</strong> $0</div>
+              <div id="revenue"><strong>Revenue:</strong> $0</div>
+            </div>
+            <div class="row">
+              <div class="column column-md">
+                <div class="ratings">
+                  <h2>Rating</h2>
+                  <span id="rating">8/10</span>
+                </div>
+              </div>
+              <div class="column column-md">
+                <h2>Runtime</h2>
+                <div>
+                  <div id="runtime">86 minutes</div>
+                </div>
+              </div>
+              <div class="column column-lg">
+                <h2>Related</h2>
+                <ul id="related">
+
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<!-- partial -->
+  <script  src="tmdb-search.js"></script>
+
+</body>
+</html>

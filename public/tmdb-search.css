@@ -1,0 +1,133 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  color: white;
+}
+
+#container {
+  height: 100%;
+  padding: 2rem;
+  text-align: center;
+  font-family: sans-serif;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%), url("https://image.tmdb.org/t/p/w1280/56El17WVXXqyZCZvSC8Nyc8yPgx.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow: auto;
+}
+
+input {
+  background: none;
+  border: none;
+  border-bottom: .05rem solid white;
+  transition: border-bottom .2s ease-in;
+  color: white;
+  font-size: 1.5rem;
+}
+
+input:focus {
+  outline: none;
+  border-bottom: .15rem solid white;
+}
+
+#searchButton {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: .5rem 2rem;
+  border-radius: .5rem;
+}
+
+#searchButton:focus {
+  outline: none;
+}
+
+#searchIcon {
+  width: 2rem;
+  position: 10px 10px;
+}
+
+#searchIcon path {
+  transform: scale(0.04);
+}
+
+#results {
+      background: rgba(0,0,0,.8);
+}
+
+#movie {
+  text-align: left;
+  margin-top: 1em;
+}
+
+h1 {
+  color: white;
+}
+
+h2, h3 {
+  color: #00ce71;
+  font-weight: 200;
+}
+
+p {
+  color: white;
+}
+.movie-details-container{
+  overflow:auto;
+}
+
+.row {
+    overflow: auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+.column {
+  float: left;
+}
+.column-md {
+  width: 50%;
+}
+.column-lg {
+  width: 100%;
+}
+.badge {
+  background-color: #4b017b;
+  padding:.3rem 1rem;
+  border-radius: 4px;
+}
+#date {
+  font-size:1.5rem;
+  font-weight: 200;
+}
+#poster {
+  padding-right: 10px;
+  max-width: 100%;
+}
+
+#tagline {
+  color: #00ce71;
+}
+#genres, #runtime,#rating,#companies {
+  color: white;
+}
+
+#related {
+  color: white;
+  padding: 0;
+}
+
+#related li {
+  list-style: none;
+  cursor: pointer;
+}
