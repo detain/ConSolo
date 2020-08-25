@@ -10,7 +10,7 @@ new Vue({
   },
   methods: {
 	fetchData: function () {
-	  this.$http.get('https://vault3.is.cc/consolo/public/list.php?api_key=' + 'bc7aff7c3e4cd31438852dcac726059e' + '&sort_by=popularity.desc').then(response => {
+	  this.$http.get('https://consolo.is.cc/list.php?api_key=' + 'bc7aff7c3e4cd31438852dcac726059e' + '&sort_by=popularity.desc').then(response => {
 		this.items = response.body;
 		this.loaded = false;
 	  });

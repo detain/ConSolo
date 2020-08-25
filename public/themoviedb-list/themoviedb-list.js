@@ -21,13 +21,13 @@ class App extends React.Component {
 	this.setState({ movieName: this.refs.keyword.value.toLowerCase() });
 
 	setTimeout(() => {
-	  this.api(`https://vault3.is.cc/consolo/public/list.php?api_key=${this.state.apiKey}&query=${this.state.movieName}`);
+	  this.api(`https://consolo.is.cc/list.php?api_key=${this.state.apiKey}&query=${this.state.movieName}`);
 	}, 1000);
 
   }
 
   componentDidMount() {
-	this.api(`https://vault3.is.cc/consolo/public/list.php?api_key=${this.state.apiKey}&sort_by=popularity.desc`);
+	this.api(`https://consolo.is.cc/list.php?api_key=${this.state.apiKey}&sort_by=popularity.desc`);
   }
 
   render() {

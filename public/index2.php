@@ -128,10 +128,10 @@ global $twig;
 		<ul>
 			<li>movie titles</li>
 			<li>movies</li>
-			<li><img src="https://vault3.is.cc/consolo/public/images/imdb.svg" height="24" alt="YTS"></li>
+			<li><img src="https://consolo.is.cc/images/imdb.svg" height="24" alt="YTS"></li>
 		</ul>
 	</li>
-	<li><img src="https://vault3.is.cc/consolo/public/images/yts.svg" height="24" alt="YTS">
+	<li><img src="https://consolo.is.cc/images/yts.svg" height="24" alt="YTS">
 		<ul>
 			<li>yts</li>
 			<li>yts torrents</li>
@@ -169,7 +169,7 @@ global $twig;
 			<li>samples</li>
 		</ul>
 	</li>
-	<li><img src="https://vault3.is.cc/consolo/public/images/launchbox.png" height="24" alt="LaunchBox"> <strong>LaunchBox</strong>
+	<li><img src="https://consolo.is.cc/images/launchbox.png" height="24" alt="LaunchBox"> <strong>LaunchBox</strong>
 		<ul>
 			<li>emulator platforms</li>
 			<li>emulators</li>
@@ -183,7 +183,7 @@ global $twig;
 			<li>platforms</li>
 		</ul>
 	</li>
-	<li><img src="https://vault3.is.cc/consolo/public/images/mame.svg" height="24" alt="MAME">
+	<li><img src="https://consolo.is.cc/images/mame.svg" height="24" alt="MAME">
 		<ul>
 			<li>machine roms</li>
 			<li>machines</li>

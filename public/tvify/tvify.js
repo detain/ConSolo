@@ -70,7 +70,7 @@ $(function () {
 	var settings = {
 	  "async": true,
 	  "crossDomain": true,
-	  "url": 'https://vault3.is.cc/consolo/public/list.php?page=1&language=en-US&api_key=' + key,
+	  "url": 'https://consolo.is.cc/list.php?page=1&language=en-US&api_key=' + key,
 	  "method": "GET",
 	  "headers": {},
 	  "data": "{}"
@@ -130,7 +130,7 @@ $(function () {
 	tvShows.find('.movie').remove();
 	$('.load').show();
 	$.ajax({
-	  url: 'https://vault3.is.cc/consolo/public/list.php?api_key=' + key + '&language=en-US&query=' + search + '&include_adult=false',
+	  url: 'https://consolo.is.cc/list.php?api_key=' + key + '&language=en-US&query=' + search + '&include_adult=false',
 	  data: {},
 	  success: function success(res, textStatus, xhr) {
 		if (res.results.length > 0) {
@@ -153,7 +153,7 @@ $(function () {
 	var upcommingSettings = {
 	  "async": true,
 	  "crossDomain": true,
-	  "url": 'https://vault3.is.cc/consolo/public/list.php?api_key=' + key + '&language=en-US&page=1',
+	  "url": 'https://consolo.is.cc/list.php?api_key=' + key + '&language=en-US&page=1',
 	  "method": "GET",
 	  "headers": {},
 	  "data": "{}"
