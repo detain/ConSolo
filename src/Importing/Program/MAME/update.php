@@ -74,17 +74,18 @@ echo 'Uncompressing MAME '.$version.PHP_EOL;
 echo `7z x -o/tmp/update mame.exe;`;
 unlink('mame.exe');
 echo `mkdir -p {$dataDir}/xml/mame;`;
-if (!file_exists($dataDir.'/xml/mame/xml-'.$version.'.xml')) {
-	echo 'Generating XML'.PHP_EOL;
-	//echo `mame -listxml > {$dataDir}/xml/mame/xml-{$version}.xml;`;
-	echo `cd /tmp/update/; wine64 mame64.exe -listxml | pv > {$dataDir}/xml/mame/xml-{$version}.xml;`;
+$fileName = $dataDir.'/xml/mame/xml-'.$version.'.xml';
+if (!file_exists($fileName)) {    
+	echo 'Generating XML '.$fileName.PHP_EOL;
+	//echo `mame -listxml > {$fileName};`;
+	echo `cd /tmp/update/; wine64 mame64.exe -listxml | pv > {$fileName};`;
 }
-if (!file_exists($dataDir.'/xml/mame/software-'.$version.'.xml')) {
-	echo 'Generating Software'.PHP_EOL;
-	echo `mame -listsoftware > {$dataDir}/xml/mame/software-{$version}.xml;`;
-	echo `cd /tmp/update/; wine64 mame64.exe -listsoftware | pv > {$dataDir}/xml/mame/software-{$version}.xml;`;
+$fileName = $dataDir.'/xml/mame/software-'.$version.'.xml';
+if (!file_exists($fileName)) {
+	echo 'Generating Software '.$fileName.PHP_EOL;
+	echo `mame -listsoftware > {$fileName};`;
+	echo `cd /tmp/update/; wine64 mame64.exe -listsoftware | pv > {$fileName};`;
 }
-
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
 foreach ($txt as $list) {
 	echo "Getting and Writing {$list} List   ";
@@ -105,18 +106,19 @@ $xml = ['software', 'xml'];
 $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster'];
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
-	if (!file_exists($dataDir.'/json/mame/'.$list.'-'.$version.'.json')) {    
-		$xmlFile = $dataDir.'/xml/mame/'.$list.'-'.$version.'.xml';
-		$string = file_get_contents($xmlFile);
+	$jsonFile = $dataDir.'/json/mame/'.$list.'-'.$version.'.json';
+	$fileName = $dataDir.'/json/mame/'.$list.'-'.$version.'.xml';
+	if (!file_exists($jsonFile)) {    
+		$string = file_get_contents($fileName);
 		echo "Parsing XML To Array   ";
 		$array = xml2array($string, 1, 'attribute');
 		unset($string);
 		echo "Simplifying Array   ";
 		RunArray($array);
-		echo "Writing to JSON {$list}.json   ";
-		file_put_contents($dataDir.'/json/mame/'.$list.'-'.$version.'.json', json_encode($array, JSON_PRETTY_PRINT));
+		echo "Writing to JSON {$jsonFile}";
+		file_put_contents($jsonFile, json_encode($array, JSON_PRETTY_PRINT));
 	} else {
-		$array = json_decode(file_get_contents($dataDir.'/json/mame/'.$list.'-'.$version.'.json'), TRUE);
+		$array = json_decode(file_get_contents($jsonFile), TRUE);
 	}
 	echo 'Parsing Into DB ';
 	if ($list == 'software') {
