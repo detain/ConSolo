@@ -68,11 +68,11 @@ if (intval($version) <= intval($last)) {
 }
 
 echo 'Downloading MAME '.$version.PHP_EOL;
-echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_64bit.exe -O mame.exe;`;
+echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_64bit.exe -O /tmp/mame.exe;`;
 echo `rm -rf /tmp/update;`;
 echo 'Uncompressing MAME '.$version.PHP_EOL;
-echo `7z x -o/tmp/update mame.exe;`;
-unlink('mame.exe');
+echo `7z x -o/tmp/update /tmp/mame.exe;`;
+unlink('/tmp/mame.exe');
 echo `mkdir -p {$dataDir}/xml/mame;`;
 $fileName = $dataDir.'/xml/mame/xml-'.$version.'.xml';
 if (!file_exists($fileName)) {    
@@ -83,7 +83,7 @@ if (!file_exists($fileName)) {
 $fileName = $dataDir.'/xml/mame/software-'.$version.'.xml';
 if (!file_exists($fileName)) {
 	echo 'Generating Software '.$fileName.PHP_EOL;
-	echo `mame -listsoftware > {$fileName};`;
+	//echo `mame -listsoftware > {$fileName};`;
 	echo `cd /tmp/update/; wine64 mame64.exe -listsoftware | pv > {$fileName};`;
 }
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
@@ -107,7 +107,7 @@ $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sa
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
 	$jsonFile = $dataDir.'/json/mame/'.$list.'-'.$version.'.json';
-	$fileName = $dataDir.'/json/mame/'.$list.'-'.$version.'.xml';
+	$fileName = $dataDir.'/xml/mame/'.$list.'-'.$version.'.xml';
 	if (!file_exists($jsonFile)) {    
 		$string = file_get_contents($fileName);
 		echo "Parsing XML To Array   ";
