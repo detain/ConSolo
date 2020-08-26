@@ -48,9 +48,9 @@ Syntax: {$program} <-l lists> <-d #> <-p #> <-r> <-s>
 $existing = $db->column("select id from tmdb_tv_seasons");
 echo 'Loading TV Series ';
 $lookups = [];
-$rows = $db->column("select doc from tmdb_tv_series");
+$rows = $db->query("select id, json_unquote(json_extract(doc,_utf8mb4'\$.seasons')) as seasons from tmdb_tv_series");
 foreach ($rows as $row) {
-	$row = json_decode($row, true);
+	$row['seasons'] = json_decode($row['seasons'], true);
 	foreach ($row['seasons'] as $season) {
 		if (!in_array($season['id'], $existing)) {
 			$lookups[] = [$row['id'], $season['season_number']];
@@ -88,15 +88,17 @@ foreach ($lookups as $row) {
 echo ' done'.PHP_EOL;
 
 $existing = $db->column("select id from tmdb_tv_episodes");
-$seasons = $db->query("select tv_id, doc from tmdb_tv_seasons order by tv_id, season_number");
+if (!is_array($existing))
+	$existing = [];
+$seasons = $db->query("select tv_id, season_number, json_unquote(json_extract(doc,_utf8mb4'$.episodes')) as episodes from tmdb_tv_seasons");
 foreach ($seasons as $idx => $seasonData) {
-	$season = json_decode($seasonData['doc'], true);
+	$seasonData['episodes'] = json_decode($seasonData['episodes'], true);
 	//echo "{$series['name']} {$season['season_number']} {$season['name']}\n";
 	//print_r($season);
-	foreach ($season['episodes'] as $epIdx => $episode) {
+	foreach ($seasonData['episodes'] as $epIdx => $episode) {
 		if (!in_array($episode['id'], $existing)) {
-			echo "#{$seasonData['tv_id']} {$series['name']} S{$season['season_number']} {$season['name']} E{$episode['episode_number']} #{$episode['id']}  {$episode['name']}\n";
-			$response = loadTmdbTvEpisode($seasonData['tv_id'], $season['season_number'], $episode['episode_number']);
+			echo "#{$seasonData['tv_id']} S{$seasonData['season_number']} E{$episode['episode_number']} #{$episode['id']}  {$episode['name']}\n";
+			$response = loadTmdbTvEpisode($seasonData['tv_id'], $seasonData['season_number'], $episode['episode_number']);
 			if (isset($response['id'])) {
 				$db->insert('tmdb_tv_episodes')
 					->cols([
