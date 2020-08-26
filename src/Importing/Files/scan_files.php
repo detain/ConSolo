@@ -70,6 +70,7 @@ function updateCompressedFile($path, $parentId)  {
 	$pathStat = stat($path);
 	$fileData = [];
 	$newData = [];
+	$fileData['extra'] = [];
 	foreach ($statFields as $statField) {
 		$fileData[$statField] = $pathStat[$statField];
 	}
@@ -228,7 +229,7 @@ function updateFile($path)  {
 		return;
 	}
 	$fileData = array_key_exists($cleanPath, $paths) ? $files[$paths[$cleanPath]] : [];
-	$fileData['extra'] = is_null($fileData['extra']) || $fileData['extra'] == '' ? [] : json_decode($fileData['extra'], true);
+	$fileData['extra'] = !isset($fileData['extra']) || is_null($fileData['extra']) || $fileData['extra'] == '' ? [] : json_decode($fileData['extra'], true);
 	if (!is_array($fileData['extra']))
 		$fileData['extra'] = [];
 	$newData = [];
