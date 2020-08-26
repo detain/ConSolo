@@ -86,6 +86,7 @@ foreach ($lookups as $row) {
 	}
 }
 echo ' done'.PHP_EOL;
+$lookups = [];
 echo 'Building Episode Lookups List..';
 $existing = $db->column("select id from tmdb_tv_episodes");
 if (!is_array($existing))
