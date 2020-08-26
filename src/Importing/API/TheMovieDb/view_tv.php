@@ -6,5 +6,14 @@ $imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_
 */
 global $db;
 global $config, $curl_config;
-$json = json_decode($db->single("select doc from tmdb_movie where id={$_SERVER['argv'][1]} limit 1"), true);
-print_r($json);
+$series = json_decode($db->single("select doc from tmdb_tv_series where id={$_SERVER['argv'][1]} limit 1"), true);
+print_r($series);
+$seasons = $db->column("select doc from tmdb_tv_seasons where tv_id={$series['id']} order by season_number");
+foreach ($seasons as $idx => $season) {
+	$season = json_decode($season, true);
+	//echo "{$series['name']} {$season['season_number']} {$season['name']}\n";
+	//print_r($season);
+	foreach ($season['episodes'] as $epIdx => $episode) {
+		echo "{$series['name']} {$season['season_number']} {$season['name']} EP #{$episode['id']} {$episode['episode_number']} {$episode['name']}\n"; 
+	}
+}

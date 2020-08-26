@@ -45,26 +45,17 @@ Syntax: {$program} <-l lists> <-d #> <-p #> <-r> <-s>
 		}
 	}
 }
-$existing = [];
-$rows = $db->query("select id, tv_id, season_number from tmdb_tv_seasons");
-if (!is_array($rows))
-	$rows = [];
-foreach ($rows as $row) {
-	if (!array_key_exists($row['tv_id'], $existing))
-		$existing[$row['tv_id']] = [];
-	$existing[$row['tv_id']][] = $row['season_number'];
-}
+$existing = $db->column("select id from tmdb_tv_seasons");
 echo 'Loading TV Series ';
 $lookups = [];
-$rows = $db->query("select id, json_unquote(json_extract(`doc`,_utf8mb4'$.number_of_seasons')) as number_of_seasons from tmdb_tv_series");
+$rows = $db->column("select doc from tmdb_tv_series");
 foreach ($rows as $row) {
-	echo ' #'.$row['id'];
-	for ($x = 1; $x <= $row['number_of_seasons']; $x++) {
-		if (!array_key_exists($row['id'], $existing) || !in_array($x, $existing[$row['id']])) {
-			echo ' S'.$x;
-			$lookups[] = [$row['id'], $x];
+	$row = json_decode($row, true);
+	foreach ($row['seasons'] as $season) {
+		if (!in_array($season['id'], $existing)) {
+			$lookups[] = [$row['id'], $season['season_number']];
 		}
-	}		
+	}
 }
 echo 'done'.PHP_EOL;
 $total = count($lookups);
@@ -79,7 +70,7 @@ if ($divide > 1) {
 	$lookups = array_slice($lookups, $start, $partSize);
 	$total = count($lookups);
 }
-echo 'Performing '.$total.' Lookups: ';
+echo 'Performing '.$total.' Season Lookups: ';
 foreach ($lookups as $row) {
 	list($id, $x) = $row;
 	echo ' #'.$id.' S'.$x;
@@ -95,3 +86,26 @@ foreach ($lookups as $row) {
 	}
 }
 echo ' done'.PHP_EOL;
+
+$existing = $db->column("select id from tmdb_tv_episodes");
+$seasons = $db->query("select tv_id, doc from tmdb_tv_seasons order by tv_id, season_number");
+foreach ($seasons as $idx => $seasonData) {
+	$season = json_decode($seasonData['doc'], true);
+	//echo "{$series['name']} {$season['season_number']} {$season['name']}\n";
+	//print_r($season);
+	foreach ($season['episodes'] as $epIdx => $episode) {
+		if (!in_array($episode['id'], $existing)) {
+			echo "#{$seasonData['tv_id']} {$series['name']} S{$season['season_number']} {$season['name']} E{$episode['episode_number']} #{$episode['id']}  {$episode['name']}\n";
+			$response = loadTmdbTvEpisode($seasonData['tv_id'], $season['season_number'], $episode['episode_number']);
+			if (isset($response['id'])) {
+				$db->insert('tmdb_tv_episodes')
+					->cols([
+						'tv_id' => $seasonData['tv_id'],
+						'doc' => json_encode($response, JSON_PRETTY_PRINT)
+					])
+					->lowPriority($config['db_low_priority'])
+					->query();        
+			}			
+		} 
+	}
+}
