@@ -86,7 +86,7 @@ foreach ($lookups as $row) {
 	}
 }
 echo ' done'.PHP_EOL;
-
+echo 'Building Episode Lookups List..';
 $existing = $db->column("select id from tmdb_tv_episodes");
 if (!is_array($existing))
 	$existing = [];
@@ -97,17 +97,36 @@ foreach ($seasons as $idx => $seasonData) {
 	//print_r($season);
 	foreach ($seasonData['episodes'] as $epIdx => $episode) {
 		if (!in_array($episode['id'], $existing)) {
-			echo "#{$seasonData['tv_id']} S{$seasonData['season_number']} E{$episode['episode_number']} #{$episode['id']}  {$episode['name']}\n";
-			$response = loadTmdbTvEpisode($seasonData['tv_id'], $seasonData['season_number'], $episode['episode_number']);
-			if (isset($response['id'])) {
-				$db->insert('tmdb_tv_episodes')
-					->cols([
-						'tv_id' => $seasonData['tv_id'],
-						'doc' => json_encode($response, JSON_PRETTY_PRINT)
-					])
-					->lowPriority($config['db_low_priority'])
-					->query();        
-			}			
-		} 
+			$lookups[] = [$seasonData['tv_id'], $seasonData['season_number'], $episode['episode_number']];
+		}
 	}
 }
+echo ' done'.PHP_EOL;
+$total = count($lookups);
+$partSize = ceil($total / $divide);
+echo $total.' Total IDs in '.$divide.' Parts = '.$partSize.' IDs/part'.PHP_EOL;
+$start = ($part - 1) * $partSize;
+$end = $part * $partSize;
+if ($end > $total) {
+	$end = $total;
+}
+if ($divide > 1) {
+	$lookups = array_slice($lookups, $start, $partSize);
+	$total = count($lookups);
+}
+echo 'Performing '.$total.' Episode Lookups: ';
+foreach ($lookups as $row) {
+	list($id, $season, $episode) = $row;
+	echo "#{$id} S{$season} E{$episode}\n";
+	$response = loadTmdbTvEpisode($id, $season, $episode);
+	if (isset($response['id'])) {
+		$db->insert('tmdb_tv_episodes')
+			->cols([
+				'tv_id' => $id,
+				'doc' => json_encode($response, JSON_PRETTY_PRINT)
+			])
+			->lowPriority($config['db_low_priority'])
+			->query();        
+	}			
+} 
+echo ' done'.PHP_EOL;
