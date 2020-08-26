@@ -7,6 +7,14 @@ Scrape Emulator/Rom/Platform/etc Info from Multiple Sources (No-Intro, TOSEC, Re
 
 Currently its a mass of scripts loosely tied together and development will be focused on a clean interface. Several UI's are planned although too soon to tell if they'll ever get finished. A web-ui which works the same but incorperates browser-based emulators.
 
+## Alternate Names
+
+Thinking of names for the base server / daemon part of this
+
+* RageStore
+* FileScape
+* FileFront
+* ServerStar
 
 ## Features
 
