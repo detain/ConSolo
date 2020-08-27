@@ -63,10 +63,9 @@ if (count($row) == 0) {
 }
 $version = trim(`curl -s -L https://github.com/mamedev/mame/releases/latest|grep /mamedev/mame/releases/download/|grep lx.zip|cut -d/ -f6|cut -c5-`);
 echo "Last:    {$last}\nCurrent: {$version}\n";
-if (intval($version) <= intval($last)) {
+/*if (intval($version) <= intval($last)) {
 	die('Already Up-To-Date'.PHP_EOL);
-}
-
+}*/
 echo 'Downloading MAME '.$version.PHP_EOL;
 echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_64bit.exe -O /tmp/mame.exe;`;
 echo `rm -rf /tmp/update;`;
@@ -78,13 +77,13 @@ $fileName = $dataDir.'/xml/mame/xml-'.$version.'.xml';
 if (!file_exists($fileName)) {    
 	echo 'Generating XML '.$fileName.PHP_EOL;
 	//echo `mame -listxml > {$fileName};`;
-	echo `cd /tmp/update/; wine64 mame64.exe -listxml | pv > {$fileName};`;
+	echo `cd /tmp/update/; wine64 mame64.exe -listxml 2>/dev/null | pv > {$fileName};`;
 }
 $fileName = $dataDir.'/xml/mame/software-'.$version.'.xml';
 if (!file_exists($fileName)) {
 	echo 'Generating Software '.$fileName.PHP_EOL;
 	//echo `mame -listsoftware > {$fileName};`;
-	echo `cd /tmp/update/; wine64 mame64.exe -listsoftware | pv > {$fileName};`;
+	echo `cd /tmp/update/; wine64 mame64.exe -listsoftware 2>/dev/null | pv > {$fileName};`;
 }
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
 foreach ($txt as $list) {
@@ -93,23 +92,15 @@ foreach ($txt as $list) {
 	echo "done\n";
 
 }*/
-echo 'Clearing out old DB data';
 echo `rm -rf /tmp/update;`;
-$db->query("truncate mame_machine_roms");
-$db->query("truncate mame_software_roms");
-$db->query("delete from mame_machines");
-$db->query("delete from mame_software");
-$db->query("alter table mame_machines auto_increment = 1");
-$db->query("alter table mame_software auto_increment = 1");
-echo ' done!'.PHP_EOL;
 $xml = ['software', 'xml'];
-$removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster'];
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
-	$jsonFile = $dataDir.'/json/mame/'.$list.'-'.$version.'.json';
+	$jsonFile = $dataDir.'/json/mame/'.$list.'.json';
 	$fileName = $dataDir.'/xml/mame/'.$list.'-'.$version.'.xml';
 	if (!file_exists($jsonFile)) {    
 		$string = file_get_contents($fileName);
+		unlink($fileName);
 		echo "Parsing XML To Array   ";
 		$array = xml2array($string, 1, 'attribute');
 		unset($string);
@@ -120,10 +111,25 @@ foreach ($xml as $list) {
 		elseif ($list =='xml')
 			$array = $array['mame']['machine'];
 		echo "Writing to JSON {$jsonFile}";
-		file_put_contents($jsonFile, json_encode($array, JSON_PRETTY_PRINT));
+		//file_put_contents($jsonFile, json_encode($array, JSON_PRETTY_PRINT));
 	} else {
 		$array = json_decode(file_get_contents($jsonFile), TRUE);
 	}
+	echo 'Mapping '.$list.' Data to files...';
+	foreach ($array as $idx => $data) {
+		$fileName =  $dataDir.'/json/mame/'.$list.'/'.$data['name'].'.json';
+		echo ' '.$data['name'];
+		$jsonData = json_encode($data, JSON_PRETTY_PRINT);
+		file_put_contents($fileName, $jsonData);
+		/*$db
+			->insert('mame_software_platforms')
+			->cols(['doc' => $jsonData])
+			->lowPriority($config['db_low_priority'])
+			->query();*/
+		
+	}
+	echo ' done'.PHP_EOL;
+	/*
 	echo 'Parsing Into DB ';
 	if ($list == 'software') {
 		$games = [];
@@ -208,6 +214,8 @@ foreach ($xml as $list) {
 		}
 	}
 	echo "done\n";
+	*/
 }
 //echo `rm -rf /tmp/update;`;
-$db->query("update config set config.value='{$version}' where field='{$configKey}'"); 
+
+//$db->query("update config set config.value='{$version}' where field='{$configKey}'"); 
