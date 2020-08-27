@@ -16,4 +16,4 @@ if (isset($_REQUEST['id'])) {
 	$response['status'] = 'error';
 }
 header('Content-type: application/json; charset=UTF-8');
-echo json_encode($response);
+echo json_encode($response, JSON_PRETTY_PRINT);
