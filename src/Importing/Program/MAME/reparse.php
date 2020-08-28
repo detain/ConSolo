@@ -10,48 +10,6 @@ require_once __DIR__.'/../../../bootstrap.php';
 */
 global $db;
 
-function FlattenAttr(&$parent) {
-	if (isset($parent['attr'])) {
-		if (count($parent['attr']) == 2 && isset($parent['attr']['name']) && isset($parent['attr']['value'])) {
-			$parent[$parent['attr']['name']] = $parent['attr']['value'];
-			unset($parent['attr']);
-		} else {
-			foreach ($parent['attr'] as $attrKey => $attrValue) {
-				$parent[$attrKey] = $attrValue;
-			}
-			unset($parent['attr']); 
-		}
-	}
-}
-
-function FlattenValues(&$parent) {
-	foreach ($parent as $key => $value) {
-		if (is_array($value) && count($value) == 1 && isset($value['value'])) {
-			$parent[$key] = $value['value'];
-		}
-	}
-}
-
-function RunArray(&$data) {
-	if (is_array($data)) {
-		if (count($data) > 0) {
-			if (isset($data[0])) {
-				foreach ($data as $dataIdx => $dataValue) {
-					RunArray($dataValue);
-					$data[$dataIdx] = $dataValue;
-				}
-			} else {
-				FlattenAttr($data);
-				FlattenValues($data);
-				foreach ($data as $dataIdx => $dataValue) {
-					RunArray($dataValue);
-					$data[$dataIdx] = $dataValue;
-				}
-			}
-		}
-	}
-}
-
 $dataDir = '/storage/local/ConSolo/data';
 $configKey = 'mame';
 $row = $db->query("select * from config where field='{$configKey}'");

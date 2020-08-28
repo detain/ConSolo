@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0127f41d04598ea6ce715bc78f44e78",
+    "content-hash": "c8514505f7ac0707839dd0b42f2e3183",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -1463,6 +1463,58 @@
             "time": "2019-06-28T13:13:19+00:00"
         },
         {
+            "name": "matto1990/lastfm-api",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matt-oakes/PHP-Last.fm-API.git",
+                "reference": "6a3125d53f5debf44dd32e41f8da49177483424b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matt-oakes/PHP-Last.fm-API/zipball/6a3125d53f5debf44dd32e41f8da49177483424b",
+                "reference": "6a3125d53f5debf44dd32e41f8da49177483424b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "php": ">=5.3.3",
+                "phpunit/phpunit": "7.4.0",
+                "vlucas/phpdotenv": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LastFmApi\\": "src/lastfmapi/",
+                    "Tests\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matt",
+                    "email": "matt@oakes.ws"
+                },
+                {
+                    "name": "Marcos",
+                    "email": "devilcius@gmail.com"
+                }
+            ],
+            "description": "Last.fm webservice client",
+            "homepage": "https://github.com/matto1990/PHP-Last.fm-API",
+            "keywords": [
+                "api",
+                "last.fm",
+                "webservice client"
+            ],
+            "time": "2019-06-14T07:38:04+00:00"
+        },
+        {
             "name": "moinax/tvdb",
             "version": "1.0.6.x-dev",
             "source": {
@@ -2052,12 +2104,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "802abac55e129266e342d33ea53a03303c4fb3df"
+                "reference": "6f942400a1a8b9932ce2c435cf945aef40bd5fd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/802abac55e129266e342d33ea53a03303c4fb3df",
-                "reference": "802abac55e129266e342d33ea53a03303c4fb3df",
+                "url": "https://api.github.com/repos/predis/predis/zipball/6f942400a1a8b9932ce2c435cf945aef40bd5fd4",
+                "reference": "6f942400a1a8b9932ce2c435cf945aef40bd5fd4",
                 "shasum": ""
             },
             "require": {
@@ -2119,7 +2171,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-08-24T14:20:06+00:00"
+            "time": "2020-08-27T15:44:23+00:00"
         },
         {
             "name": "psr/http-message",
@@ -2388,12 +2440,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/child-process.git",
-                "reference": "9f828ea607ccc36e65c701ccd83b270b64eb8bc7"
+                "reference": "b7c493db157f59ba6fbd99ba6b708c96bf0f5af2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/child-process/zipball/9f828ea607ccc36e65c701ccd83b270b64eb8bc7",
-                "reference": "9f828ea607ccc36e65c701ccd83b270b64eb8bc7",
+                "url": "https://api.github.com/repos/reactphp/child-process/zipball/b7c493db157f59ba6fbd99ba6b708c96bf0f5af2",
+                "reference": "b7c493db157f59ba6fbd99ba6b708c96bf0f5af2",
                 "shasum": ""
             },
             "require": {
@@ -2417,13 +2469,45 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@clue.engineering",
+                    "homepage": "https://clue.engineering/"
+                },
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "reactphp@ceesjankiewiet.nl",
+                    "homepage": "https://wyrihaximus.net/"
+                },
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com",
+                    "homepage": "https://sorgalla.com/"
+                },
+                {
+                    "name": "Chris Boden",
+                    "email": "cboden@gmail.com",
+                    "homepage": "https://cboden.dev/"
+                }
+            ],
             "description": "Event-driven library for executing child processes with ReactPHP.",
             "keywords": [
                 "event-driven",
                 "process",
                 "reactphp"
             ],
-            "time": "2019-12-07T10:41:14+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/WyriHaximus",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/clue",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-08-26T22:08:42+00:00"
         },
         {
             "name": "react/dns",
@@ -3280,12 +3364,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RubixML/RubixML.git",
-                "reference": "421816cbed58931647a960c3d5f282dacfb0adca"
+                "reference": "7902520f76e288cfe606ee75027d3544b50a9103"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/421816cbed58931647a960c3d5f282dacfb0adca",
-                "reference": "421816cbed58931647a960c3d5f282dacfb0adca",
+                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/7902520f76e288cfe606ee75027d3544b50a9103",
+                "reference": "7902520f76e288cfe606ee75027d3544b50a9103",
                 "shasum": ""
             },
             "require": {
@@ -3426,7 +3510,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-08-25T04:44:41+00:00"
+            "time": "2020-08-28T06:14:50+00:00"
         },
         {
             "name": "rubix/tensor",
@@ -5080,12 +5164,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/Workerman.git",
-                "reference": "1ed65cb8c7b82bbb5d8c32ed815e7c659b3b72c7"
+                "reference": "1bb4c31b3a4516327eb58935d0a28cb65e5d9733"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/Workerman/zipball/1ed65cb8c7b82bbb5d8c32ed815e7c659b3b72c7",
-                "reference": "1ed65cb8c7b82bbb5d8c32ed815e7c659b3b72c7",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/1bb4c31b3a4516327eb58935d0a28cb65e5d9733",
+                "reference": "1bb4c31b3a4516327eb58935d0a28cb65e5d9733",
                 "shasum": ""
             },
             "require": {
@@ -5118,7 +5202,7 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2020-08-18T07:30:10+00:00"
+            "time": "2020-08-28T06:24:03+00:00"
         },
         {
             "name": "wyndow/fuzzywuzzy",
@@ -5166,6 +5250,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "rubix/ml": 20,
+        "matto1990/lastfm-api": 20,
         "php-ffmpeg/extras": 20,
         "aminyazdanpanah/php-ffmpeg-video-streaming": 20,
         "php-ai/php-ml": 20,
