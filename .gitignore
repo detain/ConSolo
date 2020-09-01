@@ -3,3 +3,4 @@ config.php
 data
 node_modules
 .pnp.js
+.vs
