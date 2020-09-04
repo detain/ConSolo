@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<meta charset="UTF-8">
+	<title>CodePen - TheMovieDB Movie Details bootstrap</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css'>
+	<link rel='stylesheet' href='https://rawgit.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.css'>
+	<link rel='stylesheet' href='{{ app.request.basePath }}/css/movie.css'>
+</head>
+<body>
+	<!-- partial:index.partial.html -->
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">ConSolo</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Files</a></li>
+					<li><a href="#links" aria-controls="links" role="tab" data-toggle="tab">Links</a></li>
+					<li><a href="#">Settings</a></li>
+					<li><a href="#">About</a></li>
+				</ul>
+				<form class="navbar-form navbar-right">
+					<input type="text" class="form-control" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</nav>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">ConSolo</a>
+				</div>
+				<ul class="nav nav-sidebar" style="padding-top: 40px">
+					<li class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Details <span class="sr-only">(current)</span></a></li>
+					<li><a href="#">Movies</a></li>
+					<li><a href="#">TV Shows</a></li>
+					<li><a href="#">Files</a></li>
+					<li><a href="#">Music</a></li>
+					<li><a href="#">Emulation</a></li>
+					<li><a href="#json" aria-controls="json" role="tab" data-toggle="tab">JSON Data View</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="">Genres</a></li>
+					<li><a href="">Production Companies</a></li>
+					<li><a href="">Collections</a></li>
+					<li><a href="">People</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane fade in active" id="home">
+						{% block content %}
+						{% endblock %}					
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="json">
+					</div>
+					<div role="tabpanel" class="tab-pane fade" id="links">
+						<h3>Links</h3>
+						<ul class="list-group">
+							<li class="list-group-item"><a href="https://getbootstrap.com/docs/3.4/css/" target="_blank">BootStrap Docs</a></li>
+							<li class="list-group-item"><a href="https://github.com/yesmeck/jquery-jsonview" target="_blank">jQuery JSONView</a></li>
+							<li class="list-group-item"><a href="https://www.themoviedb.org/tv/63174-lucifer" target="_blank">TV Example</a></li>
+							<li class="list-group-item"><a href="https://www.themoviedb.org/person/515-glenn-close" target="_blank">Person Example</a></li>
+							<li class="list-group-item"><a href="https://www.themoviedb.org/movie/11674-101-dalmatians/cast" target="_blank">Movie Cast Example</a></li>
+							<li class="list-group-item"><a href="https://www.themoviedb.org/genre/35-comedy/movie" target="_blank">Comedy Genre Movie List Example</a></li>
+							<li class="list-group-item"><a href="" target="_blank"></a></li>
+							<li class="list-group-item"><a href="" target="_blank"></a></li>
+							<li class="list-group-item"><a href="" target="_blank"></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- partial -->
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.js'></script>
+	<script src='https://rawgit.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.css'></script>
+	<script src='{{ app.request.basePath }}/js/movie.js'></script>
+</body>
+</html>
