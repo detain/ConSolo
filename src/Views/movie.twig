@@ -1,12 +1,12 @@
 {% extends "shared/moviebase.twig" %}
 
 {% block content %}
-<div class="row" style='background-image: url("https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/mz75dVXfen4J1Z0R8DbTenXNywz.jpg"); background-position: right -200px top;background-size: cover;background-repeat: no-repeat;border-bottom: 1px solid rgba(2.35%, 43.53%, 84.71%, 1);'>
-	<div style="background-image: linear-gradient( to right, rgba(0%, 40%, 80%, 1) 150px, rgba(4.71%, 47.06%, 89.41%, 0.84) 100% );display: flex;justify-content: center;flex-wrap: wrap;">
+<div class="row" style='background-image: url("https://image.tmdb.org/t/p/w1920_and_h800_multi_faces{{ movie.backdrop_path }}"); background-position: right -200px top;background-size: cover;background-repeat: no-repeat;border-bottom: 1px solid rgba(2.35%, 43.53%, 84.71%, 1);'>
+	<div style="background-image: linear-gradient( to right, rgb(0, 102, 204) 150px, rgba(12, 120, 228, 0.2) 100% );display: flex;justify-content: center;flex-wrap: wrap;">
 		<div class="col-xs-6 col-md-4">
 			<div class="poster">
 				<div class="image_content backdrop">
-					<img class="poster" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2/8o2ADoAyG796UwTjwBFjPyBz0yG.jpg">
+					<img class="poster" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ movie.poster_path }}">
 				</div>
 			</div>
 		</div>
@@ -15,24 +15,26 @@
 				<section class="header poster" style="color: #ffffff;">
 					<div class="title ott_true" dir="auto">
 						<h2 class="14">
-							<a href="/movie/{{ item.id }}-101-dalmations" style="color: #ffffff;">101 Dalmatians</a>
-							<span class="tag release_date">(1996)</span>
+							<a href="/movie/{{ movie.id }}-101-dalmations" style="color: #ffffff;">{{ movie.title }}</a>
+							<span class="tag release_date">({{ movie.release_date|slice(0,4) }})</span>
 						</h2>
 						<div class="facts">
 							<span class="certification">
 								G
 							</span>
 							<span class="release">
-								1996-11-17 (US)
+								{{ movie.release_date }} (US)
 							</span>
-							<span class="genres" v-for="(genre, index) in item.genres">
+							<span class="genres">
 							{% for genre in movie.genres %}
-								<a href="/genre/{{ genre.id }}-{{ genre.name }}/movie">Family</a>
-								<span v-if="index == genres.length - 1">,&nbsp;</span>
+								<a href="/genre/{{ genre.id }}-{{ genre.name }}/movie">{{ genre.name }}</a>
+								{% if loop.last == false %}
+								<span>,&nbsp;</span>
+								{% endif %}
 							{% endfor %}
 							</span>
 							<span class="runtime">
-								1h 43m
+								{{ movie.runtime }}m
 							</span>
 						</div>
 					</div>
@@ -45,14 +47,14 @@
 							</div>
 						</li>
 						<li class="video none">
-							<a class="no_click play_trailer" href="#" :data-site="item.videos.results[0].site" :data-id="item.videos.results[0].key" data-title="Play {{ item.videos.results[0].type }}"><span class="glyphicon glyphicon-play invert svg"></span> Play {{ item.videos.results[0].type }}</a>
+							<a class="no_click play_trailer" href="#" :data-site="movie.videos.results[0].site" :data-id="movie.videos.results[0].key" data-title="Play {{ movie.videos.results[0].type }}"><span class="glyphicon glyphicon-play invert svg"></span> Play {{ movie.videos.results[0].type }}</a>
 						</li>
 					</ul>
 					<div class="header_info">
-						<h3 class="tagline" dir="auto">{{ item.tagline }}.</h3>
+						<h3 class="tagline" dir="auto">{{ movie.tagline }}.</h3>
 						<h3 dir="auto">Overview</h3>
 						<div class="overview" dir="auto">
-							<p>{{ item.overview }}</p>
+							<p>{{ movie.overview }}</p>
 						</div>
 						<ol class="people no_image">
 							<li class="profile">
