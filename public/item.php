@@ -6,13 +6,15 @@ require_once __DIR__.'/../src/bootstrap.php';
 global $db;
 global $config, $curl_config;
 $response = [];
-if (isset($_REQUEST['id'])) {
+$types = ['movie', 'tv_seasons', 'tv_episodes', 'person'];
+if (!isset($_REQUEST['type']) || !in_array($_REQUEST['type'], $types) || !isset($_REQUEST['id'])) {
+	$response['status'] = 'error';
+} else {
+	$type = $_REQUEST['type'];
 	$id = (int)$_REQUEST['id'];
-	$json = json_decode($db->single("select doc from tmdb_movie where id={$id} limit 1"), true);
+	$json = json_decode($db->single("select doc from tmdb_{$type} where id={$id} limit 1"), true);
 	$response['status'] = 'ok';
 	$response['movie'] = $json;
-} else {
-	$response['status'] = 'error';
 }
 header('Content-type: application/json; charset=UTF-8');
 echo json_encode($response, JSON_PRETTY_PRINT);
