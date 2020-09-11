@@ -15,6 +15,7 @@ $scanCompressed = true;
 $useMagic = true;
 $maxSize = 18000000000; // 20gb
 $useMaxSize = true;
+$nestedDepth = 0;
 if (isset($_SERVER['argc']) && $_SERVER['argc'] > 1) {
 	$paths = [];
 	for ($x = 1; $x < $_SERVER['argc']; $x++) {
@@ -55,18 +56,17 @@ if (function_exists('posix_getpid')) {
 	$tmpDir = 'C:\\Users\\detain\\AppData\\Local\\Temp\\scanfiles-'.uniqid();
 }
 
-
 function updateCompressedFile($path, $parentId)  {
 	/**
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	global $files, $tmpDir, $compressedHashAlgos, $useMagic, $config, $hostId, $Linux;
+	global $files, $tmpDir, $compressedHashAlgos, $useMagic, $config, $hostId, $Linux, $nestedDepth, $paths;
 	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks
 	$parentData = $files[$parentId];
 	$parentPath = $parentData['path'];
-	$virtualPath = str_replace($tmpDir.'/', '', $path);
-	$linkedPath = str_replace($tmpDir.'/', $parentPath.'#', $path); 
+	$virtualPath = str_replace($tmpDir.'/'.$nestedDepth.'/', '', $path);
+	$linkedPath = str_replace($tmpDir.'/'.$nestedDepth.'/', $parentPath.'#', $path); 
 	$pathStat = stat($path);
 	$fileData = [];
 	$newData = [];
@@ -115,6 +115,8 @@ function updateCompressedFile($path, $parentId)  {
 		->cols($fileData)
 		->lowPriority($config['db_low_priority'])
 		->query();
+	$files[$id] = $fileData;
+	$paths['#'.$parentId.'/'.$virtualPath] = $id;
 	$extraData['id'] = $id;
 	$db
 		->insert('files_extra')
@@ -122,6 +124,9 @@ function updateCompressedFile($path, $parentId)  {
 		->lowPriority($config['db_low_priority'])
 		->query();
 	echo "  Added file #{$id} {$virtualPath} : ".json_encode($fileData)." from Compressed parent {$parentData['path']}\n";
+	if (!array_key_exists('num_files', $fileData) || $fileData['num_files'] == 0) {
+		compressedFileHandler($path, $parentId);
+	}
 }
 
 function updateCompressedDir($path, $parentId) {
@@ -155,26 +160,26 @@ function updateCompressedDir($path, $parentId) {
 }
 
 function cleanTmpDir() {
-	global $tmpDir, $Linux;
-	echo 'Cleaning Temp Dir '.$tmpDir.PHP_EOL;
+	global $tmpDir, $Linux, $nestedDepth;
+	echo 'Cleaning Temp Dir '.$tmpDir.'/'.$nestedDepth.PHP_EOL;
 	//if (DIRECTORY_SEPARATOR == '\\') {
 	if (!$Linux) {
-		passthru('rmdir /s /q '.$tmpDir);
+		passthru('rmdir /s /q '.$tmpDir.'/'.$nestedDepth);
 	} else {
-		passthru('rm -rf '.$tmpDir);
+		passthru('rm -rf '.$tmpDir.'/'.$nestedDepth);
 	}
 }
 
 function extractCompressedFile($path, $compressionType) {
-	global $tmpDir, $Linux;
+	global $tmpDir, $Linux, $nestedDepth;
 	cleanTmpDir();
-	mkdir($tmpDir);
+	mkdir($tmpDir.'/'.$nestedDepth, 0777, true);
 	$escapedFile = escapeshellarg($path);
 	//if (DIRECTORY_SEPARATOR == '\\') {
 	if (!$Linux) {
-		passthru('e:/Installs/7-Zip/7z.exe x -o'.$tmpDir.' '.escapeshellarg($path), $return);
+		passthru('e:/Installs/7-Zip/7z.exe x -o'.$tmpDir.'/'.$nestedDepth.' '.escapeshellarg($path), $return);
 	} else {
-		passthru('exec 7z x -o'.$tmpDir.' '.escapeshellarg($path), $return);
+		passthru('exec 7z x -o'.$tmpDir.'/'.$nestedDepth.' '.escapeshellarg($path), $return);
 	}
 	return ($return == 0);
 }
@@ -189,28 +194,30 @@ function hasFileExt($file, $ext) {
 	}
 }
 
-function compressedFileHandler($path) {
+function compressedFileHandler($path, $parentParentId = '') {
 	/**
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	global $files, $paths, $compressionTypes, $tmpDir, $scanCompressed;
+	global $files, $paths, $compressionTypes, $tmpDir, $scanCompressed, $nestedDepth;
 	if ($scanCompressed == true) {
 		$cleanPath = cleanPath($path);
+		$parentId = $parentParentId != '' ? $paths[str_replace($tmpDir.'/'.$nestedDepth.'/', '#'.$parentParentId.'/', $cleanPath)] : $paths[$cleanPath];
+		$nestedDepth++;
 		foreach ($compressionTypes as $idx => $compressionType) {
 			if (hasFileExt($path, $compressionType)) {
 				// handle compressed file
-				$parentId = $paths[$cleanPath];
 				$rows = $db->query("select files.*, extra from files left join files_extra using (id) where parent={$parentId}");
 				echo 'Found Compressed file #'.$parentId.' '.$path.' of type '.$compressionType.' with '.count($rows).' entries'.PHP_EOL;
 				if (count($rows) == 0) {
 					if (extractCompressedFile($path, $compressionType)) {
-						updateCompressedDir($tmpDir, $parentId);
+						updateCompressedDir($tmpDir.'/'.$nestedDepth, $parentId);
 					}                
 					cleanTmpDir();
 				}
 			}
 		}
+		$nestedDepth--;
 	}
 }
 
