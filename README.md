@@ -72,6 +72,22 @@ https://shaka-player-demo.appspot.com/docs/api/tutorial-welcome.html
 
 ### File Path Scanner and Watcher
 
+* File Scanner
+  * Supports Multiple Hosts
+  * Stores file 'magic' info
+  * Stores file 'exif' info
+  * Stores file 'mediainfo' data
+  * Supports recursive compressed file scanning of 7z, zip, and rar files
+  * File Removal Detection
+  
+* API Scrapper
+  * IMDB info
+  * TMDB info
+	* Movies
+	* Persons
+	* TV Shows
+
+
 * ROMs
   * ROM Scanning
   * Compressed File Scanning
