@@ -207,8 +207,8 @@ function compressedFileHandler($path, $parentParentId = '') {
 	global $files, $paths, $compressionTypes, $tmpDir, $scanCompressed, $nestedDepth;
 	if ($scanCompressed == true) {
 		$cleanPath = cleanPath($path);
-		$fileData = $files[$paths[$cleanPath]];
 		$parentId = $parentParentId != '' ? $paths[str_replace($tmpDir.'/'.$nestedDepth.'/', '#'.$parentParentId.'/', $cleanPath)] : $paths[$cleanPath];
+		$fileData = $files[$parentId];
 		$nestedDepth++;
 		foreach ($compressionTypes as $idx => $compressionType) {
 			if (hasFileExt($path, $compressionType)) {
