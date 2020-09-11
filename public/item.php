@@ -13,8 +13,7 @@ if (!isset($_REQUEST['type']) || !in_array($_REQUEST['type'], $types) || !isset(
 	$type = $_REQUEST['type'];
 	$id = (int)$_REQUEST['id'];
 	$json = json_decode($db->single("select doc from tmdb_{$type} where id={$id} limit 1"), true);
-	$response['status'] = 'ok';
-	$response['movie'] = $json;
+	$response = $json;
 }
 header('Content-type: application/json; charset=UTF-8');
 echo json_encode($response, JSON_PRETTY_PRINT);

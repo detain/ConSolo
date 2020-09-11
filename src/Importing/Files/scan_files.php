@@ -207,6 +207,7 @@ function compressedFileHandler($path, $parentParentId = '') {
 	global $files, $paths, $compressionTypes, $tmpDir, $scanCompressed, $nestedDepth;
 	if ($scanCompressed == true) {
 		$cleanPath = cleanPath($path);
+		$fileData = $files[$paths[$cleanPath]];
 		$parentId = $parentParentId != '' ? $paths[str_replace($tmpDir.'/'.$nestedDepth.'/', '#'.$parentParentId.'/', $cleanPath)] : $paths[$cleanPath];
 		$nestedDepth++;
 		foreach ($compressionTypes as $idx => $compressionType) {
@@ -215,10 +216,14 @@ function compressedFileHandler($path, $parentParentId = '') {
 				$rows = $db->query("select files.*, extra from files left join files_extra using (id) where parent={$parentId}");
 				echo 'Found Compressed file #'.$parentId.' '.$path.' of type '.$compressionType.' with '.count($rows).' entries'.PHP_EOL;
 				if (count($rows) == 0) {
-					if (extractCompressedFile($path, $compressionType)) {
-						updateCompressedDir($tmpDir.'/'.$nestedDepth, $parentId);
-					}                
-					cleanTmpDir();
+//					if (!is_null($fileData['md5']) && false !== $copyId = $db->single("select id from files where size={$fileData['size']} and md5='{$fileData['md5']}' and id != {$parentId} limit 1")) {
+						
+//					} else {
+						if (extractCompressedFile($path, $compressionType)) {
+							updateCompressedDir($tmpDir.'/'.$nestedDepth, $parentId);
+						}                
+						cleanTmpDir();                        
+//					}
 				}
 			}
 		}
