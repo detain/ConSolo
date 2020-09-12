@@ -340,7 +340,7 @@ function updateFile($path)  {
 					->query();
 				echo "  Updated file #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($newData).PHP_EOL;
 			}
-			if (isset($extraData)) {
+			if (isset($extraData) && count($extraData) > 0) {
 				echo "  Updated file extra #{$paths[$cleanPath]} {$cleanPath} : ".json_encode($extraData).PHP_EOL;
 				$db
 					->update('files_extra')
