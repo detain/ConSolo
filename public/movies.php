@@ -10,14 +10,9 @@ global $db;
 global $twig;
 global $config, $curl_config, $hostId;
 $response = [];
-if (isset($_REQUEST['id'])) {
-	$id = (int)$_REQUEST['id'];
-	$json = json_decode($db->single("select doc from tmdb_movie where id={$id} limit 1"), true);
-}
-$fileId = $db->single("select id from files where tmdb_id={$json['id']} and host={$hostId}");
+$rows = $db->query("select title, poster_path, vote_average, overview, release_date from movies left join tmdb_movie on tmdb_movie.id=movies.tmdb_id left join files on file_id=files.id where host={$hostId} and title is not null order by title");
 echo $twig->render('movies.twig', array(
-	'movie' => $json,
-	'fileId' => $fileId,
+	'results' => $rows,
 //    'client_id' => $_GET['client_id'],
 //    'response_type' => $_GET['response_type'],
 	'queryString' => $_SERVER['QUERY_STRING']
