@@ -27,7 +27,7 @@
 							</span>
 							<span class="genres">
 								{% for genre in movie.genres %}
-								<a href="/genre/{{ genre.id }}-{{ genre.name }}/movie">{{ genre.name }}</a>
+								<a href="genre.php?type=movie&id={{ genre.id }}&name={{ genre.name }}">{{ genre.name }}</a>
 								{% if loop.last == false %}
 								<span>,&nbsp;</span>
 								{% endif %}
@@ -115,6 +115,30 @@
 				<th>IMDB ID</th>
 				<td>{{ movie.imdb_id }}</td>
 			</tr>
+			{% if movie.external_ids.imdb_id is not null %}
+			<tr>
+				<th>IMDB ID</th>
+				<td>{{ movie.external_ids.imdb_id }}</td>
+			</tr>
+			{% endif %}
+			{% if movie.external_ids.instagram_id is not null %}
+			<tr>
+				<th>Instagram ID</th>
+				<td>{{ movie.external_ids.instagram_id }}</td>
+			</tr>
+			{% endif %}
+			{% if movie.external_ids.facebook_id is not null %}
+			<tr>
+				<th>Facebook ID</th>
+				<td>{{ movie.external_ids.facebook_id }}</td>
+			</tr>
+			{% endif %}
+			{% if movie.external_ids.twitter_id is not null %}
+			<tr>
+				<th>Twitter ID</th>
+				<td>{{ movie.external_ids.twitter_id }}</td>
+			</tr>
+			{% endif %}
 			<tr>
 				<th>Revenue</th>
 				<td>${{ movie.revenue }}</td>
@@ -343,39 +367,41 @@
 
 <div class="row">
 	<div class="col-sm-12 col-xs-12">
-		<pre>	
-"videos": {
-	"results": [
-		{
-			"id": "5a11117392514138e7044dbc",
-			"key": "K2CTJS12RdI",
-			"name": "101 Dalmatians (1996) Trailer",
-			"site": "YouTube",
-			"size": 480,
-			"type": "Trailer",
-			"iso_639_1": "en",
-			"iso_3166_1": "US"
-		}
-	]
-},
-"keywords": {
-	"keywords": [
-		{
-			"id": 212,
-			"name": "london, england"
-		},
-	]
-},
-"external_ids": {
-	"imdb_id": "tt0115433",
-	"twitter_id": null,
-	"facebook_id": null,
-	"instagram_id": null
-},
-}
-		</pre>
+		<h2 class="sub-header">Videos</h2>
 	</div>
 </div>
+<div class="row">
+	{% for video in movie.videos.results %}
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<a href="https://youtube.com/watch?v={{ video.key }}">
+				<div class="caption">
+					<h3>{{ video.name }}</h3>
+					<p>{{ video.type }}</p>
+					<p>{{ video.site }}</p>
+				</div>
+			</a>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+
+<div class="row">
+	<div class="col-sm-12 col-xs-12">
+		<h2 class="sub-header">Keywords</h2>
+	</div>
+</div>
+<div class="row">
+	{% for video in movie.keywords.keywords %}
+	<div class="col-sm-3 col-md-2">
+		<a href="keyword.php?id={{ video.id }}">
+			<div class="label label-primary">{{ video.name }}</div>
+		</a>
+	</div>
+	{% endfor %}
+</div>
+
 <div class="row">
 	<div class="col-md-12" id="json-view">
 
