@@ -78,6 +78,17 @@
 	</div>
 </div>
 
+{% if fileId is not same as (false) %}
+<div class="row">
+	<div class="col-sm-12 col-xs-12">
+		<video id="my-player" class="video-js" controls preload="auto" data-setup='{}'>
+			<source src="file.php?id={{ fileId }}" type="video/mp4"></source>
+			<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+		</video>
+	</div>
+</div>
+{% endif %}
+
 <h2 class="sub-header">Movie Info</h2>
 <div class="table-responsive">
 	<table class="table table-striped">
