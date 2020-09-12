@@ -307,7 +307,7 @@ function loadTmdbProductionCompany($id) {
 	return json_decode(getcurlpage('https://api.themoviedb.org/3/company/'.$id.'?api_key='.$apiKey, '', $curl_config), true);
 }
 
-function loadTmdbConfiguration($id) {
+function loadTmdbConfiguration() {
 	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
 	return json_decode(getcurlpage('https://api.themoviedb.org/3/configuration?api_key='.$apiKey, '', $curl_config), true);
