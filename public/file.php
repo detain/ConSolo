@@ -6,23 +6,23 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 		header ("HTTP/1.0 404 Not Found");
 		return;
 	}
-	$size=filesize($location);
-	$time=date('r',filemtime($location));
-	$fm=@fopen($location,'rb');
+	$size = filesize($location);
+	$time = date('r', filemtime($location));
+	$fm = @fopen($location,'rb');
 	if (!$fm) {
 		header ("HTTP/1.0 505 Internal server error");
 		return;
 	}
-	$begin=0;
-	$end=$size;
+	$begin = 0;
+	$end = $size;
 	if (isset($_SERVER['HTTP_RANGE'])) {
 		if (preg_match('/bytes=\h*(\d+)-(\d*)[\D.*]?/i', $_SERVER['HTTP_RANGE'], $matches)) {
-			$begin=intval($matches[1]);
+			$begin = intval($matches[1]);
 			if (!empty($matches[2]))
-				$end=intval($matches[2]);
+				$end = intval($matches[2]);
 		}
 	}
-	if ($begin>0||$end<$size)
+	if ($begin > 0 || $end < $size)
 		header('HTTP/1.0 206 Partial Content');
 	else
 		header('HTTP/1.0 200 OK');
@@ -36,11 +36,11 @@ function smartReadFile($location, $filename, $mimeType='application/octet-stream
 	header("Content-Transfer-Encoding: binary\n");
 	header("Last-Modified: $time");
 	header('Connection: close');
-	$cur=$begin;
-	fseek($fm,$begin,0);
-	while(!feof($fm)&&$cur<$end&&(connection_status()==0)) {
-		print fread($fm,min(1024*16,$end-$cur));
-		$cur+=1024*16;
+	$cur = $begin;
+	fseek($fm, $begin, 0);
+	while (!feof($fm) && $cur < $end && (connection_status() == 0)) {
+		print fread($fm, min(1024 * 16, $end - $cur));
+		$cur += 1024 * 16;
 	}
 }
 
