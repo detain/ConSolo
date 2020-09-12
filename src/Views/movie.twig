@@ -1,410 +1,410 @@
 {% extends "shared/moviebase.twig" %}
 
 {% block content %}
-<div class="row" style='background-image: url("https://image.tmdb.org/t/p/w1920_and_h800_multi_faces{{ movie.backdrop_path }}"); background-position: right -200px top;background-size: cover;background-repeat: no-repeat;border-bottom: 1px solid rgba(2.35%, 43.53%, 84.71%, 1);'>
-	<div style="background-image: linear-gradient( to right, rgb(0, 102, 204) 150px, rgba(12, 120, 228, 0.2) 100% );display: flex;justify-content: center;flex-wrap: wrap;">
-		<div class="col-xs-6 col-md-4">
-			<div class="poster">
-				<div class="image_content backdrop">
-					<img class="poster" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ movie.poster_path }}">
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-12 col-sm-6 col-md-8">
-			<div class="header_poster_wrapper true">
-				<section class="header poster" style="color: #ffffff;">
-					<div class="title ott_true" dir="auto">
-						<h2 class="14">
-							<a href="/movie/{{ movie.id }}-101-dalmations" style="color: #ffffff;">{{ movie.title }}</a>
-							<span class="tag release_date">({{ movie.release_date|slice(0,4) }})</span>
-						</h2>
-						<div class="facts">
-							<span class="certification">
-								G
-							</span>
-							<span class="release">
-								{{ movie.release_date }} (US)
-							</span>
-							<span class="genres">
-								{% for genre in movie.genres %}
-								<a href="{{ app.request.basePath }}/genre.php?type=movie&id={{ genre.id }}&name={{ genre.name }}">{{ genre.name }}</a>
-								{% if loop.last == false %}
-								<span>,&nbsp;</span>
-								{% endif %}
-								{% endfor %}
-							</span>
-							<span class="runtime">
-								{{ movie.runtime }}m
-							</span>
-						</div>
-					</div>
-					<ul class="auto actions">
-						<li class="chart">
-							<div class="consensus details">
-								<div class="outer_ring">
-									58%
+						<div class="row" style='background-image: url("https://image.tmdb.org/t/p/w1920_and_h800_multi_faces{{ movie.backdrop_path }}"); background-position: right -200px top;background-size: cover;background-repeat: no-repeat;border-bottom: 1px solid rgba(2.35%, 43.53%, 84.71%, 1);'>
+							<div style="background-image: linear-gradient( to right, rgb(0, 102, 204) 150px, rgba(12, 120, 228, 0.2) 100% );display: flex;justify-content: center;flex-wrap: wrap;">
+								<div class="col-xs-6 col-md-4">
+									<div class="poster">
+										<div class="image_content backdrop">
+											<img class="poster" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ movie.poster_path }}">
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-8">
+									<div class="header_poster_wrapper true">
+										<section class="header poster" style="color: #ffffff;">
+											<div class="title ott_true" dir="auto">
+												<h2 class="14">
+													<a href="/movie/{{ movie.id }}-101-dalmations" style="color: #ffffff;">{{ movie.title }}</a>
+													<span class="tag release_date">({{ movie.release_date|slice(0,4) }})</span>
+												</h2>
+												<div class="facts">
+													<span class="certification">
+														G
+													</span>
+													<span class="release">
+														{{ movie.release_date }} (US)
+													</span>
+													<span class="genres">
+														{% for genre in movie.genres %}
+														<a href="{{ app.request.basePath }}/genre.php?type=movie&id={{ genre.id }}&name={{ genre.name }}">{{ genre.name }}</a>
+														{% if loop.last == false %}
+														<span>,&nbsp;</span>
+														{% endif %}
+														{% endfor %}
+													</span>
+													<span class="runtime">
+														{{ movie.runtime }}m
+													</span>
+												</div>
+											</div>
+											<ul class="auto actions">
+												<li class="chart">
+													<div class="consensus details">
+														<div class="outer_ring">
+															58%
+														</div>
+													</div>
+												</li>
+												<li class="video none">
+													<a class="no_click play_trailer" href="#" data-site="movie.videos.results[0].site" data-id="movie.videos.results[0].key" data-title="Play {{ movie.videos.results[0].type }}"><span class="glyphicon glyphicon-play invert svg"></span> Play {{ movie.videos.results[0].type }}</a>
+												</li>
+											</ul>
+											<div class="header_info">
+												<h3 class="tagline" dir="auto">{{ movie.tagline }}.</h3>
+												<h3 dir="auto">Overview</h3>
+												<div class="overview" dir="auto">
+													<p>{{ movie.overview }}</p>
+												</div>
+												<ol class="people no_image">
+													<li class="profile">
+														<p><a href="{{ app.request.basePath }}/person.php?id={{ director.id }}&name={{ director.name }}">{{ director.name }}</a></p>
+														<p class="character">{{ director.job }}</p>
+													</li>
+													<li class="profile">
+														<p><a href="{{ app.request.basePath }}/person.php?id={{ screenplay.id }}&name={{ screenplay.name }}">{{ screenplay.name }}</a></p>
+														<p class="character">{{ screenplay.job }}</p>
+													</li>
+												</ol>
+											</div>
+										</section>
+									</div>
 								</div>
 							</div>
-						</li>
-						<li class="video none">
-							<a class="no_click play_trailer" href="#" data-site="movie.videos.results[0].site" data-id="movie.videos.results[0].key" data-title="Play {{ movie.videos.results[0].type }}"><span class="glyphicon glyphicon-play invert svg"></span> Play {{ movie.videos.results[0].type }}</a>
-						</li>
-					</ul>
-					<div class="header_info">
-						<h3 class="tagline" dir="auto">{{ movie.tagline }}.</h3>
-						<h3 dir="auto">Overview</h3>
-						<div class="overview" dir="auto">
-							<p>{{ movie.overview }}</p>
 						</div>
-						<ol class="people no_image">
-							<li class="profile">
-								<p><a href="{{ app.request.basePath }}/person.php?id={{ director.id }}&name={{ director.name }}">{{ director.name }}</a></p>
-								<p class="character">{{ director.job }}</p>
-							</li>
-							<li class="profile">
-								<p><a href="{{ app.request.basePath }}/person.php?id={{ screenplay.id }}&name={{ screenplay.name }}">{{ screenplay.name }}</a></p>
-								<p class="character">{{ screenplay.job }}</p>
-							</li>
-						</ol>
-					</div>
-				</section>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-sm-12 col-xs-12">
-		<hr>
-	</div>
-</div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<hr>
+							</div>
+						</div>
 
-{% if fileId is not same as (false) %}
-<div class="row">
-	<div class="col-sm-12 col-xs-12">
-		<video id="my-player" class="video-js" controls preload="auto" data-setup='{}'>
-			<source src="{{ app.request.basePath }}/file.php?id={{ fileId }}" type="video/mp4"></source>
-			<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-		</video>
-	</div>
-</div>
-{% endif %}
+						{% if fileId is not same as (false) %}
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<video id="my-player" class="video-js" controls preload="auto" data-setup='{}'>
+									<source src="{{ app.request.basePath }}/file.php?id={{ fileId }}" type="video/mp4"></source>
+									<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+								</video>
+							</div>
+						</div>
+						{% endif %}
 
-<h2 class="sub-header">Movie Info</h2>
-<div class="table-responsive">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Field</th>
-				<th>Header</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th>Video</th>
-				<td>{{ movie.video }}</td>
-			</tr>
-			<tr>
-				<th>Budget</th>
-				<td>${{ movie.budget }}</td>
-			</tr>
-			<tr>
-				<th>Status</th>
-				<td>{{ movie.status }}</td>
-			</tr>
-			<tr>
-				<th>IMDB ID</th>
-				<td>{{ movie.imdb_id }}</td>
-			</tr>
-			{% if movie.external_ids.imdb_id is not null %}
-			<tr>
-				<th>IMDB ID</th>
-				<td>{{ movie.external_ids.imdb_id }}</td>
-			</tr>
-			{% endif %}
-			{% if movie.external_ids.instagram_id is not null %}
-			<tr>
-				<th>Instagram ID</th>
-				<td>{{ movie.external_ids.instagram_id }}</td>
-			</tr>
-			{% endif %}
-			{% if movie.external_ids.facebook_id is not null %}
-			<tr>
-				<th>Facebook ID</th>
-				<td>{{ movie.external_ids.facebook_id }}</td>
-			</tr>
-			{% endif %}
-			{% if movie.external_ids.twitter_id is not null %}
-			<tr>
-				<th>Twitter ID</th>
-				<td>{{ movie.external_ids.twitter_id }}</td>
-			</tr>
-			{% endif %}
-			<tr>
-				<th>Revenue</th>
-				<td>${{ movie.revenue }}</td>
-			</tr>
-			<tr>
-				<th>Homepage</th>
-				<td>{{ movie.homepage }}</td>
-			</tr>
-			<tr>
-				<th>Popularity</th>
-				<td>{{ movie.popularity }}</td>
-			</tr>
-			<tr>
-				<th>Vote Count</th>
-				<td>{{ movie.vote_count }}</td>
-			</tr>
-			<tr>
-				<th>Vote Average</th>
-				<td>{{ movie.vote_average }}</td>
-			</tr>
-			<tr>
-				<th>Original Language</th>
-				<td>{{ movie.original_language }}</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+						<h2 class="sub-header">Movie Info</h2>
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Field</th>
+										<th>Header</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th>Video</th>
+										<td>{{ movie.video }}</td>
+									</tr>
+									<tr>
+										<th>Budget</th>
+										<td>${{ movie.budget }}</td>
+									</tr>
+									<tr>
+										<th>Status</th>
+										<td>{{ movie.status }}</td>
+									</tr>
+									<tr>
+										<th>IMDB ID</th>
+										<td>{{ movie.imdb_id }}</td>
+									</tr>
+									{% if movie.external_ids.imdb_id is not null %}
+									<tr>
+										<th>IMDB ID</th>
+										<td>{{ movie.external_ids.imdb_id }}</td>
+									</tr>
+									{% endif %}
+									{% if movie.external_ids.instagram_id is not null %}
+									<tr>
+										<th>Instagram ID</th>
+										<td>{{ movie.external_ids.instagram_id }}</td>
+									</tr>
+									{% endif %}
+									{% if movie.external_ids.facebook_id is not null %}
+									<tr>
+										<th>Facebook ID</th>
+										<td>{{ movie.external_ids.facebook_id }}</td>
+									</tr>
+									{% endif %}
+									{% if movie.external_ids.twitter_id is not null %}
+									<tr>
+										<th>Twitter ID</th>
+										<td>{{ movie.external_ids.twitter_id }}</td>
+									</tr>
+									{% endif %}
+									<tr>
+										<th>Revenue</th>
+										<td>${{ movie.revenue }}</td>
+									</tr>
+									<tr>
+										<th>Homepage</th>
+										<td>{{ movie.homepage }}</td>
+									</tr>
+									<tr>
+										<th>Popularity</th>
+										<td>{{ movie.popularity }}</td>
+									</tr>
+									<tr>
+										<th>Vote Count</th>
+										<td>{{ movie.vote_count }}</td>
+									</tr>
+									<tr>
+										<th>Vote Average</th>
+										<td>{{ movie.vote_average }}</td>
+									</tr>
+									<tr>
+										<th>Original Language</th>
+										<td>{{ movie.original_language }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
-<h2 class="sub-header">Credits</h2>
-<h3 class="sub-header">Cast</h3>
-<div class="row placeholders">
-	{% for person in movie.credits.cast %}
-	<div class="col-xs-6 col-sm-3 placeholder">
-		<a href="{{ app.request.basePath }}/person.php?id={{ person.id }}">
-			<img src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" width="200" height="200" class="img-responsive" alt="{{ person.name }}">
-			<h4>{{ person.name }}</h4>
-			<span class="text-muted">{{ person.character }}</span>
-		</a>
-	</div>
-	{% endfor %}
-</div>
-<h3 class="sub-header">Crew</h3>
-<div class="row placeholders">
-	{% for person in movie.credits.crew %}
-	<div class="col-xs-6 col-sm-3 placeholder">
-		<a href="{{ app.request.basePath }}/person.php?id={{ person.id }}">
-			<img src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" width="200" height="200" class="img-responsive" alt="{{ person.name }}">
-			<h4>{{ person.name }}</h4>
-			<span class="text-muted">{{ person.job }}</span>
-			<span class="text-muted">{{ person.department }}</span>
-		</a>
-	</div>
-	{% endfor %}
-</div>
+						<h2 class="sub-header">Credits</h2>
+						<h3 class="sub-header">Cast</h3>
+						<div class="row placeholders">
+							{% for person in movie.credits.cast %}
+							<div class="col-xs-6 col-sm-3 placeholder">
+								<a href="{{ app.request.basePath }}/person.php?id={{ person.id }}">
+									<img src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" width="200" height="200" class="img-responsive" alt="{{ person.name }}">
+									<h4>{{ person.name }}</h4>
+									<span class="text-muted">{{ person.character }}</span>
+								</a>
+							</div>
+							{% endfor %}
+						</div>
+						<h3 class="sub-header">Crew</h3>
+						<div class="row placeholders">
+							{% for person in movie.credits.crew %}
+							<div class="col-xs-6 col-sm-3 placeholder">
+								<a href="{{ app.request.basePath }}/person.php?id={{ person.id }}">
+									<img src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" width="200" height="200" class="img-responsive" alt="{{ person.name }}">
+									<h4>{{ person.name }}</h4>
+									<span class="text-muted">{{ person.job }}</span>
+									<span class="text-muted">{{ person.department }}</span>
+								</a>
+							</div>
+							{% endfor %}
+						</div>
 
-<div class="row">
-	<div class="col-sm-12 col-xs-12">
-		<h2 class="sub-header">Similar</h2>
-	</div>
-</div>
-<div class="row">
-	{% for video in movie.similar.results %}
-	<div class="col-sm-6 col-md-4">
-		<div class="thumbnail">
-			<a href="{{ app.request.basePath }}/movie.php?id={{ video.id }}">
-				<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ video.poster_path }}" >
-				<div class="caption">
-					<h3>{{ video.title }}</h3>
-					<p>{{ video.vote_average }}</p>
-					<p>{{ video.release_date }}</p>
-				</div>
-			</a>
-		</div>
-	</div>
-	{% endfor %}
-</div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<h2 class="sub-header">Similar</h2>
+							</div>
+						</div>
+						<div class="row">
+							{% for video in movie.similar.results %}
+							<div class="col-sm-6 col-md-4">
+								<div class="thumbnail">
+									<a href="{{ app.request.basePath }}/movie.php?id={{ video.id }}">
+										<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ video.poster_path }}" >
+										<div class="caption">
+											<h3>{{ video.title }}</h3>
+											<p>{{ video.vote_average }}</p>
+											<p>{{ video.release_date }}</p>
+										</div>
+									</a>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
 
-<div class="row">
-	<div class="col-sm-12 col-xs-12">
-		<h2 class="sub-header">Recommendations</h2>
-	</div>
-</div>
-<div class="row">
-	{% for video in movie.recommendations.results %}
-	<div class="col-sm-6 col-md-4">
-		<div class="thumbnail">
-			<a href="{{ app.request.basePath }}/movie.php?id={{ video.id }}">
-				<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ video.poster_path }}" >
-				<div class="caption">
-					<h3>{{ video.title }}</h3>
-					<p>{{ video.vote_average }}</p>
-					<p>{{ video.release_date }}</p>
-				</div>
-			</a>
-		</div>
-	</div>
-	{% endfor %}
-</div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<h2 class="sub-header">Recommendations</h2>
+							</div>
+						</div>
+						<div class="row">
+							{% for video in movie.recommendations.results %}
+							<div class="col-sm-6 col-md-4">
+								<div class="thumbnail">
+									<a href="{{ app.request.basePath }}/movie.php?id={{ video.id }}">
+										<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ video.poster_path }}" >
+										<div class="caption">
+											<h3>{{ video.title }}</h3>
+											<p>{{ video.vote_average }}</p>
+											<p>{{ video.release_date }}</p>
+										</div>
+									</a>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
 
-<div class="row">
-	<div class="col-sm-8 col-md-6">
-		<div class="thumbnail">
-			<a href="{{ app.request.basePath }}/movie.php?id={{ movie.belongs_to_collection.id }}">
-				<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ movie.belongs_to_collection.poster_path }}" >
-				<div class="caption">
-					<h3>{{ movie.belongs_to_collection.name }}</h3>
-				</div>
-			</a>
-		</div>
-	</div>
-</div>
+						<div class="row">
+							<div class="col-sm-8 col-md-6">
+								<div class="thumbnail">
+									<a href="{{ app.request.basePath }}/movie.php?id={{ movie.belongs_to_collection.id }}">
+										<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ movie.belongs_to_collection.poster_path }}" >
+										<div class="caption">
+											<h3>{{ movie.belongs_to_collection.name }}</h3>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
 
-<h2 class="sub-header">Release Dates</h2>
-<div class="table-responsive">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Country</th>
-				<th>Certification</th>
-				<th>Type</th>
-				<th>iso 639 1</th>
-				<th>Release Date</th>
-				<th>Note</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for videos in movie.release_dates.results %}
-			{% for video in videos.release_dates %}
-			<tr>
-				<th>{{ videos.iso_3166_1 }}</th>
-				<td>{{ video.certification }}</td>
-				<td>{{ video.type }}</td>
-				<td>{{ video.iso_639_1 }}</td>
-				<td>{{ video.release_date }}</td>
-				<td>{{ video.note }}</td>
-			</tr>
-			{% endfor %}
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
+						<h2 class="sub-header">Release Dates</h2>
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Country</th>
+										<th>Certification</th>
+										<th>Type</th>
+										<th>iso 639 1</th>
+										<th>Release Date</th>
+										<th>Note</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for videos in movie.release_dates.results %}
+									{% for video in videos.release_dates %}
+									<tr>
+										<th>{{ videos.iso_3166_1 }}</th>
+										<td>{{ video.certification }}</td>
+										<td>{{ video.type }}</td>
+										<td>{{ video.iso_639_1 }}</td>
+										<td>{{ video.release_date }}</td>
+										<td>{{ video.note }}</td>
+									</tr>
+									{% endfor %}
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
 
-<h2 class="sub-header">Spoken Languages</h2>
-<div class="table-responsive">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>ISO 639 1</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for video in movie.spoken_languages %}
-			<tr>
-				<th>{{ video.name }}</th>
-				<td>{{ video.iso_639_1 }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
+						<h2 class="sub-header">Spoken Languages</h2>
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>ISO 639 1</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for video in movie.spoken_languages %}
+									<tr>
+										<th>{{ video.name }}</th>
+										<td>{{ video.iso_639_1 }}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
 
-<h2 class="sub-header">Alternative Titles</h2>
-<div class="table-responsive">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Type</th>
-				<th>ISO 3166 1</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for video in movie.alternative_titles.titles %}
-			<tr>
-				<th>{{ video.title }}</th>
-				<td>{{ video.type }}</td>
-				<td>{{ video.iso_3166_1 }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
+						<h2 class="sub-header">Alternative Titles</h2>
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Title</th>
+										<th>Type</th>
+										<th>ISO 3166 1</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for video in movie.alternative_titles.titles %}
+									<tr>
+										<th>{{ video.title }}</th>
+										<td>{{ video.type }}</td>
+										<td>{{ video.iso_3166_1 }}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
 
-<h2 class="sub-header">Production Companies</h2>
-<div class="table-responsive">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>&nbsp;</th>
-				<th>Name</th>
-				<th>Origin Country</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for video in movie.production_companies %}
-			<tr>
-				<th>{{ video.logo_path }}</th>
-				<td>{{ video.name }}</td>
-				<td>{{ video.origin_country }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
+						<h2 class="sub-header">Production Companies</h2>
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>&nbsp;</th>
+										<th>Name</th>
+										<th>Origin Country</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for video in movie.production_companies %}
+									<tr>
+										<th>{{ video.logo_path }}</th>
+										<td>{{ video.name }}</td>
+										<td>{{ video.origin_country }}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
 
-<h2 class="sub-header">Production Countries</h2>
-<div class="table-responsive">
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>ISO 3166 1</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for video in movie.production_countries %}
-			<tr>
-				<th>{{ video.name }}</th>
-				<td>{{ video.iso_3166_1 }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
+						<h2 class="sub-header">Production Countries</h2>
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>ISO 3166 1</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for video in movie.production_countries %}
+									<tr>
+										<th>{{ video.name }}</th>
+										<td>{{ video.iso_3166_1 }}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
 
-<div class="row">
-	<div class="col-sm-12 col-xs-12">
-		<h2 class="sub-header">Videos</h2>
-	</div>
-</div>
-<div class="row">
-	{% for video in movie.videos.results %}
-	<div class="col-sm-6 col-md-4">
-		<div class="thumbnail">
-			<a href="https://youtube.com/watch?v={{ video.key }}">
-				<div class="caption">
-					<h3>{{ video.name }}</h3>
-					<p>{{ video.type }}</p>
-					<p>{{ video.site }}</p>
-				</div>
-			</a>
-		</div>
-	</div>
-	{% endfor %}
-</div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<h2 class="sub-header">Videos</h2>
+							</div>
+						</div>
+						<div class="row">
+							{% for video in movie.videos.results %}
+							<div class="col-sm-6 col-md-4">
+								<div class="thumbnail">
+									<a href="https://youtube.com/watch?v={{ video.key }}">
+										<div class="caption">
+											<h3>{{ video.name }}</h3>
+											<p>{{ video.type }}</p>
+											<p>{{ video.site }}</p>
+										</div>
+									</a>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
 
 
-<div class="row">
-	<div class="col-sm-12 col-xs-12">
-		<h2 class="sub-header">Keywords</h2>
-	</div>
-</div>
-<div class="row">
-	{% for video in movie.keywords.keywords %}
-	<div class="col-sm-3 col-md-2">
-		<a href="{{ app.request.basePath }}/keyword.php?id={{ video.id }}">
-			<div class="label label-primary">{{ video.name }}</div>
-		</a>
-	</div>
-	{% endfor %}
-</div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<h2 class="sub-header">Keywords</h2>
+							</div>
+						</div>
+						<div class="row">
+							{% for video in movie.keywords.keywords %}
+							<div class="col-sm-3 col-md-2">
+								<a href="{{ app.request.basePath }}/keyword.php?id={{ video.id }}">
+									<div class="label label-primary">{{ video.name }}</div>
+								</a>
+							</div>
+							{% endfor %}
+						</div>
 
-<div class="row">
-	<div class="col-md-12" id="json-view">
+						<div class="row">
+							<div class="col-md-12" id="json-view">
 
-	</div>
-</div>
+							</div>
+						</div>
 {% endblock %}
