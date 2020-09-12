@@ -26,12 +26,12 @@
 								{{ movie.release_date }} (US)
 							</span>
 							<span class="genres">
-							{% for genre in movie.genres %}
+								{% for genre in movie.genres %}
 								<a href="/genre/{{ genre.id }}-{{ genre.name }}/movie">{{ genre.name }}</a>
 								{% if loop.last == false %}
 								<span>,&nbsp;</span>
 								{% endif %}
-							{% endfor %}
+								{% endfor %}
 							</span>
 							<span class="runtime">
 								{{ movie.runtime }}m
@@ -47,7 +47,7 @@
 							</div>
 						</li>
 						<li class="video none">
-							<a class="no_click play_trailer" href="#" :data-site="movie.videos.results[0].site" :data-id="movie.videos.results[0].key" data-title="Play {{ movie.videos.results[0].type }}"><span class="glyphicon glyphicon-play invert svg"></span> Play {{ movie.videos.results[0].type }}</a>
+							<a class="no_click play_trailer" href="#" data-site="movie.videos.results[0].site" data-id="movie.videos.results[0].key" data-title="Play {{ movie.videos.results[0].type }}"><span class="glyphicon glyphicon-play invert svg"></span> Play {{ movie.videos.results[0].type }}</a>
 						</li>
 					</ul>
 					<div class="header_info">
@@ -69,65 +69,12 @@
 					</div>
 				</section>
 			</div>
-
 		</div>
 	</div>
 </div>
 <div class="row">
 	<div class="col-sm-12 col-xs-12">
 		<hr>
-	</div>
-</div>
-<div class="row">
-	<div class="col-sm-6 col-md-4">
-		<div class="thumbnail">
-			<img data-src="holder.js/100%x200" alt="100%x200" style="height: 200px; width: 100%; display: block;" src="" data-holder-rendered="true">
-			<div class="caption">
-				<h3>Thumbnail label</h3>
-				<p>Second Line</p>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-6 col-md-4">
-		<div class="thumbnail">
-			<img data-src="holder.js/100%x200" alt="100%x200" style="height: 200px; width: 100%; display: block;" src="" data-holder-rendered="true">
-			<div class="caption">
-				<h3>Thumbnail label</h3>
-				<p>Second Line</p>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-6 col-md-4">
-		<div class="thumbnail">
-			<img data-src="holder.js/100%x200" alt="100%x200" style="height: 200px; width: 100%; display: block;" src="" data-holder-rendered="true">
-			<div class="caption">
-				<h3>Thumbnail label</h3>
-				<p>Second Line</p>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="row placeholders">
-	<div class="col-xs-6 col-sm-3 placeholder">
-		<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-		<h4>Label</h4>
-		<span class="text-muted">Something else</span>
-	</div>
-	<div class="col-xs-6 col-sm-3 placeholder">
-		<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-		<h4>Label</h4>
-		<span class="text-muted">Something else</span>
-	</div>
-	<div class="col-xs-6 col-sm-3 placeholder">
-		<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-		<h4>Label</h4>
-		<span class="text-muted">Something else</span>
-	</div>
-	<div class="col-xs-6 col-sm-3 placeholder">
-		<img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-		<h4>Label</h4>
-		<span class="text-muted">Something else</span>
 	</div>
 </div>
 
@@ -184,193 +131,180 @@
 		</tbody>
 	</table>
 </div>
-{
-	"images": {
-		"posters": [],
-		"backdrops": []
-	},
-	"videos": {
-		"results": [
-			{
-				"id": "5a11117392514138e7044dbc",
-				"key": "K2CTJS12RdI",
-				"name": "101 Dalmatians (1996) Trailer",
-				"site": "YouTube",
-				"size": 480,
-				"type": "Trailer",
-				"iso_639_1": "en",
-				"iso_3166_1": "US"
-			}
-		]
-	},
-	"credits": {
-		"cast": [
-			{
-				"id": 515,
-				"name": "Glenn Close",
-				"order": 0,
-				"gender": 1,
-				"cast_id": 10,
-				"character": "Cruella De Vil",
-				"credit_id": "52fe44769251416c75035a2b",
-				"profile_path": "\/8FlKKFpUZ72oTpVKdVsjMmq1CWQ.jpg"
-			},
-		],
-		"crew": [
-			{
-				"id": 7714,
-				"job": "Music",
-				"name": "Michael Kamen",
-				"gender": 2,
-				"credit_id": "52fe44769251416c75035a15",
-				"department": "Sound",
-				"profile_path": null
-			},
-		]
-	},
-	"reviews": {
-		"page": 1,
-		"results": [],
-		"total_pages": 0,
-		"total_results": 0
-	},
-	"similar": {
-		"page": 1,
-		"results": [
-			{
-				"id": 12230,
-				"adult": false,
-				"title": "One Hundred and One Dalmatians",
-				"video": false,
-				"overview": "When a litter of dalmatian puppies are abducted by the minions of Cruella De Vil, the parents must find them before she uses them for a diabolical fashion statement.\r In a Disney animation classic, Dalmatian Pongo is tired of his bachelor-dog life. He spies lovely Perdita and maneuvers his master, Roger, into meeting Perdita's owner, Anita. The owners fall in love and marry, keeping Pongo and Perdita together too. After Perdita gives birth to a litter of 15 puppies, Anita's old school friend Cruella De Vil wants to buy them all. Roger declines her offer, so Cruella hires the criminal Badun brothers to steal them -- so she can have a fur coat.",
-				"genre_ids": [
-					12,
-					16,
-					35,
-					10751
-				],
-				"popularity": 15.387,
-				"vote_count": 4363,
-				"poster_path": "\/9klDisS1sVb5LljRhpYJ0TUbPzt.jpg",
-				"release_date": "1961-01-25",
-				"vote_average": 7.1,
-				"backdrop_path": "\/npb2nrqJZDsintMTh6XOxNXfyG2.jpg",
-				"original_title": "One Hundred and One Dalmatians",
-				"original_language": "en"
-			},
-		],
-		"total_pages": 4,
-		"total_results": 71
-	},
-	"keywords": {
-		"keywords": [
-			{
-				"id": 212,
-				"name": "london, england"
-			},
-		]
-	},
-	"external_ids": {
-		"imdb_id": "tt0115433",
-		"twitter_id": null,
-		"facebook_id": null,
-		"instagram_id": null
-	},
-	"translations": {
-		"translations": [
-			{
-				"data": {
-					"title": "101 \u0434\u0430\u043b\u043c\u0430\u0442\u0438\u043d\u0446\u0438",
-					"runtime": 103,
-					"tagline": "",
-					"homepage": "",
-					"overview": "\u0412 \u041b\u043e\u043d\u0434\u043e\u043d, \u0432 \u043c\u0430\u043b\u044a\u043a \u0430\u043f\u0430\u0440\u0442\u0430\u043c\u0435\u043d\u0442, \u0420\u043e\u0434\u0436\u044a\u0440 \u0438 \u0410\u043d\u0438\u0442\u0430 \u0441\u0435 \u0440\u0430\u0434\u0432\u0430\u0442 \u043e\u0442 \u0440\u0430\u0436\u0434\u0430\u043d\u0435\u0442\u043e \u043d\u0430 15 \u043a\u0443\u0447\u0435\u043d\u0446\u0430. \u041d\u043e \u043a\u043e\u0433\u0430\u0442\u043e \u0433-\u0436\u0430 \u0414\u0435 \u0412\u0438\u043b \u0440\u0430\u0437\u0431\u0438\u0440\u0430 \u0437\u0430 \u043f\u043e\u044f\u0432\u0430\u0442\u0430 \u043d\u0430 \u043f\u0435\u0442\u043d\u0438\u0441\u0442\u0438\u0442\u0435 \u043a\u0443\u0442\u0440\u0435\u0442\u0430, \u0438\u0437\u043f\u0440\u0430\u0449\u0430 \u0441\u0432\u043e\u0438\u0442\u0435 \u0441\u043b\u0443\u0433\u0438 \u0414\u0436\u0430\u0441\u043f\u044a\u0440 \u0438 \u0425\u043e\u0440\u0430\u0441 \u0434\u0430 \u0433\u0438 \u043e\u0442\u043a\u0440\u0430\u0434\u043d\u0430\u0442. \u0417\u0430\u043f\u043e\u0447\u0432\u0430 \u0435\u0434\u043d\u0430 \u043d\u0430\u0434\u043f\u0440\u0435\u0432\u0430\u0440\u0430 \u0441 \u0432\u0440\u0435\u043c\u0435\u0442\u043e, \u0438\u0437\u043f\u044a\u043b\u043d\u0435\u043d\u0430 \u0441 \u0432\u044a\u043b\u043d\u0443\u0432\u0430\u0449\u0438 \u043c\u043e\u043c\u0435\u043d\u0442\u0438, \u0432 \u043a\u043e\u0438\u0442\u043e \u043a\u0443\u0447\u0435\u043d\u0446\u0430\u0442\u0430 \u0441\u0435 \u043e\u043f\u0438\u0442\u0432\u0430\u0442 \u0434\u0430 \u043d\u0430\u0434\u0445\u0438\u0442\u0440\u044f\u0442 \u043f\u043e\u0445\u0438\u0442\u0438\u0442\u0435\u043b\u0438\u0442\u0435 \u0441\u0438."
-				},
-				"name": "\u0431\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438 \u0435\u0437\u0438\u043a",
-				"iso_639_1": "bg",
-				"iso_3166_1": "BG",
-				"english_name": "Bulgarian"
-			},
-		]
-	},
-	"release_dates": {
-		"results": [
-			{
-				"iso_3166_1": "GB",
-				"release_dates": [
-					{
-						"note": "",
-						"type": 3,
-						"iso_639_1": "",
-						"release_date": "1996-12-13T00:00:00.000Z",
-						"certification": "U"
-					}
-				]
-			},
-		]
-	},
-	"recommendations": {
-		"page": 1,
-		"results": [
-			{
-				"id": 10481,
-				"adult": false,
-				"title": "102 Dalmatians",
-				"video": false,
-				"overview": "Get ready for a howling good time as an all new assortment of irresistible animal heroes are unleashed in this great family tail! In an unlikely alliance, the outrageous Waddlesworth... a parrot who thinks he's a Rottweiler... teams up with Oddball... an un-marked Dalmation puppy eager to earn her spots! Together they embark on a laugh-packed quest to outwit the ever-scheming Cruella De Vil",
-				"genre_ids": [
-					35,
-					10751
-				],
-				"popularity": 8.739,
-				"vote_count": 919,
-				"poster_path": "\/dSxnIika9yWwTvEbpsmoGdeh65E.jpg",
-				"release_date": "2000-10-07",
-				"vote_average": 5.5,
-				"backdrop_path": "\/gfwDO5Cx3ovGHauTURI4NHdB9MH.jpg",
-				"original_title": "102 Dalmatians",
-				"original_language": "en"
-			},
-		],
-		"total_pages": 2,
-		"total_results": 40
-	},
-	"spoken_languages": [
+
+<h2 class="sub-header">Credits</h2>
+<h3 class="sub-header">Cast</h3>
+<div class="row placeholders">
+	{% for person in movie.credits.cast %}
+	<div class="col-xs-6 col-sm-3 placeholder">
+		<a href="person?id={{ person.id }}">
+			<img src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" width="200" height="200" class="img-responsive" alt="{{ person.name }}">
+			<h4>{{ person.name }}</h4>
+			<span class="text-muted">{{ person.character }}</span>
+		</a>
+	</div>
+	{% endfor %}
+</div>
+<h3 class="sub-header">Crew</h3>
+<div class="row placeholders">
+	{% for person in movie.credits.crew %}
+	<div class="col-xs-6 col-sm-3 placeholder">
+		<a href="person?id={{ person.id }}">
+			<img src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" width="200" height="200" class="img-responsive" alt="{{ person.name }}">
+			<h4>{{ person.name }}</h4>
+			<span class="text-muted">{{ person.job }}</span>
+			<span class="text-muted">{{ person.department }}</span>
+		</a>
+	</div>
+	{% endfor %}
+</div>
+
+<div class="row">
+	<div class="col-sm-12 col-xs-12">
+		<h2 class="sub-header">Similar</h2>
+	</div>
+</div>
+<div class="row">
+	{% for video in movie.similar.results %}
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<a href="movie.php?id={{ video.id }}">
+				<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ video.poster_path }}" >
+				<div class="caption">
+					<h3>{{ video.title }}</h3>
+					<p>{{ video.vote_average }}</p>
+					<p>{{ video.release_date }}</p>
+				</div>
+			</a>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+<div class="row">
+	<div class="col-sm-12 col-xs-12">
+		<h2 class="sub-header">Recommendations</h2>
+	</div>
+</div>
+<div class="row">
+	{% for video in movie.recommendations.results %}
+	<div class="col-sm-6 col-md-4">
+		<div class="thumbnail">
+			<a href="movie.php?id={{ video.id }}">
+				<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ video.poster_path }}" >
+				<div class="caption">
+					<h3>{{ video.title }}</h3>
+					<p>{{ video.vote_average }}</p>
+					<p>{{ video.release_date }}</p>
+				</div>
+			</a>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+<div class="row">
+	<div class="col-sm-8 col-md-6">
+		<div class="thumbnail">
+			<a href="movie.php?id={{ movie.belongs_to_collection.id }}">
+				<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ movie.belongs_to_collection.poster_path }}" >
+				<div class="caption">
+					<h3>{{ movie.belongs_to_collection.name }}</h3>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 col-xs-12">
+		<pre>	
+"videos": {
+	"results": [
 		{
-			"name": "English",
-			"iso_639_1": "en"
+			"id": "5a11117392514138e7044dbc",
+			"key": "K2CTJS12RdI",
+			"name": "101 Dalmatians (1996) Trailer",
+			"site": "YouTube",
+			"size": 480,
+			"type": "Trailer",
+			"iso_639_1": "en",
+			"iso_3166_1": "US"
 		}
-	],
-	"alternative_titles": {
-		"titles": [
-			{
-				"type": "",
-				"title": "101 Dalmatiner \u2013 Diesmal sind die Hunde echt",
-				"iso_3166_1": "DE"
-			},
-		]
-	},
-	"production_companies": [
+	]
+},
+"images": {
+	"posters": [],
+	"backdrops": []
+},
+"reviews": {
+	"page": 1,
+	"results": [],
+	"total_pages": 0,
+	"total_results": 0
+},
+"keywords": {
+	"keywords": [
 		{
-			"id": 2173,
-			"name": "Great Oaks Entertainment",
-			"logo_path": null,
-			"origin_country": ""
+			"id": 212,
+			"name": "london, england"
 		},
-	],
-	"production_countries": [
+	]
+},
+"external_ids": {
+	"imdb_id": "tt0115433",
+	"twitter_id": null,
+	"facebook_id": null,
+	"instagram_id": null
+},
+"release_dates": {
+	"results": [
 		{
-			"name": "United Kingdom",
-			"iso_3166_1": "GB"
+			"iso_3166_1": "GB",
+			"release_dates": [
+				{
+					"note": "",
+					"type": 3,
+					"iso_639_1": "",
+					"release_date": "1996-12-13T00:00:00.000Z",
+					"certification": "U"
+				}
+			]
 		},
-	],
-	"belongs_to_collection": {
-		"id": 124916,
-		"name": "101 Dalmatians (Live-Action) Collection",
-		"poster_path": "\/oSeIai1ioj4dbq7WgbPzpsSCzkS.jpg",
-		"backdrop_path": "\/eTaNHqpi7VldgcrDetfTzk4FeDi.jpg"
+	]
+},
+"spoken_languages": [
+	{
+		"name": "English",
+		"iso_639_1": "en"
 	}
+],
+"alternative_titles": {
+	"titles": [
+		{
+			"type": "",
+			"title": "101 Dalmatiner \u2013 Diesmal sind die Hunde echt",
+			"iso_3166_1": "DE"
+		},
+	]
+},
+"production_companies": [
+	{
+		"id": 2173,
+		"name": "Great Oaks Entertainment",
+		"logo_path": null,
+		"origin_country": ""
+	},
+],
+"production_countries": [
+	{
+		"name": "United Kingdom",
+		"iso_3166_1": "GB"
+	},
+],
 }
+		</pre>
+	</div>
+</div>
 <div class="row">
 	<div class="col-md-12" id="json-view">
 
