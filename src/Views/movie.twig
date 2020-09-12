@@ -226,6 +226,121 @@
 		</div>
 	</div>
 </div>
+
+<h2 class="sub-header">Release Dates</h2>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Country</th>
+				<th>Certification</th>
+				<th>Type</th>
+				<th>iso 639 1</th>
+				<th>Release Date</th>
+				<th>Note</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for videos in movie.release_dates.results %}
+			{% for video in videos.release_dates %}
+			<tr>
+				<th>{{ videos.iso_3166_1 }}</th>
+				<td>{{ video.certification }}</td>
+				<td>{{ video.type }}</td>
+				<td>{{ video.iso_639_1 }}</td>
+				<td>{{ video.release_date }}</td>
+				<td>{{ video.note }}</td>
+			</tr>
+			{% endfor %}
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<h2 class="sub-header">Spoken Languages</h2>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>ISO 639 1</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for video in movie.spoken_languages %}
+			<tr>
+				<th>{{ video.name }}</th>
+				<td>{{ video.iso_639_1 }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<h2 class="sub-header">Alternative Titles</h2>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Type</th>
+				<th>ISO 3166 1</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for video in movie.alternative_titles.titles %}
+			<tr>
+				<th>{{ video.title }}</th>
+				<td>{{ video.type }}</td>
+				<td>{{ video.iso_3166_1 }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<h2 class="sub-header">Production Companies</h2>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th>Name</th>
+				<th>Origin Country</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for video in movie.production_companies %}
+			<tr>
+				<th>{{ video.logo_path }}</th>
+				<td>{{ video.name }}</td>
+				<td>{{ video.origin_country }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<h2 class="sub-header">Production Countries</h2>
+<div class="table-responsive">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>ISO 3166 1</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for video in movie.production_countries %}
+			<tr>
+				<th>{{ video.name }}</th>
+				<td>{{ video.iso_3166_1 }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
 <div class="row">
 	<div class="col-sm-12 col-xs-12">
 		<pre>	
@@ -243,16 +358,6 @@
 		}
 	]
 },
-"images": {
-	"posters": [],
-	"backdrops": []
-},
-"reviews": {
-	"page": 1,
-	"results": [],
-	"total_pages": 0,
-	"total_results": 0
-},
 "keywords": {
 	"keywords": [
 		{
@@ -267,51 +372,6 @@
 	"facebook_id": null,
 	"instagram_id": null
 },
-"release_dates": {
-	"results": [
-		{
-			"iso_3166_1": "GB",
-			"release_dates": [
-				{
-					"note": "",
-					"type": 3,
-					"iso_639_1": "",
-					"release_date": "1996-12-13T00:00:00.000Z",
-					"certification": "U"
-				}
-			]
-		},
-	]
-},
-"spoken_languages": [
-	{
-		"name": "English",
-		"iso_639_1": "en"
-	}
-],
-"alternative_titles": {
-	"titles": [
-		{
-			"type": "",
-			"title": "101 Dalmatiner \u2013 Diesmal sind die Hunde echt",
-			"iso_3166_1": "DE"
-		},
-	]
-},
-"production_companies": [
-	{
-		"id": 2173,
-		"name": "Great Oaks Entertainment",
-		"logo_path": null,
-		"origin_country": ""
-	},
-],
-"production_countries": [
-	{
-		"name": "United Kingdom",
-		"iso_3166_1": "GB"
-	},
-],
 }
 		</pre>
 	</div>
