@@ -1,1 +1,13 @@
 Header set Access-Control-Allow-Origin "*"
+
+#<IfModule mod_rewrite.c>
+#		RewriteEngine On
+#		RewriteBase /
+#		RewriteCond %{REQUEST_URI} !\.(png|jpe?g|gif|css|js)$ [NC]
+#		RewriteCond %{REQUEST_URI} !^/(images|js|css|lib|jquery)/
+#		RewriteCond %{REQUEST_FILENAME} !-d
+#		RewriteCond %{REQUEST_FILENAME} !-f
+#		RewriteCond %{REQUEST_FILENAME} !-l
+#		RewriteRule ^(.*)$ route.php [QSA,L]
+#		#RewriteRule ^(.*)$ index.php?choice=none.$1 [QSA,L]
+#</IfModule>
