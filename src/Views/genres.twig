@@ -5,7 +5,7 @@
 	{% for genre in genres %}
 	<div class="col-sm-6 col-md-4">
 		<div class="thumbnail">
-			<a href="{{ app.request.basePath }}/genre.php?id={{ genre.id }}">
+			<a href="{{ app.request.basePath }}/genres/{{ genre.id }}">
 				<div class="caption">
 					<h3 style="">{{ genre.name }}  <small><div class="label label-info">{{ genre.count }} movies</div></small></h3>
 				</div>
