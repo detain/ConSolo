@@ -2,7 +2,7 @@
 
 namespace Detain\ConSolo\Models;
 
-class Api extends Base {
+class Web extends Base {
 
 	public function index() {
 		
@@ -11,18 +11,25 @@ class Api extends Base {
 	public function movies() {
 		$limit = 100;
 		$rows = $this->db->query("select tmdb_movie.id, title, poster_path, vote_average, overview, release_date from movies left join tmdb_movie on tmdb_movie.id=movies.tmdb_id left join files on file_id=files.id where host={$this->hostId} and title is not null order by title limit {$limit}");
-		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($rows, JSON_PRETTY_PRINT);
+		echo $this->twig->render('movies.twig', [
+			'results' => $rows,
+			'queryString' => $_SERVER['QUERY_STRING']
+		]);		
 	}
 	
 	public function movie($vars) {
 		$response = [];
+		if (isset($vars['id'])) {
+			$id = (int)$vars['id'];
+			$json = json_decode($this->db->single("select doc from tmdb_movie where id={$id} limit 1"), true);
+		}
+		$fileId = $this->db->single("select id from files where tmdb_id={$json['id']} and host={$this->hostId}");
+		echo $this->twig->render('movie.twig', [
+			'movie' => $json,
+			'fileId' => $fileId,
+			'queryString' => $_SERVER['QUERY_STRING']
+		]);
 		
-		$id = (int)$vars['id'];
-		$json = json_decode($this->db->single("select doc from tmdb_movie where id={$id} limit 1"), true);
-		$json['fileId'] = $this->db->single("select id from files where tmdb_id={$json['id']} and host={$this->hostId}");
-		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($json, JSON_PRETTY_PRINT);
 	}    
 
 	public function genres() {
@@ -42,8 +49,10 @@ class Api extends Base {
 					$genres[$genre['name']]['count']++;
 				}    
 		}
-		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($genres, JSON_PRETTY_PRINT);
+		echo $this->twig->render('genres.twig', [
+			'genres' => $genres,
+			'queryString' => $_SERVER['QUERY_STRING']
+		]);
 	}    
 
 	public function collections() {
