@@ -179,6 +179,7 @@ function isMediainfo($ext) {
 * @return bool
 */
 function isExifinfo($ext) {
+	//$validExt = explode(' ', trim(`exiftool -listf|grep -v :|cut -c3-|tr "\n" " "|tr "\[A-Z\]" "\[a-z\]"`));
 	$validExt = ['3fr','3g2','3gp','3gp2','3gpp','a','aa','aae','aax','acfm','acr','afm','ai','aif','aifc','aiff','ait','amfm',
 		'ape','arq','arw','asf','avi','avif','azw','azw3','bmp','bpg','btf','chm','ciff','cos','cr2','cr3','crw','cs1','csv',
 		'dc3','dcm','dcp','dcr','dfont','dib','dic','dicm','divx','djv','djvu','dll','dng','doc','docm','docx','dot','dotm',
