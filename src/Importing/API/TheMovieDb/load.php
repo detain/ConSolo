@@ -45,8 +45,9 @@ Syntax: {$program} <-l lists> <-d #> <-p #> <-r> <-s>
 		}
 	}
 }
-foreach (['Movie', 'TV'] as $type) {
-	echo 'Loading and populating '.$type.' Genres..';
+echo 'Loading and populating Genres..'.PHP_EOL;
+	foreach (['Movie', 'TV'] as $type) {
+	echo '  '.$type.'...';
 	$ids = $db->select('id')
 		->from('tmdb_'.strtolower($type).'_genre')
 		->column();
@@ -102,11 +103,22 @@ foreach ($lists as $list) {
 		if (count($ids) > 0) {
 			echo '  Got '.count($ids).' Leftover IDs, deleting...'.PHP_EOL;
 			foreach ($ids as $id) {
-				$db->delete('tmdb_'.$list)
-					->where('id='.$id)
-					->query();
+				try {
+					$db->delete('tmdb_'.$list)
+						->where('id='.$id)
+						->query();
+				} catch (\PDOException $e) {
+					echo '  Got Exception #'.$e->getCode().': '.$e->getMessage().' Deleting ID '.$id.PHP_EOL;
+					$db->update('files')
+						->cols(['imdb_id' => null, 'tmdb_id' => null])
+						->where('tmdb_id='.$id)
+						->query();
+					$db->delete('tmdb_'.$list)
+						->where('id='.$id)
+						->query();
+				}
 			}
-			echo 'done'.PHP_EOL;
+			echo '  done'.PHP_EOL;
 		}        
 	}
 	unset($lines);
@@ -135,7 +147,7 @@ foreach ($lists as $list) {
 		$ids = [];
 	$total = count($ids);
 	$partSize = ceil($total / $divide);
-	echo $total.' Total IDs in '.$divide.' Parts = '.$partSize.' IDs/part'.PHP_EOL;
+	echo '  '.$total.' Total IDs in '.$divide.' Parts = '.$partSize.' IDs/part'.PHP_EOL;
 	$start = ($part - 1) * $partSize;
 	$end = $part * $partSize;
 	if ($end > $total) {
@@ -146,9 +158,9 @@ foreach ($lists as $list) {
 		$total = count($ids);
 	}
 	$counter = 0;
-	echo '['.$part.'/'.$divide.'] #'.$counter.' '.(isset($ip) ? 'IP '.$ip.' ' : '').'Divided them into a section of '.$total.' ids'.PHP_EOL;
+	echo '  ['.$part.'/'.$divide.'] #'.$counter.' '.(isset($ip) ? 'IP '.$ip.' ' : '').'Divided them into a section of '.$total.' ids'.PHP_EOL;
 	foreach ($ids as $idx => $id) {
-		echo '['.$list.'] # '.$id.' ['.$idx.'/'.$total.']';
+		echo '  ['.$list.'] # '.$id.' ['.$idx.'/'.$total.']';
 		$func = 'loadTmdb'.str_replace(' ', '', ucwords(str_replace('_', ' ', $list)));
 		$response = call_user_func($func, $id);
 		if (isset($response['id']))
