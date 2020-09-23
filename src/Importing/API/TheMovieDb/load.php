@@ -67,51 +67,41 @@ foreach (['Movie', 'TV'] as $type) {
 foreach ($lists as $list) {
 	echo 'Working on List '.$list.PHP_EOL;
 	$Url = 'http://files.tmdb.org/p/exports/'.$list.'_ids_'.$exportDate.'.json.gz';
-	echo 'Loading Existing IDs from tmdb_'.$list.' table...';
+	echo '  Loading Existing IDs from tmdb_'.$list.' table...';
 	$ids = $db->select('id')
 		->from('tmdb_'.$list)
 		->column();
 	if (!is_array($ids) && is_null($ids))
 		$ids = [];
 	echo count($ids).' loaded'.PHP_EOL;
-	echo 'Loading '.$list.' IDs '.$Url.PHP_EOL;
+	echo '  Loading '.$list.' IDs '.$Url.PHP_EOL;
 	$lines = explode("\n", trim(gzdecode(getcurlpage($Url))));
 	$json = '['.implode(',', $lines).']';
 	$lines = json_decode($json, true);    
-	echo 'Parsing '.count($lines).' Results..';
+	echo '  Parsing '.count($lines).' Results..';
 	if (count($lines) == count($ids) || count($lines) == 0) {
-		echo 'skipping update due to matching id counts. ';
+		echo 'skipping update due to matching id counts. '.PHP_EOL;
 	} else {
-		$foundIds = [];
 		foreach ($lines as $idx => $line) {
 			if ($idx % 50000 == 0) {
 				echo '[#'.$idx.']';
 			}
-			if (!in_array($line['id'], $ids)) {
+			$idx = array_search($line['id'], $ids);
+			if ($idx === false) {
 				//echo 'inserting '.$line;
 				$id = $db->insert('tmdb_'.$list)
 					->cols(['doc' => json_encode($line, JSON_PRETTY_PRINT)])
 					->lowPriority($config['db_low_priority'])
 					->query();
 				echo '+';
-			} else {
-				//$idx = array_search($line['id'], $ids);
-				//unset($ids[$idx]);
-				$foundIds[] = $line['id'];
+			} else {				
+				unset($ids[$idx]);
 			}
 		}
 		echo 'done'.PHP_EOL;
-		echo 'Counting leftover Ids..';
-		$leftIds = [];
-		foreach ($ids as $id) {
-			if (!in_array($id, $foundIds)) {
-				$leftIds[] = $id;
-			}
-		}
-		echo 'done'.PHP_EOL;
-		if (count($leftIds) > 0) {
-			echo 'Got '.count($leftIds).' Leftover IDs, deleting...'.PHP_EOL;
-			foreach ($leftIds as $id) {
+		if (count($ids) > 0) {
+			echo '  Got '.count($ids).' Leftover IDs, deleting...'.PHP_EOL;
+			foreach ($ids as $id) {
 				$db->delete('tmdb_'.$list)
 					->where('id='.$id)
 					->query();
@@ -119,11 +109,9 @@ foreach ($lists as $list) {
 			echo 'done'.PHP_EOL;
 		}        
 	}
-	unset($foundIds);
-	unset($leftIds);
 	unset($lines);
+	unset($json);    
 	unset($ids);    
-	echo 'done'.PHP_EOL;	
 }
 foreach ($lists as $list) {
 	echo 'Working on List '.$list.PHP_EOL;
