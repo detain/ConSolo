@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3af135e87a4db9fccd26c342f61207b9",
+    "content-hash": "54d22097d92ee2c5edd8fc072973fb2b",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -74,12 +74,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/aminyazdanpanah/PHP-FFmpeg-video-streaming.git",
-                "reference": "83334486e1c198b3972ae520b10cbb63b86abff3"
+                "reference": "46cf59bd0603fa501f53795c46cdc0b3f8b97b58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aminyazdanpanah/PHP-FFmpeg-video-streaming/zipball/83334486e1c198b3972ae520b10cbb63b86abff3",
-                "reference": "83334486e1c198b3972ae520b10cbb63b86abff3",
+                "url": "https://api.github.com/repos/aminyazdanpanah/PHP-FFmpeg-video-streaming/zipball/46cf59bd0603fa501f53795c46cdc0b3f8b97b58",
+                "reference": "46cf59bd0603fa501f53795c46cdc0b3f8b97b58",
                 "shasum": ""
             },
             "require": {
@@ -148,7 +148,7 @@
                 "video",
                 "video-streaming"
             ],
-            "time": "2020-08-10T10:57:11+00:00"
+            "time": "2020-09-17T17:49:07+00:00"
         },
         {
             "name": "amphp/amp",
@@ -651,143 +651,6 @@
             "time": "2020-05-24T12:15:43+00:00"
         },
         {
-            "name": "composer/installers",
-            "version": "v1.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/installers.git",
-                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
-                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0"
-            },
-            "replace": {
-                "roundcube/plugin-installer": "*",
-                "shama/baton": "*"
-            },
-            "require-dev": {
-                "composer/composer": "1.6.* || 2.0.*@dev",
-                "composer/semver": "1.0.* || 2.0.*@dev",
-                "phpunit/phpunit": "^4.8.36",
-                "sebastian/comparator": "^1.2.4",
-                "symfony/process": "^2.3"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Composer\\Installers\\Plugin",
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\Installers\\": "src/Composer/Installers"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kyle Robinson Young",
-                    "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama"
-                }
-            ],
-            "description": "A multi-framework Composer library installer",
-            "homepage": "https://composer.github.io/installers/",
-            "keywords": [
-                "Craft",
-                "Dolibarr",
-                "Eliasis",
-                "Hurad",
-                "ImageCMS",
-                "Kanboard",
-                "Lan Management System",
-                "MODX Evo",
-                "MantisBT",
-                "Mautic",
-                "Maya",
-                "OXID",
-                "Plentymarkets",
-                "Porto",
-                "RadPHP",
-                "SMF",
-                "Thelia",
-                "Whmcs",
-                "WolfCMS",
-                "agl",
-                "aimeos",
-                "annotatecms",
-                "attogram",
-                "bitrix",
-                "cakephp",
-                "chef",
-                "cockpit",
-                "codeigniter",
-                "concrete5",
-                "croogo",
-                "dokuwiki",
-                "drupal",
-                "eZ Platform",
-                "elgg",
-                "expressionengine",
-                "fuelphp",
-                "grav",
-                "installer",
-                "itop",
-                "joomla",
-                "known",
-                "kohana",
-                "laravel",
-                "lavalite",
-                "lithium",
-                "magento",
-                "majima",
-                "mako",
-                "mediawiki",
-                "modulework",
-                "modx",
-                "moodle",
-                "osclass",
-                "phpbb",
-                "piwik",
-                "ppi",
-                "puppet",
-                "pxcms",
-                "reindex",
-                "roundcube",
-                "shopware",
-                "silverstripe",
-                "sydes",
-                "sylius",
-                "symfony",
-                "typo3",
-                "wordpress",
-                "yawik",
-                "zend",
-                "zikula"
-            ],
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-04-07T06:57:05+00:00"
-        },
-        {
             "name": "doctrine/cache",
             "version": "dev-master",
             "source": {
@@ -1076,24 +939,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "bbf3b200bc83c1e9298580a9f99b9be248543467"
+                "reference": "8d7c8fb942cb9856b7b5c98e68e9c34d56e806a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/bbf3b200bc83c1e9298580a9f99b9be248543467",
-                "reference": "bbf3b200bc83c1e9298580a9f99b9be248543467",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/8d7c8fb942cb9856b7b5c98e68e9c34d56e806a9",
+                "reference": "8d7c8fb942cb9856b7b5c98e68e9c34d56e806a9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.36 || ^5.7.27 || ^7.5"
+                "symfony/phpunit-bridge": "^4.4 || ^5.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -1119,7 +982,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2020-06-21T23:10:57+00:00"
+            "time": "2020-09-21T06:06:31+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -1127,12 +990,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "188cc82398f157483976ccf61bd04ee80afcf29c"
+                "reference": "ba0f9e2b36630745137a79df1674da01cd0df461"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/188cc82398f157483976ccf61bd04ee80afcf29c",
-                "reference": "188cc82398f157483976ccf61bd04ee80afcf29c",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/ba0f9e2b36630745137a79df1674da01cd0df461",
+                "reference": "ba0f9e2b36630745137a79df1674da01cd0df461",
                 "shasum": ""
             },
             "require": {
@@ -1153,7 +1016,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6-dev"
+                    "dev-master": "1.7-dev"
                 }
             },
             "autoload": {
@@ -1190,7 +1053,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2020-05-17T20:05:25+00:00"
+            "time": "2020-09-19T15:30:49+00:00"
         },
         {
             "name": "imdbphp/imdbphp",
@@ -1376,12 +1239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/loilo/Fuse.git",
-                "reference": "ff359d9147928f05c5741df7e85868efbbd81d67"
+                "reference": "d71b9637e0454a2c72ddcdfbf64fdc41c64b3d72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loilo/Fuse/zipball/ff359d9147928f05c5741df7e85868efbbd81d67",
-                "reference": "ff359d9147928f05c5741df7e85868efbbd81d67",
+                "url": "https://api.github.com/repos/loilo/Fuse/zipball/d71b9637e0454a2c72ddcdfbf64fdc41c64b3d72",
+                "reference": "d71b9637e0454a2c72ddcdfbf64fdc41c64b3d72",
                 "shasum": ""
             },
             "require": {
@@ -1417,50 +1280,7 @@
                 }
             ],
             "description": "Fuzzy search for PHP based on Bitap algorithm",
-            "time": "2020-03-10T12:33:11+00:00"
-        },
-        {
-            "name": "lucascavalcante/fuzzy-search",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lucascavalcante/fuzzy-search.git",
-                "reference": "4f904078378f0f7e3cc6776f95db4e14bd781c3a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lucascavalcante/fuzzy-search/zipball/4f904078378f0f7e3cc6776f95db4e14bd781c3a",
-                "reference": "4f904078378f0f7e3cc6776f95db4e14bd781c3a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FuzzySearch\\": "src/FuzzySearch"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lucas Cavalcante",
-                    "email": "lucascavalcante@gmail.com"
-                }
-            ],
-            "description": "A PHP library that turns easy fuzzy string searching",
-            "keywords": [
-                "fuzzy",
-                "matching",
-                "search",
-                "searching",
-                "string"
-            ],
-            "time": "2019-06-28T13:13:19+00:00"
+            "time": "2020-09-16T13:01:28+00:00"
         },
         {
             "name": "matto1990/lastfm-api",
@@ -1712,106 +1532,6 @@
                 "routing"
             ],
             "time": "2020-08-19T08:42:31+00:00"
-        },
-        {
-            "name": "nikic/php-parser",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "f66a32e2df7866d593fa7a1bb582348f772511b0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f66a32e2df7866d593fa7a1bb582348f772511b0",
-                "reference": "f66a32e2df7866d593fa7a1bb582348f772511b0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
-            },
-            "bin": [
-                "bin/php-parse"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.9-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PhpParser\\": "lib/PhpParser"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nikita Popov"
-                }
-            ],
-            "description": "A PHP parser written in PHP",
-            "keywords": [
-                "parser",
-                "php"
-            ],
-            "time": "2020-09-06T15:42:38+00:00"
-        },
-        {
-            "name": "oefenweb/damerau-levenshtein",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Oefenweb/damerau-levenshtein.git",
-                "reference": "7653f9900188b3fc1788a4c88a104eac2195ae09"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Oefenweb/damerau-levenshtein/zipball/7653f9900188b3fc1788a4c88a104eac2195ae09",
-                "reference": "7653f9900188b3fc1788a4c88a104eac2195ae09",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "~1.0",
-                "php": ">=7.0.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Oefenweb\\DamerauLevenshtein\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ph4r05",
-                    "homepage": "http://www.phpclasses.org/package/7021-PHP-Get-text-similarity-level-with-Damerau-Levenshtein.html"
-                },
-                {
-                    "name": "Oefenweb.nl BV team",
-                    "homepage": "https://github.com/Oefenweb/damerau-levenshtein/contributors"
-                }
-            ],
-            "description": "Get text similarity level with Damerau-Levenshtein distance",
-            "homepage": "http://github.com/Oefenweb/damerau-levenshtein",
-            "keywords": [
-                "damerau",
-                "distance",
-                "levenshtein",
-                "similarity"
-            ],
-            "time": "2019-01-23T11:18:43+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2113,55 +1833,17 @@
             "time": "2018-02-27T17:30:27+00:00"
         },
         {
-            "name": "phpspec/php-diff",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpspec/php-diff.git",
-                "reference": "0464787bfa7cd13576c5a1e318709768798bec6a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/php-diff/zipball/0464787bfa7cd13576c5a1e318709768798bec6a",
-                "reference": "0464787bfa7cd13576c5a1e318709768798bec6a",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Diff": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Boulton",
-                    "homepage": "http://github.com/chrisboulton"
-                }
-            ],
-            "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
-            "time": "2016-04-07T12:29:16+00:00"
-        },
-        {
             "name": "predis/predis",
             "version": "v1.1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "fbbef2a0a235ab9a1228f312b1ea7fcf05b6c7d3"
+                "reference": "5f4b87080f4df0042a57d537137c1d2c17a2b79a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/fbbef2a0a235ab9a1228f312b1ea7fcf05b6c7d3",
-                "reference": "fbbef2a0a235ab9a1228f312b1ea7fcf05b6c7d3",
+                "url": "https://api.github.com/repos/predis/predis/zipball/5f4b87080f4df0042a57d537137c1d2c17a2b79a",
+                "reference": "5f4b87080f4df0042a57d537137c1d2c17a2b79a",
                 "shasum": ""
             },
             "require": {
@@ -2223,7 +1905,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-11T19:20:11+00:00"
+            "time": "2020-09-20T15:16:49+00:00"
         },
         {
             "name": "psr/http-message",
@@ -2281,12 +1963,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
+                "reference": "dd738d0b4491f32725492cf345f6b501f5922fec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
-                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/dd738d0b4491f32725492cf345f6b501f5922fec",
+                "reference": "dd738d0b4491f32725492cf345f6b501f5922fec",
                 "shasum": ""
             },
             "require": {
@@ -2310,7 +1992,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for logging libraries",
@@ -2320,7 +2002,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2020-03-23T09:12:05+00:00"
+            "time": "2020-09-18T06:44:51+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -2448,24 +2130,24 @@
         },
         {
             "name": "react/cache",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/cache.git",
-                "reference": "aa10d63a1b40a36a486bdf527f28bac607ee6466"
+                "reference": "44a568925556b0bd8cacc7b49fb0f1cf0d706a0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/cache/zipball/aa10d63a1b40a36a486bdf527f28bac607ee6466",
-                "reference": "aa10d63a1b40a36a486bdf527f28bac607ee6466",
+                "url": "https://api.github.com/repos/reactphp/cache/zipball/44a568925556b0bd8cacc7b49fb0f1cf0d706a0c",
+                "reference": "44a568925556b0bd8cacc7b49fb0f1cf0d706a0c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "react/promise": "~2.0|~1.1"
+                "react/promise": "^3.0 || ^2.0 || ^1.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.4 || ^5.7 || ^4.8.35"
+                "phpunit/phpunit": "^9.3 || ^5.7 || ^4.8.35"
             },
             "type": "library",
             "autoload": {
@@ -2477,6 +2159,28 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@clue.engineering",
+                    "homepage": "https://clue.engineering/"
+                },
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "reactphp@ceesjankiewiet.nl",
+                    "homepage": "https://wyrihaximus.net/"
+                },
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com",
+                    "homepage": "https://sorgalla.com/"
+                },
+                {
+                    "name": "Chris Boden",
+                    "email": "cboden@gmail.com",
+                    "homepage": "https://cboden.dev/"
+                }
+            ],
             "description": "Async, Promise-based cache interface for ReactPHP",
             "keywords": [
                 "cache",
@@ -2484,7 +2188,17 @@
                 "promise",
                 "reactphp"
             ],
-            "time": "2019-07-11T13:45:28+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/WyriHaximus",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/clue",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-09-18T12:12:35+00:00"
         },
         {
             "name": "react/child-process",
@@ -2563,16 +2277,16 @@
         },
         {
             "name": "react/dns",
-            "version": "v1.3.0",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/dns.git",
-                "reference": "89d83794e959ef3e0f1ab792f070b0157de1abf2"
+                "reference": "665260757171e2ab17485b44e7ffffa7acb6ca1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/dns/zipball/89d83794e959ef3e0f1ab792f070b0157de1abf2",
-                "reference": "89d83794e959ef3e0f1ab792f070b0157de1abf2",
+                "url": "https://api.github.com/repos/reactphp/dns/zipball/665260757171e2ab17485b44e7ffffa7acb6ca1f",
+                "reference": "665260757171e2ab17485b44e7ffffa7acb6ca1f",
                 "shasum": ""
             },
             "require": {
@@ -2584,7 +2298,7 @@
             },
             "require-dev": {
                 "clue/block-react": "^1.2",
-                "phpunit/phpunit": "^9.0 || ^4.8.35"
+                "phpunit/phpunit": "^9.3 || ^4.8.35"
             },
             "type": "library",
             "autoload": {
@@ -2596,6 +2310,28 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@clue.engineering",
+                    "homepage": "https://clue.engineering/"
+                },
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "reactphp@ceesjankiewiet.nl",
+                    "homepage": "https://wyrihaximus.net/"
+                },
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com",
+                    "homepage": "https://sorgalla.com/"
+                },
+                {
+                    "name": "Chris Boden",
+                    "email": "cboden@gmail.com",
+                    "homepage": "https://cboden.dev/"
+                }
+            ],
             "description": "Async DNS resolver for ReactPHP",
             "keywords": [
                 "async",
@@ -2603,7 +2339,17 @@
                 "dns-resolver",
                 "reactphp"
             ],
-            "time": "2020-07-10T12:12:50+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/WyriHaximus",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/clue",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-09-18T12:12:55+00:00"
         },
         {
             "name": "react/event-loop",
@@ -3100,12 +2846,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "425be18066a07ae07112a0aec85bf16f9cd02ed1"
+                "reference": "81cb95735a719403eddb77fc78e21362b56d9ea9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/425be18066a07ae07112a0aec85bf16f9cd02ed1",
-                "reference": "425be18066a07ae07112a0aec85bf16f9cd02ed1",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/81cb95735a719403eddb77fc78e21362b56d9ea9",
+                "reference": "81cb95735a719403eddb77fc78e21362b56d9ea9",
                 "shasum": ""
             },
             "conflict": {
@@ -3151,8 +2897,8 @@
                 "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
                 "dolibarr/dolibarr": "<11.0.4",
                 "dompdf/dompdf": ">=0.6,<0.6.2",
-                "drupal/core": ">=7,<7.72|>=8,<8.8.8|>=8.9,<8.9.1|>=9,<9.0.1",
-                "drupal/drupal": ">=7,<7.72|>=8,<8.8.8|>=8.9,<8.9.1|>=9,<9.0.1",
+                "drupal/core": ">=7,<7.73|>=8,<8.8.10|>=8.9,<8.9.6|>=9,<9.0.6",
+                "drupal/drupal": ">=7,<7.73|>=8,<8.8.10|>=8.9,<8.9.6|>=9,<9.0.6",
                 "endroid/qr-code-bundle": "<3.4.2",
                 "enshrined/svg-sanitize": "<0.13.1",
                 "erusev/parsedown": "<1.7.2",
@@ -3236,6 +2982,7 @@
                 "phpxmlrpc/extras": "<0.6.1",
                 "pimcore/pimcore": "<6.3",
                 "prestashop/autoupgrade": ">=4,<4.10.1",
+                "prestashop/contactform": ">1.0.1,<4.3",
                 "prestashop/gamification": "<2.3.2",
                 "prestashop/ps_facetedsearch": "<3.4.1",
                 "privatebin/privatebin": "<1.2.2|>=1.3,<1.3.2",
@@ -3244,6 +2991,7 @@
                 "pusher/pusher-php-server": "<2.2.1",
                 "rainlab/debugbar-plugin": "<3.1",
                 "robrichards/xmlseclibs": "<3.0.4",
+                "sabberworm/php-css-parser": ">=1,<1.0.1|>=2,<2.0.1|>=3,<3.0.1|>=4,<4.0.1|>=5,<5.0.9|>=5.1,<5.1.3|>=5.2,<5.2.1|>=6,<6.0.2|>=7,<7.0.4|>=8,<8.0.1|>=8.1,<8.1.1|>=8.2,<8.2.1|>=8.3,<8.3.1",
                 "sabre/dav": ">=1.6,<1.6.99|>=1.7,<1.7.11|>=1.8,<1.8.9",
                 "scheb/two-factor-bundle": ">=0,<3.26|>=4,<4.11",
                 "sensiolabs/connect": "<4.2.3",
@@ -3330,7 +3078,7 @@
                 "willdurand/js-translation-bundle": "<2.1.1",
                 "yii2mod/yii2-cms": "<1.9.2",
                 "yiisoft/yii": ">=1.1.14,<1.1.15",
-                "yiisoft/yii2": "<2.0.15",
+                "yiisoft/yii2": "<2.0.38",
                 "yiisoft/yii2-bootstrap": "<2.0.4",
                 "yiisoft/yii2-dev": "<2.0.15",
                 "yiisoft/yii2-elasticsearch": "<2.0.5",
@@ -3392,7 +3140,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-11T17:02:36+00:00"
+            "time": "2020-09-18T13:01:53+00:00"
         },
         {
             "name": "rtheunissen/guzzle-log-middleware",
@@ -3452,12 +3200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RubixML/RubixML.git",
-                "reference": "851a507ebf8a0f52555d92144458a418926c6c04"
+                "reference": "a0ce91dc30033c1eaf15bd2b788bc70564364bdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/851a507ebf8a0f52555d92144458a418926c6c04",
-                "reference": "851a507ebf8a0f52555d92144458a418926c6c04",
+                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/a0ce91dc30033c1eaf15bd2b788bc70564364bdb",
+                "reference": "a0ce91dc30033c1eaf15bd2b788bc70564364bdb",
                 "shasum": ""
             },
             "require": {
@@ -3518,6 +3266,7 @@
                 "Linear regression",
                 "Neural network",
                 "Rubix",
+                "TF-IDF",
                 "adaboost",
                 "ai",
                 "analytics",
@@ -3540,6 +3289,7 @@
                 "feature importance",
                 "feature selection",
                 "gaussian mixture",
+                "gbm",
                 "gmm",
                 "gradient boost",
                 "grid search",
@@ -3573,6 +3323,7 @@
                 "prediction",
                 "predictive modeling",
                 "random forest",
+                "ranking",
                 "recommendation",
                 "regression",
                 "regressor",
@@ -3585,6 +3336,7 @@
                 "svm",
                 "t-sne",
                 "text mining",
+                "tf idf",
                 "tsne",
                 "unsupervised learning"
             ],
@@ -3598,7 +3350,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-09-10T23:20:29+00:00"
+            "time": "2020-09-13T19:08:14+00:00"
         },
         {
             "name": "rubix/tensor",
@@ -3881,12 +3633,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "94da160074a32f41da634766249e8914bed5f19c"
+                "reference": "0bb9ea263b39fce3a12ac9f78ef576bdd80dacb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/94da160074a32f41da634766249e8914bed5f19c",
-                "reference": "94da160074a32f41da634766249e8914bed5f19c",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/0bb9ea263b39fce3a12ac9f78ef576bdd80dacb8",
+                "reference": "0bb9ea263b39fce3a12ac9f78ef576bdd80dacb8",
                 "shasum": ""
             },
             "require": {
@@ -3898,6 +3650,7 @@
             "require-dev": {
                 "psr/log": "~1.0",
                 "symfony/config": "~2.8|~3.0|~4.0",
+                "symfony/debug": "~3.4|~4.4",
                 "symfony/dependency-injection": "~3.3|~4.0",
                 "symfony/expression-language": "~2.8|~3.0|~4.0",
                 "symfony/stopwatch": "~2.8|~3.0|~4.0"
@@ -3950,7 +3703,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-02T16:06:40+00:00"
+            "time": "2020-09-18T12:06:50+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -4332,12 +4085,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a"
+                "reference": "48928d471ede0548b399f54b0286fe0d0ed79267"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/a6977d63bf9a0ad4c65cd352709e230876f9904a",
-                "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/48928d471ede0548b399f54b0286fe0d0ed79267",
+                "reference": "48928d471ede0548b399f54b0286fe0d0ed79267",
                 "shasum": ""
             },
             "require": {
@@ -4401,7 +4154,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-14T12:35:20+00:00"
+            "time": "2020-09-14T11:01:58+00:00"
         },
         {
             "name": "symfony/polyfill-php70",
@@ -4559,12 +4312,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "d87d5766cbf48d72388a9f6b85f280c8ad51f981"
+                "reference": "c3616e7b303d0bd8c261de7921c72bf818b52b91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/d87d5766cbf48d72388a9f6b85f280c8ad51f981",
-                "reference": "d87d5766cbf48d72388a9f6b85f280c8ad51f981",
+                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/c3616e7b303d0bd8c261de7921c72bf818b52b91",
+                "reference": "c3616e7b303d0bd8c261de7921c72bf818b52b91",
                 "shasum": ""
             },
             "require": {
@@ -4631,7 +4384,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-14T12:35:20+00:00"
+            "time": "2020-09-14T10:02:33+00:00"
         },
         {
             "name": "symfony/process",
@@ -4703,12 +4456,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "2ab129bbea5e3cd14bf10a00f938bbdf93aae004"
+                "reference": "f29e1950db6502a632b3bec103c70193eb2bc6e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/2ab129bbea5e3cd14bf10a00f938bbdf93aae004",
-                "reference": "2ab129bbea5e3cd14bf10a00f938bbdf93aae004",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/f29e1950db6502a632b3bec103c70193eb2bc6e7",
+                "reference": "f29e1950db6502a632b3bec103c70193eb2bc6e7",
                 "shasum": ""
             },
             "require": {
@@ -4785,7 +4538,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-02T16:08:58+00:00"
+            "time": "2020-09-18T08:46:47+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -4868,12 +4621,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "9ab6195f4049147a974e188e951d9ae356dce2cc"
+                "reference": "0dc22bdf9d1197467bb04d505355180b6f20bcca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/9ab6195f4049147a974e188e951d9ae356dce2cc",
-                "reference": "9ab6195f4049147a974e188e951d9ae356dce2cc",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/0dc22bdf9d1197467bb04d505355180b6f20bcca",
+                "reference": "0dc22bdf9d1197467bb04d505355180b6f20bcca",
                 "shasum": ""
             },
             "require": {
@@ -4951,7 +4704,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-09T05:20:36+00:00"
+            "time": "2020-09-18T08:35:10+00:00"
         },
         {
             "name": "teamtnt/tntsearch",
@@ -5082,12 +4835,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "7c8e7e028b2a625fb38b6b5fef88bdcfe810776f"
+                "reference": "ef67967b41db852fac4d461ba20847ee19607f6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7c8e7e028b2a625fb38b6b5fef88bdcfe810776f",
-                "reference": "7c8e7e028b2a625fb38b6b5fef88bdcfe810776f",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ef67967b41db852fac4d461ba20847ee19607f6d",
+                "reference": "ef67967b41db852fac4d461ba20847ee19607f6d",
                 "shasum": ""
             },
             "require": {
@@ -5146,67 +4899,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-08-24T10:15:25+00:00"
-        },
-        {
-            "name": "workerman/channel",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/walkor/channel.git",
-                "reference": "0836a9a413c6e8425ee36307d95e2e49cc380f50"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/walkor/channel/zipball/0836a9a413c6e8425ee36307d95e2e49cc380f50",
-                "reference": "0836a9a413c6e8425ee36307d95e2e49cc380f50",
-                "shasum": ""
-            },
-            "require": {
-                "workerman/workerman": ">=3.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Channel\\": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "homepage": "http://www.workerman.net",
-            "time": "2018-07-02T02:42:37+00:00"
-        },
-        {
-            "name": "workerman/globaldata",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/walkor/GlobalData.git",
-                "reference": "baf3b7af338f329e88136ebe92266dfe40dd00a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/walkor/GlobalData/zipball/baf3b7af338f329e88136ebe92266dfe40dd00a7",
-                "reference": "baf3b7af338f329e88136ebe92266dfe40dd00a7",
-                "shasum": ""
-            },
-            "require": {
-                "workerman/workerman": ">=3.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "GlobalData\\": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "homepage": "http://www.workerman.net",
-            "time": "2018-08-16T03:59:34+00:00"
+            "time": "2020-09-14T13:18:12+00:00"
         },
         {
             "name": "workerman/mysql",
@@ -5245,92 +4938,6 @@
                 "pdo_mysql"
             ],
             "time": "2020-06-16T13:20:10+00:00"
-        },
-        {
-            "name": "workerman/workerman",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:walkor/Workerman.git",
-                "reference": "572ec1859b8e9420d873af052d5d4c0e025d2565"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/walkor/Workerman/zipball/572ec1859b8e9420d873af052d5d4c0e025d2565",
-                "reference": "572ec1859b8e9420d873af052d5d4c0e025d2565",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "suggest": {
-                "ext-event": "For better performance. "
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Workerman\\": "./"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "walkor",
-                    "email": "walkor@workerman.net",
-                    "homepage": "http://www.workerman.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
-            "homepage": "http://www.workerman.net",
-            "keywords": [
-                "asynchronous",
-                "event-loop"
-            ],
-            "time": "2020-08-31T07:46:47+00:00"
-        },
-        {
-            "name": "wyndow/fuzzywuzzy",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wyndow/fuzzywuzzy.git",
-                "reference": "6249a966a97ffc231d743ea5c4ccb4e6797582f5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wyndow/fuzzywuzzy/zipball/6249a966a97ffc231d743ea5c4ccb4e6797582f5",
-                "reference": "6249a966a97ffc231d743ea5c4ccb4e6797582f5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4",
-                "phpspec/php-diff": "^1.0"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "^2.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FuzzyWuzzy\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Crumm",
-                    "email": "mike@crumm.net"
-                }
-            ],
-            "description": "Fuzzy string matching based on FuzzyWuzzy from Seatgeek",
-            "time": "2017-04-25T21:20:44+00:00"
         }
     ],
     "packages-dev": [],

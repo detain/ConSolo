@@ -8,6 +8,7 @@
   "license": "GPL-3.0",
   "private": false,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.14.0",
     "axios": "^0.19.2",
     "bootstrap": "^3",
     "datatables.net-autofill-bs": "^*",
