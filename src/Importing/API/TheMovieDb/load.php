@@ -82,6 +82,7 @@ foreach ($lists as $list) {
 	if (count($lines) == count($ids) || count($lines) == 0) {
 		echo 'skipping update due to matching id counts. ';
 	} else {
+		$foundIds = [];
 		foreach ($lines as $idx => $line) {
 			if ($idx % 50000 == 0) {
 				echo '[#'.$idx.']';
@@ -94,18 +95,32 @@ foreach ($lists as $list) {
 					->query();
 				echo '+';
 			} else {
-				$idx = array_search($line['id'], $ids);
-				unset($ids[$idx]);
+				//$idx = array_search($line['id'], $ids);
+				//unset($ids[$idx]);
+				$foundIds[] = $line['id'];
 			}
 		}
-		if (count($ids) > 0) {
-			echo 'Got '.count($ids).' Leftover IDs, deleting...'.PHP_EOL;
-			$db->delete('tmdb_'.$list)
-				->where('id in ('.implode(',', $ids).')')
-				->query();
+		echo 'done'.PHP_EOL;
+		echo 'Counting leftover Ids..';
+		$leftIds = [];
+		foreach ($ids as $id) {
+			if (!in_array($id, $foundIds)) {
+				$leftIds[] = $id;
+			}
+		}
+		echo 'done'.PHP_EOL;
+		if (count($leftIds) > 0) {
+			echo 'Got '.count($leftIds).' Leftover IDs, deleting...'.PHP_EOL;
+			foreach ($leftIds as $id) {
+				$db->delete('tmdb_'.$list)
+					->where('id='.$id)
+					->query();
+			}
 			echo 'done'.PHP_EOL;
 		}        
 	}
+	unset($foundIds);
+	unset($leftIds);
 	unset($lines);
 	unset($ids);    
 	echo 'done'.PHP_EOL;	
