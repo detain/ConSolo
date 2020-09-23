@@ -5,7 +5,7 @@
 	{% for movie in results %}
 	<div class="col-sm-6 col-md-4">
 		<div class="thumbnail">
-			<a href="{{ app.request.basePath }}/movie.php?id={{ movie.id }}">
+			<a href="{{ app.request.basePath }}/movie/{{ movie.id }}">
 				<img alt="100%x200" style="height: 200px;  display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ movie.poster_path }}">
 				<div class="caption">
 					<h3 style="">{{ movie.title }}</h3>

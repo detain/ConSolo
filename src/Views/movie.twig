@@ -15,7 +15,7 @@
 										<section class="header poster" style="color: #ffffff;">
 											<div class="title ott_true" dir="auto">
 												<h2 class="14">
-													<a href="/movie/{{ movie.id }}-101-dalmations" style="color: #ffffff;">{{ movie.title }}</a>
+													<a href="/movie/{{ movie.id }}" style="color: #ffffff;">{{ movie.title }}</a>
 													<span class="tag release_date">({{ movie.release_date|slice(0,4) }})</span>
 												</h2>
 												<div class="facts">
@@ -27,7 +27,7 @@
 													</span>
 													<span class="genres">
 														{% for genre in movie.genres %}
-														<a href="{{ app.request.basePath }}/genre.php?type=movie&id={{ genre.id }}&name={{ genre.name }}">{{ genre.name }}</a>
+														<a href="{{ app.request.basePath }}/movies/genre/{{ genre.id }}">{{ genre.name }}</a>
 														{% if loop.last == false %}
 														<span>,&nbsp;</span>
 														{% endif %}
@@ -58,11 +58,11 @@
 												</div>
 												<ol class="people no_image">
 													<li class="profile">
-														<p><a href="{{ app.request.basePath }}/person.php?id={{ director.id }}&name={{ director.name }}">{{ director.name }}</a></p>
+														<p><a href="{{ app.request.basePath }}/person/{{ director.id }}">{{ director.name }}</a></p>
 														<p class="character">{{ director.job }}</p>
 													</li>
 													<li class="profile">
-														<p><a href="{{ app.request.basePath }}/person.php?id={{ screenplay.id }}&name={{ screenplay.name }}">{{ screenplay.name }}</a></p>
+														<p><a href="{{ app.request.basePath }}/person/{{ screenplay.id }}">{{ screenplay.name }}</a></p>
 														<p class="character">{{ screenplay.job }}</p>
 													</li>
 												</ol>
@@ -172,7 +172,7 @@
 						<div class="row placeholders">
 							{% for person in movie.credits.cast %}
 							<div class="col-xs-6 col-sm-3 placeholder">
-								<a href="{{ app.request.basePath }}/person.php?id={{ person.id }}">
+								<a href="{{ app.request.basePath }}/person/{{ person.id }}">
 									<img src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" width="200" height="200" class="img-responsive" alt="{{ person.name }}">
 									<h4>{{ person.name }}</h4>
 									<span class="text-muted">{{ person.character }}</span>
@@ -184,7 +184,7 @@
 						<div class="row placeholders">
 							{% for person in movie.credits.crew %}
 							<div class="col-xs-6 col-sm-3 placeholder">
-								<a href="{{ app.request.basePath }}/person.php?id={{ person.id }}">
+								<a href="{{ app.request.basePath }}/person/{{ person.id }}">
 									<img src="https://image.tmdb.org/t/p/w138_and_h175_face{{ person.profile_path }}" width="200" height="200" class="img-responsive" alt="{{ person.name }}">
 									<h4>{{ person.name }}</h4>
 									<span class="text-muted">{{ person.job }}</span>
@@ -203,7 +203,7 @@
 							{% for video in movie.similar.results %}
 							<div class="col-sm-6 col-md-4">
 								<div class="thumbnail">
-									<a href="{{ app.request.basePath }}/movie.php?id={{ video.id }}">
+									<a href="{{ app.request.basePath }}/movie/{{ video.id }}">
 										<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ video.poster_path }}" >
 										<div class="caption">
 											<h3>{{ video.title }}</h3>
@@ -225,7 +225,7 @@
 							{% for video in movie.recommendations.results %}
 							<div class="col-sm-6 col-md-4">
 								<div class="thumbnail">
-									<a href="{{ app.request.basePath }}/movie.php?id={{ video.id }}">
+									<a href="{{ app.request.basePath }}/movie/{{ video.id }}">
 										<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ video.poster_path }}" >
 										<div class="caption">
 											<h3>{{ video.title }}</h3>
@@ -241,7 +241,7 @@
 						<div class="row">
 							<div class="col-sm-8 col-md-6">
 								<div class="thumbnail">
-									<a href="{{ app.request.basePath }}/movie.php?id={{ movie.belongs_to_collection.id }}">
+									<a href="{{ app.request.basePath }}/movie/{{ movie.belongs_to_collection.id }}">
 										<img alt="100%x200" style="height: 200px; width: 100%; display: block;" src="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ movie.belongs_to_collection.poster_path }}" >
 										<div class="caption">
 											<h3>{{ movie.belongs_to_collection.name }}</h3>

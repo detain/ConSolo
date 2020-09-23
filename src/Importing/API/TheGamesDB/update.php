@@ -42,6 +42,7 @@ function apiGet($url, $index = null, $assocNested = true) {
 				$out[] = $data;
 			}
 		}
+		sleep(1);
 	}
 	echo ' done'.PHP_EOL;
 	$json['data'][$index] = $out;
@@ -52,7 +53,7 @@ function apiGet($url, $index = null, $assocNested = true) {
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$usePrivate = true;
+$usePrivate = false;
 $useCache = true;
 $dataDir = '/storage/local/ConSolo/data';
 foreach (['Genres', 'Developers', 'Publishers'] as $type) {

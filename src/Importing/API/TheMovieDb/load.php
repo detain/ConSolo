@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__.'/../../../bootstrap.php';
-$imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_credits','director','episodes','genre','genres','get_episode_details','goofs','imdbsite','is_serial','keywords','languages','locations','main_url','movietype','mpaa','mpaa_reason','orig_title','photo_localurl','plot','plotoutline','producer','quotes','rating','runtime','seasons','sound','soundtrack','tagline','taglines','title','trailers','trivia','votes','writing','year'];
 /**
 * @var \Workerman\MySQL\Connection
 */
@@ -159,16 +158,25 @@ foreach ($lists as $list) {
 	}
 	$counter = 0;
 	echo '  ['.$part.'/'.$divide.'] #'.$counter.' '.(isset($ip) ? 'IP '.$ip.' ' : '').'Divided them into a section of '.$total.' ids'.PHP_EOL;
+	$dataDir = __DIR__.'/../../../../data/json/tmdb/tmdb_'.$list;
+	if (!file_exists($dataDir))
+		mkdir($dataDir, 0777, true);
 	foreach ($ids as $idx => $id) {
 		echo '  ['.$list.'] # '.$id.' ['.$idx.'/'.$total.']';
 		$func = 'loadTmdb'.str_replace(' ', '', ucwords(str_replace('_', ' ', $list)));
 		$response = call_user_func($func, $id);
-		if (isset($response['id']))
+		if (isset($response['id'])) {
+			$fileName = $dataDir.'/'.$response['id'].'.json';
+			if (!file_exists($fileName)) {
+				$json = json_encode($response, JSON_PRETTY_PRINT);
+				file_put_contents($fileName, $json);
+			}
 			$db->update('tmdb_'.$list)
 				->cols(['doc' => json_encode($response, JSON_PRETTY_PRINT)])
 				->where('id='.$id)
 				->lowPriority($config['db_low_priority'])
 				->query();
+		}
 		echo PHP_EOL;
 	}
 }	
