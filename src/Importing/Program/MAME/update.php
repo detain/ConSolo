@@ -24,7 +24,6 @@ echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval($version) <= intval($last)) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
-
 echo 'Downloading MAME '.$version.PHP_EOL;
 echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_64bit.exe -O /tmp/mame.exe;`;
 echo `rm -rf /tmp/update;`;
@@ -36,13 +35,13 @@ $fileName = $dataDir.'/xml/mame/xml-'.$version.'.xml';
 if (!file_exists($fileName)) {    
 	echo 'Generating XML '.$fileName.PHP_EOL;
 	//echo `mame -listxml > {$fileName};`;
-	echo `cd /tmp/update/; wine64 mame64.exe -listxml | pv > {$fileName};`;
+	echo `cd /tmp/update/; wine64 mame64.exe -listxml 2>/dev/null | pv > {$fileName};`;
 }
 $fileName = $dataDir.'/xml/mame/software-'.$version.'.xml';
 if (!file_exists($fileName)) {
 	echo 'Generating Software '.$fileName.PHP_EOL;
 	//echo `mame -listsoftware > {$fileName};`;
-	echo `cd /tmp/update/; wine64 mame64.exe -listsoftware | pv > {$fileName};`;
+	echo `cd /tmp/update/; wine64 mame64.exe -listsoftware 2>/dev/null | pv > {$fileName};`;
 }
 /*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
 foreach ($txt as $list) {

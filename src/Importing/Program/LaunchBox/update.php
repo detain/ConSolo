@@ -6,6 +6,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 * @var \Workerman\MySQL\Connection
 */
 global $db;
+$dataDir = '/storage/local/ConSolo/data/json/launchbox';
 $url = 'https://gamesdb.launchbox-app.com/Metadata.zip'; 
 $tablePrefix = 'launchbox_';
 $tableSuffix = 's';
@@ -28,14 +29,14 @@ echo `unzip -o {$zipFile};`;
 unlink($zipFile);
 $tables = [];
 foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
-	echo $name.'	reading..';
+	echo $name.PHP_EOL.'	reading..';
 	$xml = file_get_contents($name.'.xml');
-	echo 'read!  parsing..';
+	echo 'read!'.PHP_EOL.'	parsing..';
 	$array = xml2array($xml);
-	echo 'parsed!  indexing..';
+	echo 'parsed!'.PHP_EOL;
 	foreach ($array['LaunchBox'] as $type => $data) {
 		$type = strtolower($type);
-		echo PHP_EOL.'  working on type '.$type.'..';
+		echo '	working on type '.$type.'..'.PHP_EOL.'		indexing...';
 		$tables[$type] = [];
 		foreach ($data as $idx => $row) {
 			foreach ($row as $key => $value) {
@@ -65,7 +66,7 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 					$tables[$type][$key]['float'] = false;
 			}
 		}
-		echo 'indexed! creating table..';
+		echo 'indexed!'.PHP_EOL.'		creating table..';
 		 $create = [];
 		$create[] = '`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT';
 		foreach ($tables[$type] as $key => $row) {
@@ -86,10 +87,13 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 		//echo PHP_EOL.$create.PHP_EOL;
 		$db->query("drop table if exists {$tablePrefix}{$type}{$tableSuffix}");
 		$db->query($create);
-		echo 'created '.$type.'! inserting '.count($data).' rows..';
+		echo 'created '.$type.'!'.PHP_EOL.'		inserting '.count($data).' rows..';
 		foreach ($data as $idx => $row) {
 			try {
-				$db->insert($tablePrefix.$type.$tableSuffix)->cols($row)->lowPriority($config['db_low_priority'])->lowPriority($config['db_low_priority'])->query();
+				$db->insert($tablePrefix.$type.$tableSuffix)
+					->cols($row)
+					->lowPriority($config['db_low_priority'])
+					->query();
 			} catch (\PDOException $e) {
 				echo "Caught PDO Exception!".PHP_EOL;
 				echo "Values: ".var_export($row, true).PHP_EOL;
@@ -100,12 +104,11 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 				echo "Trace: ".$e->getTraceAsString().PHP_EOL;
 			}
 		}
-		echo 'inserted! ';
-		//echo ' writing json..';
-		//file_put_contents($type.'.json', json_encode($data, JSON_PRETTY_PRINT));
+		echo 'inserted!'.PHP_EOL.'		writing json..';
+		file_put_contents($dataDir.'/'.$type.'.json', json_encode($data, JSON_PRETTY_PRINT));
+		echo 'done'.PHP_EOL;
 	}
 	unset($array);
-	echo 'written!'.PHP_EOL;
 	unlink($name.'.xml');
 }
 $db->query("update config set config.value='{$modified}' where field='{$configKey}'"); 

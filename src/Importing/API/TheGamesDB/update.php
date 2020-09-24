@@ -53,6 +53,7 @@ function apiGet($url, $index = null, $assocNested = true) {
 * @var \Workerman\MySQL\Connection
 */
 global $db;
+global $config;
 $usePrivate = false;
 $useCache = true;
 $dataDir = '/storage/local/ConSolo/data';
