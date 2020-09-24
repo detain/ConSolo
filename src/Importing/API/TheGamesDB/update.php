@@ -42,7 +42,7 @@ function apiGet($url, $index = null, $assocNested = true) {
 				$out[] = $data;
 			}
 		}
-		sleep(1);
+		usleep(250000);
 	}
 	echo ' done'.PHP_EOL;
 	$json['data'][$index] = $out;
