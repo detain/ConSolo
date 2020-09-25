@@ -11,6 +11,7 @@ $mediaTypes = [
 	'- Karaoke Studio 4ion cartridges',
 	'- Aladdin Deck Enhancer cartridges',
 	"'Game' cartridges",
+	'Beta Disc / TR-DOS disk images',
 	"'Design / Media' cartridges",
 	'cleanly cracked 5.25" disks',
 	'cleanly cracked 5.25 disks',
@@ -144,23 +145,30 @@ foreach ($rows as $row) {
 	}
 	if (!array_key_exists($platform, $platformSrc))
 		$platformSrc[$platform] = [];
-	if (!array_key_exists($platformCut, $platformSrc))
-		$platformSrc[$platformCut] = [];	
+	//if (!array_key_exists($platformCut, $platformSrc))
+		//$platformSrc[$platformCut] = [];	
 	if (!array_key_exists($platform, $platformAlt)) {
 		if (!array_key_exists($platformCut, $platformAlt)) {
 			$platforms[] = $platformCut;
 			$platformAlt[$platform] = $platformCut;
 			$platformSrc[$platform][] = 'MAME';
-			$platformSrc[$platformCut][] = 'MAME';
+			//$platformSrc[$platformCut][] = 'MAME';
 		} else {
 			$platformAlt[$platform] = $platformAlt[$platformCut];
 			if (!in_array('MAME', $platformSrc[$platform]))
 				$platformSrc[$platform][] = 'MAME';
+			if (!array_key_exists($row['platform'], $platformAlt))
+				$platformAlt[$row['platform']] = $platformAlt[$platformCut];
+			if (!array_key_exists($row['platform'], $platformSrc)) {
+				$platformSrc[$row['platform']] = ['MAME'];
+			} elseif (!in_array('MAME', $platformSrc[$row['platform']])) {
+				$platformSrc[$row['platform']][] = 'MAME';
+			}
 		}
 	} else {
 		if (!array_key_exists($platformCut, $platformAlt)) {
-			$platformAlt[$platformCut] = $platformAlt[$platform];
-			$platformSrc[$platformCut] = ['MAME'];
+			//$platformAlt[$platformCut] = $platformAlt[$platform];
+			//$platformSrc[$platformCut] = ['MAME'];
 		}
 		if (!array_key_exists($row['platform'], $platformAlt))
 			$platformAlt[$row['platform']] = $platform;
@@ -198,7 +206,7 @@ foreach ($platforms as $platform) {
 			$platformMain[$platform][] = $name;
 		if (!array_key_exists($name, $platformSrc))
 			$platformSrc[$name] = ['OldComputers'];
-		elseif (!in_array('MAME', $platformSrc[$name]))
+		elseif (!in_array('OldComputers', $platformSrc[$name]))
 			$platformSrc[$name][] = 'OldComputers';		
 	}
 }
@@ -206,14 +214,19 @@ $db->query("truncate platform_matches");
 $db->query("truncate platforms");
 //$db->query("delete from platforms");
 //$db->query("alter table platforms auto_increment=1");
+sort($platforms);
+$json = [];
 foreach ($platforms as $platform) {
+	$json[$platform] = [];
 	$id = $db->insert('platforms')
 		->cols(['name' => $platform])
 		->query();
 	echo 'Added Platform '.$id.' '.$platform.PHP_EOL;
 	if (isset($platformMain[$platform]))
 		foreach ($platformMain[$platform] as $alt) {
+			$json[$platform][$alt] = [];
 			foreach ($platformSrc[$alt] as $source) {
+				$json[$platform][$alt][] = $source;
 				$db->insert('platform_matches')
 					->cols([
 						'parent' => $platform,
@@ -225,3 +238,8 @@ foreach ($platforms as $platform) {
 			}
 		}
 }
+$lines = [];
+foreach ($json as $platform => $rows) {
+	$lines[] = '	"'.$platform.'": '.json_encode($rows);
+}
+file_put_contents(__DIR__.'/../../json/platforms.json', '{'.PHP_EOL.implode(','.PHP_EOL, $lines).PHP_EOL.'}');
