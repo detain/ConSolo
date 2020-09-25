@@ -6,103 +6,109 @@ $imdbFields = ['alsoknow','cast','colors','comment','composer','country','crazy_
 */
 global $db;
 global $config;
-$result = $db->query("select * from config where field='tmdb_movies'");
-$tmdbIds = [];
 $now = time();
-$updateExisting = false;
-if (!$result) {
-	$exportDate = ((int)date('H') >= 4 ? date('m_d_Y') : date('m_d_Y', $now - 86400));
-	$lists = ['movie','tv_series','person','collection','tv_network','keyword','production_company'];
-	$movieUrl = 'http://files.tmdb.org/p/exports/movie_ids_'.$exportDate.'.json.gz';
-	$tvUrl = 'http://files.tmdb.org/p/exports/tv_series_ids_'.$exportDate.'.json.gz';
-	echo 'Loading Movie IDs '.$movieUrl.PHP_EOL;
-	$lines = explode("\n", trim(gzdecode(getcurlpage($movieUrl))));
-	echo 'Parsing Results..';
-	foreach ($lines as $line) {
-		$line = json_decode(trim($line), true);
-		$tmdbIds[] = $line['id'];
-	}
-	unset($lines);    
-	echo 'done'.PHP_EOL;
-} else {
-	$updateExisting = true;
-	$caughtUp = false;
-	$start = $result[0]['value'];
-	$interval = 86400 * 14;
-	echo 'Loading Movie Updates...';
-	while ($caughtUp == false) {
-		$startDate = date('Y-m-d', $start - 86400);
-		$end = $start + $interval;
-		if ($end > $now) {
-			$end = $now;
-			$caughtUp = true;
-		} else {
-			$start = $end;
-		}
-		$endDate = date('Y-m-d', $end);
-		echo $startDate.' - '.$endDate.'... ';
-		$tmdbIds = changedTmdbMovies($startDate, $endDate, $tmdbIds);
-	}
-	echo 'done'.PHP_EOL;    
-}
-echo count($tmdbIds).' Pending TMDB IDs Loaded';
-echo 'Loading Existing TMDB Entries...';
-$existingIds = [];
-$result = $db->query("select id from tmdb_movie");
-foreach ($result as $data) {
-	$existingIds[] = $data['id'];
-}
-unset($result);
-echo 'done'.PHP_EOL;
-if ($updateExisting == false) {
-	echo 'Removing Existing Entries from List to Process...';
-	$tmdbIds = array_diff($tmdbIds, $existingIds);
-	echo 'done'.PHP_EOL;
-}
-$updates = 0;
-$total = count($tmdbIds);
-foreach ($tmdbIds as $idx => $tmdbId) {
-	$title = loadTmdbMovie($tmdbId);
-	if (!isset($title['id']) || is_null($title['id'])) {
-		print_r($title);
-		echo 'Missing "id" field in TMDB Movie '.$tmdbId.PHP_EOL;            
+foreach (['movie', 'person', 'tv'] as $type) {
+	if ($type == 'tv') {
+		$table = 'tv_series';
 	} else {
-		if ($updateExisting == true && in_array($tmdbId, $existingIds)) {
-			$db->update('tmdb_movie')
-				->cols([
-					'doc' => json_encode($title, JSON_PRETTY_PRINT)
-				])
-				->where('id='.$tmdbId)
-				->lowPriority($config['db_low_priority'])
-				->query();            
-			$updates++;
-			echo '# '.$tmdbId.' ['.$idx.'/'.$total.'] Update '.$updates.PHP_EOL;
-		} else {
-			$db->insert('tmdb_movie')
-				->cols([
-					'doc' => json_encode($title, JSON_PRETTY_PRINT)
-				])
-				->lowPriority($config['db_low_priority'])
-				->query();            
-			$updates++;
-			echo '# '.$tmdbId.' ['.$idx.'/'.$total.'] Update '.$updates.PHP_EOL;
-		}
+		$table = $type;
 	}
-	
+	$result = $db->query("select * from config where field='tmdb_{$type}'");
+	$tmdbIds = [];
+	$updateExisting = false;
+	if (!$result) {
+		$exportDate = ((int)date('H') >= 4 ? date('m_d_Y') : date('m_d_Y', $now - 86400));
+		$lists = ['movie','tv_series','person','collection','tv_network','keyword','production_company'];
+		$movieUrl = 'http://files.tmdb.org/p/exports/'.$table.'_ids_'.$exportDate.'.json.gz';
+		echo 'Loading Movie IDs '.$movieUrl.PHP_EOL;
+		$lines = explode("\n", trim(gzdecode(getcurlpage($movieUrl))));
+		echo 'Parsing Results..';
+		foreach ($lines as $line) {
+			$line = json_decode(trim($line), true);
+			$tmdbIds[] = $line['id'];
+		}
+		unset($lines);    
+		echo 'done'.PHP_EOL;
+	} else {
+		$updateExisting = true;
+		$caughtUp = false;
+		$start = $result[0]['value'];
+		$interval = 86400 * 14;
+		echo 'Loading '.$type.' Updates...';
+		while ($caughtUp == false) {
+			$startDate = date('Y-m-d', $start - 86400);
+			$end = $start + $interval;
+			if ($end > $now) {
+				$end = $now;
+				$caughtUp = true;
+			} else {
+				$start = $end;
+			}
+			$endDate = date('Y-m-d', $end);
+			echo $startDate.' - '.$endDate.'... ';
+			$tmdbIds = changedTmdb($type, $startDate, $endDate, $tmdbIds);
+		}
+		echo 'done'.PHP_EOL;    
+	}
+	echo count($tmdbIds).' Pending TMDB IDs Loaded';
+	echo 'Loading Existing TMDB Entries...';
+	$existingIds = [];
+	$result = $db->query("select id from tmdb_{$table}");
+	foreach ($result as $data) {
+		$existingIds[] = $data['id'];
+	}
+	unset($result);
+	echo 'done'.PHP_EOL;
+	if ($updateExisting == false) {
+		echo 'Removing Existing Entries from List to Process...';
+		$tmdbIds = array_diff($tmdbIds, $existingIds);
+		echo 'done'.PHP_EOL;
+	}
+	$updates = 0;
+	$total = count($tmdbIds);
+	foreach ($tmdbIds as $idx => $tmdbId) {
+		$title = loadTmdbMovie($tmdbId);
+		if (!isset($title['id']) || is_null($title['id'])) {
+			print_r($title);
+			echo 'Missing "id" field in TMDB '.$type.' '.$tmdbId.PHP_EOL;            
+		} else {
+			if ($updateExisting == true && in_array($tmdbId, $existingIds)) {
+				$db->update('tmdb_'.$table)
+					->cols([
+						'doc' => json_encode($title, JSON_PRETTY_PRINT)
+					])
+					->where('id='.$tmdbId)
+					->lowPriority($config['db_low_priority'])
+					->query();            
+				$updates++;
+				echo '# '.$tmdbId.' ['.$idx.'/'.$total.'] Update '.$updates.PHP_EOL;
+			} else {
+				$db->insert('tmdb_'.$table)
+					->cols([
+						'doc' => json_encode($title, JSON_PRETTY_PRINT)
+					])
+					->lowPriority($config['db_low_priority'])
+					->query();            
+				$updates++;
+				echo '# '.$tmdbId.' ['.$idx.'/'.$total.'] Update '.$updates.PHP_EOL;
+			}
+		}
+		
+	}
+	if ($updateExisting == true) {
+		$db->update('config')
+			->cols(['value' => $now])
+			->where('field="tmdb_'.$type.'"')
+			->lowPriority($config['db_low_priority'])
+			->query();
+	} else {
+		$db->insert('config')
+			->cols([
+				'field' => 'tmdb_'.$type,
+				'value' => $now 
+			])
+			->lowPriority($config['db_low_priority'])
+			->query();
+	}
+	echo 'Wrote '.$type.' '.$updates.' updates'.PHP_EOL;        
 }
-if ($updateExisting == true) {
-	$db->update('config')
-		->cols(['value' => $now])
-		->where('field="tmdb_movies"')
-		->lowPriority($config['db_low_priority'])
-		->query();
-} else {
-	$db->insert('config')
-		->cols([
-			'field' => 'tmdb_movies',
-			'value' => $now 
-		])
-		->lowPriority($config['db_low_priority'])
-		->query();
-}
-echo 'Wrote '.$updates.' updates'.PHP_EOL;        

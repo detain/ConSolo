@@ -344,14 +344,21 @@ function loadTmdbPerson($id) {
 	return json_decode(getcurlpage('https://api.themoviedb.org/3/person/'.$id.'?api_key='.$apiKey.'&language=en-US&append_to_response=movie_credits,tv_credits,combined_credits,external_ids,images,tagged_images,translations', '', $curl_config), true);
 }
 
-function changedTmdbMovies($start_date, $end_date, $results) {
+/**
+* @param string $type can be movie, tv, or person
+* @param string $start_date
+* @param string $end_date
+* @param array $results
+* @return array
+*/
+function changedTmdb($type, $start_date, $end_date, $results) {
 	global $config, $curl_config;
 	$apiKey = $config['thetvdb_api_key'];
 	$finished = false;
 	$page = 1;
 	while ($finished == false) {
-		echo 'Getting Movie Changes from '.$start_date.' to '.$end_date.' page '.$page.PHP_EOL;
-		$response = json_decode(getcurlpage('https://api.themoviedb.org/3/movie/changes?api_key='.$apiKey.'&start_date='.$start_date.'&end_date='.$end_date.'&page='.$page, '', $curl_config), true);
+		echo 'Getting '.$type.' Changes from '.$start_date.' to '.$end_date.' page '.$page.PHP_EOL;
+		$response = json_decode(getcurlpage('https://api.themoviedb.org/3/'.$type.'/changes?api_key='.$apiKey.'&start_date='.$start_date.'&end_date='.$end_date.'&page='.$page, '', $curl_config), true);
 		foreach ($response['results'] as $data) {
 			$results[] = $data['id'];
 		}
