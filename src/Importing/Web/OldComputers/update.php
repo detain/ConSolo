@@ -22,7 +22,7 @@ if (count($row) == 0) {
 }
 $client = new Client();
 $sitePrefix = 'https://www.old-computers.com/museum/';
-$types = ['st' => 'type_id', 'c' => 'computer_id'];
+$types = ['st' => 'type_id', 'c' => 'id'];
 $dataDir = '/storage/local/ConSolo/data';
 echo 'Discovering Computer URLs starting with ';
 $letters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
@@ -50,17 +50,18 @@ $platforms = [];
 $total = count($computerUrls);
 $allEmulators = [];
 echo 'Found '.$total.' Systems'.PHP_EOL;
+$db->query('truncate oc_platforms');
 foreach ($computerUrls as $idx => $url) {
 	$cols = [];
 	$urlParts = parse_url($url);
 	$query = explode('&', $urlParts['query']);
 	foreach ($query as $queryPart) {
 		list($key, $value) = explode('=', $queryPart);
-		$cols[$types[$key]] = $value;
+		$cols[$types[$key]] = (int)$value;
 	}
 	echo "[{$idx}/{$total}] Loading URL $url\n";
-	if (file_exists($dataDir.'/json/oldcomputers/platforms/'.$cols['computer_id'].'.json')) {
-		$cols = json_decode(file_get_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['computer_id'].'.json'), true);
+	if (file_exists($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json')) {
+		$cols = json_decode(file_get_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json'), true);
 	} else { 
 		/**
 		* @var \Symfony\Component\DomCrawler\Crawler
@@ -84,7 +85,7 @@ foreach ($computerUrls as $idx => $url) {
 			$cols['company_name'] = $crawler->filter('.grandvert img')->attr('alt');
 			$cols['company_logo'] = $sitePrefix.$crawler->filter('.grandvert img')->attr('src');
 		} else {
-			$cols['comany_name'] = $crawler->filter('.grandvert')->eq(0)->text();
+			$cols['company_name'] = $crawler->filter('.grandvert')->eq(0)->text();
 		}
 		$cols['description'] = trim(str_replace(['<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],[PHP_EOL,PHP_EOL,PHP_EOL], $crawler->filter('p.petitnoir')->html()));
 		$crawler->filter('table tr td table tr td.petitnoir2')->each(function(Crawler $node, $i) use (&$cols, &$key, &$value) {
@@ -148,9 +149,16 @@ foreach ($computerUrls as $idx => $url) {
 				}
 			}
 		}
-		file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['computer_id'].'.json', json_encode($cols, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json', json_encode($cols, JSON_PRETTY_PRINT));
 	}
-	$platforms[(int)$cols['computer_id']] = $cols;
+	$intFields = ['id', 'type_id'];
+	foreach ($intFields as $field)
+		$cols[$field] = (int)$cols[$field];
+	file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json', json_encode($cols, JSON_PRETTY_PRINT));
+	$platforms[$cols['id']] = $cols;
+	$db->insert('oc_platforms')
+		->cols(['doc' => json_encode($cols)])
+		->query();
 }
 file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
 echo PHP_EOL.'done!'.PHP_EOL;
@@ -161,9 +169,15 @@ foreach ($allEmulators as $name => $emulator) {
 	$platforms = $emulator['platforms'];
 	unset($emulator['platforms']);
 	unset($emulator['hosts']);
-	$emulatorId = $db->insert('oldcomputers_emulators')->cols($emulator)->lowPriority($config['db_low_priority'])->query();
+	$emulatorId = $db->insert('oldcomputers_emulators')
+		->cols($emulator)
+		->lowPriority($config['db_low_priority'])
+		->query();
 	foreach ($platforms as $platformId) {
-		$db->insert('oldcomputers_emulator_platforms')->cols(['emulator' => $emulatorId, 'platform' => $platformId])->lowPriority($config['db_low_priority'])->query();
+		$db->insert('oldcomputers_emulator_platforms')
+			->cols(['emulator' => $emulatorId, 'platform' => $platformId])
+			->lowPriority($config['db_low_priority'])
+			->query();
 	}
 }
 echo 'done!'.PHP_EOL;

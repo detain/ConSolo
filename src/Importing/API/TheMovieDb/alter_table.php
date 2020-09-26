@@ -11,8 +11,8 @@ require_once __DIR__.'/../../../bootstrap.php';
 */
 global $db;
 global $config, $curl_config;
-$suffixes = ['tmdb_tv_episodes', 'imdb', 'tmdb_collection', 'tmdb_keyword', 'tmdb_production_company', 'tmdb_tv_network', 'tmdb_tv_seasons', 'tmdb_tv_series', 'tmdb_movie', 'tmdb_person'];
-//$suffixes = ['tmdb_tv_episodes'];
+$suffixes = ['oc_platforms', 'tmdb_tv_episodes', 'imdb', 'tmdb_collection', 'tmdb_keyword', 'tmdb_production_company', 'tmdb_tv_network', 'tmdb_tv_seasons', 'tmdb_tv_series', 'tmdb_movie', 'tmdb_person'];
+$suffixes = ['oc_platforms'];
 $fields = [];
 $limit = 100000;
 $emptyKey = [
