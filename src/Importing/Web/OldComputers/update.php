@@ -2,9 +2,7 @@
 /**
 * parses data from old-computers.com
 * 
-* http://www.old-computers.com/museum/computer.asp?st=1&c=91
-* 
-* @todo detect emulators page and load+parse it
+* @todo import software,videos,docs,comments pages
 */
 
 use Goutte\Client;
@@ -26,21 +24,19 @@ $client = new Client();
 $sitePrefix = 'https://www.old-computers.com/museum/';
 $types = ['st' => 'type_id', 'c' => 'computer_id'];
 $dataDir = '/storage/local/ConSolo/data';
-if (!file_exists($dataDir.'/json/oldcomputers/urls.json')) {
-	echo 'Discovering Computer URLs starting with ';
-	$letters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-	$computerUrls = [];
-	foreach ($letters as $letter) {
-		echo $letter;
-		$crawler = $client->request('GET', $sitePrefix.'name.asp?l='.$letter);
-		$crawler->filter('b>a.petitnoir3')->each(function ($node) use (&$computerUrls) {
-			if (!in_array($node->attr('href'), $computerUrls))
-				$computerUrls[] = $node->attr('href');
-		});
-	}
-	echo ' done'.PHP_EOL;
-	file_put_contents($dataDir.'/json/oldcomputers/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
+echo 'Discovering Computer URLs starting with ';
+$letters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+$computerUrls = [];
+foreach ($letters as $letter) {
+	echo $letter;
+	$crawler = $client->request('GET', $sitePrefix.'name.asp?l='.$letter);
+	$crawler->filter('b>a.petitnoir3')->each(function ($node) use (&$computerUrls) {
+		if (!in_array($node->attr('href'), $computerUrls))
+			$computerUrls[] = $node->attr('href');
+	});
 }
+echo ' done'.PHP_EOL;
+file_put_contents($dataDir.'/json/oldcomputers/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
 $computerUrls = json_decode(file_get_contents($dataDir.'/json/oldcomputers/urls.json'), true);
 echo 'Loading Computer URLs'.PHP_EOL;
 /*
@@ -51,13 +47,10 @@ $db->query("alter table oldcomputers_emulators auto_increment=1");
 $db->query("alter table oldcomputers_platforms auto_increment=1");
 */
 $platforms = [];
-$countComputers = count($computerUrls);
+$total = count($computerUrls);
 $allEmulators = [];
+echo 'Found '.$total.' Systems'.PHP_EOL;
 foreach ($computerUrls as $idx => $url) {
-	/**
-	* @var \Symfony\Component\DomCrawler\Crawler
-	*/
-	$crawler = $client->request('GET', $sitePrefix.$url);
 	$cols = [];
 	$urlParts = parse_url($url);
 	$query = explode('&', $urlParts['query']);
@@ -65,67 +58,103 @@ foreach ($computerUrls as $idx => $url) {
 		list($key, $value) = explode('=', $queryPart);
 		$cols[$types[$key]] = $value;
 	}
-	$key = false;
-	$value = false;
-	$emulators = false;
-	$crawler->filter('#navbar2 a.navbutton')->each(function($node, $i) use (&$cols, &$key, &$value) {
-		$link = $node->attr('href');
-		$text = $node->text();
-		echo "Link $link - $text\n";
-	});
-	$cols['image'] = $crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(3) tr:nth-child(1) > td:nth-child(1) > img:nth-child(1)')->attr('src');
-	$crawler = $crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3)')->eq(0);
-	$cols['company_link'] = $crawler->filter('.grandvert')->eq(0)->attr('href');
-	if ($crawler->filter('.grandvert')->eq(0)->html() != $crawler->filter('.grandvert')->eq(0)->text()) {
-		$cols['company_name'] = $crawler->filter('.grandvert img')->attr('alt');
-		$cols['company_logo'] = $crawler->filter('.grandvert img')->attr('src');
-	} else {
-		$cols['comany_name'] = $crawler->filter('.grandvert')->eq(0)->text();
-	}
-	$cols['description'] = trim(str_replace(['<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],[PHP_EOL,PHP_EOL,PHP_EOL], $crawler->filter('p.petitnoir')->html()));
-	$crawler->filter('table tr td table tr td.petitnoir2')->each(function(Crawler $node, $i) use (&$cols, &$key, &$value) {
-		if ($i % 2 == 0)
-			$key = str_replace([' ','/','-','__'], ['_','','_','_'], strtolower(html_entity_decode(trim(preg_replace('/\s+/msuU', ' ', $node->text())))));
-		else
-			$cols[$key] = $node->html();
-	});
-	print_r($cols);
-	exit;
-	echo '['.$idx.'/'.$countComputers.'] '.$cols['manufacturer'].' '.$cols['name'].' ';
-	$platformId = $db->insert('oldcomputers_platforms')->cols($cols)->lowPriority($config['db_low_priority'])->query();
-	$platforms[$platformId] = $cols;
-	if ($emulators !== false) {
-		//$crawler = $client->request('GET', $sitePrefix.$emulators);
-		//$html = $crawler->html();
-		$html = trim(`curl -s "{$sitePrefix}{$emulators}"`);
-		$html = str_replace("\r\n", "\n", $html);
-		$html = utf8_encode($html);
-		if (preg_match_all('/<table><tr><td width=40><img[^>]*alt="([^"]*) emulator"><\/td><td nowrap><a href="([^"]*)"[^>]*><b>([^<]*)<.*<p[^>]*>([^<]*)<\/td/muU', $html, $matches)) {
-			foreach ($matches[1] as $idx => $hostPlatform) {
-				if (!array_key_exists($matches[3][$idx], $allEmulators)) {
-					$emulator = [
-						'name' => $matches[3][$idx],
-						'url' => $matches[2][$idx],
-						'notes' => $matches[4][$idx],
-						'platforms' => [],
-						'hosts' => [],
-					];
-					$allEmulators[$matches[3][$idx]] = $emulator; 
-				}
-				if (!in_array($hostPlatform, $allEmulators[$matches[3][$idx]]['hosts'])) {
-					$allEmulators[$matches[3][$idx]]['hosts'][] = $hostPlatform;
-				}
-				if (!in_array($platformId, $allEmulators[$matches[3][$idx]]['platforms']))
-					$allEmulators[$matches[3][$idx]]['platforms'][] = $platformId;
-			}
-			//echo 'Emulators '.count($emulators).PHP_EOL;
-			echo PHP_EOL;
+	echo "[{$idx}/{$total}] Loading URL $url\n";
+	if (file_exists($dataDir.'/json/oldcomputers/platforms/'.$cols['computer_id'].'.json')) {
+		$cols = json_decode(file_get_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['computer_id'].'.json'), true);
+	} else { 
+		/**
+		* @var \Symfony\Component\DomCrawler\Crawler
+		*/
+		$crawler = $client->request('GET', $sitePrefix.$url);
+		$key = false;
+		$value = false;
+		$emulators = false;
+		$cols['pages'] = [];
+		$crawler->filter('#navbar2 a.navbutton')->each(function($node, $i) use (&$cols) {
+			$link = $node->attr('href');
+			$text = $node->text();
+			$cols['pages'][strtolower($text)] = $link;
+			//echo "Link $link - $text\n";
+		});
+		if ($crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(3) tr:nth-child(1) > td:nth-child(1) > img:nth-child(1)')->count() > 0)
+			$cols['image'] = $sitePrefix.$crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(3) tr:nth-child(1) > td:nth-child(1) > img:nth-child(1)')->attr('src');
+		$crawler = $crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3)')->eq(0);
+		$cols['company_link'] = $crawler->filter('.grandvert')->eq(0)->attr('href');
+		if ($crawler->filter('.grandvert img')->count() > 0) {
+			$cols['company_name'] = $crawler->filter('.grandvert img')->attr('alt');
+			$cols['company_logo'] = $sitePrefix.$crawler->filter('.grandvert img')->attr('src');
 		} else {
-			echo 'No Regex match on Emulators page for Emulators'.PHP_EOL;
+			$cols['comany_name'] = $crawler->filter('.grandvert')->eq(0)->text();
 		}
+		$cols['description'] = trim(str_replace(['<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],[PHP_EOL,PHP_EOL,PHP_EOL], $crawler->filter('p.petitnoir')->html()));
+		$crawler->filter('table tr td table tr td.petitnoir2')->each(function(Crawler $node, $i) use (&$cols, &$key, &$value) {
+			if ($i % 2 == 0)
+				$key = str_replace([' ','/','-','__'], ['_','','_','_'], strtolower(html_entity_decode(trim(preg_replace('/\s+/msuU', ' ', $node->text())))));
+			else
+				$cols[$key] = $node->html();
+		});
+		foreach ($cols['pages'] as $page => $url) {
+			if (in_array($page, ['emulators', 'connectors', 'hardware', 'adverts', 'photos', 'links'])) {
+				$cols[$page] = [];
+				echo '	Loading and processing page '.$url.PHP_EOL;
+				$crawler = $client->request('GET', $sitePrefix.$url);
+				if ($page == 'emulators') {
+					$crawler->filter('body table.petitnoir2 tr td table tr td a.petitnoir3')->each(function(Crawler $node, $i) use (&$cols) {
+						$cols['emulators'][] = [
+							'name' => trim($node->text()),
+							'url' => $node->attr('href'),
+							'platform' => str_replace(' emulator', '', $node->parents()->eq(1)->filter('td:nth-child(1) > img')->attr('alt')),
+							'description' => $node->parents()->eq(1)->filter('td:nth-child(4) > p')->count() ?  $node->parents()->eq(1)->filter('td:nth-child(4) > p')->html() : '',
+						];				 
+					});
+				} elseif ($page == 'connectors') {
+					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table tr > td:nth-child(3) > p')->each(function(Crawler $node, $i) use (&$cols, $sitePrefix) {
+						$cols['connectors'][] = [
+							'name' => trim($node->parents()->eq(1)->filter('td:nth-child(3) > p')->text()),
+							'image' => $sitePrefix.$node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('href'),
+							'description' => str_replace(['<blockquote>', '<strong>', '</blockquote>', '</strong>'], ['', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('title'))),
+						];					
+					});
+				} elseif ($page == 'hardware') {
+					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table tr > td:nth-child(3) > p')->each(function(Crawler $node, $i) use (&$cols, $sitePrefix) {
+						$cols['hardware'][] = [
+							'name' => trim($node->parents()->eq(1)->filter('td:nth-child(3) > p')->text()),
+							'image' => $sitePrefix.$node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('href'),
+							'description' => str_replace(['<blockquote>', '<strong>', '</blockquote>', '</strong>'], ['', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('title'))),
+						];					
+					});
+				} elseif ($page == 'adverts') {
+					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(6) tr > td > a.highslide')->each(function(Crawler $node, $i) use (&$cols, $sitePrefix) {
+						$cols['adverts'][] = [
+							'image' => $sitePrefix.$node->attr('href'),
+							'name' => $node->filter('img')->attr('alt')
+						];
+					});
+				} elseif ($page == 'photos') {					
+					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(6) tr td a')->each(function(Crawler $node, $i) use (&$cols, $sitePrefix) {
+						$cols['photos'][] = [
+							'name' => trim($node->parents()->eq(0)->text()),
+							'image' => $sitePrefix.$node->attr('href'), 
+							'description' => str_replace(['<blockquote>', '<strong>', '</blockquote>', '</strong>'], ['', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->attr('title'))),
+						];					
+					});
+				} elseif ($page == 'links') {
+					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > blockquote > a.petitnoir3')->each(function(Crawler $node, $i) use (&$cols) {
+						$cols['links'][$i] = ['url' => $node->attr('href'), 'name' => trim($node->text())];  
+					});
+					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > blockquote > span.petitgris')->each(function(Crawler $node, $i) use (&$cols) {
+						$cols['links'][$i]['description'] = $node->html();
+					});
+				}
+			}
+		}
+		file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['computer_id'].'.json', json_encode($cols, JSON_PRETTY_PRINT));
 	}
+	$platforms[(int)$cols['computer_id']] = $cols;
 }
+file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
 echo PHP_EOL.'done!'.PHP_EOL;
+exit;
 echo 'Inserting Emulators into DB   ';
 foreach ($allEmulators as $name => $emulator) {
 	$emulator['host'] = implode(', ', $emulator['hosts']);
