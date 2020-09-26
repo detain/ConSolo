@@ -7,48 +7,56 @@
 * @todo detect emulators page and load+parse it
 */
 
-require_once __DIR__.'/../../../bootstrap.php';
-
-
 use Goutte\Client;
+use Symfony\Component\DomCrawler\Crawler;
 
+require_once __DIR__.'/../../../bootstrap.php';
 /**
 * @var \Workerman\MySQL\Connection
 */
 global $db;
+$row = $db->query("select * from config where field='oldcomputers'");
+if (count($row) == 0) {
+	$last = 0;
+	$db->query("insert into config values ('oldcomputers','0')");
+} else {
+	$last = $row[0]['value'];
+}
 $client = new Client();
 $sitePrefix = 'https://www.old-computers.com/museum/';
-echo 'Discovering Computer URLs starting with ';
+$types = ['st' => 'type_id', 'c' => 'computer_id'];
 $dataDir = '/storage/local/ConSolo/data';
-$letters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-global $computerUrls;
-$computerUrls = [];
-foreach ($letters as $letter) {
-	echo $letter;
-	$crawler = $client->request('GET', $sitePrefix.'name.asp?st=1&l='.$letter);
-	$crawler->filter('.petitnoir2 tr td center table tr td b a')->each(function ($node) {
-		global $computerUrls;
-		$href = $node->attr('href');
-		echo $node->html().': '.$href.PHP_EOL;
-		if (!in_array($href, $computerUrls)) {
-			$computerUrls[] = $href;
-		}         
-	});
+if (!file_exists($dataDir.'/json/oldcomputers/urls.json')) {
+	echo 'Discovering Computer URLs starting with ';
+	$letters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+	$computerUrls = [];
+	foreach ($letters as $letter) {
+		echo $letter;
+		$crawler = $client->request('GET', $sitePrefix.'name.asp?l='.$letter);
+		$crawler->filter('b>a.petitnoir3')->each(function ($node) use (&$computerUrls) {
+			if (!in_array($node->attr('href'), $computerUrls))
+				$computerUrls[] = $node->attr('href');
+		});
+	}
+	echo ' done'.PHP_EOL;
+	file_put_contents($dataDir.'/json/oldcomputers/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
 }
-echo ' done'.PHP_EOL;
-file_put_contents($dataDir.'/json/oldcomputers/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
 $computerUrls = json_decode(file_get_contents($dataDir.'/json/oldcomputers/urls.json'), true);
 echo 'Loading Computer URLs'.PHP_EOL;
-$types = ['st' => 'type_id', 'c' => 'computer_id'];
+/*
 $db->query("truncate oldcomputers_emulator_platforms");
 $db->query("delete from oldcomputers_platforms");
 $db->query("delete from oldcomputers_emulators");
 $db->query("alter table oldcomputers_emulators auto_increment=1");
 $db->query("alter table oldcomputers_platforms auto_increment=1");
+*/
 $platforms = [];
 $countComputers = count($computerUrls);
 $allEmulators = [];
 foreach ($computerUrls as $idx => $url) {
+	/**
+	* @var \Symfony\Component\DomCrawler\Crawler
+	*/
 	$crawler = $client->request('GET', $sitePrefix.$url);
 	$cols = [];
 	$urlParts = parse_url($url);
@@ -60,22 +68,29 @@ foreach ($computerUrls as $idx => $url) {
 	$key = false;
 	$value = false;
 	$emulators = false;
-	$emuCrawler = $crawler->filter('a.button_emulators');
-	if ($emuCrawler->count() != 0) {
-		$emulators = $emuCrawler->first()->attr('href');
-	}
-	$crawler->filter('.petitnoir2 tr td table tr td table tr td.petitnoir2')->each(function ($node) use (&$cols, &$key, &$value) {
-		$data = trim($node->html());
-		if (substr($data, 0, 3) == '<b>') {
-			$key = str_replace([' ','/','-','__'], ['_','','_','_'], strtolower(html_entity_decode(trim(preg_replace('/\s+/msuU', ' ', $node->text())))));
-		} else {
-			$value = trim($node->html());
-			$cols[$key] = $value;
-		}
+	$crawler->filter('#navbar2 a.navbutton')->each(function($node, $i) use (&$cols, &$key, &$value) {
+		$link = $node->attr('href');
+		$text = $node->text();
+		echo "Link $link - $text\n";
 	});
-	$cols['notes'] = $crawler->filter('.petitnoir2 tr td table tr td p.petitnoir')->html();
-	$cols['notes'] = trim(str_replace(['<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],[PHP_EOL,PHP_EOL,PHP_EOL], $cols['notes']));
-	//print_r($cols);
+	$cols['image'] = $crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(3) tr:nth-child(1) > td:nth-child(1) > img:nth-child(1)')->attr('src');
+	$crawler = $crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3)')->eq(0);
+	$cols['company_link'] = $crawler->filter('.grandvert')->eq(0)->attr('href');
+	if ($crawler->filter('.grandvert')->eq(0)->html() != $crawler->filter('.grandvert')->eq(0)->text()) {
+		$cols['company_name'] = $crawler->filter('.grandvert img')->attr('alt');
+		$cols['company_logo'] = $crawler->filter('.grandvert img')->attr('src');
+	} else {
+		$cols['comany_name'] = $crawler->filter('.grandvert')->eq(0)->text();
+	}
+	$cols['description'] = trim(str_replace(['<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],[PHP_EOL,PHP_EOL,PHP_EOL], $crawler->filter('p.petitnoir')->html()));
+	$crawler->filter('table tr td table tr td.petitnoir2')->each(function(Crawler $node, $i) use (&$cols, &$key, &$value) {
+		if ($i % 2 == 0)
+			$key = str_replace([' ','/','-','__'], ['_','','_','_'], strtolower(html_entity_decode(trim(preg_replace('/\s+/msuU', ' ', $node->text())))));
+		else
+			$cols[$key] = $node->html();
+	});
+	print_r($cols);
+	exit;
 	echo '['.$idx.'/'.$countComputers.'] '.$cols['manufacturer'].' '.$cols['name'].' ';
 	$platformId = $db->insert('oldcomputers_platforms')->cols($cols)->lowPriority($config['db_low_priority'])->query();
 	$platforms[$platformId] = $cols;
