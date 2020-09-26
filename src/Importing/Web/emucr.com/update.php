@@ -37,10 +37,18 @@ $postUrls = [];
 echo 'Loading Archive Pages ';
 foreach ($computerUrls as $url) {
 	echo '.';
-	$crawler = $client->request('GET', $url);
-	$crawler->filter('.blog-posts > a')->each(function ($node) use (&$postUrls) {
-		$postUrls[$node->attr('href')] = $node->attr('title');
-	});
+	if (file_exists($dataDir.'/json/emucr/archive/'.str_replace($sitePrefix, '', $url).'.json')) {
+		$pageUrls = json_decode(file_get_contents($dataDir.'/json/emucr/archive/'.str_replace($sitePrefix, '', $url).'.json'), true);
+	} else {
+		$crawler = $client->request('GET', $url);
+		$pageUrls = [];
+		$crawler->filter('.blog-posts > a')->each(function ($node) use (&$pageUrls) {
+			$pageUrls[$node->attr('href')] = $node->attr('title');
+		});
+		file_put_contents($dataDir.'/json/emucr/archive/'.str_replace($sitePrefix, '', $url).'.json', json_encode($pageUrls, JSON_PRETTY_PRINT));
+	}
+	foreach ($pageUrls as $url => $title)
+		$postUrls[$url] = $title;
 }
 echo ' done'.PHP_EOL;
 echo 'Found '.count($postUrls).' Post Pages'.PHP_EOL;
