@@ -1288,12 +1288,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Masterminds/html5-php.git",
-                "reference": "dafd1c0908d74bb7e6b39381c9e4017b3ab9fb71"
+                "reference": "9227822783c75406cfe400984b2f095cdf03d417"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/dafd1c0908d74bb7e6b39381c9e4017b3ab9fb71",
-                "reference": "dafd1c0908d74bb7e6b39381c9e4017b3ab9fb71",
+                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/9227822783c75406cfe400984b2f095cdf03d417",
+                "reference": "9227822783c75406cfe400984b2f095cdf03d417",
                 "shasum": ""
             },
             "require": {
@@ -1345,7 +1345,7 @@
                 "serializer",
                 "xml"
             ],
-            "time": "2020-09-01T09:06:08+00:00"
+            "time": "2020-10-01T13:52:52+00:00"
         },
         {
             "name": "matto1990/lastfm-api",
@@ -3013,12 +3013,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "0749ceaf15c136d085b722a5bb88141398a54142"
+                "reference": "e859317fce42b1ec2d42b204285beaba541e8dbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/0749ceaf15c136d085b722a5bb88141398a54142",
-                "reference": "0749ceaf15c136d085b722a5bb88141398a54142",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/e859317fce42b1ec2d42b204285beaba541e8dbf",
+                "reference": "e859317fce42b1ec2d42b204285beaba541e8dbf",
                 "shasum": ""
             },
             "conflict": {
@@ -3121,6 +3121,8 @@
                 "mittwald/typo3_forum": "<1.2.1",
                 "monolog/monolog": ">=1.8,<1.12",
                 "namshi/jose": "<2.2",
+                "nette/application": ">=2,<2.0.19|>=2.1,<2.1.13|>=2.2,<2.2.10|>=2.3,<2.3.14|>=2.4,<2.4.16|>=3,<3.0.6",
+                "nette/nette": ">=2,<2.0.19|>=2.1,<2.1.13",
                 "nystudio107/craft-seomatic": "<3.3",
                 "nzo/url-encryptor-bundle": ">=4,<4.3.2|>=5,<5.0.1",
                 "october/backend": ">=1.0.319,<1.0.467",
@@ -3310,7 +3312,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-24T17:02:11+00:00"
+            "time": "2020-10-02T17:02:13+00:00"
         },
         {
             "name": "rtheunissen/guzzle-log-middleware",
@@ -3370,12 +3372,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RubixML/RubixML.git",
-                "reference": "61cfb4f12d095d31548f8cced519da4c09c2baab"
+                "reference": "ae391b31a2a6b9a4f2c90679bd6d06b7527b1cdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/61cfb4f12d095d31548f8cced519da4c09c2baab",
-                "reference": "61cfb4f12d095d31548f8cced519da4c09c2baab",
+                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/ae391b31a2a6b9a4f2c90679bd6d06b7527b1cdc",
+                "reference": "ae391b31a2a6b9a4f2c90679bd6d06b7527b1cdc",
                 "shasum": ""
             },
             "require": {
@@ -3516,7 +3518,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-30T06:41:45+00:00"
+            "time": "2020-10-03T08:57:19+00:00"
         },
         {
             "name": "rubix/tensor",
@@ -3588,12 +3590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
-                "reference": "4012fac896bf5c1ac435d8c5d98fa2163241dbcc"
+                "reference": "9a1786e5020783605a30cff2ceed9aca030e8d80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/4012fac896bf5c1ac435d8c5d98fa2163241dbcc",
-                "reference": "4012fac896bf5c1ac435d8c5d98fa2163241dbcc",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/9a1786e5020783605a30cff2ceed9aca030e8d80",
+                "reference": "9a1786e5020783605a30cff2ceed9aca030e8d80",
                 "shasum": ""
             },
             "require": {
@@ -3653,7 +3655,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-02T16:08:58+00:00"
+            "time": "2020-10-02T08:38:15+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -4405,12 +4407,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "639447d008615574653fb3bc60d1986d7172eaae"
+                "reference": "dc6ef203f50ab65e7de9663826d2fd2d3c1e90e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/639447d008615574653fb3bc60d1986d7172eaae",
-                "reference": "639447d008615574653fb3bc60d1986d7172eaae",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/dc6ef203f50ab65e7de9663826d2fd2d3c1e90e2",
+                "reference": "dc6ef203f50ab65e7de9663826d2fd2d3c1e90e2",
                 "shasum": ""
             },
             "require": {
@@ -4470,7 +4472,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-14T12:35:20+00:00"
+            "time": "2020-10-01T14:10:30+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
@@ -4622,12 +4624,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "0b8c4bb49b05b11d2b9dd1732f26049b08d96884"
+                "reference": "8494fa1bbf9d77fe1e7d50ac8ccfb80a858a98bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/0b8c4bb49b05b11d2b9dd1732f26049b08d96884",
-                "reference": "0b8c4bb49b05b11d2b9dd1732f26049b08d96884",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/8494fa1bbf9d77fe1e7d50ac8ccfb80a858a98bd",
+                "reference": "8494fa1bbf9d77fe1e7d50ac8ccfb80a858a98bd",
                 "shasum": ""
             },
             "require": {
@@ -4704,7 +4706,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-24T09:40:01+00:00"
+            "time": "2020-10-02T07:34:48+00:00"
         },
         {
             "name": "symfony/translation-contracts",

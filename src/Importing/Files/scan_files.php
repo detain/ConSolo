@@ -350,8 +350,6 @@ function updateFile($path)  {
 			foreach ($fields as $idx => $row) {
 				$field = $row['desc']['name'];
 				$field = str_replace(['/',' ', '.', '#'], ['', '_', '', 'num'], strtolower($field));
-				if (in_array($field, ['dt_flags', 'dat_flags_1']))
-					continue;
 				if ($row['type'] == 'STRING') {
 					$data[$field] = $row['data']; 
 				} elseif ($row['type'] == 'DATETIME') {
