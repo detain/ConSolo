@@ -124,7 +124,8 @@ function updateCompressedFile($path, $parentId)  {
 					}
 					$data[$field] = $values;
 				} elseif ($row['type'] == 'LISTDATA') {
-					
+					$data[$field ] = $row;
+					echo 'Got LISTDATA: '.json_encode($row).PHP_EOL;
 				} else {
 					echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
 				}
