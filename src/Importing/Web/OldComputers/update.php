@@ -82,17 +82,17 @@ foreach ($computerUrls as $idx => $url) {
 		$crawler = $crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3)')->eq(0);
 		$cols['company_link'] = $crawler->filter('.grandvert')->eq(0)->attr('href');
 		if ($crawler->filter('.grandvert img')->count() > 0) {
-			$cols['company_name'] = $crawler->filter('.grandvert img')->attr('alt');
+			$cols['company_name'] = trim($crawler->filter('.grandvert img')->attr('alt'));
 			$cols['company_logo'] = $sitePrefix.$crawler->filter('.grandvert img')->attr('src');
 		} else {
-			$cols['company_name'] = $crawler->filter('.grandvert')->eq(0)->text();
+			$cols['company_name'] = trim($crawler->filter('.grandvert')->eq(0)->text());
 		}
-		$cols['description'] = trim(str_replace(['<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],[PHP_EOL,PHP_EOL,PHP_EOL], $crawler->filter('p.petitnoir')->html()));
+		$cols['description'] = trim(str_replace(["\r\n", "\n\n", '<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],["\n", "\n", PHP_EOL,PHP_EOL,PHP_EOL], $crawler->filter('p.petitnoir')->html()));
 		$crawler->filter('table tr td table tr td.petitnoir2')->each(function(Crawler $node, $i) use (&$cols, &$key, &$value) {
 			if ($i % 2 == 0)
 				$key = str_replace([' ','/','-','__'], ['_','','_','_'], strtolower(html_entity_decode(trim(preg_replace('/\s+/msuU', ' ', $node->text())))));
 			else
-				$cols[$key] = $node->html();
+				$cols[$key] = str_replace('&amp;', '&', $node->html());
 		});
 		foreach ($cols['pages'] as $page => $url) {
 			if (in_array($page, ['emulators', 'connectors', 'hardware', 'adverts', 'photos', 'links'])) {
@@ -105,7 +105,7 @@ foreach ($computerUrls as $idx => $url) {
 							'name' => trim($node->text()),
 							'url' => $node->attr('href'),
 							'platform' => str_replace(' emulator', '', $node->parents()->eq(1)->filter('td:nth-child(1) > img')->attr('alt')),
-							'description' => $node->parents()->eq(1)->filter('td:nth-child(4) > p')->count() ?  $node->parents()->eq(1)->filter('td:nth-child(4) > p')->html() : '',
+							'description' => $node->parents()->eq(1)->filter('td:nth-child(4) > p')->count() ?  str_replace(["\r\n", "\n\n"], ["\n", "\n"], $node->parents()->eq(1)->filter('td:nth-child(4) > p')->html()) : '',
 						];				 
 					});
 				} elseif ($page == 'connectors') {
@@ -113,7 +113,7 @@ foreach ($computerUrls as $idx => $url) {
 						$cols['connectors'][] = [
 							'name' => trim($node->parents()->eq(1)->filter('td:nth-child(3) > p')->text()),
 							'image' => $sitePrefix.$node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('href'),
-							'description' => str_replace(['<blockquote>', '<strong>', '</blockquote>', '</strong>'], ['', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('title'))),
+							'description' => str_replace(["\r\n", "\n\n", '<blockquote>', '<strong>', '</blockquote>', '</strong>'], ["\n", "\n", '', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('title'))),
 						];					
 					});
 				} elseif ($page == 'hardware') {
@@ -121,7 +121,7 @@ foreach ($computerUrls as $idx => $url) {
 						$cols['hardware'][] = [
 							'name' => trim($node->parents()->eq(1)->filter('td:nth-child(3) > p')->text()),
 							'image' => $sitePrefix.$node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('href'),
-							'description' => str_replace(['<blockquote>', '<strong>', '</blockquote>', '</strong>'], ['', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('title'))),
+							'description' => str_replace(["\r\n", "\n\n", '<blockquote>', '<strong>', '</blockquote>', '</strong>'], ["\n", "\n", '', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('title'))),
 						];					
 					});
 				} elseif ($page == 'adverts') {
@@ -151,10 +151,6 @@ foreach ($computerUrls as $idx => $url) {
 		}
 		file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json', json_encode($cols, JSON_PRETTY_PRINT));
 	}
-	$intFields = ['id', 'type_id'];
-	foreach ($intFields as $field)
-		$cols[$field] = (int)$cols[$field];
-	file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json', json_encode($cols, JSON_PRETTY_PRINT));
 	$platforms[$cols['id']] = $cols;
 	$db->insert('oc_platforms')
 		->cols(['doc' => json_encode($cols)])
