@@ -92,13 +92,13 @@ function updateCompressedFile($path, $parentId)  {
 	if (!isset($fileData['rom_properties']) || is_null($fileData['rom_properties']) || $reread == true) {
 		$cmd = 'exec rpcli -j '.escapeshellarg($path).' 2>/dev/null';
 		$data = json_decode(trim(`$cmd`), true);
+		if (is_array($data) && array_key_exists(0, $data)) {
+			$row = $data[0];
+			$data = $row;
+		}
 		if (!is_array($data) || array_key_exists('error', $data)) {
 			$data = [];
 		} else {
-			if (array_key_exists(0, $data)) {
-				$row = $data[0];
-				$data = $row;
-			}
 			$fields = [];
 			if (isset($data['fields'])) {
 				$fields = $data['fields'];  
@@ -327,13 +327,13 @@ function updateFile($path)  {
 	if (!isset($fileData['rom_properties']) || is_null($fileData['rom_properties']) || $reread == true) {
 		$cmd = 'exec rpcli -j '.escapeshellarg($path).' 2>/dev/null';
 		$data = json_decode(trim(`$cmd`), true);
+		if (is_array($data) && array_key_exists(0, $data)) {
+			$row = $data[0];
+			$data = $row;
+		}
 		if (!is_array($data) || array_key_exists('error', $data)) {
 			$data = [];
 		} else {
-			if (array_key_exists(0, $data)) {
-				$row = $data[0];
-				$data = $row;
-			}
 			$fields = [];
 			if (isset($data['fields'])) {
 				$fields = $data['fields'];  
