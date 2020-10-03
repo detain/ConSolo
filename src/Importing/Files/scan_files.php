@@ -117,7 +117,7 @@ function updateCompressedFile($path, $parentId)  {
 				} elseif ($row['type'] == 'BITFIELD') {
 					$names = $row['desc']['names'];
 					$values = [];
-					$bin = strrev(decbin($names[$row['data']]));
+					$bin = strrev(decbin($row['data']));
 					for ($x = 0, $xMax = strlen($bin); $x < $xMax; $x++) {
 						$bit = substr($bin, $x, 1);
 						$values[$names[$x]] = $bit == '1'; 
@@ -359,7 +359,7 @@ function updateFile($path)  {
 				} elseif ($row['type'] == 'BITFIELD') {
 					$names = $row['desc']['names'];
 					$values = [];
-					$bin = strrev(decbin($names[$row['data']]));
+					$bin = strrev(decbin($row['data']));
 					for ($x = 0, $xMax = strlen($bin); $x < $xMax; $x++) {
 						$bit = substr($bin, $x, 1);
 						$values[$names[$x]] = $bit == '1'; 
