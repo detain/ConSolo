@@ -118,7 +118,7 @@ function updateCompressedFile($path, $parentId)  {
 					$names = $row['desc']['names'];
 					$values = [];
 					$bin = strrev(decbin($row['data']));
-					for ($x = 0, $xMax = strlen($bin); $x < $xMax; $x++) {
+					for ($x = 0, $nameCount = count($names), $xMax = strlen($bin); $x < $xMax && $x < $nameCount; $x++) {
 						$bit = substr($bin, $x, 1);
 						$values[$names[$x]] = $bit == '1'; 
 					}
@@ -360,7 +360,7 @@ function updateFile($path)  {
 					$names = $row['desc']['names'];
 					$values = [];
 					$bin = strrev(decbin($row['data']));
-					for ($x = 0, $xMax = strlen($bin); $x < $xMax; $x++) {
+					for ($x = 0, $nameCount = count($names), $xMax = strlen($bin); $x < $xMax && $x < $nameCount; $x++) {
 						$bit = substr($bin, $x, 1);
 						$values[$names[$x]] = $bit == '1'; 
 					}
