@@ -109,18 +109,22 @@ function updateCompressedFile($path, $parentId)  {
 			unset($data['fields']);
 			foreach ($fields as $idx => $row) {
 				$field = $row['desc']['name'];
-				$field = str_replace(['/',' '], ['', '_'], strtolower($field));
+				$field = str_replace(['/',' ', '.', '#'], ['', '_', '', 'num'], strtolower($field));
 				if ($row['type'] == 'STRING') {
 					$data[$field] = $row['data']; 
 				} elseif ($row['type'] == 'DATETIME') {
 					$data[$field] = ($row['data'] == -1 ? null : $row['data']);
 				} elseif ($row['type'] == 'BITFIELD') {
 					$names = $row['desc']['names'];
-					array_unshift($names, '');
-					$value = $names[$row['data']];
-					
-					$data[$field] = $value;;
+					$values = [];
+					$bin = strrev(decbin($names[$row['data']]));
+					for ($x = 0, $xMax = strlen($bin); $x < $xMax; $x++) {
+						$bit = substr($bin, $x, 1);
+						$values[$names[$x]] = $bit == '1'; 
+					}
+					$data[$field] = $values;
 				} elseif ($row['type'] == 'LISTDATA') {
+					
 				} else {
 					echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
 				}
@@ -344,7 +348,7 @@ function updateFile($path)  {
 			unset($data['fields']);
 			foreach ($fields as $idx => $row) {
 				$field = $row['desc']['name'];
-				$field = str_replace(['/',' '], ['', '_'], strtolower($field));
+				$field = str_replace(['/',' ', '.', '#'], ['', '_', '', 'num'], strtolower($field));
 				if (in_array($field, ['dt_flags', 'dat_flags_1']))
 					continue;
 				if ($row['type'] == 'STRING') {
@@ -353,10 +357,13 @@ function updateFile($path)  {
 					$data[$field] = ($row['data'] == -1 ? null : $row['data']);
 				} elseif ($row['type'] == 'BITFIELD') {
 					$names = $row['desc']['names'];
-					array_unshift($names, '');
-					$value = $names[$row['data']];
-					
-					$data[$field] = $value;;
+					$values = [];
+					$bin = strrev(decbin($names[$row['data']]));
+					for ($x = 0, $xMax = strlen($bin); $x < $xMax; $x++) {
+						$bit = substr($bin, $x, 1);
+						$values[$names[$x]] = $bit == '1'; 
+					}
+					$data[$field] = $values;
 				} elseif ($row['type'] == 'LISTDATA') {
 				} else {
 					echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
