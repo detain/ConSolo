@@ -1,0 +1,180 @@
+Games
+Title	ID	Data type	Description	Examples	Inverse
+IMDb ID	P345	External identifier	Internet Movie Database: identifier for the IMDb [with prefix 'tt', 'nm', 'co', 'ev', 'ch' or 'ni']	Journey <IMDb ID> tt1821474	-
+Wine AppDB ID	P600	External identifier	Wine Application Database: identifier for an application in the AppDB of WineHQ	IrfanView <Wine AppDB ID> 163	-
+Metacritic ID	P1712	External identifier	Metacritic: identifier for Metacritic	Team Fortress Classic <Metacritic ID> game/pc/team-fortress-classic	-
+MobyGames game ID	P1933	External identifier	MobyGames: identifier for MobyGames	Team Fortress 2 <MobyGames game ID> team-fortress-2	-
+MAME ROM name	P2451	External identifier	MAME: name of Multiple Arcade Machine Emulator ROM for a software release	Targ <MAME ROM name> targ	-
+PlayStation ID	P2606	External identifier	unique identifier of PlayStation software and hardware assigned by Sony Computer Entertainment Inc.	Resident Evil <PlayStation ID> SLUS-00170	-
+HowLongToBeat ID	P2816	External identifier	HowLongToBeat: identifier of a video game at the website HowLongToBeat	Tomb Raider <HowLongToBeat ID> 10469	-
+Killer List of Videogames ID	P2858	External identifier	Killer List of Videogames and Template:KLOV game: identifier in Killer List of Videogames	Pac-Man <Killer List of Videogames ID> 10816	-
+OpenCritic ID	P2864	External identifier	OpenCritic: identifier in OpenCritic	Titanfall <OpenCritic ID> 857	-
+Visual Novel Database ID	P3180	External identifier	Visual Novel Database: identifier at the Visual Novel Database	Do You Like Horny Bunnies? <Visual Novel Database ID> v133	-
+Hall of Light ID	P4671	External identifier	Hall of Light: identifier in the database of Amiga video games Hall of Light	Amegas <Hall of Light ID> 3258	-
+World of Spectrum ID	P4705	External identifier	World of Spectrum: identifier in the videogame database World of Spectrum	Zombi <World of Spectrum ID> 0005865	-
+Guardiana ID	P4710	External identifier	Guardiana: identifier in the SEGA videogame database Guardiana	Sonic the Hedgehog <Guardiana ID> 166	-
+GameFAQs game ID	P4769	External identifier	GameFAQs: identifier for a game on GameRankings and GameFAQs	Super Mario Odyssey <GameFAQs game ID> 200275	-
+Gaming-History ID	P4806	External identifier	Gaming-History: identifier for the Gaming-History videogame database	Missile Command <Gaming-History ID> 1644	-
+Lemon 64 identifier	P4816	External identifier	Lemon 64: identifier in the Lemon 64 database of Commodore 64 videogames	Attack of the Mutant Camels <Lemon 64 identifier> 172	-
+Lemon Amiga identifier	P4846	External identifier	Lemon Amiga: identifier in the Lemon Amiga database of Amiga videogames	Spindizzy Worlds <Lemon Amiga identifier> 989	-
+CPC-Power ID	P4847	External identifier	CPC-Power: identifier in the CPC-Power database of Amstrad CPC videogames	Defender of the Crown <CPC-Power ID> 699	-
+AtariAge ID	P4857	External identifier	AtariAge: identifier in the AtariAge database of Atari videogames	Missile Command <AtariAge ID> 639	-
+Atari Legend identifier	P4858	External identifier	Atari Legend: identifier in the Atari Legend database of Atari videogames	Zombi <Atari Legend identifier> 3322	-
+Atarimania identifier	P4859	External identifier	Atarimania: identifier in the Atarimania database of Atari videogames	Zombi <Atarimania identifier> 10934	-
+Ready64 ID	P4916	External identifier	Ready64: identifier in the Ready64 database of Commodore 64 videogames	Attack of the Mutant Camels <Ready64 ID> 576	-
+Gamebase64 identifier	P4917	External identifier	Gamebase64: identifier in the Gamebase64 database of Commodore 64 videogames	Attack of the Mutant Camels <Gamebase64 identifier> 280	-
+Plus/4 World ID	P4919	External identifier	Plus/4 World: identifier in the Plus/4 World database of Commodore videogames	Zombi <Plus/4 World ID> Zombie	-
+Generation MSX identifier	P4960	External identifier	Generation MSX: identifier in the Generation MSX database of MSX videogames	Arkanoid <Generation MSX identifier> 887	-
+Sega8bit.com identifier	P4961	External identifier	Sega8bit.com: identifier in the Sega8bit.com database of Master System video games	Prince of Persia <Sega8bit.com identifier> 269	-
+Abandonia identifier	P4962	External identifier	Abandonia: identifier in the Abandonia database of DOS video games	Maupiti Island <Abandonia identifier> 626	-
+Behind The Voice Actors video game ID	P4965	External identifier	Behind The Voice Actors: identifier for video games on the website Behind The Voice Actors	Criminal Girls 2: Party Favors <Behind The Voice Actors video game ID> Criminal-Girls-2-Party-Favors	-
+LGDB game ID	P5116	External identifier	Linux Game Database: identifier for a game in the Linux Game Database	The Battle For Wesnoth <LGDB game ID> battle_wesnoth	-
+Giant Bomb ID	P5247	External identifier	Giant Bomb: identifier at the Giant Bomb database of video games, fictional characters and voice actors	Halo 2 <Giant Bomb ID> 3030-7110	-
+Redump.org ID	P5290	External identifier	Redump.org: identifier at the Redump.org database of video games	Sonic the Hedgehog CD <Redump.org ID> 24557	-
+PC Engine Software Bible ID	P5345	External identifier	PC Engine Software Bible: identifier in the PC Engine Software Bible database of PC Engine videogames	The NewZealand Story <PC Engine Software Bible ID> New_Zealand_Story	-
+IGN game ID	P5385	External identifier	IGN: External identifier for video games at IGN	Rage 2 <IGN game ID> rage-2	-
+Logicielsmoto identifier	P5453	External identifier	Logicielsmoto: identifier in the Logicielsmoto database of Thomson software	L'Aigle d'or <Logicielsmoto identifier> 9	-
+GameSpot ID	P5494	External identifier	GameSpot: identifier at the GameSpot database of video games	Super Mario 64 <GameSpot ID> super-mario-64	-
+SMS Power identifier	P5585	External identifier	SMS Power and Template:SMS Power: identifier of a video game in the SMS Power database of Sega 8-bit console games	Alex Kidd in Miracle World <SMS Power identifier> AlexKiddInMiracleWorld-SMS	-
+oric.org identifier	P5590	External identifier	oric.org: an identifier in the oric.org database of Oric computer programs	L'Aigle d'or <oric.org identifier> 11	-
+CPCRulez ID	P5780	External identifier	CPCRulez: identifier in the CPCRulez database of Amstrad CPC videogames	Contra <CPCRulez ID> gryzor	-
+Nintendo GameID	P5838	External identifier	video game: Six-alphanumeric-character Nintendo GameID for a specific game	Super Smash Bros. Melee <Nintendo GameID> GALE01	-
+Internet Game Database game ID	P5794	External identifier	Internet Game Database: identifier for a game on the Internet Game Database	Devil May Cry 5 <Internet Game Database game ID> devil-may-cry-5	-
+IGF entrant ID	P6032	External identifier	Independent Games Festival: identifier of an entrant in the Independent Games Festival	80 Days <IGF entrant ID> 80-days	-
+DCMOTO identifier	P6068	External identifier	DCMOTO: identifier in the DCMOTO database of Thomson MO/TO software	L'Aigle d'or <DCMOTO identifier> l-aigle-d-or	-
+Satakore game ID	P6172	External identifier	Satakore.com: identifier of a video game in the Satakore database	Radiant Silvergun <Satakore game ID> T-32902G	-
+Badgames ID	P6197	External identifier	Badgames: identifier of a video game from the website Badgames.it	Overwatch <Badgames ID> overwatch	-
+Multiplayer ID	P6267	External identifier	Multiplayer.it: identifier of a video game from the website Multiplayer.it	Metal Gear Solid V: The Phantom Pain <Multiplayer ID> the-phantom-pain-per-ps4	-
+Complete BBC Micro Games Archive ID	P6292	External identifier	Complete BBC Micro Games Archive: identifier in the Complete BBC Games Archive (bbcmicro.co.uk)	Starship Command <Complete BBC Micro Games Archive ID> 35	-
+PC-9801 DB ID	P6299	External identifier	PC-9801 DB: identifier in the PC-9801 DB database of PC-98 video games	Balance of Power <PC-9801 DB ID> G0286	-
+PCGamingWiki ID	P6337	External identifier	PCGamingWiki: identifier for PC video games tracked on PCGamingWiki	Half-Life 2 <PCGamingWiki ID> Half-Life_2	-
+Bahamut Gamer's Community ACG Database	P6367	External identifier	a Taiwanese database for Games, Animation, Comic, Light Novels	SSSS.Gridman <Bahamut Gamer's Community ACG Database> 90003	-
+Represent Me ID	P6554	External identifier	Represent Me: identifier of games on Represent Me	Stardew Valley <Represent Me ID> stardew-valley	-
+Gamepedia article ID	P6623	External identifier	Gamepedia: identifier for an article on Gamepedia	Jaina Proudmoore <Gamepedia article ID> wow:Jaina_Proudmoore	-
+LibreGameWiki ID	P6666	External identifier	LibreGameWiki: identifier for articles on Libregamewiki	0 A.D. <LibreGameWiki ID> 0_A.D.	-
+Indie DB video game ID	P6717	External identifier	Indie DB: identifier of a video game on indiedb.com	Timespinner <Indie DB video game ID> timespinner	-
+Interactive Fiction Database ID	P6748	External identifier	Interactive Fiction Database: identifier for games on tads.org	Moonmist <Interactive Fiction Database ID> c66u816v8kx2jzm2	-
+Mod DB video game ID	P6774	External identifier	Mod DB: identifier of a video game on moddb.com	Vampire: The Masquerade – Bloodlines <Mod DB video game ID> vampire-the-masquerade-bloodlines	-
+speedrun.com game ID	P6783	External identifier	speedrun.com: identifier for games on speedrun.com	Super Mario 64 <speedrun.com game ID> sm64	-
+MSX Games World ID	P6797	External identifier	MSX Games World: identifier of a video game in MSX Games World	Aleste <MSX Games World ID> 1	-
+Igromania ID	P6827	External identifier	Igromania: identifier for a video game at the website Igromania.ru	The Last of Us Part II <Igromania ID> 23766	-
+Coco Game List ID	P6853	External identifier	Coco Game List: identifier in the Coco Game List of Color Computer video games	Atom <Coco Game List ID> atom	-
+Gamepedia wiki ID	P6867	External identifier	Gamepedia: wiki name for this topic on Gamepedia	World of Warcraft <Gamepedia wiki ID> wow	-
+NeoGeoSoft ID	P6898	External identifier	NeoGeoSoft: identifier in the NeoGeoSoft database of Neo Geo video games	3 Count Bout <NeoGeoSoft ID> 3countb	-
+PCE Daisakusen ID	P6928	External identifier	PCE Daisakusen: identifier in the PCE Daisakusen database of PC-Engine video games	The NewZealand Story <PCE Daisakusen ID> 172	-
+Media Arts Database console games ID (obsolete)	P7117	External identifier	Media Art Database: identifier for a console game in the Media Art database created by the Japanese government department Bunkacho (obsolete, use P7886 for new identifier with 'C/M' prefix)	Dark Souls <Media Arts Database console games ID (obsolete)> 0392133400819	-
+PCEngine Catalog Project ID	P7370	External identifier	PCEngine Catalog Project: identifier of a video game in the PCEngine Catalog Project	The NewZealand Story <PCEngine Catalog Project ID> 492	-
+Genre-focused
+Title	ID	Data type	Description	Examples	Inverse
+Visual Novel Database ID	P3180	External identifier	Visual Novel Database: identifier at the Visual Novel Database	Do You Like Horny Bunnies? <Visual Novel Database ID> v133	-
+Indie DB video game ID	P6717	External identifier	Indie DB: identifier of a video game on indiedb.com	Timespinner <Indie DB video game ID> timespinner	-
+Adventure Gamers ID	P7005	External identifier	Adventure Gamers: identifier in the Adventure Gamers database of adventure video games	Syberia <Adventure Gamers ID> 15603	-
+shmup.com ID	P7172	External identifier	shmup.com: identifier in the shmup.com database of shoot them up video games	Radiant Silvergun <shmup.com ID> 277	-
+Planète Aventure ID	P7541	External identifier	Planète Aventure: identifier of a game in the Planète Aventure database	Indiana Jones and the Fate of Atlantis <Planète Aventure ID> 18	-
+FMV World ID	P7665	External identifier	FMV World: identifier of a video game in the FMV World database	The 7th Guest <FMV World ID> 7thguest	-
+MOCAGH ID	P7899	External identifier	Museum of Computer Adventure Game History: identifier of a video game in the database of the Museum of Computer Adventure Game History	Amazon <MOCAGH ID> amazon	-
+RPGamer game ID	P8040	External identifier	RPGamer: identifier of a video game in the RPGamer database	Secret of Mana <RPGamer game ID> secret-of-mana-remake	-
+Platform-focused
+Store fronts
+Title	ID	Data type	Description	Examples	Inverse
+Steam application ID	P1733	External identifier	Steam: identifier for an application available from the Steam distribution platform	Team Fortress 2 <Steam application ID> 440	-
+GOG application ID	P2725	External identifier	GOG.com: identifier for an application (or film) available from the distribution platform GOG.com	Samorost 3 <GOG application ID> game/samorost_3	-
+Humble Store ID	P4477	External identifier	Humble Store: identifier for an application sold on the Humble Store	Stardew Valley <Humble Store ID> stardew-valley	-
+Nintendo of America Game Store ID (former scheme)	P4685	External identifier	Nintendo Game Store: identifier for software sold on the Nintendo of America Game Store	Stardew Valley <Nintendo of America Game Store ID (former scheme)> stardew-valley-switch	-
+Microsoft Store product ID	P5885	External identifier	Microsoft Store: identifier for a application in Microsoft Store	Taobao <Microsoft Store product ID> 9NBLGGH6C2CD	-
+North America PlayStation Store ID	P5944	External identifier	PlayStation Store: identifier for a game available on the PlayStation Store (NA region)	Grand Theft Auto V <North America PlayStation Store ID> UP1004-CUSA00419_00-GTAVDIGITALDOWNL	-
+Europe PlayStation Store ID	P5971	External identifier	PlayStation Store: identifier for a game available on the PlayStation Store (EU region)	Grand Theft Auto V <Europe PlayStation Store ID> EP1004-CUSA00411_00-GTAVDIGITALDOWNL	-
+Japan PlayStation Store ID	P5999	External identifier	PlayStation Store: identifier for a game available on the PlayStation Store (JP region)	Grand Theft Auto V <Japan PlayStation Store ID> JP0230-CUSA00880_00-GTAVDIGITALDOWNL	-
+Discord Store game SKU	P6229	External identifier	Discord Store: identifier for a game available on the Discord Store	Parkasaurus <Discord Store game SKU> 508008071411400724	-
+Epic Games Store ID	P6278	External identifier	Epic Games Store: identifier for a video game available on the Epic Games Store	Ashen <Epic Games Store ID> ashen	-
+Itch.io URL	P7294	URL	itch.io: URL of a project hosted on itch.io	Kentucky Route Zero <Itch.io URL> https://cardboardcomputer.itch.io/kentucky-route-zero	-
+URL slug on Nintendo eShop	P8084	External identifier	Nintendo Game Store: videogame URL slug on Nintendo Game Store	Stardew Valley <URL slug on Nintendo eShop> stardew-valley-switch	-
+Streaming
+Title	ID	Data type	Description	Examples	Inverse
+Twitch game ID	P4467	External identifier	Twitch: identifier for a video game on the twitch.tv website	Dota 2 <Twitch game ID> Dota 2	-
+Facebook Gaming game ID	P6913	External identifier	Facebook Gaming: identifier for a video game on Facebook Gaming	Destiny 2 <Facebook Gaming game ID> destiny2	-
+Mixer game ID [OBSOLETE]	P7335	External identifier	Mixer: identifier for a video game on the Mixer live streaming video platform	Fortnite yeet <Mixer game ID [OBSOLETE]> 70323	-
+Compilations
+Title	ID	Data type	Description	Examples	Inverse
+Steam bundle ID	P7432	External identifier	Steam: identification number for Steam platform bundle	The Binding of Isaac: Rebirth Complete Bundle <Steam bundle ID> bundle/2405	-
+OGDB compilation ID	P7567	External identifier	Online Games-Datenbank: identifier of a video game compilation in the Online Games-Datenbank	Arcade Smash Hits <OGDB compilation ID> 3524	-
+Franchise/series
+Title	ID	Data type	Description	Examples	Inverse
+Behind The Voice Actors franchise ID	P5382	External identifier	Behind The Voice Actors: identifier of a franchise on the website	Metal Gear <Behind The Voice Actors franchise ID> Metal-Gear	-
+MobyGames group ID	P5360	External identifier	MobyGames: identifier of a group in the MobyGames database	Mario Kart <MobyGames group ID> mario-kart-series	-
+Giant Bomb ID	P5247	External identifier	Giant Bomb: identifier at the Giant Bomb database of video games, fictional characters and voice actors	Cossacks <Giant Bomb ID> 3025-953	-
+GameFAQs franchise ID	P6472	External identifier	GameFAQs: identifier of a franchise in GameFAQs	Metal Gear <GameFAQs franchise ID> 292	-
+UVL group ID	P7562	External identifier	Universal Videogame List: identifier of a group in the Universal Videogame List	Metal Gear <UVL group ID> metalgear	-
+Garaph group ID	P7740	External identifier	Garaph: identifier of a video game group in the garaph.info database	Animal Crossing <Garaph group ID> 1	-
+Gamekult franchise ID	P7912	External identifier	Gamekult: identifier of a video game franchise in the Gamekult database	Valkyrie Profile <Gamekult franchise ID> valkyrie-profile	-
+Adventure Gamers series ID	P8012	External identifier	Adventure Gamers: identifier of a video game series in the Adventure Gamers database of adventure video games	King's Quest <Adventure Gamers series ID> 1612	-
+Hardware/Software
+Title	ID	Data type	Description	Examples	Inverse
+GAMECIP media format ID	P5371	External identifier	GAMECIP - Media Formats: identifier of a media format in the thesaurus of the Game Metadata and Citation Project	3½-inch floppy disk <GAMECIP media format ID> 1037	-
+GAMECIP platform ID	P5379	External identifier	GAMECIP - Computer Game Platforms: identifier of a computer game platform in the thesaurus of the Game Metadata and Citation Project	Dreamcast <GAMECIP platform ID> 1053	-
+LGDB emulator ID	P5117	External identifier	Linux Game Database: identifier for an emulator in the Linux Game Database	MAME <LGDB emulator ID> mame	-
+LGDB tool ID	P5118	External identifier	Linux Game Database: identifier for a software tool in the Linux Game Database	Phoronix Test Suite <LGDB tool ID> phoronix_test_suite	-
+LGDB engine ID	P5119	External identifier	Linux Game Database: identifier for a game engine in the Linux Game Database	Ren'Py <LGDB engine ID> renpy	-
+Giant Bomb ID	P5247	External identifier	Giant Bomb: identifier at the Giant Bomb database of video games, fictional characters and voice actors	Dreamcast <Giant Bomb ID> 3045-37	-
+Internet Game Database platform ID	P5795	External identifier	Internet Game Database: identifier for a platform on the Internet Game Database	iOS <Internet Game Database platform ID> ios	-
+MobyGames platform ID	P5868	External identifier	MobyGames: identifier for a platform in MobyGames	Dreamcast <MobyGames platform ID> dreamcast	-
+old-computers.com ID	P5936	External identifier	old-computers.com: identifier in the database of computing platforms old-computers.com	Amiga 500 Plus <old-computers.com ID> 1260	-
+GameFAQs platform ID	P6078	External identifier	GameFAQs: identifier of a gaming platform in GameFAQs database	Dreamcast <GameFAQs platform ID> dreamcast	-
+System16 identifier	P6170	External identifier	System16: identifier in the System16 database of arcade game systems	Sega Titan Video <System16 identifier> 711	-
+UVL platform ID	P7556	External identifier	Universal Videogame List: identifier of a platform in the Universal Videogame List	PlayStation <UVL platform ID> 3	-
+VideoGameGeek platform ID	P7592	External identifier	identifier of a platform in the VideoGameGeek database	Altair 8800 <VideoGameGeek platform ID> 56311	-
+Lutris platform ID	P7617	External identifier	Lutris database: identifier of a video game platform in the Lutris database	PlayStation <Lutris platform ID> ps1	-
+TheGamesDB platform ID	P7623	External identifier	TheGamesDB: identifier of a video game platform in TheGamesDB database	PlayStation <TheGamesDB platform ID> 10	-
+ScreenScraper platform ID	P7757	External identifier	ScreenScraper: identifier of a video game platform in the ScreenScraper database	Sega Mega Drive <ScreenScraper platform ID> 1	-
+The Video Games Museum system ID	P7759	External identifier	The Video Games Museum: identifier of a video game system in the Video Games Museum database	CP System <The Video Games Museum system ID> 1	-
+Games Database system ID	P7806	External identifier	Games Database: identifier of a video game system in the Games Database	Acorn Archimedes <Games Database system ID> 5446	-
+LaunchBox Games Database platform ID	P7809	External identifier	LaunchBox Games Database: identifier of a video game platform in the LaunchBox Games Database	3DO Interactive Multiplayer <LaunchBox Games Database platform ID> 1	-
+Gamekult platform ID	P7914	External identifier	Gamekult: identifier of a video game platform in the Gamekult database	Atari 7800 <Gamekult platform ID> 160043	-
+VGMRips system ID	P8025	External identifier	VGMRips: identifier of a video game system in the VGMRips database	Family Computer <VGMRips system ID> nintendo/family-computer	-
+Companies
+Title	ID	Data type	Description	Examples	Inverse
+IMDb ID	P345	External identifier	Internet Movie Database: identifier for the IMDb [with prefix 'tt', 'nm', 'co', 'ev', 'ch' or 'ni']	thatgamecompany <IMDb ID> co0202640	-
+Visual Novel Database ID	P3180	External identifier	Visual Novel Database: identifier at the Visual Novel Database	Nippon Ichi Software <Visual Novel Database ID> p88	-
+VGMDb organization ID	P3511	External identifier	VGMdb: identifier for a record label, game developer, or other organization in the Video Game Music database	NBCUniversal Entertainment Japan LLC <VGMDb organization ID> 1286	-
+MobyGames company ID	P4773	External identifier	MobyGames: identifier for a company at MobyGames	Bethesda Softworks <MobyGames company ID> bethesda-softworks-llc	-
+Giant Bomb ID	P5247	External identifier	Giant Bomb: identifier at the Giant Bomb database of video games, fictional characters and voice actors	ERE Informatique <Giant Bomb ID> 3010-678	-
+GameFAQs company ID	P6182	External identifier	GameFAQs: identifier of a company in the GameFAQs database	Konami <GameFAQs company ID> 10626	-
+Gaming-History company ID	P7521	External identifier	Gaming-History: identifier of a company in the Gaming-History database	Loriciels <Gaming-History company ID> 4869	-
+UVL company ID	P7560	External identifier	Universal Videogame List: identifier of a company in the Universal Videogame List	Sega <UVL company ID> 10	-
+OGDB company ID	P7570	External identifier	Online Games-Datenbank: identifier of a company in the Online Games-Datenbank	id Software <OGDB company ID> 1	-
+TheGamesDB developer ID	P7634	External identifier	TheGamesDB: identifier of a video game developer in TheGamesDB database	Atari Games <TheGamesDB developer ID> 1	-
+TheGamesDB publisher ID	P7642	External identifier	TheGamesDB: identifier of a video game publisher in TheGamesDB database	Electronic Arts <TheGamesDB publisher ID> 2	-
+SNESmusic.org company ID	P7708	External identifier	SNESmusic.org: identifier of a company in the SNESmusic.org database	Square <SNESmusic.org company ID> 1	-
+ZX81 Collection publisher ID	P7730	External identifier	ZX81 Collection: identifier of a video game publisher in the ZX81 Collection database	Bug-Byte <ZX81 Collection publisher ID> BugByte	-
+ScreenScraper company ID	P7755	External identifier	ScreenScraper: identifier of a video game in the ScreenScraper database	Tradewest <ScreenScraper company ID> 1	-
+LaunchBox Games Database developer ID	P7784	External identifier	LaunchBox Games Database: identifier of a video game developer in the LaunchBox Games Database	Square <LaunchBox Games Database developer ID> 14	-
+Games Database developer ID	P7794	External identifier	Games Database: identifier of a video game developer in the Games Database	Konami <Games Database developer ID> 99202	-
+Games Database publisher ID	P7805	External identifier	Games Database: identifier of a video game publisher in the Games Database	Sega <Games Database publisher ID> 64327	-
+LaunchBox Games Database publisher ID	P7810	External identifier	LaunchBox Games Database: identifier of a video game publisher in the LaunchBox Games Database	Square <LaunchBox Games Database publisher ID> 31	-
+Gamekult company ID	P7911	External identifier	Gamekult: identifier of a company in the Gamekult database	Electronic Arts <Gamekult company ID> 1	-
+Adventure Gamers company ID	P7940	External identifier	Adventure Gamers: identifier of a company in the Adventure Gamers database of adventure video games	Cyan Worlds <Adventure Gamers company ID> 816	-
+Gry Online company ID	P7997	External identifier	Gry Online: identifier of a company in the Gry-Online database	Blizzard Entertainment <Gry Online company ID> 253	-
+People
+Title	ID	Data type	Description	Examples	Inverse
+Visual Novel Database ID	P3180	External identifier	Visual Novel Database: identifier at the Visual Novel Database	Minami Tsuda <Visual Novel Database ID> s11697	-
+VGMdb artist ID	P3435	External identifier	VGMdb: identifier for a musician or group in the Video Game Music database	Koji Kondo <VGMdb artist ID> 190	-
+MobyGames developer ID	P3913	External identifier	MobyGames: ID of a developer at MobyGames	Ian Livingstone <MobyGames developer ID> 14597	-
+Giant Bomb ID	P5247	External identifier	Giant Bomb: identifier at the Giant Bomb database of video games, fictional characters and voice actors	Daniel Benmergui <Giant Bomb ID> 3040-172283	-
+Internet Game Database person ID	P5796	External identifier	Internet Game Database: identifier for a person on the Internet Game Database	Jon Bailey <Internet Game Database person ID> jon-bailey	-
+IMDb ID	P345	External identifier	Internet Movie Database: identifier for the IMDb [with prefix 'tt', 'nm', 'co', 'ev', 'ch' or 'ni']	Jenova Chen <IMDb ID> nm2572549	-
+Behind The Voice Actors person ID	P5007	External identifier	Behind The Voice Actors: identifier of a person on the website Behind The Voice Actors	Mark Allan Stewart <Behind The Voice Actors person ID> Mark-Allan-Stewart	-
+Characters
+Title	ID	Data type	Description	Examples	Inverse
+Visual Novel Database ID	P3180	External identifier	Visual Novel Database: identifier at the Visual Novel Database	Rei Ayanami <Visual Novel Database ID> c34158	-
+Behind The Voice Actors character ID	P5107	External identifier	Behind The Voice Actors: identifier of a character from the Behind The Voice Actors website	Rei Ayanami <Behind The Voice Actors character ID> Evangelion/Rei-Ayanami	-
+Giant Bomb ID	P5247	External identifier	Giant Bomb: identifier at the Giant Bomb database of video games, fictional characters and voice actors	Gordon Freeman <Giant Bomb ID> 3005-341	-
+Genres
+Title	ID	Data type	Description	Examples	Inverse
+Visual Novel Database ID	P3180	External identifier	Visual Novel Database: identifier at the Visual Novel Database	crying game <Visual Novel Database ID> g596	-
+OLAC video game genre vocabulary ID	P6352	External identifier	OLAC Video Game Genre Vocabulary: identifier of video game genre vocabulary of the OLAC (Online Audiovisual Catalogers)	puzzle video game <OLAC video game genre vocabulary ID> 1057	-
+MobyGames genre ID	P7326	External identifier	MobyGames: identifier of a video game genre in the MobyGames database	platform game <MobyGames genre ID> 21	-
+Lutris genre ID	P7616	External identifier	Lutris database: identifier of a video game genre in the Lutris database	4X <Lutris genre ID> 4x	-
+Other
+Title	ID	Data type	Description	Examples	Inverse
+VGMdb album ID	P3483	External identifier	VGMdb: identifier for a single or album in the Video Game Music database	Bōken desho desho? <VGMdb album ID> 30550	-
+Soundtrack Collector ID	P3854	External identifier	Soundtrack Collector: ID that characterizes a soundtrack at Soundtrack Collector (soundtrackcollector.com)	No Man’s Sky <Soundtrack Collector ID> 110783	-
