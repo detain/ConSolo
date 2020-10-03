@@ -89,7 +89,7 @@ function updateCompressedFile($path, $parentId)  {
 			$return = false;    
 		}
 	}
-	if (!isset($fileData['rom_properties']) || is_null($fileData['mediainfo']) || $reread == true) {
+	if (!isset($fileData['rom_properties']) || is_null($fileData['rom_properties']) || $reread == true) {
 		$cmd = 'exec rpcli -j '.escapeshellarg($path).' 2>/dev/null';
 		$data = json_decode(`$cmd`, true);
 		if (!is_array($data) || array_key_exists('error', $data)) {
@@ -311,7 +311,7 @@ function updateFile($path)  {
 			$return = false;    
 		}
 	}
-	if (!isset($fileData['rom_properties']) || is_null($fileData['mediainfo']) || $reread == true) {
+	if (!isset($fileData['rom_properties']) || is_null($fileData['rom_properties']) || $reread == true) {
 		$cmd = 'exec rpcli -j '.escapeshellarg($path).' 2>/dev/null';
 		$data = json_decode(`$cmd`, true);
 		if (!is_array($data) || array_key_exists('error', $data)) {
