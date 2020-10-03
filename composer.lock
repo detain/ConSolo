@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "acb97d5c4a25e77902896b8a0cb78a31",
+    "content-hash": "f5187ec68654daa36a9ea5f17391dee9",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -939,12 +939,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "8d7c8fb942cb9856b7b5c98e68e9c34d56e806a9"
+                "reference": "60d379c243457e073cff02bc323a2a86cb355631"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/8d7c8fb942cb9856b7b5c98e68e9c34d56e806a9",
-                "reference": "8d7c8fb942cb9856b7b5c98e68e9c34d56e806a9",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/60d379c243457e073cff02bc323a2a86cb355631",
+                "reference": "60d379c243457e073cff02bc323a2a86cb355631",
                 "shasum": ""
             },
             "require": {
@@ -982,7 +982,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2020-09-21T06:06:31+00:00"
+            "time": "2020-09-30T07:37:28+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -990,12 +990,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "b2007a51b06f899b278be4d1b31593831c1be65f"
+                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/b2007a51b06f899b278be4d1b31593831c1be65f",
-                "reference": "b2007a51b06f899b278be4d1b31593831c1be65f",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/53330f47520498c0ae1f61f7e2c90f55690c06a3",
+                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3",
                 "shasum": ""
             },
             "require": {
@@ -1053,7 +1053,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2020-09-23T20:12:44+00:00"
+            "time": "2020-09-30T07:37:11+00:00"
         },
         {
             "name": "imdbphp/imdbphp",
@@ -1440,6 +1440,97 @@
             "time": "2016-04-01T14:51:00+00:00"
         },
         {
+            "name": "monolog/monolog",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "bbe10b1e28aedde9a28bf7b7cedea622ddddc3ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bbe10b1e28aedde9a28bf7b7cedea622ddddc3ba",
+                "reference": "bbe10b1e28aedde9a28bf7b7cedea622ddddc3ba",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "psr/log": "^1.0.1"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0.0"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "^2.4.9 || ^3.0",
+                "doctrine/couchdb": "~1.0@dev",
+                "elasticsearch/elasticsearch": "^6.0",
+                "graylog2/gelf-php": "^1.4.2",
+                "php-amqplib/php-amqplib": "~2.4",
+                "php-console/php-console": "^3.1.3",
+                "php-parallel-lint/php-parallel-lint": "^1.0",
+                "phpspec/prophecy": "^1.6.1",
+                "phpunit/phpunit": "^8.5",
+                "predis/predis": "^1.1",
+                "rollbar/rollbar": "^1.3",
+                "ruflin/elastica": ">=0.90 <3.0",
+                "swiftmailer/swiftmailer": "^5.3|^6.0"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+                "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+                "elasticsearch/elasticsearch": "Allow sending log messages to an Elasticsearch server via official client",
+                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-mbstring": "Allow to work properly with unicode symbols",
+                "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
+                "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
+                "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
+                "php-console/php-console": "Allow sending log messages to Google Chrome",
+                "rollbar/rollbar": "Allow sending log messages to Rollbar",
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Monolog\\": "src/Monolog"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+            "homepage": "http://github.com/Seldaek/monolog",
+            "keywords": [
+                "log",
+                "logging",
+                "psr-3"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/Seldaek",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/monolog/monolog",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-08-23T11:42:45+00:00"
+        },
+        {
             "name": "nesbot/carbon",
             "version": "1.39.1",
             "source": {
@@ -1546,12 +1637,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/FastRoute.git",
-                "reference": "b7231d009a5d3b2658ea8560b063adb39f2e1695"
+                "reference": "7723b1dcb0084baaa1f36df25d5720b7b85b62d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/b7231d009a5d3b2658ea8560b063adb39f2e1695",
-                "reference": "b7231d009a5d3b2658ea8560b063adb39f2e1695",
+                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/7723b1dcb0084baaa1f36df25d5720b7b85b62d6",
+                "reference": "7723b1dcb0084baaa1f36df25d5720b7b85b62d6",
                 "shasum": ""
             },
             "require": {
@@ -1596,7 +1687,7 @@
                 "router",
                 "routing"
             ],
-            "time": "2020-08-19T08:42:31+00:00"
+            "time": "2020-09-28T10:21:28+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -2464,12 +2555,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/http-client.git",
-                "reference": "f16ab55150ec369f8f9b5db64972f248691093b0"
+                "reference": "7d02e82136100520d88681294d10654086f0b0a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/http-client/zipball/f16ab55150ec369f8f9b5db64972f248691093b0",
-                "reference": "f16ab55150ec369f8f9b5db64972f248691093b0",
+                "url": "https://api.github.com/repos/reactphp/http-client/zipball/7d02e82136100520d88681294d10654086f0b0a3",
+                "reference": "7d02e82136100520d88681294d10654086f0b0a3",
                 "shasum": ""
             },
             "require": {
@@ -2500,7 +2591,18 @@
             "keywords": [
                 "http"
             ],
-            "time": "2020-01-14T08:36:16+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/WyriHaximus",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/clue",
+                    "type": "github"
+                }
+            ],
+            "abandoned": "react/http",
+            "time": "2020-09-27T20:28:39+00:00"
         },
         {
             "name": "react/mysql",
@@ -3268,12 +3370,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RubixML/RubixML.git",
-                "reference": "1d0046d4eb5ffe1107e625327c66f183e17148aa"
+                "reference": "61cfb4f12d095d31548f8cced519da4c09c2baab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/1d0046d4eb5ffe1107e625327c66f183e17148aa",
-                "reference": "1d0046d4eb5ffe1107e625327c66f183e17148aa",
+                "url": "https://api.github.com/repos/RubixML/RubixML/zipball/61cfb4f12d095d31548f8cced519da4c09c2baab",
+                "reference": "61cfb4f12d095d31548f8cced519da4c09c2baab",
                 "shasum": ""
             },
             "require": {
@@ -3412,13 +3514,9 @@
                 {
                     "url": "https://github.com/sponsors/RubixML",
                     "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/rubixml",
-                    "type": "patreon"
                 }
             ],
-            "time": "2020-09-23T20:54:44+00:00"
+            "time": "2020-09-30T06:41:45+00:00"
         },
         {
             "name": "rubix/tensor",
@@ -3779,12 +3877,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "73a3c793782c75dce5a2e7e0c533e9199564a7b3"
+                "reference": "c4ea25dd092e2d8e6f0d1b524a49461bacbef972"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/73a3c793782c75dce5a2e7e0c533e9199564a7b3",
-                "reference": "73a3c793782c75dce5a2e7e0c533e9199564a7b3",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/c4ea25dd092e2d8e6f0d1b524a49461bacbef972",
+                "reference": "c4ea25dd092e2d8e6f0d1b524a49461bacbef972",
                 "shasum": ""
             },
             "require": {
@@ -3835,7 +3933,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-02T16:27:44+00:00"
+            "time": "2020-09-27T14:05:32+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -4614,12 +4712,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "77ce1c3627c9f39643acd9af086631f842c50c4d"
+                "reference": "e2eaa60b558f26a4b0354e1bbb25636efaaad105"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/77ce1c3627c9f39643acd9af086631f842c50c4d",
-                "reference": "77ce1c3627c9f39643acd9af086631f842c50c4d",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/e2eaa60b558f26a4b0354e1bbb25636efaaad105",
+                "reference": "e2eaa60b558f26a4b0354e1bbb25636efaaad105",
                 "shasum": ""
             },
             "require": {
@@ -4631,7 +4729,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -4681,7 +4779,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-07T11:33:47+00:00"
+            "time": "2020-09-28T13:05:58+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -4903,12 +5001,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "02586c7ad3f162b96b31e8b064cb5906a44588be"
+                "reference": "dba3517f4b6a91fae8f3fdac279be42b67a365bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/02586c7ad3f162b96b31e8b064cb5906a44588be",
-                "reference": "02586c7ad3f162b96b31e8b064cb5906a44588be",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/dba3517f4b6a91fae8f3fdac279be42b67a365bd",
+                "reference": "dba3517f4b6a91fae8f3fdac279be42b67a365bd",
                 "shasum": ""
             },
             "require": {
@@ -4967,7 +5065,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-09-25T16:21:56+00:00"
+            "time": "2020-09-27T05:01:41+00:00"
         },
         {
             "name": "workerman/mysql",
@@ -5014,6 +5112,7 @@
     "stability-flags": {
         "rubix/ml": 20,
         "matto1990/lastfm-api": 20,
+        "monolog/monolog": 20,
         "php-ffmpeg/extras": 20,
         "aminyazdanpanah/php-ffmpeg-video-streaming": 20,
         "php-ai/php-ml": 20,

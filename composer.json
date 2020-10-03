@@ -23,6 +23,7 @@
         "rubix/ml": "dev-master",
         "masterminds/html5": "*",
         "matto1990/lastfm-api": "dev-master",
+        "monolog/monolog": "dev-master",
         "php-ffmpeg/extras": "dev-master",
         "php-ffmpeg/php-ffmpeg": "*",
         "aminyazdanpanah/php-ffmpeg-video-streaming": "dev-master",
