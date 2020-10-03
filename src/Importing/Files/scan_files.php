@@ -91,37 +91,50 @@ function updateCompressedFile($path, $parentId)  {
 	}
 	if (!isset($fileData['rom_properties']) || is_null($fileData['rom_properties']) || $reread == true) {
 		$cmd = 'exec rpcli -j '.escapeshellarg($path).' 2>/dev/null';
-		$data = json_decode(`$cmd`, true);
+		$data = json_decode(trim(`$cmd`), true);
 		if (!is_array($data) || array_key_exists('error', $data)) {
-			$properties = [];
+			$data = [];
 		} else {
-			if (array_key_exists('fields', $data)) {
-				foreach ($data['fields'] as $row) {
-					if ($row['type'] == 'STRING') {
-						$data[$row['desc']['name']] = $row['data']; 
-					} elseif ($row['type'] == 'DATETIME') {
-						$data[$row['desc']] = $row['data'] == -1 ? null : $row['data'];
-					} elseif ($row['type'] == 'BITFIELD') {
-						$data[$row['desc']] = $row['names'][$row['data']];
-					} elseif ($row['type'] == 'LISTDATA') {
-						
-					} else {
-						echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
-					}
+			if (array_key_exists(0, $data)) {
+				$row = $data[0];
+				$data = $row;
+			}
+			$fields = [];
+			if (isset($data['fields'])) {
+				$fields = $data['fields'];  
+			} else {
+				$fields = [];
+			}
+			$fields = isset($data['fields']) ? $data['fields'] : [];
+			unset($data['fields']);
+			foreach ($fields as $idx => $row) {
+				$field = $row['desc']['name'];
+				$field = str_replace(['/',' '], ['', '_'], strtolower($field));
+				if ($row['type'] == 'STRING') {
+					$data[$field] = $row['data']; 
+				} elseif ($row['type'] == 'DATETIME') {
+					$data[$field] = ($row['data'] == -1 ? null : $row['data']);
+				} elseif ($row['type'] == 'BITFIELD') {
+					$names = $row['desc']['names'];
+					array_unshift($names, '');
+					$value = $names[$row['data']];
+					
+					$data[$field] = $value;;
+				} elseif ($row['type'] == 'LISTDATA') {
+				} else {
+					echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
 				}
-				unset($data['fields']);
 			}
 			foreach (['imgext', 'imgint'] as $field) {
 				if (array_key_exists($field, $data)) {
 					unset($data[$field]);
 				}
 			}
-			$properties = $data;
-		} 
-		$fileData['rom_properties'] = $properties;			
-		$return = false;    
+			print_r($data);
+		}
+		$fileData['rom_properties'] = $data;
+		$return = false; 
 	}
-	
 	$fileData['host'] = $hostId;
 	foreach ($compressedHashAlgos as $hashAlgo) {
 		if (!isset($fileData[$hashAlgo])) {
@@ -313,36 +326,50 @@ function updateFile($path)  {
 	}
 	if (!isset($fileData['rom_properties']) || is_null($fileData['rom_properties']) || $reread == true) {
 		$cmd = 'exec rpcli -j '.escapeshellarg($path).' 2>/dev/null';
-		$data = json_decode(`$cmd`, true);
+		$data = json_decode(trim(`$cmd`), true);
 		if (!is_array($data) || array_key_exists('error', $data)) {
-			$properties = [];
+			$data = [];
 		} else {
-			if (array_key_exists('fields', $data)) {
-				foreach ($data['fields'] as $row) {
-					if ($row['type'] == 'STRING') {
-						$data[$row['desc']['name']] = $row['data']; 
-					} elseif ($row['type'] == 'DATETIME') {
-						$data[$row['desc']] = $row['data'] == -1 ? null : $row['data'];
-					} elseif ($row['type'] == 'BITFIELD') {
-						$data[$row['desc']] = $row['names'][$row['data']];
-					} elseif ($row['type'] == 'LISTDATA') {
-						
-					} else {
-						echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
-					}
+			if (array_key_exists(0, $data)) {
+				$row = $data[0];
+				$data = $row;
+			}
+			$fields = [];
+			if (isset($data['fields'])) {
+				$fields = $data['fields'];  
+			} else {
+				$fields = [];
+			}
+			$fields = isset($data['fields']) ? $data['fields'] : [];
+			unset($data['fields']);
+			foreach ($fields as $idx => $row) {
+				$field = $row['desc']['name'];
+				$field = str_replace(['/',' '], ['', '_'], strtolower($field));
+				if ($row['type'] == 'STRING') {
+					$data[$field] = $row['data']; 
+				} elseif ($row['type'] == 'DATETIME') {
+					$data[$field] = ($row['data'] == -1 ? null : $row['data']);
+				} elseif ($row['type'] == 'BITFIELD') {
+					$names = $row['desc']['names'];
+					array_unshift($names, '');
+					$value = $names[$row['data']];
+					
+					$data[$field] = $value;;
+				} elseif ($row['type'] == 'LISTDATA') {
+				} else {
+					echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
 				}
-				unset($data['fields']);
 			}
 			foreach (['imgext', 'imgint'] as $field) {
 				if (array_key_exists($field, $data)) {
 					unset($data[$field]);
 				}
 			}
-			$properties = $data;
-		} 
-		$fileData['rom_properties'] = $properties;			
-		$newData['rom_properties'] = $properties;
-		$return = false;    
+			print_r($data);
+		}
+		$fileData['rom_properties'] = $data;
+		$newData['rom_properties'] = $data;
+		$return = false; 
 	}
 	if (!isset($fileData['host']) || $fileData['host'] != $hostId) {
 		$newData['host'] = $hostId;
