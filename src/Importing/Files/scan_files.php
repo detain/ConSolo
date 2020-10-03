@@ -89,6 +89,39 @@ function updateCompressedFile($path, $parentId)  {
 			$return = false;    
 		}
 	}
+	if (!isset($fileData['rom_properties']) || is_null($fileData['mediainfo']) || $reread == true) {
+		$cmd = 'exec rpcli -j '.escapeshellarg($path).' 2>/dev/null';
+		$data = json_decode(`$cmd`, true);
+		if (!is_array($data) || array_key_exists('error', $data)) {
+			$properties = [];
+		} else {
+			if (array_key_exists('fields', $data)) {
+				foreach ($data['fields'] as $row) {
+					if ($row['type'] == 'STRING') {
+						$data[$row['desc']['name']] = $row['data']; 
+					} elseif ($row['type'] == 'DATETIME') {
+						$data[$row['desc']] = $row['data'] == -1 ? null : $row['data'];
+					} elseif ($row['type'] == 'BITFIELD') {
+						$data[$row['desc']] = $row['names'][$row['data']];
+					} elseif ($row['type'] == 'LISTDATA') {
+						
+					} else {
+						echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
+					}
+				}
+				unset($data['fields']);
+			}
+			foreach (['imgext', 'imgint'] as $field) {
+				if (array_key_exists(($field, $data))) {
+					unset($data[$field]));
+				}
+			}
+			$properties = $data;
+		} 
+		$fileData['rom_properties'] = $properties;			
+		$return = false;    
+	}
+	
 	$fileData['host'] = $hostId;
 	foreach ($compressedHashAlgos as $hashAlgo) {
 		if (!isset($fileData[$hashAlgo])) {
@@ -106,7 +139,7 @@ function updateCompressedFile($path, $parentId)  {
 	$fileData['path'] = $virtualPath;
 	$fileData['parent'] = $parentId;
 	$extraData = [];
-	foreach (['magic', 'mediainfo', 'exifinfo'] as $extraField) {
+	foreach (['magic', 'mediainfo', 'exifinfo', 'rom_properties'] as $extraField) {
 		if (isset($fileData[$extraField])) {
 			if (!is_array($fileData[$extraField]))
 				$extraData[$extraField] = $fileData[$extraField];
@@ -278,6 +311,39 @@ function updateFile($path)  {
 			$return = false;    
 		}
 	}
+	if (!isset($fileData['rom_properties']) || is_null($fileData['mediainfo']) || $reread == true) {
+		$cmd = 'exec rpcli -j '.escapeshellarg($path).' 2>/dev/null';
+		$data = json_decode(`$cmd`, true);
+		if (!is_array($data) || array_key_exists('error', $data)) {
+			$properties = [];
+		} else {
+			if (array_key_exists('fields', $data)) {
+				foreach ($data['fields'] as $row) {
+					if ($row['type'] == 'STRING') {
+						$data[$row['desc']['name']] = $row['data']; 
+					} elseif ($row['type'] == 'DATETIME') {
+						$data[$row['desc']] = $row['data'] == -1 ? null : $row['data'];
+					} elseif ($row['type'] == 'BITFIELD') {
+						$data[$row['desc']] = $row['names'][$row['data']];
+					} elseif ($row['type'] == 'LISTDATA') {
+						
+					} else {
+						echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
+					}
+				}
+				unset($data['fields']);
+			}
+			foreach (['imgext', 'imgint'] as $field) {
+				if (array_key_exists(($field, $data))) {
+					unset($data[$field]));
+				}
+			}
+			$properties = $data;
+		} 
+		$fileData['rom_properties'] = $properties;			
+		$newData['rom_properties'] = $properties;
+		$return = false;    
+	}
 	if (!isset($fileData['host']) || $fileData['host'] != $hostId) {
 		$newData['host'] = $hostId;
 	}
@@ -302,7 +368,7 @@ function updateFile($path)  {
 		$return = false;    
 	}
 	$extraData = [];
-	foreach (['magic', 'mediainfo', 'exifinfo'] as $extraField) {
+	foreach (['magic', 'mediainfo', 'exifinfo', 'rom_properties'] as $extraField) {
 		if (isset($newData[$extraField])) {
 			if (!is_array($newData[$extraField]))
 				$extraData[$extraField] = $newData[$extraField];
