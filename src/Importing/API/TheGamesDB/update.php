@@ -11,10 +11,15 @@ function apiGet($url, $index = null, $assocNested = true) {
 	if (is_null($index)) {
 		$index = strtolower(basename(preg_replace('/\?.*$/', '', $url)));
 	}
+	$ip = false;
+	$ip = '104.37.189.60';
 	$url = 'https://api.thegamesdb.net/v1/'.$url;
 	$page = 1;
 	echo 'Getting '.$index.' Page '.$page; 
 	$cmd = 'curl -s -X GET '.escapeshellarg($url).' -H  "accept: application/json"';
+	//if ($ip !== false) {
+		$cmd .= ' --interface '.$ip;
+	//}
 	$response = trim(`{$cmd}`);
 	$json = json_decode($response, true);
 	if ($json['code'] != 200) {
@@ -23,6 +28,7 @@ function apiGet($url, $index = null, $assocNested = true) {
 	$out = $json['data'][$index];
 	while (isset($json['pages']) && !is_null($json['pages']['next'])) {
 		$cmd = 'curl -s -X GET "'.$json['pages']['next'].'" -H  "accept: application/json"';
+		$cmd .= ' --interface '.$ip;
 		$page++;
 		echo ' '.$page;
 		$response = trim(`{$cmd}`);        
@@ -62,7 +68,7 @@ foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 		$var = strtolower($type);
 		$$var = json_decode(file_get_contents($dataDir.'/json/tgdb/'.$type.'.json'), true);            
 	} else {
-		$json = apiGet($type.'?apikey='.($usePrivate == true ? $config['thegamesdb_private_api_key'] : $config['thegamesdb_public_api_key']));
+		$json = apiGet($type.'?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']));
 		file_put_contents($dataDir.'/json/tgdb/'.$type.'.json', json_encode($json, JSON_PRETTY_PRINT));
 		$lower = strtolower($type);
 		$db->query('delete from tgdb_'.$lower);
@@ -75,7 +81,7 @@ if ($useCache == true && file_exists($dataDir.'/json/tgdb/Platforms.json')) {
 	$platforms = json_decode(file_get_contents($dataDir.'/json/tgdb/Platforms.json'), true);
 } else {
 	$fields = ['icon', 'console', 'controller', 'developer', 'manufacturer', 'media', 'cpu', 'memory', 'graphics', 'sound', 'maxcontrollers', 'display', 'overview', 'youtube'];
-	$platforms = apiGet('Platforms?apikey='.($usePrivate == true ? $config['thegamesdb_private_api_key'] : $config['thegamesdb_public_api_key']).'&fields='.urlencode(implode(',',$fields)));
+	$platforms = apiGet('Platforms?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&fields='.urlencode(implode(',',$fields)));
 	file_put_contents($dataDir.'/json/tgdb/Platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
 	$db->query('delete from tgdb_platforms');
 	foreach ($platforms['data']['platforms'] as $idx => $data) {
@@ -86,7 +92,7 @@ $platformIds = array_keys($platforms['data']['platforms']);
 if ($useCache == true && file_exists($dataDir.'/json/tgdb/PlatformImages.json')) {
 	$platformImages = json_decode(file_get_contents($dataDir.'/json/tgdb/PlatformImages.json'), true);
 } else {
-	$platformImages = apiGet('Platforms/Images?apikey='.($usePrivate == true ? $config['thegamesdb_private_api_key'] : $config['thegamesdb_public_api_key']).'&platforms_id='.urlencode(implode(',',$platformIds)));
+	$platformImages = apiGet('Platforms/Images?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&platforms_id='.urlencode(implode(',',$platformIds)));
 	file_put_contents($dataDir.'/json/tgdb/PlatformImages.json', json_encode($platformImages, JSON_PRETTY_PRINT));
 }
 $fields = ['players', 'publishers', 'genres', 'overview', 'last_updated', 'rating', 'platform', 'coop', 'youtube', 'os', 'processor', 'ram', 'hdd', 'video', 'sound', 'alternates'];
@@ -100,8 +106,10 @@ foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {
 	if ($useCache == true && file_exists($dataDir.'/json/tgdb/platform/'.$platformId.'.json')) {
 		$games = json_decode(file_get_contents($dataDir.'/json/tgdb/platform/'.$platformId.'.json'), true);
 	} else {
-		$games = apiGet('Games/ByPlatformID?apikey='.($usePrivate == true ? $config['thegamesdb_private_api_key'] : $config['thegamesdb_public_api_key']).'&id='.$platformId.'&fields='.urlencode(implode(',',$fields)), 'games', false);
+		$games = apiGet('Games/ByPlatformID?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&id='.$platformId.'&fields='.urlencode(implode(',',$fields)), 'games', false);
 		file_put_contents($dataDir.'/json/tgdb/platform/'.$platformId.'.json', json_encode($games, JSON_PRETTY_PRINT));
+		echo 'Remaining Queries: '.$games['remaining_monthly_allowance'].PHP_EOL;
+		exit;
 	}
 	echo 'Inserting DB Data..';
 	foreach ($games['data']['games'] as $idx => $game) {
