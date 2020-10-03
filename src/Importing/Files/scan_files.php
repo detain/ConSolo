@@ -124,8 +124,16 @@ function updateCompressedFile($path, $parentId)  {
 					}
 					$data[$field] = $values;
 				} elseif ($row['type'] == 'LISTDATA') {
-					$data[$field ] = $row;
-					echo 'Got LISTDATA: '.json_encode($row).PHP_EOL;
+					$names = $row['desc']['names'];
+					$rows = [];
+					foreach ($row['data'] as $values) {
+						$line = [];
+						foreach ($names as $idxName => $value) {
+							$line[$value] = $values[$idxName];
+						}
+						$rows[] = $line;
+					}
+					$data[$field] = $rows;
 				} else {
 					echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
 				}
@@ -135,7 +143,6 @@ function updateCompressedFile($path, $parentId)  {
 					unset($data[$field]);
 				}
 			}
-			print_r($data);
 		}
 		$fileData['rom_properties'] = $data;
 		$return = false; 
@@ -364,8 +371,16 @@ function updateFile($path)  {
 					}
 					$data[$field] = $values;
 				} elseif ($row['type'] == 'LISTDATA') {
-					$data[$field ] = $row;
-					echo 'Got LISTDATA: '.json_encode($row).PHP_EOL;
+					$names = $row['desc']['names'];
+					$rows = [];
+					foreach ($row['data'] as $values) {
+						$line = [];
+						foreach ($names as $idxName => $value) {
+							$line[$value] = $values[$idxName];
+						}
+						$rows[] = $line;
+					}
+					$data[$field] = $rows;
 				} else {
 					echo 'Dont know how to handle type '.$row['type'].PHP_EOL;
 				}
@@ -375,7 +390,6 @@ function updateFile($path)  {
 					unset($data[$field]);
 				}
 			}
-			print_r($data);
 		}
 		$fileData['rom_properties'] = $data;
 		$newData['rom_properties'] = $data;
