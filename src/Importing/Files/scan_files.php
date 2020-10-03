@@ -112,8 +112,8 @@ function updateCompressedFile($path, $parentId)  {
 				unset($data['fields']);
 			}
 			foreach (['imgext', 'imgint'] as $field) {
-				if (array_key_exists(($field, $data))) {
-					unset($data[$field]));
+				if (array_key_exists($field, $data)) {
+					unset($data[$field]);
 				}
 			}
 			$properties = $data;
@@ -334,8 +334,8 @@ function updateFile($path)  {
 				unset($data['fields']);
 			}
 			foreach (['imgext', 'imgint'] as $field) {
-				if (array_key_exists(($field, $data))) {
-					unset($data[$field]));
+				if (array_key_exists($field, $data)) {
+					unset($data[$field]);
 				}
 			}
 			$properties = $data;
