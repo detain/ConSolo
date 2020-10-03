@@ -9,7 +9,7 @@
   "private": false,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
-    "axios": "^0.19.2",
+    "axios": "*",
     "bootstrap": "^3",
     "datatables.net-autofill-bs": "^*",
     "datatables.net-bs": "^*",
@@ -26,12 +26,15 @@
     "datatables.net-searchpanes-bs": "^*",
     "datatables.net-select-bs": "^*",
     "jquery": "*",
+    "jquery-jsonview": "*",
     "jszip": "*",
     "pdfmake": "*",
-    "shaka-player": "^3.0.3",
-    "video.js": "^7.8.4",
+    "shaka-player": "*",
+    "video.js": "*",
+    "videojs-contrib-quality-levels": "*",
+    "videojs-hls-quality-selector": "fetlife/videojs-hls-quality-selector#master",
     "vue": "*",
-    "vue-axios": "^2.1.5",
+    "vue-axios": "*",
     "vuetify": "*"
   }
 }
