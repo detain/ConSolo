@@ -81,8 +81,10 @@
 						{% if fileId is not same as (false) %}
 						<div class="row">
 							<div class="col-sm-12 col-xs-12">
-								<video id="my-player" class="video-js" controls preload="auto" data-setup='{}'>
-									<source src="{{ app.request.basePath }}/file.php?id={{ fileId }}" type="video/mp4"></source>
+								<video id="my-player" class="video-js" poster="https://image.tmdb.org/t/p/w300_and_h450_bestv2{{ movie.poster_path }}">
+									<!-- <source src="{{ app.request.basePath }}/file.php?id={{ fileId }}" type="video/mp4"></source> -->
+									<source src="{{ app.request.basePath }}/9.2009.1080p.BluRay.x264.YIFY.mp4" type="video/mp4"></source>
+									<!-- <source src="{{ app.request.basePath }}/hls/9.2009.1080p.BluRay.x264.YIFY.m3u8" type="application/x-mpegURL"></source> -->
 									<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
 								</video>
 							</div>
