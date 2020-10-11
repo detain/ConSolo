@@ -82,7 +82,7 @@ foreach ($xml as $list) {
 		/*$db
 			->insert('mame_software_platforms')
 			->cols(['doc' => $jsonData])
-			->lowPriority($config['db_low_priority'])
+			->lowPriority($config['db']['low_priority'])
 			->query();*/
 		
 	}
@@ -112,7 +112,7 @@ foreach ($xml as $list) {
 				$gameId = $db
 					->insert('mame_software')
 					->cols($gameData)
-					->lowPriority($config['db_low_priority'])
+					->lowPriority($config['db']['low_priority'])
 					->query();
 				if ($partArea !== false) {
 					foreach ($partArea as $partData) {
@@ -131,7 +131,7 @@ foreach ($xml as $list) {
 										$db
 											->insert('mame_software_roms')
 											->cols($rom)
-											->lowPriority($config['db_low_priority'])
+											->lowPriority($config['db']['low_priority'])
 											->query();
 									}
 								}
@@ -157,7 +157,7 @@ foreach ($xml as $list) {
 			$gameId = $db
 				->insert('mame_machines')
 				->cols($machine)
-				->lowPriority($config['db_low_priority'])
+				->lowPriority($config['db']['low_priority'])
 				->query();
 			if ($roms !== false) {
 				foreach ($roms as $rom) {
@@ -165,7 +165,7 @@ foreach ($xml as $list) {
 					$db
 						->insert('mame_machine_roms')
 						->cols($rom)
-						->lowPriority($config['db_low_priority'])
+						->lowPriority($config['db']['low_priority'])
 						->query();
 				}
 			}

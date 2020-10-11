@@ -82,13 +82,13 @@ while ($stillGettingResults) {
 			$json[$item->getId()] = obj2arr($movie);
 			*/
 			if ($exists == true) {
-				$db->update('yts')->cols($item)->where('id='.$item['id'])->lowPriority($config['db_low_priority'])->query();                
+				$db->update('yts')->cols($item)->where('id='.$item['id'])->lowPriority($config['db']['low_priority'])->query();                
 			} else {
-				$db->insert('yts')->cols($item)->lowPriority($config['db_low_priority'])->query();                
+				$db->insert('yts')->cols($item)->lowPriority($config['db']['low_priority'])->query();                
 			}
 			foreach ($torrents as $torrent) {
 				$torrent['yts_id'] = $item['id'];
-				$db->insert('yts_torrents')->cols($torrent)->lowPriority($config['db_low_priority'])->query();
+				$db->insert('yts_torrents')->cols($torrent)->lowPriority($config['db']['low_priority'])->query();
 			}
 			$yts[$item['id']] = $item;
 		});

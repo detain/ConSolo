@@ -58,7 +58,7 @@ echo 'Loading and populating Genres..'.PHP_EOL;
 			echo 'added '.$genre['name'].' ';
 			$db->insert('tmdb_'.strtolower($type).'_genre')
 				->cols(['id' => $genre['id'], 'name' => $genre['name']])
-				->lowPriority($config['db_low_priority'])
+				->lowPriority($config['db']['low_priority'])
 				->query();
 		}
 	}
@@ -91,7 +91,7 @@ foreach ($lists as $list) {
 				//echo 'inserting '.$line;
 				$id = $db->insert('tmdb_'.$list)
 					->cols(['doc' => json_encode($line, JSON_PRETTY_PRINT)])
-					->lowPriority($config['db_low_priority'])
+					->lowPriority($config['db']['low_priority'])
 					->query();
 				echo '+';
 			} else {				
@@ -174,7 +174,7 @@ foreach ($lists as $list) {
 			$db->update('tmdb_'.$list)
 				->cols(['doc' => json_encode($response, JSON_PRETTY_PRINT)])
 				->where('id='.$id)
-				->lowPriority($config['db_low_priority'])
+				->lowPriority($config['db']['low_priority'])
 				->query();
 		}
 		echo PHP_EOL;

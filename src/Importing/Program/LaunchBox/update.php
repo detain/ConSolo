@@ -92,7 +92,7 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 			try {
 				$db->insert($tablePrefix.$type.$tableSuffix)
 					->cols($row)
-					->lowPriority($config['db_low_priority'])
+					->lowPriority($config['db']['low_priority'])
 					->query();
 			} catch (\PDOException $e) {
 				echo "Caught PDO Exception!".PHP_EOL;

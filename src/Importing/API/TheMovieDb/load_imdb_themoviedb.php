@@ -98,7 +98,7 @@ foreach ($imdbIds as $imdbId) {
 					'id' => $imdbId, 
 					'doc' => json_encode($imdb, JSON_PRETTY_PRINT)
 				])
-				->lowPriority($config['db_low_priority'])
+				->lowPriority($config['db']['low_priority'])
 				->query();            
 			$updates++;                   
 		} catch  (\PDOException $E) {

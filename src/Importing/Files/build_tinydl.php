@@ -3,7 +3,7 @@
 require_once __DIR__.'/../../bootstrap.php';
 
 
-$token  = new \Tmdb\ApiToken($config['thetvdb_api_key']);
+$token  = new \Tmdb\ApiToken($config['tmdb']['api_key']);
 $client = new \Tmdb\Client($token);
 $plugin = new \Tmdb\HttpClient\Plugin\LanguageFilterPlugin('en'); // Tries to fetch everything it can in english
 $client->getHttpClient()->addSubscriber($plugin);

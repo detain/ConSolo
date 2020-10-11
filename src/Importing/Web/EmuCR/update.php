@@ -123,9 +123,9 @@ foreach ($allEmulators as $name => $emulator) {
 	$platforms = $emulator['platforms'];
 	unset($emulator['platforms']);
 	unset($emulator['hosts']);
-	$emulatorId = $db->insert('emucr_emulators')->cols($emulator)->lowPriority($config['db_low_priority'])->query();
+	$emulatorId = $db->insert('emucr_emulators')->cols($emulator)->lowPriority($config['db']['low_priority'])->query();
 	foreach ($platforms as $platformId) {
-		$db->insert('emucr_emulator_platforms')->cols(['emulator' => $emulatorId, 'platform' => $platformId])->lowPriority($config['db_low_priority'])->query();
+		$db->insert('emucr_emulator_platforms')->cols(['emulator' => $emulatorId, 'platform' => $platformId])->lowPriority($config['db']['low_priority'])->query();
 	}
 }
 echo 'done!'.PHP_EOL;

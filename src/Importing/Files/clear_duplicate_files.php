@@ -69,7 +69,7 @@ foreach ($pathGlobs as $pathGlob) {
 					$deletedBytes = bcadd($deletedBytes, $size, 0);
 				}
 				echo PHP_EOL;
-				//$db->delete('files')->where('id in ('.implode(',',$deleteIds).')')->lowPriority($config['db_low_priority'])->query();
+				//$db->delete('files')->where('id in ('.implode(',',$deleteIds).')')->lowPriority($config['db']['low_priority'])->query();
 				//echo "So far Deleted {$deletedFiles} Files Freeing {$deletedBytes} Bytes\n";
 			}
 		}

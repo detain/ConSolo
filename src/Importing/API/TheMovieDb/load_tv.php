@@ -81,7 +81,7 @@ foreach ($lookups as $row) {
 				'tv_id' => $id,
 				'doc' => json_encode($response, JSON_PRETTY_PRINT)
 			])
-			->lowPriority($config['db_low_priority'])
+			->lowPriority($config['db']['low_priority'])
 			->query();		
 	}
 }
@@ -126,7 +126,7 @@ foreach ($lookups as $row) {
 				'tv_id' => $id,
 				'doc' => json_encode($response, JSON_PRETTY_PRINT)
 			])
-			->lowPriority($config['db_low_priority'])
+			->lowPriority($config['db']['low_priority'])
 			->query();        
 	}			
 } 

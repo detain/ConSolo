@@ -43,7 +43,7 @@ foreach($suffixes as $suffix) {
 				$db->update($table)
 					->cols(['doc' => $json])
 					->where("id='{$docData['id']}'")
-					->lowPriority($config['db_low_priority'])
+					->lowPriority($config['db']['low_priority'])
 					->query();
 				echo '+';
 			}

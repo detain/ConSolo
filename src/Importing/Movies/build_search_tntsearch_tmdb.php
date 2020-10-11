@@ -11,10 +11,10 @@ global $config;
 $tnt = new TNTSearch;
 $tnt->loadConfig([
 	'driver'    => 'mysql',
-	'host'      => $config['db_host'],
-	'database'  => $config['db_name'],
-	'username'  => $config['db_user'],
-	'password'  => $config['db_pass'],
+	'host'      => $config['db']['host'],
+	'database'  => $config['db']['name'],
+	'username'  => $config['db']['user'],
+	'password'  => $config['db']['pass'],
 	'storage'   => __DIR__.'/../../../../data/tntsearch/',
 	'stemmer'   => \TeamTNT\TNTSearch\Stemmer\PorterStemmer::class//optional
 ]);

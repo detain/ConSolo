@@ -1,10 +1,39 @@
 <?php
 return [
-	'db_host' => '127.0.0.1',
-	'db_port' => '3306',
-	'db_name' => '',
-	'db_user' => '',
-	'db_pass' => '',
-	'thegamesdb_public_api_key' => '',
-	'thegamesdb_private_api_key' => '',
+	'db' => [
+		'low_priority' => false,
+		'host' => '',
+		'port' => '',
+		'name' => '',
+		'user' => '',
+		'pass' => '',
+	],
+	'anidb' => [
+		'api_key' => '',
+	],
+	'igdb' => [
+		'api_key' => '',
+	],
+	'tmdb' => [
+		'api_key' => '',
+	],
+	'tgdb' => [
+		'public_key' => '',
+		'private_key' => ''
+	],
+	'imgur' => [
+		'client_id' => '',
+		'client_secret' => '',
+	],
+	'lastfm' => [
+		'api_key' => '', 
+		'api_secret' => '', 
+	],
+	'trakt' => [
+		'client_id' => '',
+		'client_secret' => '',
+	],
+	'ips' => [
+		'',
+	]
 ];

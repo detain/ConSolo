@@ -65,8 +65,8 @@ foreach ($globbedPaths as $path) {
 			$deletingCount = count($deleting);
 			if ($deletingCount >= $maxDeleting) {
 				echo "Running delete query on {$deletingCount} files\n";
-				$db->delete('files')->where('parent in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
-				$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
+				$db->delete('files')->where('parent in ('.implode(',',$deleting).')')->lowPriority($config['db']['low_priority'])->query();
+				$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority($config['db']['low_priority'])->query();
 				$deleting = [];
 			}
 		} else {
@@ -76,8 +76,8 @@ foreach ($globbedPaths as $path) {
 $deletingCount = count($deleting);
 if ($deletingCount > 0) {
 	echo "Running delete query on {$deletingCount} files\n";
-	$db->delete('files')->where('parent in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
-	$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority($config['db_low_priority'])->query();
+	$db->delete('files')->where('parent in ('.implode(',',$deleting).')')->lowPriority($config['db']['low_priority'])->query();
+	$db->delete('files')->where('id in ('.implode(',',$deleting).')')->lowPriority($config['db']['low_priority'])->query();
 	$deleting = [];
 }
 echo "Removed {$deleted} Old/Non-Existant Files\n";

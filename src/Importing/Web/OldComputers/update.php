@@ -167,12 +167,12 @@ foreach ($allEmulators as $name => $emulator) {
 	unset($emulator['hosts']);
 	$emulatorId = $db->insert('oldcomputers_emulators')
 		->cols($emulator)
-		->lowPriority($config['db_low_priority'])
+		->lowPriority($config['db']['low_priority'])
 		->query();
 	foreach ($platforms as $platformId) {
 		$db->insert('oldcomputers_emulator_platforms')
 			->cols(['emulator' => $emulatorId, 'platform' => $platformId])
-			->lowPriority($config['db_low_priority'])
+			->lowPriority($config['db']['low_priority'])
 			->query();
 	}
 }

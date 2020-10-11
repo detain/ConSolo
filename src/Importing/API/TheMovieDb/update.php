@@ -78,7 +78,7 @@ foreach (['movie', 'person', 'tv'] as $type) {
 						'doc' => json_encode($title, JSON_PRETTY_PRINT)
 					])
 					->where('id='.$tmdbId)
-					->lowPriority($config['db_low_priority'])
+					->lowPriority($config['db']['low_priority'])
 					->query();            
 				$updates++;
 				echo '# '.$tmdbId.' ['.$idx.'/'.$total.'] Update '.$updates.PHP_EOL;
@@ -87,7 +87,7 @@ foreach (['movie', 'person', 'tv'] as $type) {
 					->cols([
 						'doc' => json_encode($title, JSON_PRETTY_PRINT)
 					])
-					->lowPriority($config['db_low_priority'])
+					->lowPriority($config['db']['low_priority'])
 					->query();            
 				$updates++;
 				echo '# '.$tmdbId.' ['.$idx.'/'.$total.'] Update '.$updates.PHP_EOL;
@@ -99,7 +99,7 @@ foreach (['movie', 'person', 'tv'] as $type) {
 		$db->update('config')
 			->cols(['value' => $now])
 			->where('field="tmdb_'.$type.'"')
-			->lowPriority($config['db_low_priority'])
+			->lowPriority($config['db']['low_priority'])
 			->query();
 	} else {
 		$db->insert('config')
@@ -107,7 +107,7 @@ foreach (['movie', 'person', 'tv'] as $type) {
 				'field' => 'tmdb_'.$type,
 				'value' => $now 
 			])
-			->lowPriority($config['db_low_priority'])
+			->lowPriority($config['db']['low_priority'])
 			->query();
 	}
 	echo 'Wrote '.$type.' '.$updates.' updates'.PHP_EOL;        
