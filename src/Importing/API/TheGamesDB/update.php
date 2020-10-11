@@ -7,32 +7,73 @@
 
 require_once __DIR__.'/../../../bootstrap.php';
 
+function apiIp() {
+	global $queriesRemaining, $config;
+	$best = false;
+	foreach ($queriesRemaining as $key => $value) {
+		if ($key == 'yearmonth')
+			continue;
+		if ($value > 0 && ($best === false || $value > $queriesRemaining[$best]))
+			$best = $key;
+	}
+	return $best;
+}
+
+function updateQueries($ip, $json) {
+	global $queriesRemaining, $dataDir;
+	if (isset($json['remaining_monthly_allowance'])) {
+		$queriesRemaining[$ip] = $json['remaining_monthly_allowance'];
+	}
+	file_put_contents($dataDir.'/json/tgdb/queries.json', json_encode($queriesRemaining, JSON_PRETTY_PRINT));
+}
+
 function apiGet($url, $index = null, $assocNested = true) {
+	global $queriesRemaining;
 	if (is_null($index)) {
 		$index = strtolower(basename(preg_replace('/\?.*$/', '', $url)));
 	}
-	$ip = false;
-	$ip = '104.37.189.60';
 	$url = 'https://api.thegamesdb.net/v1/'.$url;
 	$page = 1;
 	echo 'Getting '.$index.' Page '.$page; 
-	$cmd = 'curl -s -X GET '.escapeshellarg($url).' -H  "accept: application/json"';
-	//if ($ip !== false) {
-		$cmd .= ' --interface '.$ip;
-	//}
-	$response = trim(`{$cmd}`);
-	$json = json_decode($response, true);
+	$end = false;
+	while (!$end) {
+		$ip = apiIp();
+		if ($ip === false) {
+			$end = true;				 
+		} else {
+			$cmd = 'curl -s -X GET '.escapeshellarg($url).' -H  "accept: application/json"';
+			$cmd .= ' --interface '.$ip;
+			$response = trim(`{$cmd}`);
+			$json = json_decode($response, true);
+			updateQueries($ip, $json);
+			if ($json['code'] == 200) {
+				$end = true;
+			}				
+		}
+	}
 	if ($json['code'] != 200) {
 		die($index.' got unknown code '.$json['code'].' status '.$json['status']);
 	}
 	$out = $json['data'][$index];
 	while (isset($json['pages']) && !is_null($json['pages']['next'])) {
-		$cmd = 'curl -s -X GET "'.$json['pages']['next'].'" -H  "accept: application/json"';
-		$cmd .= ' --interface '.$ip;
 		$page++;
 		echo ' '.$page;
-		$response = trim(`{$cmd}`);        
-		$json = json_decode($response, true);
+		$end = false;
+		while (!$end) {
+			$ip = apiIp();
+			if ($ip === false) {
+				$end = true;				 
+			} else {
+				$cmd = 'curl -s -X GET "'.$json['pages']['next'].'" -H  "accept: application/json"';
+				$cmd .= ' --interface '.$ip;
+				$response = trim(`{$cmd}`);        
+				$json = json_decode($response, true);
+				updateQueries($ip, $json);
+				if ($json['code'] == 200) {
+					$end = true;
+				}				
+			}
+		}
 		if ($json['code'] != 200) {
 			die($index.' got unknown code '.$json['code'].' status '.$json['status'].' response:'.$response);
 		}
@@ -50,7 +91,7 @@ function apiGet($url, $index = null, $assocNested = true) {
 		}
 		usleep(250000);
 	}
-	echo ' done'.PHP_EOL;
+	echo ' done  ';
 	$json['data'][$index] = $out;
 	return $json;
 }
@@ -60,9 +101,22 @@ function apiGet($url, $index = null, $assocNested = true) {
 */
 global $db;
 global $config;
+global $queriesRemaining;
+global $dataDir;
 $usePrivate = false;
 $useCache = true;
 $dataDir = '/storage/local/ConSolo/data';
+if (file_exists($dataDir.'/json/tgdb/queries.json')) {
+	$queriesRemaining = json_decode(file_Get_contents($dataDir.'/json/tgdb/queries.json'), true);
+} else {
+	$queriesRemaining = ['yearmonth' => 0];
+}
+if (date('Ym') > $queriesRemaining['yearmonth']) {
+	$queriesRemaining['yearmonth'] = date('Ym');
+	foreach ($config['ips'] as $ip) {
+		$queriesRemaining[$ip] = 3000;
+	}
+}
 foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 	if ($useCache == true && file_exists($dataDir.'/json/tgdb/'.$type.'.json')) {
 		$var = strtolower($type);
@@ -108,8 +162,6 @@ foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {
 	} else {
 		$games = apiGet('Games/ByPlatformID?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&id='.$platformId.'&fields='.urlencode(implode(',',$fields)), 'games', false);
 		file_put_contents($dataDir.'/json/tgdb/platform/'.$platformId.'.json', json_encode($games, JSON_PRETTY_PRINT));
-		echo 'Remaining Queries: '.$games['remaining_monthly_allowance'].PHP_EOL;
-		exit;
 	}
 	echo 'Inserting DB Data..';
 	foreach ($games['data']['games'] as $idx => $game) {
