@@ -499,16 +499,16 @@ function updateDir($path) {
 				continue;                        
 			$bad = false;
 			foreach ($skipGlobs as $skipGlob) {
-				if (substr($subPath, 0, strlen($skipGlob)) == $skipGlob) {
+				if (substr($path.'/'.$subPath, 0, strlen($skipGlob)) == $skipGlob) {
 					echo 'Skipping Path '.$subPath.' matching glob '.$skipGlob.PHP_EOL;
 					$bad = true;
 				}
 			}
 			if ($bad === false) {
-				if (is_dir($subPath)) {
-					updateDir($subPath);
+				if (is_dir($path.'/'.$subPath)) {
+					updateDir($path.'/'.$subPath);
 				} else {
-					updateFile($subPath);
+					updateFile($path.'/'.$subPath);
 				}
 			}
 		} 
