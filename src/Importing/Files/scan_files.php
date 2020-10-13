@@ -356,6 +356,11 @@ function updateFile($path, $pathStat = false)  {
 			$fields = isset($data['fields']) ? $data['fields'] : [];
 			unset($data['fields']);
 			foreach ($fields as $idx => $row) {
+				if (!isset($row['desc'])) {
+					echo 'Got to some data with no "desc" element:'.PHP_EOL;
+					print_r($row);
+					exit;
+				}
 				$field = $row['desc']['name'];
 				$field = str_replace(['/',' ', '.', '#'], ['', '_', '', 'num'], strtolower($field));
 				if ($row['type'] == 'STRING') {
