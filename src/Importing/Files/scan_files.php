@@ -359,7 +359,7 @@ function updateFile($path, $pathStat = false)  {
 				if (!isset($row['desc'])) {
 					echo 'Got to some data with no "desc" element:'.PHP_EOL;
 					print_r($row);
-					exit;
+					die();
 				}
 				$field = $row['desc']['name'];
 				$field = str_replace(['/',' ', '.', '#'], ['', '_', '', 'num'], strtolower($field));
