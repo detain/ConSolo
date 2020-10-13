@@ -239,6 +239,11 @@ foreach ($platforms as $platform) {
 			}
 		}
 }
+foreach ($json as $platform => $data) {	
+	foreach ($data as $name => $subplatforms)
+		$data[$name] = array_unique($subplatforms);
+	$json[$platform] = $data;
+}
 $lines = [];
 foreach ($json as $platform => $rows) {
 	$lines[] = '	"'.$platform.'": '.json_encode($rows);
