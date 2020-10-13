@@ -120,19 +120,19 @@ $rows = $db->select('Name')
 foreach ($rows as $platform) {
 	if (!array_key_exists($platform, $platformAlt)) {
 		echo "Missing LaunchBox Platform {$platform}\n";
-/*	} else {
+	} else {
 		
 		$rows2 = $db->query("SELECT Name, Alternate FROM launchbox_platformalternatenames where Name='{$platform}'");
 		$mainPlatform = $platformAlt[$platform];
 		foreach ($rows2 as $row) {
 			if (!array_key_exists($row['Alternate'], $platformAlt))
 				$platformAlt[$row['Alternate']] = $mainPlatform;
-			if (!array_key_exists($row['Alternate'], $platformSrc)) {
+			/*if (!array_key_exists($row['Alternate'], $platformSrc)) {
 				$platformSrc[$row['Alternate']] = ['LaunchBox'];
 			} elseif (!in_array('LaunchBox', $platformSrc[$row['Alternate']])) {
 				$platformSrc[$row['Alternate']][] = 'LaunchBox';
-			}			
-		}*/		
+			}*/
+		}		
 	}
 }
 $rows = $db->query('SELECT platform,platform_description FROM mame_software group by platform');
