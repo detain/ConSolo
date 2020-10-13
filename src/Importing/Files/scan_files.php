@@ -298,7 +298,11 @@ function updateFile($path)  {
 	$cleanPath = cleanPath($path);
 	//echo "Path:       {$path}\nClean Path: {$cleanPath}\n";exit;
 	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
-	$pathStat = stat($path);
+	//$pathStat = stat($path);
+	$pathStat = [
+		'size' => filesize($path),
+		'mtime' => filemtime($path),
+	];
 	if ($useMaxSize == true && bccomp($pathStat['size'], $maxSize) == 1) {
 		echo 'Skipping file "'.$path.'" as it exceeds max filesize ('.$pathStat['size'].' > '.$maxSize.')'.PHP_EOL;
 		return;
