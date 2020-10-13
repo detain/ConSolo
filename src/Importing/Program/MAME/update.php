@@ -56,6 +56,7 @@ if (!file_exists($fileXml) || !file_exists($fileSoftware)) {
 echo 'Clearing out old DB data';
 $db->query("truncate mame_machine_roms");
 $db->query("truncate mame_software_roms");
+$db->query("truncate mame_software_platforms");
 $db->query("delete from mame_machines");
 $db->query("delete from mame_software");
 $db->query("alter table mame_machines auto_increment = 1");
@@ -74,14 +75,27 @@ foreach ($xml as $list) {
 		unset($string);
 		echo "Simplifying Array   ";
 		RunArray($array);
-		if ($list == 'software')
+		if ($list == 'software') {
 			$array = $array['softwarelists']['softwarelist'];
-		elseif ($list =='xml')
+		} elseif ($list =='xml') {
 			$array = $array['mame']['machine'];
+		}
 		echo "Writing to JSON {$jsonFile}";
 		file_put_contents($jsonFile, json_encode($array, JSON_PRETTY_PRINT));
 	} else {
 		$array = json_decode(file_get_contents($jsonFile), TRUE);
+	}
+	echo '  Mapping '.$list.' Data to files...';
+	foreach ($array as $idx => $data) {
+		$fileName =  $dataDir.'/json/mame/'.$list.'/'.$data['name'].'.json';
+		echo ' '.$data['name'];
+		$jsonData = json_encode($data, JSON_PRETTY_PRINT);
+		file_put_contents($fileName, $jsonData);
+		$db
+			->insert($list == 'software' ? 'mame_software_platforms' : 'mame')
+			->cols(['doc' => $jsonData])
+			->lowPriority($config['db']['low_priority'])
+			->query();
 	}
 	echo 'Parsing Into DB ';
 	if ($list == 'software') {
