@@ -67,7 +67,11 @@ function updateCompressedFile($path, $parentId)  {
 	$parentPath = $parentData['path'];
 	$virtualPath = str_replace($tmpDir.'/'.$nestedDepth.'/', '', $path);
 	$linkedPath = str_replace($tmpDir.'/'.$nestedDepth.'/', $parentPath.'#', $path); 
-	$pathStat = stat($path);
+	//$pathStat = stat($path);
+	$pathStat = [
+		'size' => filesize($path),
+		'mtime' => filemtime($path),
+	];
 	$fileData = [];
 	$newData = [];
 	//$fileData['extra'] = [];
@@ -489,22 +493,25 @@ function updateFile($path)  {
 function updateDir($path) {
 	global $files, $skipGlobs;
 	$cleanPath = cleanPath($path);
-	foreach (glob($path.'/*') as $subPath) {
-		$bad = false;
-		foreach ($skipGlobs as $skipGlob) {
-			if (substr($subPath, 0, strlen($skipGlob)) == $skipGlob) {
-				echo 'Skipping Path '.$subPath.' matching glob '.$skipGlob.PHP_EOL;
-				$bad = true;
+	if ($handle = opendir($path)) {
+		while (false !== ($subPath = readdir($handle))) {                        
+			$bad = false;
+			foreach ($skipGlobs as $skipGlob) {
+				if (substr($subPath, 0, strlen($skipGlob)) == $skipGlob) {
+					echo 'Skipping Path '.$subPath.' matching glob '.$skipGlob.PHP_EOL;
+					$bad = true;
+				}
 			}
-		}
-		if ($bad === false) {
-			if (is_dir($subPath)) {
-				updateDir($subPath);
-			} else {
-				updateFile($subPath);
+			if ($bad === false) {
+				if (is_dir($subPath)) {
+					updateDir($subPath);
+				} else {
+					updateFile($subPath);
+				}
 			}
-		}
-	}    
+		} 
+		closedir($handle);
+	}	
 }
 
 function loadFiles($path = null) {
