@@ -56,7 +56,7 @@ if (function_exists('posix_getpid')) {
 	$tmpDir = 'C:\\Users\\detain\\AppData\\Local\\Temp\\scanfiles-'.uniqid();
 }
 
-function updateCompressedFile($path, $parentId)  {
+function updateCompressedFile($path, $parentId, $pathStat = false)  {
 	/**
 	* @var \Workerman\MySQL\Connection
 	*/
@@ -66,12 +66,14 @@ function updateCompressedFile($path, $parentId)  {
 	$parentData = $files[$parentId];
 	$parentPath = $parentData['path'];
 	$virtualPath = str_replace($tmpDir.'/'.$nestedDepth.'/', '', $path);
-	$linkedPath = str_replace($tmpDir.'/'.$nestedDepth.'/', $parentPath.'#', $path); 
-	//$pathStat = stat($path);
-	$pathStat = [
-		'size' => filesize($path),
-		'mtime' => filemtime($path),
-	];
+	$linkedPath = str_replace($tmpDir.'/'.$nestedDepth.'/', $parentPath.'#', $path);
+	if ($pathStat === false) { 
+		//$pathStat = stat($path);
+		$pathStat = [
+			'size' => filesize($path),
+			'mtime' => filemtime($path),
+		];
+	}
 	$fileData = [];
 	$newData = [];
 	//$fileData['extra'] = [];
@@ -157,7 +159,6 @@ function updateCompressedFile($path, $parentId)  {
 			$fileData[$hashAlgo] = hash_file($hashAlgo, $path);
 		}
 	}
-	//if (DIRECTORY_SEPARATOR == '\\') {
 	if (!$Linux) {
 		//$cmd = 'C:/Progra~2/GnuWin32/bin/file -b -p '.escapeshellarg($path);
 		$cmd = 'E:/Installs/cygwin64/bin/file.exe -b -p '.escapeshellarg($path);
@@ -198,17 +199,13 @@ function updateCompressedFile($path, $parentId)  {
 
 function updateCompressedDir($path, $parentId) {
 	global $files, $skipGlobs, $Linux;
-	//if (DIRECTORY_SEPARATOR == '\\') {
 	if (!$Linux) {
-		$cmd = 'e:/Installs/cygwin64/bin/find.exe '.escapeshellarg($path).' -type f';
+		$cmd = 'e:/Installs/cygwin64/bin/find.exe '.escapeshellarg($path).' -type f -printf "%s %T@ %p\n"';
 	} else {
-		$cmd = 'exec find '.escapeshellarg($path).' -type f';
+		$cmd = 'exec find '.escapeshellarg($path).' -type f -printf "%s %T@ %p\n"';
 	}
-	$paths = trim(`{$cmd}`);
-	if ($paths == '')
-		return;
-	$paths = explode("\n", $paths);
-	foreach ($paths as $subPath) {
+	preg_match_all('/^(?P<size>\d+) (?P<mtime>\d+)\.\d+ (?P<file>.*)$/muU', `{$cmd}`, $matches);
+	foreach ($matches['file'] as $idx => $subPath) {
 		$bad = false;
 		foreach ($skipGlobs as $skipGlob) {
 			if (substr($subPath, 0, strlen($skipGlob)) == $skipGlob) {
@@ -216,20 +213,15 @@ function updateCompressedDir($path, $parentId) {
 				$bad = true;
 			}
 		}
-		if ($bad === false) {
-			if (is_dir($subPath)) {
-				updateCompressedDir($subPath, $parentId);
-			} else {
-				updateCompressedFile($subPath, $parentId);
-			}
-		}
-	}    
+		if (!$bad) {
+			updateCompressedFile($subPath, $parentId, ['size' => $matches['size'][$idx], 'mtime' => $matches['mtime'][$idx]]);
+		} 
+	}
 }
 
 function cleanTmpDir() {
 	global $tmpDir, $Linux, $nestedDepth;
 	echo 'Cleaning Temp Dir '.$tmpDir.'/'.$nestedDepth.PHP_EOL;
-	//if (DIRECTORY_SEPARATOR == '\\') {
 	if (!$Linux) {
 		passthru('rmdir /s /q '.$tmpDir.'/'.$nestedDepth);
 	} else {
@@ -242,7 +234,6 @@ function extractCompressedFile($path, $compressionType) {
 	cleanTmpDir();
 	mkdir($tmpDir.'/'.$nestedDepth, 0777, true);
 	$escapedFile = escapeshellarg($path);
-	//if (DIRECTORY_SEPARATOR == '\\') {
 	if (!$Linux) {
 		passthru('e:/Installs/7-Zip/7z.exe x -o'.$tmpDir.'/'.$nestedDepth.' '.escapeshellarg($path), $return);
 	} else {
@@ -293,7 +284,7 @@ function compressedFileHandler($path, $parentParentId = '') {
 	}
 }
 
-function updateFile($path)  {
+function updateFile($path, $pathStat = false)  {
 	/**
 	* @var \Workerman\MySQL\Connection
 	*/
@@ -301,12 +292,14 @@ function updateFile($path)  {
 	global $files, $paths, $hashAlgos, $maxSize, $useMaxSize, $useMagic, $hostId, $config, $Linux;
 	$cleanPath = cleanPath($path);
 	//echo "Path:       {$path}\nClean Path: {$cleanPath}\n";exit;
-	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks 
-	//$pathStat = stat($path);
-	$pathStat = [
-		'size' => filesize($path),
-		'mtime' => filemtime($path),
-	];
+	$statFields = ['size', 'mtime']; // fields are dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,ctime,blksize,blocks
+	if ($pathStat === false) { 
+		//$pathStat = stat($path);
+		$pathStat = [
+			'size' => filesize($path),
+			'mtime' => filemtime($path),
+		];
+	}
 	if ($useMaxSize == true && bccomp($pathStat['size'], $maxSize) == 1) {
 		echo 'Skipping file "'.$path.'" as it exceeds max filesize ('.$pathStat['size'].' > '.$maxSize.')'.PHP_EOL;
 		return;
@@ -415,7 +408,6 @@ function updateFile($path)  {
 		}
 	}
 	if ($useMagic == true && (!isset($fileData['magic']) || is_null($fileData['magic']) || $reread == true)) {
-		//if (DIRECTORY_SEPARATOR == '\\') {
 		if (!$Linux) {
 			//$cmd = 'C:/Progra~2/GnuWin32/bin/file -b -p '.escapeshellarg($path);
 			$cmd = 'E:/Installs/cygwin64/bin/file.exe -b -p '.escapeshellarg($path);
@@ -491,29 +483,28 @@ function updateFile($path)  {
 }
 
 function updateDir($path) {
-	global $files, $skipGlobs;
+	global $files, $skipGlobs, $Linux;
 	$cleanPath = cleanPath($path);
-	if ($handle = opendir($path)) {
-		while (false !== ($subPath = readdir($handle))) {
-			if ($subPath == '.' || $subPath == '..')
-				continue;                        
-			$bad = false;
-			foreach ($skipGlobs as $skipGlob) {
-				if (substr($path.'/'.$subPath, 0, strlen($skipGlob)) == $skipGlob) {
-					echo 'Skipping Path '.$subPath.' matching glob '.$skipGlob.PHP_EOL;
-					$bad = true;
-				}
+	echo 'Scanning Path '.$path.' ...';
+	if (!$Linux) {
+		$cmd = 'e:/Installs/cygwin64/bin/find.exe '.escapeshellarg($path).' -type f -printf "%s %T@ %p\n"';
+	} else {
+		$cmd = 'exec find '.escapeshellarg($path).' -type f -printf "%s %T@ %p\n"';
+	}
+	echo 'done'.PHP_EOL;
+	preg_match_all('/^(?P<size>\d+) (?P<mtime>\d+)\.\d+ (?P<file>.*)$/muU', `{$cmd}`, $matches);
+	foreach ($matches['file'] as $idx => $subPath) {
+		$bad = false;
+		foreach ($skipGlobs as $skipGlob) {
+			if (substr($subPath, 0, strlen($skipGlob)) == $skipGlob) {
+				echo 'Skipping Path '.$subPath.' matching glob '.$skipGlob.PHP_EOL;
+				$bad = true;
 			}
-			if ($bad === false) {
-				if (is_dir($path.'/'.$subPath)) {
-					updateDir($path.'/'.$subPath);
-				} else {
-					updateFile($path.'/'.$subPath);
-				}
-			}
+		}
+		if (!$bad) {
+			updateFile($subPath, ['size' => $matches['size'][$idx], 'mtime' => $matches['mtime'][$idx]]);
 		} 
-		closedir($handle);
-	}	
+	}		
 }
 
 function loadFiles($path = null) {
