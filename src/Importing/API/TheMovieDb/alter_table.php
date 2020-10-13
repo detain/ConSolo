@@ -11,8 +11,8 @@ require_once __DIR__.'/../../../bootstrap.php';
 */
 global $db;
 global $config, $curl_config;
-$suffixes = ['oc_platforms', 'tmdb_tv_episodes', 'imdb', 'tmdb_collection', 'tmdb_keyword', 'tmdb_production_company', 'tmdb_tv_network', 'tmdb_tv_seasons', 'tmdb_tv_series', 'tmdb_movie', 'tmdb_person'];
-$suffixes = ['oc_platforms'];
+$suffixes = ['mame_software_platforms', 'mame', 'oc_platforms', 'tmdb_tv_episodes', 'imdb', 'tmdb_collection', 'tmdb_keyword', 'tmdb_production_company', 'tmdb_tv_network', 'tmdb_tv_seasons', 'tmdb_tv_series', 'tmdb_movie', 'tmdb_person'];
+$suffixes = ['mame_software_platforms', 'mame'];
 $fields = [];
 $limit = 100000;
 $emptyKey = [
@@ -22,7 +22,11 @@ $emptyKey = [
 	'negative' => false,
 	'null' => true,
 ];
-$storedFields = ['id', 'season_number', 'imdb_id', 'title'];
+$storedFields = [
+	'all' => ['id', 'season_number', 'imdb_id', 'title'], 
+	'mame' => ['name', 'description'], 
+	'mame_software_platforms' => ['name', 'description']
+];
 foreach($suffixes as $suffix) {
 	$fields[$suffix] = [];
 	$offset = 0;
@@ -92,7 +96,7 @@ foreach($suffixes as $suffix) {
 	$comments = [];
 	foreach ($fields[$suffix] as $key => $data) {
 		if (!in_array('array', $data['types']) && !in_array('object', $data['types'])) {
-			$storage = in_array($key, $storedFields) ? 'STORED' : 'VIRTUAL';
+			$storage = in_array($key, $storedFields['all']) || (array_key_exists($suffix, $storedFields) && in_array($key, $storedFields[$suffix])) ? 'STORED' : 'VIRTUAL';
 			if (in_array('string', $data['types']) && $data['maxLength'] > 3000) {
 				$field = 'text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
 			} elseif (in_array('string', $data['types'])) {
