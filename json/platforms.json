@@ -321,7 +321,7 @@
 	"M&D Monon Color": {"M&D Monon Color cartridges":["MAME"]},
 	"MC-1502": {"MC-1502 disk images":["MAME"]},
 	"MD-2": {"MD-2 disk images":["MAME"]},
-	"MGT Sam Coupe": {"Miles Gordon Technology SAM Coup\u00e9":["TheGamesDB"],"SAM Coup\u00e9":["LaunchBox","TheGamesDB"],"MGT SAM Coup\u00c3\u00a9":["LaunchBox"],"MGT Sam Coupe":["TOSEC"],"Sam Coupe cassettes":["MAME"],"Sam Coupe Floppy Disks":["MAME"]},
+	"MGT Sam Coupe": {"SAM Coup\u00c3\u00a9":["LaunchBox"],"Miles Gordon Technology SAM Coup\u00e9":["TheGamesDB"],"SAM Coup\u00e9":["LaunchBox","TheGamesDB"],"MGT SAM Coup\u00c3\u00a9":["LaunchBox"],"MGT Sam Coupe":["TOSEC"],"Sam Coupe cassettes":["MAME"],"Sam Coupe Floppy Disks":["MAME"]},
 	"MITS Altair 8800": {"MITS Altair 8800":["TOSEC"]},
 	"MS-DOS": {"MS-DOS":["LaunchBox"]},
 	"MSX": {"MSX":["TOSEC-PIX","TheGamesDB"],"MSX1 cartridges":["MAME"],"MSX1 cassettes":["MAME"],"MSX1 disk images":["MAME"]},
