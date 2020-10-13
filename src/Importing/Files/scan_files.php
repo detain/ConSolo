@@ -494,7 +494,9 @@ function updateDir($path) {
 	global $files, $skipGlobs;
 	$cleanPath = cleanPath($path);
 	if ($handle = opendir($path)) {
-		while (false !== ($subPath = readdir($handle))) {                        
+		while (false !== ($subPath = readdir($handle))) {
+			if ($subPath == '.' || $subPath == '..')
+				continue;                        
 			$bad = false;
 			foreach ($skipGlobs as $skipGlob) {
 				if (substr($subPath, 0, strlen($skipGlob)) == $skipGlob) {
