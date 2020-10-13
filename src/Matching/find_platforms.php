@@ -127,11 +127,11 @@ foreach ($rows as $platform) {
 		foreach ($rows2 as $row) {
 			if (!array_key_exists($row['Alternate'], $platformAlt))
 				$platformAlt[$row['Alternate']] = $mainPlatform;
-			/*if (!array_key_exists($row['Alternate'], $platformSrc)) {
+			if (!array_key_exists($row['Alternate'], $platformSrc)) {
 				$platformSrc[$row['Alternate']] = ['LaunchBox'];
 			} elseif (!in_array('LaunchBox', $platformSrc[$row['Alternate']])) {
 				$platformSrc[$row['Alternate']][] = 'LaunchBox';
-			}*/
+			}
 		}		
 	}
 }
