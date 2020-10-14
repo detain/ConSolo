@@ -141,6 +141,11 @@ $silentSources = ['OldComputers'];
 foreach ($platform_manufacturers as $source => $manufacturers) {
 	foreach ($manufacturers as $manufacturer => $sourcePlatforms) {
 		foreach ($sourcePlatforms as $idx => $platform) {
+			if (is_array($platform)) {
+				$platformArray = $platform;
+				$platform = key($platformArray);
+				$mainPlatform = $platformArray[$platform];
+			}
 			if (in_array($source, ['TheGamesDB', 'LaunchBox'])) {
 				// the platforms for these often include the manufacturer name already
 				if (!array_key_exists($manufacturer.' '.$platform, $platformAlt)) {
