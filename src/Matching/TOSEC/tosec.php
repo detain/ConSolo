@@ -5,12 +5,13 @@ $platforms = [];
 foreach (['TOSEC', 'TOSEC-ISO', 'TOSEC-PIX'] as $type) {
 	preg_match_all('/mkdir "(?P<manufacturer>[^\\\\"]+)\\\\(?P<name>[^\\\\"]+)[\\\\"].*$/muU', file_get_contents('tosec/Scripts/create folders/'.$type.'_folders.bat'), $matches);
 	foreach ($matches['manufacturer'] as $idx => $manufacturer) {
-		if (in_array($matches['name'][$idx], $invalid))
+		$platform = $matches['name'][$idx];
+		if (in_array($platform, $invalid))
 			continue;
 		if (!array_key_exists($manufacturer, $platforms))
 			$platforms[$manufacturer] = [];
-		if (!in_array($matches['name'][$idx], $platforms[$manufacturer]))
-			$platforms[$manufacturer][] = $matches['name'][$idx];
+		if (!in_array($platform, $platforms[$manufacturer]))
+			$platforms[$manufacturer][] = $platform;
 	}
 }
 //`rm -rf tosec;`;
