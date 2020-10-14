@@ -1,782 +1,1518 @@
 {
     "LaunchBox": {
         "Panasonic Corporation, Sanyo Electric Co., Ltd., GoldStar": [
-            "3DO Interactive Multiplayer"
+            {
+                "3DO Interactive Multiplayer": "Panasonic 3DO Interactive Multiplayer"
+            }
         ],
         "APF Electronics": [
-            "APF Imagination Machine"
+            {
+                "APF Imagination Machine": "APF Imagination Machine"
+            }
         ],
         "Technosys Research Labs": [
-            "Aamber Pegasus"
+            {
+                "Aamber Pegasus": "Technosys Aamber Pegasus"
+            }
         ],
         "ARB Plant": [
-            "Apogee BK-01"
+            {
+                "Apogee BK-01": "Apogee BK-01"
+            }
         ],
         "Bally, Astrovision": [
-            "Bally Astrocade"
+            {
+                "Bally Astrocade": "Bally Professional Arcade & Astrocade"
+            }
         ],
         "Camputers": [
-            "Camputers Lynx"
+            {
+                "Camputers Lynx": "Camputers Lynx"
+            }
         ],
         "Coleco": [
-            "Coleco ADAM"
+            {
+                "Coleco ADAM": "Coleco ADAM"
+            }
         ],
         "Coleco Industries, Inc.": [
-            "ColecoVision"
+            {
+                "ColecoVision": "Coleco ColecoVision"
+            }
         ],
         "Dragon Data": [
-            "Dragon 32\/64"
+            {
+                "Dragon 32\/64": "Dragon 32-64"
+            }
         ],
         "EACA": [
-            "EACA EG2000 Colour Genie"
+            {
+                "EACA EG2000 Colour Genie": "EACA EG2000 Colour Genie"
+            }
         ],
         "NPO Scientific Center": [
-            "Elektronika BK"
+            {
+                "Elektronika BK": "Elektronika BK"
+            }
         ],
         "Emerson Radio": [
-            "Emerson Arcadia 2001"
+            {
+                "Emerson Arcadia 2001": "Emerson Arcadia 2001"
+            }
         ],
         "Enterprise Computers": [
-            "Enterprise"
+            {
+                "Enterprise": "Enterprise 64 & 128"
+            }
         ],
         "Entex": [
-            "Entex Adventure Vision"
+            {
+                "Entex Adventure Vision": "Entex Adventure Vision"
+            }
         ],
         "Exelvision": [
-            "Exelvision EXL 100"
+            {
+                "Exelvision EXL 100": "Exelvision EXL 100"
+            }
         ],
         "Exidy": [
-            "Exidy Sorcerer"
+            {
+                "Exidy Sorcerer": "Exidy Sorcerer"
+            }
         ],
         "Fairchild Semiconductor": [
-            "Fairchild Channel F"
+            {
+                "Fairchild Channel F": "Fairchild Channel F"
+            }
         ],
         "Funtech": [
-            "Funtech Super Acan"
+            {
+                "Funtech Super Acan": "Funtech Super A'Can"
+            }
         ],
         "General Consumer Electronics": [
-            "GCE Vectrex"
+            {
+                "GCE Vectrex": "GCE Vectrex"
+            }
         ],
         "Game Park": [
-            "GamePark GP32"
+            {
+                "GamePark GP32": "GamePark GP32"
+            }
         ],
         "Hartung": [
-            "Hartung Game Master"
+            {
+                "Hartung Game Master": "Hartung Game Master"
+            }
         ],
         "Micronique": [
-            "Hector HRX"
+            {
+                "Hector HRX": "Hector HRX"
+            }
         ],
         "Interton": [
-            "Interton VC 4000"
+            {
+                "Interton VC 4000": "Interton VC 4000"
+            }
         ],
         "Jupiter Cantab": [
-            "Jupiter Ace"
+            {
+                "Jupiter Ace": "Jupiter Cantab Jupiter Ace"
+            }
         ],
         "Community": [
-            "Linux"
+            {
+                "Linux": "Generic Linux"
+            }
         ],
         "Magnavox": [
-            "Magnavox Odyssey"
+            {
+                "Magnavox Odyssey": "Magnavox Odyssey 1"
+            }
         ],
         "Magnavox \/ Philips": [
-            "Magnavox Odyssey 2"
+            {
+                "Magnavox Odyssey 2": "Magnavox Odyssey 2"
+            }
         ],
         "Matra, Hachette, & Tandy": [
-            "Matra and Hachette Alice"
+            {
+                "Matra and Hachette Alice": "Matra Hachette Alice 32"
+            }
         ],
         "Radofin": [
-            "Mattel Aquarius"
+            {
+                "Mattel Aquarius": "Mattel Aquarius"
+            }
         ],
         "Mattel": [
-            "Mattel HyperScan"
+            {
+                "Mattel HyperScan": "Mattel HyperScan"
+            }
         ],
         "Mattel Electronics": [
-            "Mattel Intellivision"
+            {
+                "Mattel Intellivision": "Mattel Intellivision"
+            }
         ],
         "Welback Holdings": [
-            "Mega Duck"
+            {
+                "Mega Duck": "Creatronic Mega Duck & Cougar Boy"
+            }
         ],
         "Memotech": [
-            "Memotech MTX512"
+            {
+                "Memotech MTX512": "Memotech MTX512"
+            }
         ],
         "Flextronics International Ltd.": [
-            "Microsoft Xbox"
+            {
+                "Microsoft Xbox": "Microsoft Xbox"
+            }
         ],
         "Flextronics International Ltd., Foxconn Technology Group, Celestica Inc., Wistron Corporation": [
-            "Microsoft Xbox 360"
+            {
+                "Microsoft Xbox 360": "Microsoft Xbox 360"
+            }
         ],
         "Microsoft": [
-            "Microsoft Xbox One"
+            {
+                "Microsoft Xbox One": "Microsoft Xbox One"
+            }
         ],
         "Namco": [
-            "Namco System 22"
+            {
+                "Namco System 22": "Namco System 22"
+            }
         ],
         "Alps Electric": [
-            "Nintendo 64DD"
+            {
+                "Nintendo 64DD": "Nintendo 64DD"
+            }
         ],
         "Nintendo Co., Ltd.": [
-            "Nintendo Entertainment System"
+            {
+                "Nintendo Entertainment System": "Nintendo Entertainment System"
+            }
         ],
         "Mitsumi": [
-            "Nintendo Famicom Disk System"
+            {
+                "Nintendo Famicom Disk System": "Nintendo Famicom"
+            }
         ],
         "Nintendo \/ Foxconn": [
-            "Nintendo GameCube"
+            {
+                "Nintendo GameCube": "Nintendo GameCube"
+            }
         ],
         "Nintendo PTD": [
-            "Nintendo Switch"
+            {
+                "Nintendo Switch": "Nintendo Switch"
+            }
         ],
         "Nintendo, Foxconn, Mitsumi": [
-            "Nintendo Wii U"
+            {
+                "Nintendo Wii U": "Nintendo Wii U"
+            }
         ],
         "Nokia": [
-            "Nokia N-Gage"
+            {
+                "Nokia N-Gage": "Nokia N-Gage"
+            }
         ],
         "Motorola, Samsung, Toshiba": [
-            "Nuon"
+            {
+                "Nuon": "VM Labs Nuon"
+            }
         ],
         "Oric Products": [
-            "Oric Atmos"
+            {
+                "Oric Atmos": "Tangerine Oric-1 & Oric Atmos"
+            }
         ],
         "Tsukuda Original": [
-            "Othello Multivision"
+            {
+                "Othello Multivision": "Tsukuda Original Othello Multivision"
+            }
         ],
         "Ouya, Inc.": [
-            "Ouya"
+            {
+                "Ouya": "Ouya"
+            }
         ],
         "Radiotechnique": [
-            "Philips VG 5000"
+            {
+                "Philips VG 5000": "Philips VG 5000"
+            }
         ],
         "RCA": [
-            "RCA Studio II"
+            {
+                "RCA Studio II": "RCA Studio II"
+            }
         ],
         "MGT": [
-            "SAM Coup\u00c3\u00a9"
+            {
+                "SAM Coup\u00c3\u00a9": "MGT Sam Coupe"
+            }
         ],
         "Sammy Corporation": [
-            "Sammy Atomiswave"
+            {
+                "Sammy Atomiswave": "Sammy Atomiswave"
+            }
         ],
         "Sega Enterprises": [
-            "Sega Genesis"
+            {
+                "Sega Genesis": "Sega Genesis"
+            }
         ],
         "SEGA Enterprises Ltd.": [
-            "Sega Master System"
+            {
+                "Sega Master System": "Sega Mark III & Master System"
+            }
         ],
         "Sega and Lockheed Martin": [
-            "Sega Model 3"
+            {
+                "Sega Model 3": "Sega Model 3"
+            }
         ],
         "SEGA\/Namco\/Nintendo": [
-            "Sega Triforce"
+            {
+                "Sega Triforce": "Sega Triforce"
+            }
         ],
         "Sharp Corporation": [
-            "Sharp X68000"
+            {
+                "Sharp X68000": "Sharp X68000"
+            }
         ],
         "Sinclair Research": [
-            "Sinclair ZX Spectrum"
+            {
+                "Sinclair ZX Spectrum": "Sinclair ZX Spectrum +3"
+            }
         ],
         "Sinclair": [
-            "Sinclair ZX-81"
+            {
+                "Sinclair ZX-81": "Sinclair ZX-81"
+            }
         ],
         "Sony Computer Entertainment": [
-            "Sony Playstation"
+            {
+                "Sony Playstation": "Sony Playstation"
+            }
         ],
         "Sony EMCS, Foxconn, ASUSTeK": [
-            "Sony Playstation 3"
+            {
+                "Sony Playstation 3": "Sony Playstation 3"
+            }
         ],
         "Sony, Foxconn": [
-            "Sony Playstation 4"
+            {
+                "Sony Playstation 4": "Sony Playstation 4"
+            }
         ],
         "Sord Computer Corporation": [
-            "Sord M5"
+            {
+                "Sord M5": "Sord M5"
+            }
         ],
         "Motorola": [
-            "TRS-80 Color Computer"
+            {
+                "TRS-80 Color Computer": "Tandy Radio Shack TRS-80 Color Computer"
+            }
         ],
         "Taito Corporation": [
-            "Taito Type X"
+            {
+                "Taito Type X": "Taito Type X"
+            }
         ],
         "Tandy Corporation": [
-            "Tandy TRS-80"
+            {
+                "Tandy TRS-80": "Tandy Radio Shack TRS-80 Color Computer"
+            }
         ],
         "Tapwave": [
-            "Tapwave Zodiac"
+            {
+                "Tapwave Zodiac": "Tapwave Zodiac"
+            }
         ],
         "Texas Instruments": [
-            "Texas Instruments TI 99\/4A"
+            {
+                "Texas Instruments TI 99\/4A": "Texas Instruments TI-99-4A"
+            }
         ],
         "Tiger Electronics": [
-            "Tiger Game.com"
+            {
+                "Tiger Game.com": "Tiger Electronics Game.com"
+            }
         ],
         "Matsushita": [
-            "Tomy Tutor"
+            {
+                "Tomy Tutor": "Tomy Tutor"
+            }
         ],
         "Team Shanghai Alice": [
-            "Touhou Project"
+            {
+                "Touhou Project": "Touhou Project"
+            }
         ],
         "Watara": [
-            "Watara Supervision"
+            {
+                "Watara Supervision": "Watara Supervision"
+            }
         ],
         "Worlds of Wonder": [
-            "WoW Action Max"
+            {
+                "WoW Action Max": "WoW Action Max"
+            }
         ],
         "SSD COMPANY LIMITED": [
-            "XaviXPORT"
+            {
+                "XaviXPORT": "SSD Xavix Port"
+            }
         ],
         "Amstrad": [
-            "Amstrad CPC",
-            "Amstrad GX4000"
+            {
+                "Amstrad CPC": "Amstrad CPC"
+            },
+            {
+                "Amstrad GX4000": "Amstrad GX4000"
+            }
         ],
         "Apple Computer, Inc.": [
-            "Apple II",
-            "Apple IIGS"
+            {
+                "Apple II": "Apple II"
+            },
+            {
+                "Apple IIGS": "Apple IIGS"
+            }
         ],
         "Apple": [
-            "Apple iOS",
-            "Apple Mac OS"
+            {
+                "Apple iOS": "Apple iOS"
+            },
+            {
+                "Apple Mac OS": "Apple Macintosh"
+            }
         ],
         "Atari, Inc.": [
-            "Atari 2600",
-            "Atari 5200"
+            {
+                "Atari 2600": "Atari 2600"
+            },
+            {
+                "Atari 5200": "Atari 5200"
+            }
         ],
         "IBM": [
-            "Atari Jaguar",
-            "MS-DOS"
+            {
+                "Atari Jaguar": "Atari Jaguar"
+            },
+            {
+                "MS-DOS": "Microsoft MS-DOS"
+            }
         ],
         "Casio": [
-            "Casio Loopy",
-            "Casio PV-1000"
+            {
+                "Casio Loopy": "Casio Loopy"
+            },
+            {
+                "Casio PV-1000": "Casio PV-1000"
+            }
         ],
         "Epoch": [
-            "Epoch Game Pocket Computer",
-            "Epoch Super Cassette Vision"
+            {
+                "Epoch Game Pocket Computer": "Epoch Game Pocket Computer"
+            },
+            {
+                "Epoch Super Cassette Vision": "Epoch Super Cassette Vision"
+            }
         ],
         "Fujitsu": [
-            "Fujitsu FM Towns Marty",
-            "Fujitsu FM-7"
+            {
+                "Fujitsu FM Towns Marty": "Fujitsu FM Towns"
+            },
+            {
+                "Fujitsu FM-7": "Fujitsu FM-7"
+            }
         ],
         "ZAPiT Games": [
-            "Game Wave Family Entertainment System",
-            "GameWave"
+            {
+                "Game Wave Family Entertainment System": "ZAPiT Games Game Wave Family Entertainment System"
+            },
+            {
+                "GameWave": "ZAPiT Games Game Wave Family Entertainment System"
+            }
         ],
         "NEC": [
-            "NEC PC-8801",
-            "NEC PC-9801"
+            {
+                "NEC PC-8801": "NEC PC-8801"
+            },
+            {
+                "NEC PC-9801": "NEC PC-9801"
+            }
         ],
         "NEC Home Electronics": [
-            "NEC PC-FX",
-            "PC Engine SuperGrafx"
+            {
+                "NEC PC-FX": "NEC PC-FX"
+            },
+            {
+                "PC Engine SuperGrafx": "NEC PC Engine SuperGrafx"
+            }
         ],
         "NEC Corporation, Hudson Soft": [
-            "NEC TurboGrafx-16",
-            "NEC TurboGrafx-CD"
+            {
+                "NEC TurboGrafx-16": "NEC Turbografx 16"
+            },
+            {
+                "NEC TurboGrafx-CD": "NEC TurboGrafx-CD"
+            }
         ],
         "Nintendo, Foxconn": [
-            "Nintendo 3DS",
-            "Nintendo 64"
+            {
+                "Nintendo 3DS": "Nintendo 3DS"
+            },
+            {
+                "Nintendo 64": "Nintendo 64"
+            }
         ],
         "Foxconn": [
-            "Nintendo DS",
-            "Nintendo Wii"
+            {
+                "Nintendo DS": "Nintendo DS"
+            },
+            {
+                "Nintendo Wii": "Nintendo Wii"
+            }
         ],
         "Philips": [
-            "Philips CD-i",
-            "Philips Videopac+"
+            {
+                "Philips CD-i": "Philips CD-i"
+            },
+            {
+                "Philips Videopac+": "Philips Videopac+"
+            }
         ],
         "Sharp": [
-            "Sharp MZ-2500",
-            "Sharp X1"
+            {
+                "Sharp MZ-2500": "Sharp MZ-2500"
+            },
+            {
+                "Sharp X1": "Sharp X1"
+            }
         ],
         "VTech": [
-            "VTech CreatiVision",
-            "VTech Socrates"
+            {
+                "VTech CreatiVision": "VTech Creativision"
+            },
+            {
+                "VTech Socrates": "VTech Socrates"
+            }
         ],
         "Bandai Co., Ltd.": [
-            "WonderSwan",
-            "WonderSwan Color"
+            {
+                "WonderSwan": "Bandai WonderSwan"
+            },
+            {
+                "WonderSwan Color": "Bandai WonderSwan Color"
+            }
         ],
         "Atari Corporation": [
-            "Atari 7800",
-            "Atari Jaguar CD",
-            "Atari Lynx"
+            {
+                "Atari 7800": "Atari 7800"
+            },
+            {
+                "Atari Jaguar CD": "Atari Jaguar CD"
+            },
+            {
+                "Atari Lynx": "Atari Lynx"
+            }
         ],
         "Atari": [
-            "Atari 800",
-            "Atari ST",
-            "Atari XEGS"
+            {
+                "Atari 800": "Atari 800"
+            },
+            {
+                "Atari ST": "Atari ST"
+            },
+            {
+                "Atari XEGS": "Atari XEGS"
+            }
         ],
         "Acorn Computers": [
-            "Acorn Archimedes",
-            "Acorn Atom",
-            "Acorn Electron",
-            "BBC Microcomputer System"
+            {
+                "Acorn Archimedes": "Acorn Archimedes"
+            },
+            {
+                "Acorn Atom": "Acorn Atom"
+            },
+            {
+                "Acorn Electron": "Acorn Electron"
+            },
+            {
+                "BBC Microcomputer System": "Acorn BBC Micro"
+            }
         ],
         "Sony": [
-            "Sony Playstation 2",
-            "Sony Playstation Vita",
-            "Sony PocketStation",
-            "Sony PSP"
+            {
+                "Sony Playstation 2": "Sony Playstation 2"
+            },
+            {
+                "Sony Playstation Vita": "Sony Playstation Vita"
+            },
+            {
+                "Sony PocketStation": "Sony PocketStation"
+            },
+            {
+                "Sony PSP": "Sony Playstation Portable"
+            }
         ],
         "Various": [
-            "Android",
-            "Microsoft MSX",
-            "Microsoft MSX2",
-            "Microsoft MSX2+",
-            "Radio-86RK Mikrosha"
+            {
+                "Android": "Generic Android"
+            },
+            {
+                "Microsoft MSX": "Microsoft MSX"
+            },
+            {
+                "Microsoft MSX2": "Microsoft MSX2"
+            },
+            {
+                "Microsoft MSX2+": "Microsoft MSX2+"
+            },
+            {
+                "Radio-86RK Mikrosha": "Radio-86RK Mikrosha"
+            }
         ],
         "SNK": [
-            "SNK Neo Geo AES",
-            "SNK Neo Geo CD",
-            "SNK Neo Geo MVS",
-            "SNK Neo Geo Pocket",
-            "SNK Neo Geo Pocket Color"
+            {
+                "SNK Neo Geo AES": "SNK Neo Geo AES"
+            },
+            {
+                "SNK Neo Geo CD": "SNK Neo Geo CD"
+            },
+            {
+                "SNK Neo Geo MVS": "SNK Neo Geo MVS"
+            },
+            {
+                "SNK Neo Geo Pocket": "SNK Neo Geo Pocket"
+            },
+            {
+                "SNK Neo Geo Pocket Color": "SNK Neo Geo Pocket Color"
+            }
         ],
         "Nintendo": [
-            "Nintendo Game & Watch",
-            "Nintendo Game Boy",
-            "Nintendo Game Boy Advance",
-            "Nintendo Game Boy Color",
-            "Nintendo Pokemon Mini",
-            "Nintendo Satellaview",
-            "Nintendo Virtual Boy",
-            "Super Nintendo Entertainment System"
+            {
+                "Nintendo Game & Watch": "Nintendo Game & Watch"
+            },
+            {
+                "Nintendo Game Boy": "Nintendo Game Boy"
+            },
+            {
+                "Nintendo Game Boy Advance": "Nintendo Game Boy Advance"
+            },
+            {
+                "Nintendo Game Boy Color": "Nintendo Game Boy Color"
+            },
+            {
+                "Nintendo Pokemon Mini": "Nintendo Pokemon Mini"
+            },
+            {
+                "Nintendo Satellaview": "Nintendo Satellaview"
+            },
+            {
+                "Nintendo Virtual Boy": "Nintendo Virtual Boy"
+            },
+            {
+                "Super Nintendo Entertainment System": "Nintendo Super Nintendo Entertainment System"
+            }
         ],
         "Commodore": [
-            "Commodore 128",
-            "Commodore 64",
-            "Commodore Amiga",
-            "Commodore Amiga CD32",
-            "Commodore CDTV",
-            "Commodore MAX Machine",
-            "Commodore PET",
-            "Commodore Plus 4",
-            "Commodore VIC-20"
+            {
+                "Commodore 128": "Commodore 128"
+            },
+            {
+                "Commodore 64": "Commodore 64"
+            },
+            {
+                "Commodore Amiga": "Commodore Amiga"
+            },
+            {
+                "Commodore Amiga CD32": "Commodore Amiga CD32"
+            },
+            {
+                "Commodore CDTV": "Commodore Amiga CDTV"
+            },
+            {
+                "Commodore MAX Machine": "Commodore MAX Machine"
+            },
+            {
+                "Commodore PET": "Commodore PET"
+            },
+            {
+                "Commodore Plus 4": "Commodore Plus-4 - C16 - C116"
+            },
+            {
+                "Commodore VIC-20": "Commodore VIC-20"
+            }
         ],
         "Generic": [
-            "Arcade",
-            "MUGEN",
-            "OpenBOR",
-            "Pinball",
-            "ScummVM",
-            "Sony PSP Minis",
-            "Spectravideo",
-            "Taito Type X",
-            "Vector-06C",
-            "Web Browser",
-            "Windows",
-            "Windows 3.X",
-            "XaviXPORT",
-            "ZiNc",
-            "Lviv PC-01"
+            {
+                "Arcade": "Generic Arcade"
+            },
+            {
+                "MUGEN": "Elecbyte MUGEN"
+            },
+            {
+                "OpenBOR": "Generic OpenBOR"
+            },
+            {
+                "Pinball": "Generic Pinball"
+            },
+            {
+                "ScummVM": "Generic ScummVM"
+            },
+            {
+                "Sony PSP Minis": "Sony Playstation Portable"
+            },
+            {
+                "Spectravideo": "Spectravideo SVI-318 & SVI-328"
+            },
+            {
+                "Taito Type X": "Taito Type X"
+            },
+            {
+                "Vector-06C": "Vector-06C"
+            },
+            {
+                "Web Browser": "Generic Web Browser"
+            },
+            {
+                "Windows": "Microsoft Windows"
+            },
+            {
+                "Windows 3.X": "Microsoft Windows 3.X"
+            },
+            {
+                "XaviXPORT": "SSD Xavix Port"
+            },
+            {
+                "ZiNc": "Sony ZiNc"
+            },
+            {
+                "Lviv PC-01": "Lviv PC-01"
+            }
         ],
         "Sega": [
-            "Sega 32X",
-            "Sega CD",
-            "Sega CD 32X",
-            "Sega Dreamcast",
-            "Sega Dreamcast VMU",
-            "Sega Game Gear",
-            "Sega Hikaru",
-            "Sega Model 1",
-            "Sega Model 2",
-            "Sega Naomi",
-            "Sega Naomi 2",
-            "Sega Pico",
-            "Sega Saturn",
-            "Sega SC-3000",
-            "Sega SG-1000",
-            "Sega ST-V",
-            "Sega System 16",
-            "Sega System 32"
+            {
+                "Sega 32X": "Sega 32X"
+            },
+            {
+                "Sega CD": "Sega CD"
+            },
+            {
+                "Sega CD 32X": "Sega CD 32X"
+            },
+            {
+                "Sega Dreamcast": "Sega Dreamcast"
+            },
+            {
+                "Sega Dreamcast VMU": "Sega Dreamcast"
+            },
+            {
+                "Sega Game Gear": "Sega Game Gear"
+            },
+            {
+                "Sega Hikaru": "Sega Hikaru"
+            },
+            {
+                "Sega Model 1": "Sega Model 1"
+            },
+            {
+                "Sega Model 2": "Sega Model 2"
+            },
+            {
+                "Sega Naomi": "Sega Naomi"
+            },
+            {
+                "Sega Naomi 2": "Sega Naomi 2"
+            },
+            {
+                "Sega Pico": "Sega Pico"
+            },
+            {
+                "Sega Saturn": "Sega Saturn"
+            },
+            {
+                "Sega SC-3000": "Sega SC-3000"
+            },
+            {
+                "Sega SG-1000": "Sega SG-1000"
+            },
+            {
+                "Sega ST-V": "Sega ST-V"
+            },
+            {
+                "Sega System 16": "Sega System 16"
+            },
+            {
+                "Sega System 32": "Sega System 32"
+            }
         ]
     },
     "TheGamesDB": {
         "Panasonic Corporation, Sanyo Electric Co., Ltd., GoldStar": [
-            "3DO Interactive Multiplayer"
+            {
+                "3DO Interactive Multiplayer": "Panasonic 3DO Interactive Multiplayer"
+            }
         ],
         "APF Electronics": [
-            "APF Imagination Machine"
+            {
+                "APF Imagination Machine": "APF Imagination Machine"
+            }
         ],
         "Technosys Research Labs": [
-            "Aamber Pegasus"
+            {
+                "Aamber Pegasus": "Technosys Aamber Pegasus"
+            }
         ],
         "ARB Plant": [
-            "Apogee BK-01"
+            {
+                "Apogee BK-01": "Apogee BK-01"
+            }
         ],
         "Bally, Astrovision": [
-            "Bally Astrocade"
+            {
+                "Bally Astrocade": "Bally Professional Arcade & Astrocade"
+            }
         ],
         "Camputers": [
-            "Camputers Lynx"
+            {
+                "Camputers Lynx": "Camputers Lynx"
+            }
         ],
         "Coleco": [
-            "Coleco ADAM"
+            {
+                "Coleco ADAM": "Coleco ADAM"
+            }
         ],
         "Coleco Industries, Inc.": [
-            "ColecoVision"
+            {
+                "ColecoVision": "Coleco ColecoVision"
+            }
         ],
         "Dragon Data": [
-            "Dragon 32\/64"
+            {
+                "Dragon 32\/64": "Dragon 32-64"
+            }
         ],
         "EACA": [
-            "EACA EG2000 Colour Genie"
+            {
+                "EACA EG2000 Colour Genie": "EACA EG2000 Colour Genie"
+            }
         ],
         "NPO Scientific Center": [
-            "Elektronika BK"
+            {
+                "Elektronika BK": "Elektronika BK"
+            }
         ],
         "Emerson Radio": [
-            "Emerson Arcadia 2001"
+            {
+                "Emerson Arcadia 2001": "Emerson Arcadia 2001"
+            }
         ],
         "Enterprise Computers": [
-            "Enterprise"
+            {
+                "Enterprise": "Enterprise 64 & 128"
+            }
         ],
         "Entex": [
-            "Entex Adventure Vision"
+            {
+                "Entex Adventure Vision": "Entex Adventure Vision"
+            }
         ],
         "Exelvision": [
-            "Exelvision EXL 100"
+            {
+                "Exelvision EXL 100": "Exelvision EXL 100"
+            }
         ],
         "Exidy": [
-            "Exidy Sorcerer"
+            {
+                "Exidy Sorcerer": "Exidy Sorcerer"
+            }
         ],
         "Fairchild Semiconductor": [
-            "Fairchild Channel F"
+            {
+                "Fairchild Channel F": "Fairchild Channel F"
+            }
         ],
         "Funtech": [
-            "Funtech Super Acan"
+            {
+                "Funtech Super Acan": "Funtech Super A'Can"
+            }
         ],
         "General Consumer Electronics": [
-            "GCE Vectrex"
+            {
+                "GCE Vectrex": "GCE Vectrex"
+            }
         ],
         "Game Park": [
-            "GamePark GP32"
+            {
+                "GamePark GP32": "GamePark GP32"
+            }
         ],
         "Hartung": [
-            "Hartung Game Master"
+            {
+                "Hartung Game Master": "Hartung Game Master"
+            }
         ],
         "Micronique": [
-            "Hector HRX"
+            {
+                "Hector HRX": "Hector HRX"
+            }
         ],
         "Interton": [
-            "Interton VC 4000"
+            {
+                "Interton VC 4000": "Interton VC 4000"
+            }
         ],
         "Jupiter Cantab": [
-            "Jupiter Ace"
+            {
+                "Jupiter Ace": "Jupiter Cantab Jupiter Ace"
+            }
         ],
         "Community": [
-            "Linux"
+            {
+                "Linux": "Generic Linux"
+            }
         ],
         "Magnavox": [
-            "Magnavox Odyssey"
+            {
+                "Magnavox Odyssey": "Magnavox Odyssey 1"
+            }
         ],
         "Magnavox \/ Philips": [
-            "Magnavox Odyssey 2"
+            {
+                "Magnavox Odyssey 2": "Magnavox Odyssey 2"
+            }
         ],
         "Matra, Hachette, & Tandy": [
-            "Matra and Hachette Alice"
+            {
+                "Matra and Hachette Alice": "Matra Hachette Alice 32"
+            }
         ],
         "Radofin": [
-            "Mattel Aquarius"
+            {
+                "Mattel Aquarius": "Mattel Aquarius"
+            }
         ],
         "Mattel": [
-            "Mattel HyperScan"
+            {
+                "Mattel HyperScan": "Mattel HyperScan"
+            }
         ],
         "Mattel Electronics": [
-            "Mattel Intellivision"
+            {
+                "Mattel Intellivision": "Mattel Intellivision"
+            }
         ],
         "Welback Holdings": [
-            "Mega Duck"
+            {
+                "Mega Duck": "Creatronic Mega Duck & Cougar Boy"
+            }
         ],
         "Memotech": [
-            "Memotech MTX512"
+            {
+                "Memotech MTX512": "Memotech MTX512"
+            }
         ],
         "Flextronics International Ltd.": [
-            "Microsoft Xbox"
+            {
+                "Microsoft Xbox": "Microsoft Xbox"
+            }
         ],
         "Flextronics International Ltd., Foxconn Technology Group, Celestica Inc., Wistron Corporation": [
-            "Microsoft Xbox 360"
+            {
+                "Microsoft Xbox 360": "Microsoft Xbox 360"
+            }
         ],
         "Microsoft": [
-            "Microsoft Xbox One"
+            {
+                "Microsoft Xbox One": "Microsoft Xbox One"
+            }
         ],
         "Namco": [
-            "Namco System 22"
+            {
+                "Namco System 22": "Namco System 22"
+            }
         ],
         "Alps Electric": [
-            "Nintendo 64DD"
+            {
+                "Nintendo 64DD": "Nintendo 64DD"
+            }
         ],
         "Nintendo Co., Ltd.": [
-            "Nintendo Entertainment System"
+            {
+                "Nintendo Entertainment System": "Nintendo Entertainment System"
+            }
         ],
         "Mitsumi": [
-            "Nintendo Famicom Disk System"
+            {
+                "Nintendo Famicom Disk System": "Nintendo Famicom"
+            }
         ],
         "Nintendo \/ Foxconn": [
-            "Nintendo GameCube"
+            {
+                "Nintendo GameCube": "Nintendo GameCube"
+            }
         ],
         "Nintendo PTD": [
-            "Nintendo Switch"
+            {
+                "Nintendo Switch": "Nintendo Switch"
+            }
         ],
         "Nintendo, Foxconn, Mitsumi": [
-            "Nintendo Wii U"
+            {
+                "Nintendo Wii U": "Nintendo Wii U"
+            }
         ],
         "Nokia": [
-            "Nokia N-Gage"
+            {
+                "Nokia N-Gage": "Nokia N-Gage"
+            }
         ],
         "Motorola, Samsung, Toshiba": [
-            "Nuon"
+            {
+                "Nuon": "VM Labs Nuon"
+            }
         ],
         "Oric Products": [
-            "Oric Atmos"
+            {
+                "Oric Atmos": "Tangerine Oric-1 & Oric Atmos"
+            }
         ],
         "Tsukuda Original": [
-            "Othello Multivision"
+            {
+                "Othello Multivision": "Tsukuda Original Othello Multivision"
+            }
         ],
         "Ouya, Inc.": [
-            "Ouya"
+            {
+                "Ouya": "Ouya"
+            }
         ],
         "Radiotechnique": [
-            "Philips VG 5000"
+            {
+                "Philips VG 5000": "Philips VG 5000"
+            }
         ],
         "RCA": [
-            "RCA Studio II"
+            {
+                "RCA Studio II": "RCA Studio II"
+            }
         ],
         "MGT": [
-            "SAM Coup\u00c3\u00a9"
+            {
+                "SAM Coup\u00c3\u00a9": "MGT Sam Coupe"
+            }
         ],
         "Sammy Corporation": [
-            "Sammy Atomiswave"
+            {
+                "Sammy Atomiswave": "Sammy Atomiswave"
+            }
         ],
         "Sega Enterprises": [
-            "Sega Genesis"
+            {
+                "Sega Genesis": "Sega Genesis"
+            }
         ],
         "SEGA Enterprises Ltd.": [
-            "Sega Master System"
+            {
+                "Sega Master System": "Sega Mark III & Master System"
+            }
         ],
         "Sega and Lockheed Martin": [
-            "Sega Model 3"
+            {
+                "Sega Model 3": "Sega Model 3"
+            }
         ],
         "SEGA\/Namco\/Nintendo": [
-            "Sega Triforce"
+            {
+                "Sega Triforce": "Sega Triforce"
+            }
         ],
         "Sharp Corporation": [
-            "Sharp X68000"
+            {
+                "Sharp X68000": "Sharp X68000"
+            }
         ],
         "Sinclair Research": [
-            "Sinclair ZX Spectrum"
+            {
+                "Sinclair ZX Spectrum": "Sinclair ZX Spectrum +3"
+            }
         ],
         "Sinclair": [
-            "Sinclair ZX-81"
+            {
+                "Sinclair ZX-81": "Sinclair ZX-81"
+            }
         ],
         "Sony Computer Entertainment": [
-            "Sony Playstation"
+            {
+                "Sony Playstation": "Sony Playstation"
+            }
         ],
         "Sony EMCS, Foxconn, ASUSTeK": [
-            "Sony Playstation 3"
+            {
+                "Sony Playstation 3": "Sony Playstation 3"
+            }
         ],
         "Sony, Foxconn": [
-            "Sony Playstation 4"
+            {
+                "Sony Playstation 4": "Sony Playstation 4"
+            }
         ],
         "Sord Computer Corporation": [
-            "Sord M5"
+            {
+                "Sord M5": "Sord M5"
+            }
         ],
         "Motorola": [
-            "TRS-80 Color Computer"
+            {
+                "TRS-80 Color Computer": "Tandy Radio Shack TRS-80 Color Computer"
+            }
         ],
         "Taito Corporation": [
-            "Taito Type X"
+            {
+                "Taito Type X": "Taito Type X"
+            }
         ],
         "Tandy Corporation": [
-            "Tandy TRS-80"
+            {
+                "Tandy TRS-80": "Tandy Radio Shack TRS-80 Color Computer"
+            }
         ],
         "Tapwave": [
-            "Tapwave Zodiac"
+            {
+                "Tapwave Zodiac": "Tapwave Zodiac"
+            }
         ],
         "Texas Instruments": [
-            "Texas Instruments TI 99\/4A"
+            {
+                "Texas Instruments TI 99\/4A": "Texas Instruments TI-99-4A"
+            }
         ],
         "Tiger Electronics": [
-            "Tiger Game.com"
+            {
+                "Tiger Game.com": "Tiger Electronics Game.com"
+            }
         ],
         "Matsushita": [
-            "Tomy Tutor"
+            {
+                "Tomy Tutor": "Tomy Tutor"
+            }
         ],
         "Team Shanghai Alice": [
-            "Touhou Project"
+            {
+                "Touhou Project": "Touhou Project"
+            }
         ],
         "Watara": [
-            "Watara Supervision"
+            {
+                "Watara Supervision": "Watara Supervision"
+            }
         ],
         "Worlds of Wonder": [
-            "WoW Action Max"
+            {
+                "WoW Action Max": "WoW Action Max"
+            }
         ],
         "SSD COMPANY LIMITED": [
-            "XaviXPORT"
+            {
+                "XaviXPORT": "SSD Xavix Port"
+            }
         ],
         "Amstrad": [
-            "Amstrad CPC",
-            "Amstrad GX4000"
+            {
+                "Amstrad CPC": "Amstrad CPC"
+            },
+            {
+                "Amstrad GX4000": "Amstrad GX4000"
+            }
         ],
         "Apple Computer, Inc.": [
-            "Apple II",
-            "Apple IIGS"
+            {
+                "Apple II": "Apple II"
+            },
+            {
+                "Apple IIGS": "Apple IIGS"
+            }
         ],
         "Apple": [
-            "Apple iOS",
-            "Apple Mac OS"
+            {
+                "Apple iOS": "Apple iOS"
+            },
+            {
+                "Apple Mac OS": "Apple Macintosh"
+            }
         ],
         "Atari, Inc.": [
-            "Atari 2600",
-            "Atari 5200"
+            {
+                "Atari 2600": "Atari 2600"
+            },
+            {
+                "Atari 5200": "Atari 5200"
+            }
         ],
         "IBM": [
-            "Atari Jaguar",
-            "MS-DOS"
+            {
+                "Atari Jaguar": "Atari Jaguar"
+            },
+            {
+                "MS-DOS": "Microsoft MS-DOS"
+            }
         ],
         "Casio": [
-            "Casio Loopy",
-            "Casio PV-1000"
+            {
+                "Casio Loopy": "Casio Loopy"
+            },
+            {
+                "Casio PV-1000": "Casio PV-1000"
+            }
         ],
         "Epoch": [
-            "Epoch Game Pocket Computer",
-            "Epoch Super Cassette Vision"
+            {
+                "Epoch Game Pocket Computer": "Epoch Game Pocket Computer"
+            },
+            {
+                "Epoch Super Cassette Vision": "Epoch Super Cassette Vision"
+            }
         ],
         "Fujitsu": [
-            "Fujitsu FM Towns Marty",
-            "Fujitsu FM-7"
+            {
+                "Fujitsu FM Towns Marty": "Fujitsu FM Towns"
+            },
+            {
+                "Fujitsu FM-7": "Fujitsu FM-7"
+            }
         ],
         "ZAPiT Games": [
-            "Game Wave Family Entertainment System",
-            "GameWave"
+            {
+                "Game Wave Family Entertainment System": "ZAPiT Games Game Wave Family Entertainment System"
+            },
+            {
+                "GameWave": "ZAPiT Games Game Wave Family Entertainment System"
+            }
         ],
         "NEC": [
-            "NEC PC-8801",
-            "NEC PC-9801"
+            {
+                "NEC PC-8801": "NEC PC-8801"
+            },
+            {
+                "NEC PC-9801": "NEC PC-9801"
+            }
         ],
         "NEC Home Electronics": [
-            "NEC PC-FX",
-            "PC Engine SuperGrafx"
+            {
+                "NEC PC-FX": "NEC PC-FX"
+            },
+            {
+                "PC Engine SuperGrafx": "NEC PC Engine SuperGrafx"
+            }
         ],
         "NEC Corporation, Hudson Soft": [
-            "NEC TurboGrafx-16",
-            "NEC TurboGrafx-CD"
+            {
+                "NEC TurboGrafx-16": "NEC Turbografx 16"
+            },
+            {
+                "NEC TurboGrafx-CD": "NEC TurboGrafx-CD"
+            }
         ],
         "Nintendo, Foxconn": [
-            "Nintendo 3DS",
-            "Nintendo 64"
+            {
+                "Nintendo 3DS": "Nintendo 3DS"
+            },
+            {
+                "Nintendo 64": "Nintendo 64"
+            }
         ],
         "Foxconn": [
-            "Nintendo DS",
-            "Nintendo Wii"
+            {
+                "Nintendo DS": "Nintendo DS"
+            },
+            {
+                "Nintendo Wii": "Nintendo Wii"
+            }
         ],
         "Philips": [
-            "Philips CD-i",
-            "Philips Videopac+"
+            {
+                "Philips CD-i": "Philips CD-i"
+            },
+            {
+                "Philips Videopac+": "Philips Videopac+"
+            }
         ],
         "Sharp": [
-            "Sharp MZ-2500",
-            "Sharp X1"
+            {
+                "Sharp MZ-2500": "Sharp MZ-2500"
+            },
+            {
+                "Sharp X1": "Sharp X1"
+            }
         ],
         "VTech": [
-            "VTech CreatiVision",
-            "VTech Socrates"
+            {
+                "VTech CreatiVision": "VTech Creativision"
+            },
+            {
+                "VTech Socrates": "VTech Socrates"
+            }
         ],
         "Bandai Co., Ltd.": [
-            "WonderSwan",
-            "WonderSwan Color"
+            {
+                "WonderSwan": "Bandai WonderSwan"
+            },
+            {
+                "WonderSwan Color": "Bandai WonderSwan Color"
+            }
         ],
         "Atari Corporation": [
-            "Atari 7800",
-            "Atari Jaguar CD",
-            "Atari Lynx"
+            {
+                "Atari 7800": "Atari 7800"
+            },
+            {
+                "Atari Jaguar CD": "Atari Jaguar CD"
+            },
+            {
+                "Atari Lynx": "Atari Lynx"
+            }
         ],
         "Atari": [
-            "Atari 800",
-            "Atari ST",
-            "Atari XEGS"
+            {
+                "Atari 800": "Atari 800"
+            },
+            {
+                "Atari ST": "Atari ST"
+            },
+            {
+                "Atari XEGS": "Atari XEGS"
+            }
         ],
         "Acorn Computers": [
-            "Acorn Archimedes",
-            "Acorn Atom",
-            "Acorn Electron",
-            "BBC Microcomputer System"
+            {
+                "Acorn Archimedes": "Acorn Archimedes"
+            },
+            {
+                "Acorn Atom": "Acorn Atom"
+            },
+            {
+                "Acorn Electron": "Acorn Electron"
+            },
+            {
+                "BBC Microcomputer System": "Acorn BBC Micro"
+            }
         ],
         "Sony": [
-            "Sony Playstation 2",
-            "Sony Playstation Vita",
-            "Sony PocketStation",
-            "Sony PSP"
+            {
+                "Sony Playstation 2": "Sony Playstation 2"
+            },
+            {
+                "Sony Playstation Vita": "Sony Playstation Vita"
+            },
+            {
+                "Sony PocketStation": "Sony PocketStation"
+            },
+            {
+                "Sony PSP": "Sony Playstation Portable"
+            }
         ],
         "Various": [
-            "Android",
-            "Microsoft MSX",
-            "Microsoft MSX2",
-            "Microsoft MSX2+",
-            "Radio-86RK Mikrosha"
+            {
+                "Android": "Generic Android"
+            },
+            {
+                "Microsoft MSX": "Microsoft MSX"
+            },
+            {
+                "Microsoft MSX2": "Microsoft MSX2"
+            },
+            {
+                "Microsoft MSX2+": "Microsoft MSX2+"
+            },
+            {
+                "Radio-86RK Mikrosha": "Radio-86RK Mikrosha"
+            }
         ],
         "SNK": [
-            "SNK Neo Geo AES",
-            "SNK Neo Geo CD",
-            "SNK Neo Geo MVS",
-            "SNK Neo Geo Pocket",
-            "SNK Neo Geo Pocket Color"
+            {
+                "SNK Neo Geo AES": "SNK Neo Geo AES"
+            },
+            {
+                "SNK Neo Geo CD": "SNK Neo Geo CD"
+            },
+            {
+                "SNK Neo Geo MVS": "SNK Neo Geo MVS"
+            },
+            {
+                "SNK Neo Geo Pocket": "SNK Neo Geo Pocket"
+            },
+            {
+                "SNK Neo Geo Pocket Color": "SNK Neo Geo Pocket Color"
+            }
         ],
         "Nintendo": [
-            "Nintendo Game & Watch",
-            "Nintendo Game Boy",
-            "Nintendo Game Boy Advance",
-            "Nintendo Game Boy Color",
-            "Nintendo Pokemon Mini",
-            "Nintendo Satellaview",
-            "Nintendo Virtual Boy",
-            "Super Nintendo Entertainment System"
+            {
+                "Nintendo Game & Watch": "Nintendo Game & Watch"
+            },
+            {
+                "Nintendo Game Boy": "Nintendo Game Boy"
+            },
+            {
+                "Nintendo Game Boy Advance": "Nintendo Game Boy Advance"
+            },
+            {
+                "Nintendo Game Boy Color": "Nintendo Game Boy Color"
+            },
+            {
+                "Nintendo Pokemon Mini": "Nintendo Pokemon Mini"
+            },
+            {
+                "Nintendo Satellaview": "Nintendo Satellaview"
+            },
+            {
+                "Nintendo Virtual Boy": "Nintendo Virtual Boy"
+            },
+            {
+                "Super Nintendo Entertainment System": "Nintendo Super Nintendo Entertainment System"
+            }
         ],
         "Commodore": [
-            "Commodore 128",
-            "Commodore 64",
-            "Commodore Amiga",
-            "Commodore Amiga CD32",
-            "Commodore CDTV",
-            "Commodore MAX Machine",
-            "Commodore PET",
-            "Commodore Plus 4",
-            "Commodore VIC-20"
+            {
+                "Commodore 128": "Commodore 128"
+            },
+            {
+                "Commodore 64": "Commodore 64"
+            },
+            {
+                "Commodore Amiga": "Commodore Amiga"
+            },
+            {
+                "Commodore Amiga CD32": "Commodore Amiga CD32"
+            },
+            {
+                "Commodore CDTV": "Commodore Amiga CDTV"
+            },
+            {
+                "Commodore MAX Machine": "Commodore MAX Machine"
+            },
+            {
+                "Commodore PET": "Commodore PET"
+            },
+            {
+                "Commodore Plus 4": "Commodore Plus-4 - C16 - C116"
+            },
+            {
+                "Commodore VIC-20": "Commodore VIC-20"
+            }
         ],
         "Generic": [
-            "Arcade",
-            "MUGEN",
-            "OpenBOR",
-            "Pinball",
-            "ScummVM",
-            "Sony PSP Minis",
-            "Spectravideo",
-            "Taito Type X",
-            "Vector-06C",
-            "Web Browser",
-            "Windows",
-            "Windows 3.X",
-            "XaviXPORT",
-            "ZiNc",
-            "Lviv PC-01"
+            {
+                "Arcade": "Generic Arcade"
+            },
+            {
+                "MUGEN": "Elecbyte MUGEN"
+            },
+            {
+                "OpenBOR": "Generic OpenBOR"
+            },
+            {
+                "Pinball": "Generic Pinball"
+            },
+            {
+                "ScummVM": "Generic ScummVM"
+            },
+            {
+                "Sony PSP Minis": "Sony Playstation Portable"
+            },
+            {
+                "Spectravideo": "Spectravideo SVI-318 & SVI-328"
+            },
+            {
+                "Taito Type X": "Taito Type X"
+            },
+            {
+                "Vector-06C": "Vector-06C"
+            },
+            {
+                "Web Browser": "Generic Web Browser"
+            },
+            {
+                "Windows": "Microsoft Windows"
+            },
+            {
+                "Windows 3.X": "Microsoft Windows 3.X"
+            },
+            {
+                "XaviXPORT": "SSD Xavix Port"
+            },
+            {
+                "ZiNc": "Sony ZiNc"
+            },
+            {
+                "Lviv PC-01": "Lviv PC-01"
+            }
         ],
         "Sega": [
-            "Sega 32X",
-            "Sega CD",
-            "Sega CD 32X",
-            "Sega Dreamcast",
-            "Sega Dreamcast VMU",
-            "Sega Game Gear",
-            "Sega Hikaru",
-            "Sega Model 1",
-            "Sega Model 2",
-            "Sega Naomi",
-            "Sega Naomi 2",
-            "Sega Pico",
-            "Sega Saturn",
-            "Sega SC-3000",
-            "Sega SG-1000",
-            "Sega ST-V",
-            "Sega System 16",
-            "Sega System 32"
+            {
+                "Sega 32X": "Sega 32X"
+            },
+            {
+                "Sega CD": "Sega CD"
+            },
+            {
+                "Sega CD 32X": "Sega CD 32X"
+            },
+            {
+                "Sega Dreamcast": "Sega Dreamcast"
+            },
+            {
+                "Sega Dreamcast VMU": "Sega Dreamcast"
+            },
+            {
+                "Sega Game Gear": "Sega Game Gear"
+            },
+            {
+                "Sega Hikaru": "Sega Hikaru"
+            },
+            {
+                "Sega Model 1": "Sega Model 1"
+            },
+            {
+                "Sega Model 2": "Sega Model 2"
+            },
+            {
+                "Sega Naomi": "Sega Naomi"
+            },
+            {
+                "Sega Naomi 2": "Sega Naomi 2"
+            },
+            {
+                "Sega Pico": "Sega Pico"
+            },
+            {
+                "Sega Saturn": "Sega Saturn"
+            },
+            {
+                "Sega SC-3000": "Sega SC-3000"
+            },
+            {
+                "Sega SG-1000": "Sega SG-1000"
+            },
+            {
+                "Sega ST-V": "Sega ST-V"
+            },
+            {
+                "Sega System 16": "Sega System 16"
+            },
+            {
+                "Sega System 32": "Sega System 32"
+            }
         ]
     },
     "OldComputers": {
@@ -808,7 +1544,9 @@
             "3000"
         ],
         "ITT": [
-            "3030"
+            {
+                "3030": "ITT 3030"
+            }
         ],
         "Fortune": [
             "32:16"
@@ -895,7 +1633,9 @@
             "ATHENA"
         ],
         "Worlds of Wonder": [
-            "Action Max"
+            {
+                "Action Max": "WoW Action Max"
+            }
         ],
         "Industria Argentina": [
             "Activision Family Game"
@@ -913,19 +1653,25 @@
             "Arcade video games"
         ],
         "Emerson": [
-            "Arcadia 2001"
+            {
+                "Arcadia 2001": "Emerson Arcadia 2001"
+            }
         ],
         "Data Technology Industries": [
             "Associate"
         ],
         "Bally": [
-            "Astrocade"
+            {
+                "Astrocade": "Bally Professional Arcade & Astrocade"
+            }
         ],
         "Solid State Technology": [
             "Athena"
         ],
         "Otrona": [
-            "Attache"
+            {
+                "Attache": "Otrona Attache"
+            }
         ],
         "Basis": [
             "BASIS 108"
@@ -988,7 +1734,9 @@
             "Cellatron 8205"
         ],
         "Fairchild": [
-            "Channel F"
+            {
+                "Channel F": "Fairchild Channel F"
+            }
         ],
         "Tokyo": [
             "Colour TV Game"
@@ -1006,7 +1754,9 @@
             "Compact Vision TV-Boy"
         ],
         "Telenova": [
-            "Compis"
+            {
+                "Compis": "Telenova Compis"
+            }
         ],
         "Bentley": [
             "Compu-vision"
@@ -1075,7 +1825,9 @@
             "GMC-802"
         ],
         "GALAKSIJA": [
-            "Galaksija"
+            {
+                "Galaksija": "Galaksija"
+            }
         ],
         "Redant": [
             "Game Axe"
@@ -1135,7 +1887,9 @@
             "IMCE Junior"
         ],
         "ZPA": [
-            "IQ-151"
+            {
+                "IQ-151": "Generic IQ-151"
+            }
         ],
         "Unisys": [
             "Icon"
@@ -1168,7 +1922,9 @@
             "Jolt"
         ],
         "Jupiter Cantab": [
-            "Jupiter Ace"
+            {
+                "Jupiter Ace": "Jupiter Cantab Jupiter Ace"
+            }
         ],
         "Kawai": [
             "KMC-5000"
@@ -1495,7 +2251,9 @@
             "Telesports Mini"
         ],
         "Rowtron": [
-            "Television Computer System"
+            {
+                "Television Computer System": "Rowtron Television Computer System"
+            }
         ],
         "TEI": [
             "Terminal Processor"
@@ -1540,7 +2298,9 @@
             "VX 384"
         ],
         "Milton Bradley": [
-            "Vectrex"
+            {
+                "Vectrex": "GCE Vectrex"
+            }
         ],
         "Microkit": [
             "Vegas 6809"
@@ -1595,7 +2355,9 @@
             "3001 - Home Video Centre"
         ],
         "Goldstar": [
-            "3DO Interactive Multiplayer",
+            {
+                "3DO Interactive Multiplayer": "Panasonic 3DO Interactive Multiplayer"
+            },
             "FC-80 \/ FC-200"
         ],
         "Iskra Delta": [
@@ -1607,7 +2369,9 @@
             "9017 - Colour TV Game"
         ],
         "Rockwell": [
-            "AIM 65",
+            {
+                "AIM 65": "Rockwell AIM 65"
+            },
             "AIM 65\/40"
         ],
         "MBC": [
@@ -1691,8 +2455,12 @@
             "PC-2000"
         ],
         "Exelvision": [
-            "EXL 100",
-            "Exeltel"
+            {
+                "EXL 100": "Exelvision EXL 100"
+            },
+            {
+                "Exeltel": "Exelvision Exeltel"
+            }
         ],
         "Gradiente": [
             "Expert Plus",
@@ -1708,7 +2476,9 @@
         ],
         "PEL Varazdin": [
             "Galeb",
-            "Orao"
+            {
+                "Orao": "PEL Varazdin Orao"
+            }
         ],
         "Intertec": [
             "HEADSTART",
@@ -1815,11 +2585,17 @@
             "SMP-8"
         ],
         "Samsung": [
-            "SPC-1000",
-            "Saturn"
+            {
+                "SPC-1000": "Samsung SPC-1000"
+            },
+            {
+                "Saturn": "Sega Saturn"
+            }
         ],
         "Sage Computer Technology": [
-            "Sage II",
+            {
+                "Sage II": "Sage II"
+            },
             "Sage IV"
         ],
         "Akor": [
@@ -1851,7 +2627,9 @@
             "Videocolor"
         ],
         "Visual Technology": [
-            "Visual 1050",
+            {
+                "Visual 1050": "Visual Technology Visual 1050"
+            },
             "Visual 1083 \/ Commuter"
         ],
         "Zenith Data Systems": [
@@ -1889,7 +2667,9 @@
             "IF COM7"
         ],
         "Luxor": [
-            "ABC 80",
+            {
+                "ABC 80": "Luxor ABC 80"
+            },
             "ABC 800 Series",
             "Sportsman 2001"
         ],
@@ -1899,8 +2679,12 @@
             "Altair 8800b"
         ],
         "Mattel Electronics": [
-            "Aquarius",
-            "Intellivision",
+            {
+                "Aquarius": "Mattel Aquarius"
+            },
+            {
+                "Intellivision": "Mattel Intellivision"
+            },
             "Keyboard Component"
         ],
         "Olympia": [
@@ -1949,7 +2733,9 @@
             "Spirit"
         ],
         "Leanord": [
-            "Elan",
+            {
+                "Elan": "Enterprise 64 & 128"
+            },
             "SIL'Z Model 5 \/ 6",
             "Silex"
         ],
@@ -1995,13 +2781,19 @@
         ],
         "Matsushita": [
             "National JR 100",
-            "National JR 200",
+            {
+                "National JR 200": "Matsushita National JR 200"
+            },
             "National JR 300"
         ],
         "SNK": [
             "Neo Geo Advanced Entertainment System (AES)",
-            "Neo Geo Pocket",
-            "Neo Geo Pocket Color"
+            {
+                "Neo Geo Pocket": "SNK Neo Geo Pocket"
+            },
+            {
+                "Neo Geo Pocket Color": "SNK Neo Geo Pocket Color"
+            }
         ],
         "ICL": [
             "OPD - One Per Desk",
@@ -2029,7 +2821,9 @@
             "Tele-Video-Computer TVC 4000"
         ],
         "INTERTON": [
-            "VC 4000",
+            {
+                "VC 4000": "Interton VC 4000"
+            },
             "Video 2400",
             "Video 3000"
         ],
@@ -2061,17 +2855,23 @@
             "DPC-64",
             "MX-64",
             "SC 3000 \/ SC 3000H",
-            "Super Cassette Vision"
+            {
+                "Super Cassette Vision": "Epoch Super Cassette Vision"
+            }
         ],
         "NCR": [
-            "Decision Mate V",
+            {
+                "Decision Mate V": "NCR Decision Mate V"
+            },
             "PC4",
             "PC6",
             "PC8"
         ],
         "Dragon Data Ltd": [
             "Dragon 200",
-            "Dragon 32",
+            {
+                "Dragon 32": "Dragon 32-64"
+            },
             "Dragon 64",
             "MSX-64"
         ],
@@ -2082,14 +2882,18 @@
             "QX 10"
         ],
         "APF": [
-            "Imagination Machine",
+            {
+                "Imagination Machine": "APF Imagination Machine"
+            },
             "M1000 \/ MP1000",
             "Match",
             "TV Fun (Model 401)"
         ],
         "Intel": [
             "Intellec Series",
-            "SDK-85",
+            {
+                "SDK-85": "SDK-85"
+            },
             "SDK-86",
             "iPDS"
         ],
@@ -2114,7 +2918,9 @@
         "Tesla": [
             "Mato",
             "ONDRA",
-            "PMD-85",
+            {
+                "PMD-85": "Tesla PMD-85"
+            },
             "PMI-80"
         ],
         "Soci\u00e9t\u00e9 Occitane d'Electronique": [
@@ -2146,7 +2952,9 @@
             "ACS-186",
             "ACS-580",
             "ACS-586 \/ 686",
-            "ACS-8000",
+            {
+                "ACS-8000": "Altos Computer Systems ACS-8000"
+            },
             "Serie 5"
         ],
         "Oric": [
@@ -2157,11 +2965,17 @@
             "TELESTRAT"
         ],
         "Bandai": [
-            "Arcadia",
-            "Gundam RX-78",
+            {
+                "Arcadia": "Emerson Arcadia 2001"
+            },
+            {
+                "Gundam RX-78": "Gundam RX-78"
+            },
             "Pippin @World",
             "TV Jack 5000",
-            "WonderSwan"
+            {
+                "WonderSwan": "Bandai WonderSwan"
+            }
         ],
         "Yamaha": [
             "C1",
@@ -2181,12 +2995,18 @@
             "CZ-1000",
             "CZ-1000 Plus",
             "CZ-2000",
-            "Spectrum",
+            {
+                "Spectrum": "Sinclair ZX Spectrum +3"
+            },
             "Spectrum Plus"
         ],
         "Epoch": [
-            "Cassette Vision",
-            "Super Cassette Vision",
+            {
+                "Cassette Vision": "Epoch Cassette Vision"
+            },
+            {
+                "Super Cassette Vision": "Epoch Super Cassette Vision"
+            },
             "TV Baseball",
             "TV Block",
             "TV Vader"
@@ -2202,7 +3022,9 @@
             "Cosmac Microtutor",
             "Cosmac VIP",
             "Fred 2",
-            "Studio II",
+            {
+                "Studio II": "RCA Studio II"
+            },
             "SuperElf"
         ],
         "Ice-Felix": [
@@ -2213,19 +3035,35 @@
             "M18 series"
         ],
         "Xerox": [
-            "6085",
+            {
+                "6085": "Xerox 6085"
+            },
             "8 \/ 16",
-            "820",
-            "820-II",
-            "860",
+            {
+                "820": "Xerox 820"
+            },
+            {
+                "820-II": "Xerox 820-II"
+            },
+            {
+                "860": "Xerox 860"
+            },
             "Sunrise 1800 \/ 1805"
         ],
         "Franklin": [
-            "ACE 100",
-            "ACE 1000",
+            {
+                "ACE 100": "Franklin ACE 100"
+            },
+            {
+                "ACE 1000": "Franklin ACE 1000"
+            },
             "ACE 1200",
-            "ACE 2000",
-            "ACE 500",
+            {
+                "ACE 2000": "Franklin ACE 2000"
+            },
+            {
+                "ACE 500": "Franklin ACE 500"
+            },
             "PC 5000, 6000, 8000"
         ],
         "Cromemco": [
@@ -2291,21 +3129,31 @@
         ],
         "ACT": [
             "ACT-800",
-            "Apricot F1",
+            {
+                "Apricot F1": "ACT Apricot F1"
+            },
             "Apricot F2 \/ F10",
             "Apricot PC",
-            "Apricot Portable",
+            {
+                "Apricot Portable": "ACT Apricot Portable"
+            },
             "Apricot Xen",
             "Apricot Xi",
             "QI-300"
         ],
         "Nintendo": [
             "Family Computer Keyboard",
-            "NES",
+            {
+                "NES": "Nintendo Entertainment System"
+            },
             "Nintendo 64",
             "Racing 112 (model CTG-CR112)",
-            "Super Famicom",
-            "Super Nintendo Entertainment System",
+            {
+                "Super Famicom": "Nintendo Super Nintendo Entertainment System"
+            },
+            {
+                "Super Nintendo Entertainment System": "Nintendo Super Nintendo Entertainment System"
+            },
             "Super Nintendo Entertainment System 2",
             "TV-Game 6 (model CTG-6V)"
         ],
@@ -2320,7 +3168,9 @@
             "Laser 50 \/ One"
         ],
         "Magnavox": [
-            "Odyssey",
+            {
+                "Odyssey": "Magnavox Odyssey 1"
+            },
             "Odyssey 100",
             "Odyssey 200",
             "Odyssey 2000",
@@ -2369,7 +3219,9 @@
             "V-20",
             "V-25",
             "V-8",
-            "X-07"
+            {
+                "X-07": "Canon X-07"
+            }
         ],
         "Texas Instruments": [
             "COMPACT COMPUTER 40 (CC40)",
@@ -2446,13 +3298,21 @@
             "A5",
             "ETS 1010",
             "M10",
-            "M20",
-            "M24",
+            {
+                "M20": "Olivetti M20"
+            },
+            {
+                "M24": "Olivetti M24"
+            },
             "P6040",
             "P6060",
             "PC 1",
-            "Prodest PC 128",
-            "Prodest PC 128S",
+            {
+                "Prodest PC 128": "Olivetti Prodest PC 128"
+            },
+            {
+                "Prodest PC 128S": "Olivetti Prodest PC 128S"
+            },
             "Programma P101\/P102"
         ],
         "Hitachi": [
@@ -2496,13 +3356,19 @@
             "Senior Partner"
         ],
         "Coleco": [
-            "ADAM",
-            "Colecovision",
+            {
+                "ADAM": "Coleco ADAM"
+            },
+            {
+                "Colecovision": "Coleco ColecoVision"
+            },
             "Combat!",
             "Gemini",
             "Telstar",
             "Telstar Alpha - Model #6030",
-            "Telstar Arcade",
+            {
+                "Telstar Arcade": "Coleco Telstar Arcade"
+            },
             "Telstar Classic - Model #6045",
             "Telstar Colormatic - Model #6130",
             "Telstar Colortron",
@@ -2592,13 +3458,19 @@
             "Loopy (My Seal Computer SV-100)",
             "MX-10 \/ MX-101",
             "PB-100",
-            "PB-1000",
+            {
+                "PB-1000": "Casio PB-1000"
+            },
             "PB-300",
             "PB-700",
             "PB-770",
-            "PV-1000",
+            {
+                "PV-1000": "Casio PV-1000"
+            },
             "PV-16",
-            "PV-2000",
+            {
+                "PV-2000": "Casio PV-2000"
+            },
             "PV-7"
         ],
         "Apple": [
@@ -2622,22 +3494,36 @@
             "Macintosh Color Classic"
         ],
         "Sega": [
-            "Dreamcast",
-            "Game Gear",
-            "Genesis",
+            {
+                "Dreamcast": "Sega Dreamcast"
+            },
+            {
+                "Game Gear": "Sega Game Gear"
+            },
+            {
+                "Genesis": "Sega Genesis"
+            },
             "Genesis 2",
             "Genesis 3",
             "Mark III",
-            "Master System",
+            {
+                "Master System": "Sega Mark III & Master System"
+            },
             "Master System II",
             "Master System III",
-            "Mega Drive",
+            {
+                "Mega Drive": "Sega Mega Drive"
+            },
             "Mega Drive II",
             "Nomad",
             "SC 3000 \/ SC 3000H",
-            "SG-1000",
+            {
+                "SG-1000": "Sega SG-1000"
+            },
             "SG-1000 Mark II",
-            "Saturn",
+            {
+                "Saturn": "Sega Saturn"
+            },
             "Teradrive",
             "Wondermega"
         ],
@@ -2654,8 +3540,12 @@
             "Hit-Bit F700",
             "Hit-Bit F9",
             "Hit-Bit G900F",
-            "PlayStation",
-            "PlayStation 2",
+            {
+                "PlayStation": "Sony Playstation"
+            },
+            {
+                "PlayStation 2": "Sony Playstation 2"
+            },
             "SMC 70",
             "SMC 70G",
             "SMC 777 - 777C",
@@ -2667,7 +3557,9 @@
             "ABC 210 \/ Cambridge Workstation",
             "ABC 310",
             "ATOM",
-            "Archimedes",
+            {
+                "Archimedes": "Acorn Archimedes"
+            },
             "Archimedes A3000",
             "Archimedes A3010",
             "Archimedes A3020",
@@ -2678,7 +3570,9 @@
             "BBC Master AIV",
             "BBC Master Compact",
             "BBC Model A \/ B \/ B+",
-            "Electron",
+            {
+                "Electron": "Acorn Electron"
+            },
             "Risc PC",
             "System 1"
         ],
@@ -2695,7 +3589,9 @@
             "P3000",
             "P5000 series",
             "Tele-Spiel ES-2201",
-            "VG 5000",
+            {
+                "VG 5000": "Philips VG 5000"
+            },
             "VG 8000 \/ 8010",
             "VG 8020",
             "VG 8235",
@@ -2721,7 +3617,9 @@
             "FM 8",
             "FM New 7",
             "FM R 70",
-            "FM Towns",
+            {
+                "FM Towns": "Fujitsu FM Towns"
+            },
             "FM Towns II",
             "FM Towns II EX",
             "Micro 16s"
@@ -2735,7 +3633,9 @@
             "1000 TX",
             "1400 LT\/FD\/HD",
             "2000",
-            "Color Computer",
+            {
+                "Color Computer": "Tandy Radio Shack TRS-80 Color Computer"
+            },
             "Color Computer 2",
             "Color Computer 3",
             "MC 10",
@@ -2775,13 +3675,17 @@
             "PC 88VA",
             "PC 9801 E",
             "PC 9801 F",
-            "PC Engine",
+            {
+                "PC Engine": "NEC Turbografx 16"
+            },
             "PC Engine Duo",
             "PC Engine Duo R",
             "PC Engine Duo RX",
             "PC Engine Super Grafx",
             "PC-88 VA 2",
-            "PC-FX",
+            {
+                "PC-FX": "NEC PC-FX"
+            },
             "TK 80",
             "TurboDuo",
             "TurboGrafx-16\/Turbografx"
@@ -2791,27 +3695,39 @@
             "130 ST - 260 ST",
             "1400 XL",
             "1450 XLD",
-            "400",
+            {
+                "400": "Atari 400"
+            },
             "4160 Ste",
             "520 \/ 1040 STe",
             "520 \/ 1040 STf \/ STfm",
             "520 ST \/ ST+ \/ STM",
-            "5200 SuperSystem",
+            {
+                "5200 SuperSystem": "Atari 5200"
+            },
             "600 \/ 800 XL",
             "65 \/ 130 XE",
             "65XEP \/ 65XEM",
-            "7800 ProSystem",
-            "800",
+            {
+                "7800 ProSystem": "Atari 7800"
+            },
+            {
+                "800": "Atari 800"
+            },
             "800XE",
             "Abaq ATW Transputer 800",
             "FALCON 030",
             "FALCON 030 MicroBox",
             "FX-1 Sparrow",
-            "Jaguar",
+            {
+                "Jaguar": "Atari Jaguar"
+            },
             "Lynx\/Lynx II",
             "MEGA ST",
             "MEGA STe",
-            "PC",
+            {
+                "PC": "Atari PC"
+            },
             "PONG (Model C-100)",
             "PORTFOLIO",
             "ST BOOK",
@@ -2836,21 +3752,29 @@
             "Amiga 500 Plus",
             "Amiga 600",
             "Amiga 600HD",
-            "Amiga CD32",
+            {
+                "Amiga CD32": "Commodore Amiga CD32"
+            },
             "C116",
             "C128 - C128D",
             "C16",
-            "C64",
+            {
+                "C64": "Commodore 64"
+            },
             "C64 Aldi",
             "C64 GS (Games System)",
             "C64 Golden Jubilee",
             "C64C",
             "C64G",
-            "C65",
+            {
+                "C65": "Commodore C65"
+            },
             "CBM 500 \/ 600 Series",
             "CBM 700 Series",
             "CBM 80xx",
-            "CDTV",
+            {
+                "CDTV": "Commodore Amiga CDTV"
+            },
             "Educator 64",
             "LCD",
             "MAX Machine \/ Ultimax \/ VC-10",
@@ -2897,7 +3821,9 @@
             "SM-B-80TE",
             "WD 2000",
             "X1 (CZ-800C)",
-            "X1 Turbo",
+            {
+                "X1 Turbo": "Sharp X1 Turbo"
+            },
             "X1 Turbo III",
             "X1 Turbo Z (CZ-880C)",
             "X1 Turbo Z III",
@@ -2905,7 +3831,9 @@
             "X1-CK (CZ-804C)",
             "X1-CS (CZ-803C)",
             "X1-D (CZ-802C)",
-            "X68000",
+            {
+                "X68000": "Sharp X68000"
+            },
             "X68000 ACE \/ ACE HD",
             "X68000 Expert",
             "X68000 Expert II",
@@ -2919,969 +3847,1959 @@
     },
     "Redump": {
         "Panasonic": [
-            "3DO Interactive Multiplayer"
+            {
+                "3DO Interactive Multiplayer": "Panasonic 3DO Interactive Multiplayer"
+            }
         ],
         "Philips": [
-            "CD-i"
+            {
+                "CD-i": "Philips CD-i"
+            }
         ],
         "Incredible Technologies": [
-            "Eagle"
+            {
+                "Eagle": "Incredible Technologies Eagle"
+            }
         ],
         "Fujitsu": [
-            "FM-Towns"
+            {
+                "FM-Towns": "Fujitsu FM Towns"
+            }
         ],
         "ZAPiT Games": [
-            "Game Wave Family Entertainment System"
+            {
+                "Game Wave Family Entertainment System": "ZAPiT Games Game Wave Family Entertainment System"
+            }
         ],
         "Atari": [
-            "Jaguar CD Interactive Multimedia System"
+            {
+                "Jaguar CD Interactive Multimedia System": "Atari Jaguar CD"
+            }
         ],
         "Tomy": [
-            "Kiss-Site"
+            {
+                "Kiss-Site": "Tomy KISS-Site"
+            }
         ],
         "Apple": [
-            "Macintosh"
+            {
+                "Macintosh": "Apple Macintosh"
+            }
         ],
         "VM Labs": [
-            "NUON"
+            {
+                "NUON": "VM Labs Nuon"
+            }
         ],
         "SNK": [
-            "Neo Geo CD"
+            {
+                "Neo Geo CD": "SNK Neo Geo CD"
+            }
         ],
         "IBM": [
-            "PC compatible"
+            {
+                "PC compatible": "IBM PC and Compatibles"
+            }
         ],
         "funworld": [
-            "Photo Play"
+            {
+                "Photo Play": "funworld Photo Play"
+            }
         ],
         "Sony": [
-            "PlayStation Portable"
+            {
+                "PlayStation Portable": "Sony Playstation Portable"
+            }
         ],
         "TAB-Austria": [
-            "Quizard"
+            {
+                "Quizard": "TAB-Austria Quizard"
+            }
         ],
         "Namco": [
-            "System 246"
+            {
+                "System 246": "Namco System 246"
+            }
         ],
         "Namco - Sega - Nintendo": [
-            "Triforce"
+            {
+                "Triforce": "Namco\/Sega\/Nintendo Triforce"
+            }
         ],
         "VTech": [
-            "V.Flash & V.Smile Pro"
+            {
+                "V.Flash & V.Smile Pro": "VTech V.Flash"
+            }
         ],
         "Memorex": [
-            "Visual Information System"
+            {
+                "Visual Information System": "Memorex Video Information System"
+            }
         ],
         "Mattel": [
-            "Fisher-Price iXL",
-            "HyperScan"
+            {
+                "Fisher-Price iXL": "Mattel Fisher-Price iXL"
+            },
+            {
+                "HyperScan": "Mattel HyperScan"
+            }
         ],
         "Bandai": [
-            "Pippin",
-            "Playdia Quick Interactive System"
+            {
+                "Pippin": "Bandai Pippin"
+            },
+            {
+                "Playdia Quick Interactive System": "Bandai Playdia Quick Interactive System"
+            }
         ],
         "Commodore": [
-            "Amiga CD",
-            "Amiga CD32",
-            "Amiga CDTV"
+            {
+                "Amiga CD": "Commodore Amiga CD"
+            },
+            {
+                "Amiga CD32": "Commodore Amiga CD32"
+            },
+            {
+                "Amiga CDTV": "Commodore Amiga CDTV"
+            }
         ],
         "Konami": [
-            "FireBeat",
-            "System GV",
-            "e-Amusement"
+            {
+                "FireBeat": "Konami FireBeat"
+            },
+            {
+                "System GV": "Konami System GV"
+            },
+            {
+                "e-Amusement": "Konami e-Amusement"
+            }
         ],
         "NEC": [
-            "PC Engine CD & TurboGrafx CD",
-            "PC-88 series",
-            "PC-98 series",
-            "PC-FX & PC-FXGA"
+            {
+                "PC Engine CD & TurboGrafx CD": "NEC PC Engine CD & TurboGrafx CD"
+            },
+            {
+                "PC-88 series": "NEC PC-88 series"
+            },
+            {
+                "PC-98 series": "NEC PC-98 series"
+            },
+            {
+                "PC-FX & PC-FXGA": "NEC PC-FX & PC-FXGA"
+            }
         ],
         "Sega": [
-            "Chihiro",
-            "Lindbergh",
-            "Naomi",
-            "Naomi 2",
-            "Dreamcast",
-            "Mega CD & Sega CD",
-            "Saturn"
+            {
+                "Chihiro": "Sega Chihiro"
+            },
+            {
+                "Lindbergh": "Sega Lindbergh"
+            },
+            {
+                "Naomi": "Sega Naomi"
+            },
+            {
+                "Naomi 2": "Sega Naomi 2"
+            },
+            {
+                "Dreamcast": "Sega Dreamcast"
+            },
+            {
+                "Mega CD & Sega CD": "Sega CD"
+            },
+            {
+                "Saturn": "Sega Saturn"
+            }
         ]
     },
     "TOSEC": {
         "AT&T": [
-            "3B20"
+            {
+                "3B20": "AT&T 3B20"
+            }
         ],
         "Enterprise": [
-            "64 & 128"
+            {
+                "64 & 128": "Enterprise 64 & 128"
+            }
         ],
         "Raytheon": [
-            "704"
+            {
+                "704": "Raytheon 704"
+            }
         ],
         "Terak": [
-            "8510A & 8600"
+            {
+                "8510A & 8600": "Terak 8510A & 8600"
+            }
         ],
         "Rockwell": [
-            "AIM65"
+            {
+                "AIM65": "Rockwell AIM 65"
+            }
         ],
         "Alspa Computers": [
-            "ALSPA"
+            {
+                "ALSPA": "Alspa Computers ALSPA"
+            }
         ],
         "Technosys": [
-            "Aamber Pegasus"
+            {
+                "Aamber Pegasus": "Technosys Aamber Pegasus"
+            }
         ],
         "Entex": [
-            "Adventure Vision"
+            {
+                "Adventure Vision": "Entex Adventure Vision"
+            }
         ],
         "Patisonic": [
-            "Aleste 520EX"
+            {
+                "Aleste 520EX": "Patisonic Aleste 520EX"
+            }
         ],
         "MITS": [
-            "Altair 8800"
+            {
+                "Altair 8800": "MITS Altair 8800"
+            }
         ],
         "ACT": [
-            "Apricot PC-Xi"
+            {
+                "Apricot PC-Xi": "ACT Apricot PC-Xi"
+            }
         ],
         "Radica": [
-            "Arcade Legends & Play TV Legends"
+            {
+                "Arcade Legends & Play TV Legends": "Radica Arcade Legends & Play TV Legends"
+            }
         ],
         "Emerson": [
-            "Arcadia 2001"
+            {
+                "Arcadia 2001": "Emerson Arcadia 2001"
+            }
         ],
         "Otrona": [
-            "Attache"
+            {
+                "Attache": "Otrona Attache"
+            }
         ],
         "Burroughs": [
-            "B1000 Series"
+            {
+                "B1000 Series": "Burroughs B1000 Series"
+            }
         ],
         "Ferguson": [
-            "Big Board II"
+            {
+                "Big Board II": "Ferguson Big Board II"
+            }
         ],
         "Control Data Corporation": [
-            "CDC110"
+            {
+                "CDC110": "Control Data Corporation CDC110"
+            }
         ],
         "Fairlight": [
-            "CMI Series III"
+            {
+                "CMI Series III": "Fairlight CMI Series III"
+            }
         ],
         "VEB Mikroelektronik Erfurt": [
-            "Chess-Master Diamond"
+            {
+                "Chess-Master Diamond": "VEB Mikroelektronik Erfurt Chess-Master Diamond"
+            }
         ],
         "Yamaha": [
-            "Copera"
+            {
+                "Copera": "Yamaha Copera"
+            }
         ],
         "NCR": [
-            "Decision Mate V"
+            {
+                "Decision Mate V": "NCR Decision Mate V"
+            }
         ],
         "Micro Craft": [
-            "Dimension 68000"
+            {
+                "Dimension 68000": "Micro Craft Dimension 68000"
+            }
         ],
         "University of Cambridge": [
-            "EDSAC"
+            {
+                "EDSAC": "University of Cambridge EDSAC"
+            }
         ],
         "EACA": [
-            "EG2000 Colour Genie"
+            {
+                "EG2000 Colour Genie": "EACA EG2000 Colour Genie"
+            }
         ],
         "Motorola": [
-            "EXORciser"
+            {
+                "EXORciser": "Motorola EXORciser"
+            }
         ],
         "Tatung": [
-            "Einstein TC-01"
+            {
+                "Einstein TC-01": "Tatung Einstein TC-01"
+            }
         ],
         "Didact": [
-            "Esselte 100"
+            {
+                "Esselte 100": "Didact Esselte 100"
+            }
         ],
         "Fuji Photo Film": [
-            "FUJIC"
+            {
+                "FUJIC": "Fuji Photo Film FUJIC"
+            }
         ],
         "Interact": [
-            "Family Computer"
+            {
+                "Family Computer": "Interact Family Computer"
+            }
         ],
         "Game Park": [
-            "GP32"
+            {
+                "GP32": "GamePark GP32"
+            }
         ],
         "Bit Corporation": [
-            "Gamate"
+            {
+                "Gamate": "Bit Corporation Gamate"
+            }
         ],
         "Hartung": [
-            "Game Master"
+            {
+                "Game Master": "Hartung Game Master"
+            }
         ],
         "Nascom": [
-            "I & II"
+            {
+                "I & II": "Nascom I & II"
+            }
         ],
         "Kaypro": [
-            "II"
+            {
+                "II": "Kaypro II"
+            }
         ],
         "Intec": [
-            "Interact"
+            {
+                "Interact": "Intec Interact"
+            }
         ],
         "Jupiter Cantab": [
-            "Jupiter Ace"
+            {
+                "Jupiter Ace": "Jupiter Cantab Jupiter Ace"
+            }
         ],
         "Keio University": [
-            "K-1"
+            {
+                "K-1": "Keio University K-1"
+            }
         ],
         "Tiki Data": [
-            "Kontiki-100 & Tiki-100"
+            {
+                "Kontiki-100 & Tiki-100": "Tiki Data Kontiki-100 & Tiki-100"
+            }
         ],
         "Pioneer": [
-            "LaserActive"
+            {
+                "LaserActive": "Pioneer LaserActive"
+            }
         ],
         "LeapFrog": [
-            "Leapster"
+            {
+                "Leapster": "LeapFrog Leapster Learning Game System"
+            }
         ],
         "AMPRO Computers": [
-            "LittleBoard Z80"
+            {
+                "LittleBoard Z80": "AMPRO Computers LittleBoard Z80"
+            }
         ],
         "Camputers": [
-            "Lynx"
+            {
+                "Lynx": "Camputers Lynx"
+            }
         ],
         "Sord": [
-            "M5"
+            {
+                "M5": "Sord M5"
+            }
         ],
         "Sanyo": [
-            "MBC-550 & 555"
+            {
+                "MBC-550 & 555": "Sanyo MBC-550 and MBC-555"
+            }
         ],
         "Compugraphic": [
-            "MCS-10"
+            {
+                "MCS-10": "Compugraphic MCS-10"
+            }
         ],
         "Zilog": [
-            "MCZ-2"
+            {
+                "MCZ-2": "Zilog MCZ-2"
+            }
         ],
         "Memotech": [
-            "MTX"
+            {
+                "MTX": "Memotech MTX512"
+            }
         ],
         "Front Fareast": [
-            "Magic Drive"
+            {
+                "Magic Drive": "Front Fareast Magic Drive"
+            }
         ],
         "Creatronic": [
-            "Mega Duck & Cougar Boy"
+            {
+                "Mega Duck & Cougar Boy": "Creatronic Mega Duck & Cougar Boy"
+            }
         ],
         "Applied Technology": [
-            "MicroBee"
+            {
+                "MicroBee": "Applied Technology MicroBee"
+            }
         ],
         "Nuclear Data": [
-            "ND4410 & ND4420"
+            {
+                "ND4410 & ND4420": "Nuclear Data ND4410 & ND4420"
+            }
         ],
         "Matsushita": [
-            "National JR 200"
+            {
+                "National JR 200": "Matsushita National JR 200"
+            }
         ],
         "RM": [
-            "Nimbus PC"
+            {
+                "Nimbus PC": "RM Nimbus PC"
+            }
         ],
         "Magnavox": [
-            "Odyssey2"
+            {
+                "Odyssey2": "Magnavox Odyssey 2"
+            }
         ],
         "AEG": [
-            "Olympia Olytext 20"
+            {
+                "Olympia Olytext 20": "AEG Olympia Olytext 20"
+            }
         ],
         "PEL Varazdin": [
-            "Orao"
+            {
+                "Orao": "PEL Varazdin Orao"
+            }
         ],
         "OCC": [
-            "Osborne 1 & Osborne Executive"
+            {
+                "Osborne 1 & Osborne Executive": "OCC Osborne 2 Executive"
+            }
         ],
         "Tsukuda Original": [
-            "Othello Multivision"
+            {
+                "Othello Multivision": "Tsukuda Original Othello Multivision"
+            }
         ],
         "Aquaplus": [
-            "P-ECE"
+            {
+                "P-ECE": "Aquaplus P-ECE"
+            }
         ],
         "University of Tokyo": [
-            "PC-1"
+            {
+                "PC-1": "University of Tokyo PC-1"
+            }
         ],
         "Advanced Computer Design": [
-            "PDQ-3"
+            {
+                "PDQ-3": "Advanced Computer Design PDQ-3"
+            }
         ],
         "Elektronska Industrija Nis": [
-            "PECOM 32 & 64"
+            {
+                "PECOM 32 & 64": "Elektronska Industrija Nis PECOM 32 & 64"
+            }
         ],
         "Tesla": [
-            "PMD 85"
+            {
+                "PMD 85": "Tesla PMD-85"
+            }
         ],
         "Epson": [
-            "PX-8, HC-88 & Geneva"
+            {
+                "PX-8, HC-88 & Geneva": "Epson PX-8, HC-88 & Geneva"
+            }
         ],
         "OpenPandora": [
-            "Pandora"
+            {
+                "Pandora": "Generic OpenPandora Pandora"
+            }
         ],
         "Toshiba": [
-            "Pasopia"
+            {
+                "Pasopia": "Toshiba Personal Computer Pasopia PA7010"
+            }
         ],
         "Sony": [
-            "PocketStation"
+            {
+                "PocketStation": "Sony PocketStation"
+            }
         ],
         "Microkey": [
-            "Primo"
+            {
+                "Primo": "Microkey Primo"
+            }
         ],
         "AlphaSmart": [
-            "Pro"
+            {
+                "Pro": "AlphaSmart Pro"
+            }
         ],
         "Bally": [
-            "Professional Arcade & Astrocade"
+            {
+                "Professional Arcade & Astrocade": "Bally Professional Arcade & Astrocade"
+            }
         ],
         "Megatel": [
-            "Quark"
+            {
+                "Quark": "Megatel Quark"
+            }
         ],
         "Spectravideo": [
-            "SVI-318 & SVI-328"
+            {
+                "SVI-318 & SVI-328": "Spectravideo SVI-318 & SVI-328"
+            }
         ],
         "MGT": [
-            "Sam Coupe"
+            {
+                "Sam Coupe": "MGT Sam Coupe"
+            }
         ],
         "Fidelity": [
-            "Sensory Chess Challenger"
+            {
+                "Sensory Chess Challenger": "Fidelity Sensory Chess Challenger"
+            }
         ],
         "UNIVAC": [
-            "Series 90"
+            {
+                "Series 90": "UNIVAC Series 90"
+            }
         ],
         "PTC": [
-            "Sol Terminal Computer SOL-20"
+            {
+                "Sol Terminal Computer SOL-20": "PTC Sol Terminal Computer SOL-20"
+            }
         ],
         "Exidy": [
-            "Sorcerer"
+            {
+                "Sorcerer": "Exidy Sorcerer"
+            }
         ],
         "Funtech": [
-            "Super A'can"
+            {
+                "Super A'can": "Funtech Super A'Can"
+            }
         ],
         "Epoch": [
-            "Super Cassette Vision"
+            {
+                "Super Cassette Vision": "Epoch Super Cassette Vision"
+            }
         ],
         "Watara": [
-            "Supervision"
+            {
+                "Supervision": "Watara Supervision"
+            }
         ],
         "Videoton": [
-            "TV-Computer"
+            {
+                "TV-Computer": "Videoton TVC"
+            }
         ],
         "Hawthorne Technology": [
-            "TinyGiant 68000 Single Board Computer"
+            {
+                "TinyGiant 68000 Single Board Computer": "Hawthorne Technology TinyGiant 68000 Single Board Computer"
+            }
         ],
         "Tomy": [
-            "Tutor & Pyuuta"
+            {
+                "Tutor & Pyuuta": "Tomy Tutor & Pyuuta"
+            }
         ],
         "Fairchild": [
-            "VES & Channel F"
+            {
+                "VES & Channel F": "Fairchild VES & Channel F"
+            }
         ],
         "Wang": [
-            "VS"
+            {
+                "VS": "Wang VS"
+            }
         ],
         "GCE": [
-            "Vectrex"
+            {
+                "Vectrex": "GCE Vectrex"
+            }
         ],
         "TRQ": [
-            "Video Computer H-21"
+            {
+                "Video Computer H-21": "TRQ Video Computer H-21"
+            }
         ],
         "SABA": [
-            "Videoplay"
+            {
+                "Videoplay": "SABA Videoplay"
+            }
         ],
         "Visual Technology": [
-            "Visual 1050"
+            {
+                "Visual 1050": "Visual Technology Visual 1050"
+            }
         ],
         "Infocom": [
-            "Z-Machine"
+            {
+                "Z-Machine": "Infocom Z-Machine"
+            }
         ],
         "Telcon": [
-            "Zorba"
+            {
+                "Zorba": "Telcon Zorba"
+            }
         ],
         "Convergent Technologies": [
-            "AWS NGEN Workstation",
-            "MiniFrame"
+            {
+                "AWS NGEN Workstation": "Convergent Technologies AWS NGEN Workstation"
+            },
+            {
+                "MiniFrame": "Convergent Technologies MiniFrame"
+            }
         ],
         "NorthStar": [
-            "Advantage",
-            "Horizon"
+            {
+                "Advantage": "NorthStar Advantage"
+            },
+            {
+                "Horizon": "NorthStar Horizon"
+            }
         ],
         "Matra Hachette": [
-            "Alice 32",
-            "Alice 90"
+            {
+                "Alice 32": "Matra Hachette Alice 32"
+            },
+            {
+                "Alice 90": "Matra Hachette Alice 90"
+            }
         ],
         "Elektronika": [
-            "BK-0010-0011M",
-            "BK-0011-411"
+            {
+                "BK-0010-0011M": "Elektronika BK-0010-0011M"
+            },
+            {
+                "BK-0011-411": "Elektronika BK-0011-411"
+            }
         ],
         "HomeLab": [
-            "BraiLab",
-            "HomeLab"
+            {
+                "BraiLab": "HomeLab BraiLab"
+            },
+            {
+                "HomeLab": "HomeLab"
+            }
         ],
         "Amstrad": [
-            "CPC",
-            "PCW"
+            {
+                "CPC": "Amstrad CPC"
+            },
+            {
+                "PCW": "Amstrad PCW"
+            }
         ],
         "Coleco": [
-            "ColecoVision",
-            "ColecoVision ADAM"
+            {
+                "ColecoVision": "Coleco ColecoVision"
+            },
+            {
+                "ColecoVision ADAM": "Coleco ADAM"
+            }
         ],
         "Cybiko": [
-            "Cybiko",
-            "Xtreme"
+            {
+                "Cybiko": "Cybiko Cybiko"
+            },
+            {
+                "Xtreme": "Cybiko Xtreme"
+            }
         ],
         "Exelvision": [
-            "Exeltel",
-            "EXL100"
+            {
+                "Exeltel": "Exelvision Exeltel"
+            },
+            {
+                "EXL100": "Exelvision EXL 100"
+            }
         ],
         "Galaksija": [
-            "Galaksija",
-            "Galaksija Plus"
+            {
+                "Galaksija": "Galaksija"
+            },
+            {
+                "Galaksija Plus": "Galaksija Plus"
+            }
         ],
         "Tiger Electronics": [
-            "Game.com",
-            "K28 Talking Learning Computer"
+            {
+                "Game.com": "Tiger Electronics Game.com"
+            },
+            {
+                "K28 Talking Learning Computer": "Tiger Electronics K28 Talking Learning Computer"
+            }
         ],
         "TimeTop": [
-            "GameKing",
-            "GameKing 3"
+            {
+                "GameKing": "TimeTop GameKing"
+            },
+            {
+                "GameKing 3": "TimeTop GameKing 3"
+            }
         ],
         "APF": [
-            "Imagination Machine",
-            "M-1000"
+            {
+                "Imagination Machine": "APF Imagination Machine"
+            },
+            {
+                "M-1000": "APF Imagination Machine"
+            }
         ],
         "Tangerine": [
-            "Microtan 65",
-            "Oric-1 & Oric Atmos"
+            {
+                "Microtan 65": "Tangerine Microtan 65"
+            },
+            {
+                "Oric-1 & Oric Atmos": "Tangerine Oric-1 & Oric Atmos"
+            }
         ],
         "SNK": [
-            "Neo-Geo Pocket",
-            "Neo-Geo Pocket Color"
+            {
+                "Neo-Geo Pocket": "SNK Neo Geo Pocket"
+            },
+            {
+                "Neo-Geo Pocket Color": "SNK Neo Geo Pocket Color"
+            }
         ],
         "Bandai": [
-            "WonderSwan",
-            "WonderSwan Color"
+            {
+                "WonderSwan": "Bandai WonderSwan"
+            },
+            {
+                "WonderSwan Color": "Bandai WonderSwan Color"
+            }
         ],
         "Bondwell": [
-            "12",
-            "14",
-            "2"
+            {
+                "12": "Bondwell 12"
+            },
+            {
+                "14": "Bondwell 14"
+            },
+            {
+                "2": "Bondwell 2"
+            }
         ],
         "Tektronix": [
-            "405x",
-            "4100 Series",
-            "4400 Series"
+            {
+                "405x": "Tektronix 405x"
+            },
+            {
+                "4100 Series": "Tektronix 4100 Series"
+            },
+            {
+                "4400 Series": "Tektronix 4400 Series"
+            }
         ],
         "RCA": [
-            "Chip-8",
-            "Studio II",
-            "Superchip"
+            {
+                "Chip-8": "RCA Chip-8"
+            },
+            {
+                "Studio II": "RCA Studio II"
+            },
+            {
+                "Superchip": "RCA Superchip"
+            }
         ],
         "Dragon Data": [
-            "Dragon",
-            "Dragon Alpha",
-            "Dragon Beta"
+            {
+                "Dragon": "Dragon Data Dragon"
+            },
+            {
+                "Dragon Alpha": "Dragon Data Dragon"
+            },
+            {
+                "Dragon Beta": "Dragon Data Dragon"
+            }
         ],
         "Fujitsu": [
-            "FM Towns",
-            "FM-7",
-            "FM77-AV"
+            {
+                "FM Towns": "Fujitsu FM Towns"
+            },
+            {
+                "FM-7": "Fujitsu FM-7"
+            },
+            {
+                "FM77-AV": "Fujitsu FM-77AV"
+            }
         ],
         "Gould": [
-            "K105-D Logic Analyzer",
-            "K115 Logic Analyzer",
-            "K450 Logic Analyzer"
+            {
+                "K105-D Logic Analyzer": "Gould K105-D Logic Analyzer"
+            },
+            {
+                "K115 Logic Analyzer": "Gould K115 Logic Analyzer"
+            },
+            {
+                "K450 Logic Analyzer": "Gould K450 Logic Analyzer"
+            }
         ],
         "ETL": [
-            "Mark II",
-            "Mark IV",
-            "Mark IV A"
+            {
+                "Mark II": "ETL Mark II"
+            },
+            {
+                "Mark IV": "ETL Mark IV"
+            },
+            {
+                "Mark IV A": "ETL Mark IV A"
+            }
         ],
         "Philips": [
-            "P2000",
-            "VG 5000",
-            "Videopac+"
+            {
+                "P2000": "Philips P2000"
+            },
+            {
+                "VG 5000": "Philips VG 5000"
+            },
+            {
+                "Videopac+": "Philips Videopac+"
+            }
         ],
         "Sinclair": [
-            "QL",
-            "ZX Spectrum",
-            "ZX81"
+            {
+                "QL": "Sinclair QL"
+            },
+            {
+                "ZX Spectrum": "Sinclair ZX Spectrum +3"
+            },
+            {
+                "ZX81": "Sinclair ZX-81"
+            }
         ],
         "TeleVideo Systems": [
-            "TS-802 & TS-802H",
-            "TS-803, TS-803H & TPC-1",
-            "TS-806"
+            {
+                "TS-802 & TS-802H": "TeleVideo Systems TS-802 & TS-802H"
+            },
+            {
+                "TS-803, TS-803H & TPC-1": "TeleVideo Systems TS-803, TS-803H & TPC-1"
+            },
+            {
+                "TS-806": "TeleVideo Systems TS-806"
+            }
         ],
         "IBM": [
-            "1620",
-            "PC Compatibles",
-            "PCjr",
-            "System-360"
+            {
+                "1620": "IBM 1620"
+            },
+            {
+                "PC Compatibles": "IBM PC and Compatibles"
+            },
+            {
+                "PCjr": "IBM PCjr"
+            },
+            {
+                "System-360": "IBM System-360"
+            }
         ],
         "Altos Computer Systems": [
-            "ACS-186, 586, 686 & 986",
-            "ACS-8000",
-            "ACS-8600",
-            "Series 5"
+            {
+                "ACS-186, 586, 686 & 986": "Altos Computer Systems ACS-186, 586, 686 & 986"
+            },
+            {
+                "ACS-8000": "Altos Computer Systems ACS-8000"
+            },
+            {
+                "ACS-8600": "Altos Computer Systems ACS-8600"
+            },
+            {
+                "Series 5": "Altos Computer Systems Series 5"
+            }
         ],
         "Mattel": [
-            "Aquarius",
-            "Intellivision",
-            "Intellivision ECS",
-            "Juice Box"
+            {
+                "Aquarius": "Mattel Aquarius"
+            },
+            {
+                "Intellivision": "Mattel Intellivision"
+            },
+            {
+                "Intellivision ECS": "Mattel Intellivision"
+            },
+            {
+                "Juice Box": "Mattel Juice Box"
+            }
         ],
         "Casio": [
-            "CFX-9850",
-            "Loopy",
-            "PB-1000",
-            "PV-2000"
+            {
+                "CFX-9850": "Casio CFX-9850"
+            },
+            {
+                "Loopy": "Casio Loopy"
+            },
+            {
+                "PB-1000": "Casio PB-1000"
+            },
+            {
+                "PV-2000": "Casio PV-2000"
+            }
         ],
         "Robotron": [
-            "HC900, KC85 2, KC85 3 & KC85 4",
-            "KC Compact",
-            "Z1013",
-            "Z9001 & KC85 1"
+            {
+                "HC900, KC85 2, KC85 3 & KC85 4": "Robotron HC900, KC85 2, KC85 3 & KC85 4"
+            },
+            {
+                "KC Compact": "Robotron KC Compact"
+            },
+            {
+                "Z1013": "Robotron Z1013"
+            },
+            {
+                "Z9001 & KC85 1": "Robotron Z9001 & KC85 1"
+            }
         ],
         "Thomson": [
-            "MO5",
-            "MO6",
-            "TO7",
-            "TO8, TO8D, TO9, TO9+"
+            {
+                "MO5": "Thomson MO5"
+            },
+            {
+                "MO6": "Thomson MO6"
+            },
+            {
+                "TO7": "Thomson TO7"
+            },
+            {
+                "TO8, TO8D, TO9, TO9+": "Thomson TO8, TO8D, TO9, TO9+"
+            }
         ],
         "MSX": [
-            "MSX",
-            "MSX2",
-            "MSX2+",
-            "TurboR"
+            {
+                "MSX": "Microsoft MSX"
+            },
+            {
+                "MSX2": "Microsoft MSX2"
+            },
+            {
+                "MSX2+": "Microsoft MSX2+"
+            },
+            {
+                "TurboR": "Microsoft MSX Turbo-R"
+            }
         ],
         "Luxor": [
-            "ABC 1600",
-            "ABC 80",
-            "ABC 800",
-            "ABC 806",
-            "Video Entertainment System"
+            {
+                "ABC 1600": "Luxor ABC 1600"
+            },
+            {
+                "ABC 80": "Luxor ABC 80"
+            },
+            {
+                "ABC 800": "Luxor ABC 800"
+            },
+            {
+                "ABC 806": "Luxor ABC 806"
+            },
+            {
+                "Video Entertainment System": "Luxor Video Entertainment System"
+            }
         ],
         "Acorn": [
-            "Archimedes",
-            "Atom",
-            "BBC",
-            "Electron",
-            "FileStore E01"
+            {
+                "Archimedes": "Acorn Archimedes"
+            },
+            {
+                "Atom": "Acorn Atom"
+            },
+            {
+                "BBC": "Acorn BBC"
+            },
+            {
+                "Electron": "Acorn Electron"
+            },
+            {
+                "FileStore E01": "Acorn FileStore E01"
+            }
         ],
         "Sharp": [
-            "MZ-700",
-            "MZ-800 & MZ-1500",
-            "X1",
-            "X1 Turbo",
-            "X68000"
+            {
+                "MZ-700": "Sharp MZ-700"
+            },
+            {
+                "MZ-800 & MZ-1500": "Sharp MZ-800"
+            },
+            {
+                "X1": "Sharp X1"
+            },
+            {
+                "X1 Turbo": "Sharp X1 Turbo"
+            },
+            {
+                "X68000": "Sharp X68000"
+            }
         ],
         "Apple": [
-            "1",
-            "II",
-            "IIGS",
-            "III",
-            "Lisa",
-            "Macintosh"
+            {
+                "1": "Apple 1"
+            },
+            {
+                "II": "Apple II"
+            },
+            {
+                "IIGS": "Apple IIGS"
+            },
+            {
+                "III": "Apple III"
+            },
+            {
+                "Lisa": "Apple Lisa"
+            },
+            {
+                "Macintosh": "Apple Macintosh"
+            }
         ],
         "Xerox": [
-            "1108",
-            "1186",
-            "6085",
-            "820",
-            "820-II",
-            "860"
+            {
+                "1108": "Xerox 1108"
+            },
+            {
+                "1186": "Xerox 1186"
+            },
+            {
+                "6085": "Xerox 6085"
+            },
+            {
+                "820": "Xerox 820"
+            },
+            {
+                "820-II": "Xerox 820-II"
+            },
+            {
+                "860": "Xerox 860"
+            }
         ],
         "Hewlett-Packard": [
-            "16500A",
-            "4951C & 4952A",
-            "HP48",
-            "HP49",
-            "HP85",
-            "HP9835A-B"
+            {
+                "16500A": "Hewlett-Packard 16500A"
+            },
+            {
+                "4951C & 4952A": "Hewlett-Packard 4951C & 4952A"
+            },
+            {
+                "HP48": "Hewlett-Packard HP48"
+            },
+            {
+                "HP49": "Hewlett-Packard HP49"
+            },
+            {
+                "HP85": "Hewlett-Packard HP85"
+            },
+            {
+                "HP9835A-B": "Hewlett-Packard HP9835A-B"
+            }
         ],
         "Radio-86RK": [
-            "Apogej BK-01",
-            "Mikro-80",
-            "Mikrosha",
-            "Partner-01.01",
-            "Radio-86RK",
-            "YuT-88"
+            {
+                "Apogej BK-01": "Radio-86RK Apogej BK-01"
+            },
+            {
+                "Mikro-80": "Radio-86RK Mikro-80"
+            },
+            {
+                "Mikrosha": "Radio-86RK Mikrosha"
+            },
+            {
+                "Partner-01.01": "Radio-86RK Partner-01.01"
+            },
+            {
+                "Radio-86RK": "Radio-86RK"
+            },
+            {
+                "YuT-88": "Radio-86RK YuT-88"
+            }
         ],
         "Tandy Radio Shack": [
-            "TRS-80 Color Computer",
-            "TRS-80 MC-10",
-            "TRS-80 Model 100",
-            "TRS-80 Model 4",
-            "TRS-80 Model I",
-            "TRS-80 Model III"
+            {
+                "TRS-80 Color Computer": "Tandy Radio Shack TRS-80 Color Computer"
+            },
+            {
+                "TRS-80 MC-10": "Tandy Radio Shack TRS-80 MC-10"
+            },
+            {
+                "TRS-80 Model 100": "Tandy Radio Shack TRS-80 Model 100"
+            },
+            {
+                "TRS-80 Model 4": "Tandy Radio Shack TRS-80 Model 4"
+            },
+            {
+                "TRS-80 Model I": "Tandy Radio Shack TRS-80 Model I"
+            },
+            {
+                "TRS-80 Model III": "Tandy Radio Shack TRS-80 Model III"
+            }
         ],
         "Atari": [
-            "2600 & VCS",
-            "5200",
-            "7800",
-            "8bit",
-            "Jaguar",
-            "Lynx",
-            "ST"
+            {
+                "2600 & VCS": "Atari 2600"
+            },
+            {
+                "5200": "Atari 5200"
+            },
+            {
+                "7800": "Atari 7800"
+            },
+            {
+                "8bit": "Atari 8bit"
+            },
+            {
+                "Jaguar": "Atari Jaguar"
+            },
+            {
+                "Lynx": "Atari Lynx"
+            },
+            {
+                "ST": "Atari ST"
+            }
         ],
         "VTech": [
-            "Genius",
-            "Genius Junior Movie",
-            "Genius Leader 2000",
-            "Genius Leader 6000SL",
-            "Genius Leader Color",
-            "Laser 200",
-            "Laser 2001 & CreatiVision",
-            "Laser 3000 & Dick Smith CAT",
-            "Laser 310"
+            {
+                "Genius": "VTech Genius"
+            },
+            {
+                "Genius Junior Movie": "VTech Genius Junior Movie"
+            },
+            {
+                "Genius Leader 2000": "VTech Genius Leader 2000"
+            },
+            {
+                "Genius Leader 6000SL": "VTech Genius Leader 6000SL"
+            },
+            {
+                "Genius Leader Color": "VTech Genius Leader Color"
+            },
+            {
+                "Laser 200": "VTech Laser 200"
+            },
+            {
+                "Laser 2001 & CreatiVision": "VTech Creativision"
+            },
+            {
+                "Laser 3000 & Dick Smith CAT": "VTech Laser 3000 & Dick Smith CAT"
+            },
+            {
+                "Laser 310": "VTech Laser 310"
+            }
         ],
         "NEC": [
-            "Advanced Personal Computer",
-            "PC-6001",
-            "PC-8001",
-            "PC-8201",
-            "PC-8801",
-            "PC-88VA",
-            "PC-9801",
-            "PC-9821",
-            "PC-Engine & TurboGrafx-16",
-            "SuperGrafx"
+            {
+                "Advanced Personal Computer": "NEC Advanced Personal Computer"
+            },
+            {
+                "PC-6001": "NEC PC-6001"
+            },
+            {
+                "PC-8001": "NEC PC-8001"
+            },
+            {
+                "PC-8201": "NEC PC-8201"
+            },
+            {
+                "PC-8801": "NEC PC-8801"
+            },
+            {
+                "PC-88VA": "NEC PC-88VA"
+            },
+            {
+                "PC-9801": "NEC PC-9801"
+            },
+            {
+                "PC-9821": "NEC PC-9821"
+            },
+            {
+                "PC-Engine & TurboGrafx-16": "NEC PC-Engine & TurboGrafx-16"
+            },
+            {
+                "SuperGrafx": "NEC PC Engine SuperGrafx"
+            }
         ],
         "Commodore": [
-            "Amiga",
-            "BX256-80HP",
-            "C128",
-            "C16, C116 & Plus-4",
-            "C64",
-            "C64DTV",
-            "C65",
-            "MAX Machine & VIC10",
-            "PET",
-            "VIC20"
+            {
+                "Amiga": "Commodore Amiga"
+            },
+            {
+                "BX256-80HP": "Commodore BX256-80HP"
+            },
+            {
+                "C128": "Commodore C128"
+            },
+            {
+                "C16, C116 & Plus-4": "Commodore Plus-4 - C16 - C116"
+            },
+            {
+                "C64": "Commodore 64"
+            },
+            {
+                "C64DTV": "Commodore C64DTV"
+            },
+            {
+                "C65": "Commodore C65"
+            },
+            {
+                "MAX Machine & VIC10": "Commodore MAX Machine"
+            },
+            {
+                "PET": "Commodore PET"
+            },
+            {
+                "VIC20": "Commodore VIC-20"
+            }
         ],
         "Nintendo": [
-            "64",
-            "64DD",
-            "Famicom & Entertainment System",
-            "Famicom Disk System",
-            "Game Boy",
-            "Game Boy Advance",
-            "Game Boy Color",
-            "Play-Yan",
-            "Pokemon Mini",
-            "Super Famicom & Super Entertainment System",
-            "Virtual Boy"
+            {
+                "64": "Nintendo 64"
+            },
+            {
+                "64DD": "Nintendo 64DD"
+            },
+            {
+                "Famicom & Entertainment System": "Nintendo Entertainment System"
+            },
+            {
+                "Famicom Disk System": "Nintendo Famicom"
+            },
+            {
+                "Game Boy": "Nintendo Game Boy"
+            },
+            {
+                "Game Boy Advance": "Nintendo Game Boy Advance"
+            },
+            {
+                "Game Boy Color": "Nintendo Game Boy Color"
+            },
+            {
+                "Play-Yan": "Nintendo Play-Yan"
+            },
+            {
+                "Pokemon Mini": "Nintendo Pokemon Mini"
+            },
+            {
+                "Super Famicom & Super Entertainment System": "Nintendo Super Famicom & Super Entertainment System"
+            },
+            {
+                "Virtual Boy": "Nintendo Virtual Boy"
+            }
         ],
         "Texas Instruments": [
-            "CC-40",
-            "TI-73",
-            "TI-80",
-            "TI-81",
-            "TI-82",
-            "TI-83",
-            "TI-85",
-            "TI-86",
-            "TI-89",
-            "TI-92",
-            "TI-99 4A"
+            {
+                "CC-40": "Texas Instruments CC-40"
+            },
+            {
+                "TI-73": "Texas Instruments TI-73"
+            },
+            {
+                "TI-80": "Texas Instruments TI-80"
+            },
+            {
+                "TI-81": "Texas Instruments TI-81"
+            },
+            {
+                "TI-82": "Texas Instruments TI-82"
+            },
+            {
+                "TI-83": "Texas Instruments TI-83"
+            },
+            {
+                "TI-85": "Texas Instruments TI-85"
+            },
+            {
+                "TI-86": "Texas Instruments TI-86"
+            },
+            {
+                "TI-89": "Texas Instruments TI-89"
+            },
+            {
+                "TI-92": "Texas Instruments TI-92"
+            },
+            {
+                "TI-99 4A": "Texas Instruments TI-99-4A"
+            }
         ],
         "Sega": [
-            "32X",
-            "Advanced Pico Beena",
-            "Computer 3000",
-            "Game 1000",
-            "Game Gear",
-            "Mark III & Master System",
-            "Mega Drive & Genesis",
-            "Mega-CD & Sega CD",
-            "Pico",
-            "Super Control Station",
-            "Visual Memory System",
-            "WonderMega"
+            {
+                "32X": "Sega 32X"
+            },
+            {
+                "Advanced Pico Beena": "Sega Pico"
+            },
+            {
+                "Computer 3000": "Sega Computer 3000"
+            },
+            {
+                "Game 1000": "Sega Game 1000"
+            },
+            {
+                "Game Gear": "Sega Game Gear"
+            },
+            {
+                "Mark III & Master System": "Sega Mark III & Master System"
+            },
+            {
+                "Mega Drive & Genesis": "Sega Genesis"
+            },
+            {
+                "Mega-CD & Sega CD": "Sega CD"
+            },
+            {
+                "Pico": "Sega Pico"
+            },
+            {
+                "Super Control Station": "Sega Super Control Station"
+            },
+            {
+                "Visual Memory System": "Sega Visual Memory System"
+            },
+            {
+                "WonderMega": "Sega WonderMega"
+            }
         ],
         "DEC": [
-            "AlphaServer",
-            "DECPx AXP 150",
-            "PDP-1",
-            "PDP-10",
-            "PDP-11",
-            "PDP-12",
-            "PDP-15",
-            "PDP-7",
-            "PDP-8",
-            "PDP-9",
-            "Rainbow 100",
-            "VT-180"
+            {
+                "AlphaServer": "DEC AlphaServer"
+            },
+            {
+                "DECPx AXP 150": "DEC DECPx AXP 150"
+            },
+            {
+                "PDP-1": "DEC PDP-1"
+            },
+            {
+                "PDP-10": "DEC PDP-10"
+            },
+            {
+                "PDP-11": "DEC PDP-11"
+            },
+            {
+                "PDP-12": "DEC PDP-12"
+            },
+            {
+                "PDP-15": "DEC PDP-15"
+            },
+            {
+                "PDP-7": "DEC PDP-7"
+            },
+            {
+                "PDP-8": "DEC PDP-8"
+            },
+            {
+                "PDP-9": "DEC PDP-9"
+            },
+            {
+                "Rainbow 100": "DEC Rainbow 100"
+            },
+            {
+                "VT-180": "DEC VT-180"
+            }
         ]
     },
     "TOSEC-ISO": {
         "3DO": [
-            "3DO Interactive Multiplayer"
+            {
+                "3DO Interactive Multiplayer": "Panasonic 3DO Interactive Multiplayer"
+            }
         ],
         "Acorn": [
-            "Archimedes"
+            {
+                "Archimedes": "Acorn Archimedes"
+            }
         ],
         "American Laser Games": [
-            "CD-ROM System"
+            {
+                "CD-ROM System": "American Laser Games CD-ROM System"
+            }
         ],
         "Philips": [
-            "CD-i"
+            {
+                "CD-i": "Philips CD-i"
+            }
         ],
         "Capcom": [
-            "CP System III"
+            {
+                "CP System III": "Capcom CP System III"
+            }
         ],
         "Incredible Technologies": [
-            "Eagle"
+            {
+                "Eagle": "Incredible Technologies Eagle"
+            }
         ],
         "Fujitsu": [
-            "FM Towns"
+            {
+                "FM Towns": "Fujitsu FM Towns"
+            }
         ],
         "ZAPiT Games": [
-            "Game Wave Family Entertainment System"
+            {
+                "Game Wave Family Entertainment System": "ZAPiT Games Game Wave Family Entertainment System"
+            }
         ],
         "Nintendo": [
-            "GameCube"
+            {
+                "GameCube": "Nintendo GameCube"
+            }
         ],
         "Mattel": [
-            "HyperScan"
+            {
+                "HyperScan": "Mattel HyperScan"
+            }
         ],
         "Atari": [
-            "Jaguar CD"
+            {
+                "Jaguar CD": "Atari Jaguar CD"
+            }
         ],
         "Tomy": [
-            "KISS-Site"
+            {
+                "KISS-Site": "Tomy KISS-Site"
+            }
         ],
         "Apple": [
-            "Macintosh"
+            {
+                "Macintosh": "Apple Macintosh"
+            }
         ],
         "VM Labs": [
-            "Nuon"
+            {
+                "Nuon": "VM Labs Nuon"
+            }
         ],
         "IBM": [
-            "PC Compatibles"
+            {
+                "PC Compatibles": "IBM PC and Compatibles"
+            }
         ],
         "VTech": [
-            "V.Flash Home Edutainment System"
+            {
+                "V.Flash Home Edutainment System": "VTech V.Flash"
+            }
         ],
         "Memorex": [
-            "Video Information System"
+            {
+                "Video Information System": "Memorex Video Information System"
+            }
         ],
         "Sinclair": [
-            "ZX Spectrum"
+            {
+                "ZX Spectrum": "Sinclair ZX Spectrum +3"
+            }
         ],
         "SNK": [
-            "Hyper Neo-Geo 64",
-            "Neo-Geo CD"
+            {
+                "Hyper Neo-Geo 64": "SNK Hyper Neo-Geo 64"
+            },
+            {
+                "Neo-Geo CD": "SNK Neo Geo CD"
+            }
         ],
         "Bandai": [
-            "Pippin @World & Pippin Atmark",
-            "Playdia"
+            {
+                "Pippin @World & Pippin Atmark": "Bandai Pippin"
+            },
+            {
+                "Playdia": "Bandai Playdia Quick Interactive System"
+            }
         ],
         "Sony": [
-            "PlayStation",
-            "PlayStation 2"
+            {
+                "PlayStation": "Sony Playstation"
+            },
+            {
+                "PlayStation 2": "Sony Playstation 2"
+            }
         ],
         "Konami": [
-            "Bemani System 573 Analog",
-            "Bemani System 573 Digital",
-            "System 573"
+            {
+                "Bemani System 573 Analog": "Konami Bemani System 573 Analog"
+            },
+            {
+                "Bemani System 573 Digital": "Konami Bemani System 573 Digital"
+            },
+            {
+                "System 573": "Konami System 573"
+            }
         ],
         "NEC": [
-            "PC-Engine CD & TurboGrafx-16 CD",
-            "PC-FX",
-            "PC-FXGA"
+            {
+                "PC-Engine CD & TurboGrafx-16 CD": "NEC PC-Engine CD & TurboGrafx-16 CD"
+            },
+            {
+                "PC-FX": "NEC PC-FX"
+            },
+            {
+                "PC-FXGA": "NEC PC-FXGA"
+            }
         ],
         "Commodore": [
-            "Amiga",
-            "Amiga CD32",
-            "Amiga CDTV",
-            "C64"
+            {
+                "Amiga": "Commodore Amiga"
+            },
+            {
+                "Amiga CD32": "Commodore Amiga CD32"
+            },
+            {
+                "Amiga CDTV": "Commodore Amiga CDTV"
+            },
+            {
+                "C64": "Commodore 64"
+            }
         ],
         "Sega": [
-            "32X",
-            "Chihiro",
-            "Dreamcast",
-            "Mega-CD & Sega CD",
-            "NAOMI",
-            "NAOMI 2",
-            "Saturn",
-            "WonderMega"
+            {
+                "32X": "Sega 32X"
+            },
+            {
+                "Chihiro": "Sega Chihiro"
+            },
+            {
+                "Dreamcast": "Sega Dreamcast"
+            },
+            {
+                "Mega-CD & Sega CD": "Sega CD"
+            },
+            {
+                "NAOMI": "Sega Naomi"
+            },
+            {
+                "NAOMI 2": "Sega Naomi 2"
+            },
+            {
+                "Saturn": "Sega Saturn"
+            },
+            {
+                "WonderMega": "Sega WonderMega"
+            }
         ]
     },
     "TOSEC-PIX": {
         "3DO": [
-            "3DO Interactive Multiplayer"
+            {
+                "3DO Interactive Multiplayer": "Panasonic 3DO Interactive Multiplayer"
+            }
         ],
         "Technosys": [
-            "Aamber Pegasus"
+            {
+                "Aamber Pegasus": "Technosys Aamber Pegasus"
+            }
         ],
         "Entex": [
-            "Adventure Vision"
+            {
+                "Adventure Vision": "Entex Adventure Vision"
+            }
         ],
         "Philips": [
-            "CD-i"
+            {
+                "CD-i": "Philips CD-i"
+            }
         ],
         "Canon": [
-            "Cat"
+            {
+                "Cat": "Canon Cat"
+            }
         ],
         "Dragon Data": [
-            "Dragon"
+            {
+                "Dragon": "Dragon Data Dragon"
+            }
         ],
         "University of Cambridge": [
-            "EDSAC"
+            {
+                "EDSAC": "University of Cambridge EDSAC"
+            }
         ],
         "EACA": [
-            "EG2000 Colour Genie"
+            {
+                "EG2000 Colour Genie": "EACA EG2000 Colour Genie"
+            }
         ],
         "Jupiter Cantab": [
-            "Jupiter Ace"
+            {
+                "Jupiter Ace": "Jupiter Cantab Jupiter Ace"
+            }
         ],
         "Applied Technology": [
-            "MicroBee"
+            {
+                "MicroBee": "Applied Technology MicroBee"
+            }
         ],
         "Matsushita": [
-            "National JR-100"
+            {
+                "National JR-100": "Matsushita National JR-100"
+            }
         ],
         "SNK": [
-            "Neo-Geo AES"
+            {
+                "Neo-Geo AES": "SNK Neo Geo AES"
+            }
         ],
         "Casio": [
-            "PB-1000"
+            {
+                "PB-1000": "Casio PB-1000"
+            }
         ],
         "MSX": [
-            "Palcom"
+            {
+                "Palcom": "MSX Palcom"
+            }
         ],
         "Bandai": [
-            "Playdia"
+            {
+                "Playdia": "Bandai Playdia Quick Interactive System"
+            }
         ],
         "iQue": [
-            "Player"
+            {
+                "Player": "iQue Player"
+            }
         ],
         "Microkey": [
-            "Primo"
+            {
+                "Primo": "Microkey Primo"
+            }
         ],
         "Bally": [
-            "Professional Arcade & Astrocade"
+            {
+                "Professional Arcade & Astrocade": "Bally Professional Arcade & Astrocade"
+            }
         ],
         "Exidy": [
-            "Sorcerer"
+            {
+                "Sorcerer": "Exidy Sorcerer"
+            }
         ],
         "Dick Smith": [
-            "System 80"
+            {
+                "System 80": "Dick Smith System 80"
+            }
         ],
         "Tandy Radio Shack": [
-            "TRS-80 Color Computer"
+            {
+                "TRS-80 Color Computer": "Tandy Radio Shack TRS-80 Color Computer"
+            }
         ],
         "VTech": [
-            "V.Flash Home Edutainment System"
+            {
+                "V.Flash Home Edutainment System": "VTech V.Flash"
+            }
         ],
         "Fairchild": [
-            "VES & Channel F"
+            {
+                "VES & Channel F": "Fairchild VES & Channel F"
+            }
         ],
         "Sinclair": [
-            "ZX Spectrum"
+            {
+                "ZX Spectrum": "Sinclair ZX Spectrum +3"
+            }
         ],
         "HomeLab": [
-            "BraiLab",
-            "HomeLab"
+            {
+                "BraiLab": "HomeLab BraiLab"
+            },
+            {
+                "HomeLab": "HomeLab"
+            }
         ],
         "Coleco": [
-            "ColecoVision",
-            "ColecoVision ADAM"
+            {
+                "ColecoVision": "Coleco ColecoVision"
+            },
+            {
+                "ColecoVision ADAM": "Coleco ADAM"
+            }
         ],
         "Mattel": [
-            "HyperScan",
-            "Intellivision"
+            {
+                "HyperScan": "Mattel HyperScan"
+            },
+            {
+                "Intellivision": "Mattel Intellivision"
+            }
         ],
         "APF": [
-            "Imagination Machine",
-            "PeCos One"
+            {
+                "Imagination Machine": "APF Imagination Machine"
+            },
+            {
+                "PeCos One": "APF PeCos One"
+            }
         ],
         "Magnavox": [
-            "Odyssey",
-            "Odyssey2"
+            {
+                "Odyssey": "Magnavox Odyssey 1"
+            },
+            {
+                "Odyssey2": "Magnavox Odyssey 2"
+            }
         ],
         "IBM": [
-            "PC Compatibles",
-            "PCjr"
+            {
+                "PC Compatibles": "IBM PC and Compatibles"
+            },
+            {
+                "PCjr": "IBM PCjr"
+            }
         ],
         "Texas Instruments": [
-            "TI-73",
-            "TI-99 4A"
+            {
+                "TI-73": "Texas Instruments TI-73"
+            },
+            {
+                "TI-99 4A": "Texas Instruments TI-99-4A"
+            }
         ],
         "ACT": [
-            "Apricot",
-            "Apricot F1",
-            "Apricot Portable"
+            {
+                "Apricot": "ACT Apricot"
+            },
+            {
+                "Apricot F1": "ACT Apricot F1"
+            },
+            {
+                "Apricot Portable": "ACT Apricot Portable"
+            }
         ],
         "Amstrad": [
-            "CPC",
-            "GX4000",
-            "PCW"
+            {
+                "CPC": "Amstrad CPC"
+            },
+            {
+                "GX4000": "Amstrad GX4000"
+            },
+            {
+                "PCW": "Amstrad PCW"
+            }
         ],
         "NEC": [
-            "PC-Engine & TurboGrafx-16",
-            "PC-Engine CD & TurboGrafx-16 CD",
-            "PC-FX"
+            {
+                "PC-Engine & TurboGrafx-16": "NEC PC-Engine & TurboGrafx-16"
+            },
+            {
+                "PC-Engine CD & TurboGrafx-16 CD": "NEC PC-Engine CD & TurboGrafx-16 CD"
+            },
+            {
+                "PC-FX": "NEC PC-FX"
+            }
         ],
         "Microsoft": [
-            "Xbox",
-            "Xbox 360",
-            "Xbox One"
+            {
+                "Xbox": "Microsoft Xbox"
+            },
+            {
+                "Xbox 360": "Microsoft Xbox 360"
+            },
+            {
+                "Xbox One": "Microsoft Xbox One"
+            }
         ],
         "Franklin": [
-            "ACE 100",
-            "ACE 1000",
-            "ACE 2000",
-            "ACE 500"
+            {
+                "ACE 100": "Franklin ACE 100"
+            },
+            {
+                "ACE 1000": "Franklin ACE 1000"
+            },
+            {
+                "ACE 2000": "Franklin ACE 2000"
+            },
+            {
+                "ACE 500": "Franklin ACE 500"
+            }
         ],
         "Acorn": [
-            "Archimedes",
-            "Atom",
-            "BBC",
-            "Electron",
-            "System 1"
+            {
+                "Archimedes": "Acorn Archimedes"
+            },
+            {
+                "Atom": "Acorn Atom"
+            },
+            {
+                "BBC": "Acorn BBC"
+            },
+            {
+                "Electron": "Acorn Electron"
+            },
+            {
+                "System 1": "Acorn System 1"
+            }
         ],
         "Sony": [
-            "PlayStation",
-            "PlayStation 2",
-            "PlayStation 3",
-            "PlayStation 4",
-            "PlayStation Portable"
+            {
+                "PlayStation": "Sony Playstation"
+            },
+            {
+                "PlayStation 2": "Sony Playstation 2"
+            },
+            {
+                "PlayStation 3": "Sony Playstation 3"
+            },
+            {
+                "PlayStation 4": "Sony Playstation 4"
+            },
+            {
+                "PlayStation Portable": "Sony Playstation Portable"
+            }
         ],
         "Apple": [
-            "1",
-            "II",
-            "IIGS",
-            "III",
-            "iPad",
-            "Lisa",
-            "Macintosh"
+            {
+                "1": "Apple 1"
+            },
+            {
+                "II": "Apple II"
+            },
+            {
+                "IIGS": "Apple IIGS"
+            },
+            {
+                "III": "Apple III"
+            },
+            {
+                "iPad": "Apple iPad"
+            },
+            {
+                "Lisa": "Apple Lisa"
+            },
+            {
+                "Macintosh": "Apple Macintosh"
+            }
         ],
         "Atari": [
-            "2600 & VCS",
-            "5200",
-            "7800",
-            "8bit",
-            "Jaguar",
-            "Jaguar CD",
-            "Lynx",
-            "ST"
+            {
+                "2600 & VCS": "Atari 2600"
+            },
+            {
+                "5200": "Atari 5200"
+            },
+            {
+                "7800": "Atari 7800"
+            },
+            {
+                "8bit": "Atari 8bit"
+            },
+            {
+                "Jaguar": "Atari Jaguar"
+            },
+            {
+                "Jaguar CD": "Atari Jaguar CD"
+            },
+            {
+                "Lynx": "Atari Lynx"
+            },
+            {
+                "ST": "Atari ST"
+            }
         ],
         "Commodore": [
-            "Amiga",
-            "Amiga CD32",
-            "Amiga CDTV",
-            "C128",
-            "C16, C116 & Plus-4",
-            "C64",
-            "PET",
-            "VIC20"
+            {
+                "Amiga": "Commodore Amiga"
+            },
+            {
+                "Amiga CD32": "Commodore Amiga CD32"
+            },
+            {
+                "Amiga CDTV": "Commodore Amiga CDTV"
+            },
+            {
+                "C128": "Commodore C128"
+            },
+            {
+                "C16, C116 & Plus-4": "Commodore Plus-4 - C16 - C116"
+            },
+            {
+                "C64": "Commodore 64"
+            },
+            {
+                "PET": "Commodore PET"
+            },
+            {
+                "VIC20": "Commodore VIC-20"
+            }
         ],
         "Sega": [
-            "32X",
-            "Computer 3000",
-            "Dreamcast",
-            "Game Gear",
-            "Mark III & Master System",
-            "Mega Drive & Genesis",
-            "Mega-CD & Sega CD",
-            "Pico",
-            "Saturn"
+            {
+                "32X": "Sega 32X"
+            },
+            {
+                "Computer 3000": "Sega Computer 3000"
+            },
+            {
+                "Dreamcast": "Sega Dreamcast"
+            },
+            {
+                "Game Gear": "Sega Game Gear"
+            },
+            {
+                "Mark III & Master System": "Sega Mark III & Master System"
+            },
+            {
+                "Mega Drive & Genesis": "Sega Genesis"
+            },
+            {
+                "Mega-CD & Sega CD": "Sega CD"
+            },
+            {
+                "Pico": "Sega Pico"
+            },
+            {
+                "Saturn": "Sega Saturn"
+            }
         ],
         "Nintendo": [
-            "3DS",
-            "64",
-            "64DD",
-            "DS",
-            "Famicom & Entertainment System",
-            "Game Boy Advance",
-            "Super Famicom & Super Entertainment System",
-            "Virtual Boy",
-            "Wii",
-            "Wii U"
+            {
+                "3DS": "Nintendo 3DS"
+            },
+            {
+                "64": "Nintendo 64"
+            },
+            {
+                "64DD": "Nintendo 64DD"
+            },
+            {
+                "DS": "Nintendo DS"
+            },
+            {
+                "Famicom & Entertainment System": "Nintendo Entertainment System"
+            },
+            {
+                "Game Boy Advance": "Nintendo Game Boy Advance"
+            },
+            {
+                "Super Famicom & Super Entertainment System": "Nintendo Super Famicom & Super Entertainment System"
+            },
+            {
+                "Virtual Boy": "Nintendo Virtual Boy"
+            },
+            {
+                "Wii": "Nintendo Wii"
+            },
+            {
+                "Wii U": "Nintendo Wii U"
+            }
         ]
     }
 }

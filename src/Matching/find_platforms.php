@@ -171,7 +171,7 @@ foreach ($platform_manufacturers as $source => $manufacturers) {
 	}
 	$platform_manufacturers[$source] = $manufacturers;
 }
-file_put_contents($dataDir.'/platform_manufacturers_new.json', json_encode($platform_manufacturers, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/platform_manufacturers.json', json_encode($platform_manufacturers, JSON_PRETTY_PRINT));
 $rows = $db->query('SELECT platform,platform_description FROM mame_software group by platform');
 foreach ($rows as $row) {
 	$platform = $row['platform_description'];
