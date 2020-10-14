@@ -1,0 +1,3887 @@
+{
+    "LaunchBox": {
+        "Panasonic Corporation, Sanyo Electric Co., Ltd., GoldStar": [
+            "3DO Interactive Multiplayer"
+        ],
+        "APF Electronics": [
+            "APF Imagination Machine"
+        ],
+        "Technosys Research Labs": [
+            "Aamber Pegasus"
+        ],
+        "ARB Plant": [
+            "Apogee BK-01"
+        ],
+        "Bally, Astrovision": [
+            "Bally Astrocade"
+        ],
+        "Camputers": [
+            "Camputers Lynx"
+        ],
+        "Coleco": [
+            "Coleco ADAM"
+        ],
+        "Coleco Industries, Inc.": [
+            "ColecoVision"
+        ],
+        "Dragon Data": [
+            "Dragon 32\/64"
+        ],
+        "EACA": [
+            "EACA EG2000 Colour Genie"
+        ],
+        "NPO Scientific Center": [
+            "Elektronika BK"
+        ],
+        "Emerson Radio": [
+            "Emerson Arcadia 2001"
+        ],
+        "Enterprise Computers": [
+            "Enterprise"
+        ],
+        "Entex": [
+            "Entex Adventure Vision"
+        ],
+        "Exelvision": [
+            "Exelvision EXL 100"
+        ],
+        "Exidy": [
+            "Exidy Sorcerer"
+        ],
+        "Fairchild Semiconductor": [
+            "Fairchild Channel F"
+        ],
+        "Funtech": [
+            "Funtech Super Acan"
+        ],
+        "General Consumer Electronics": [
+            "GCE Vectrex"
+        ],
+        "Game Park": [
+            "GamePark GP32"
+        ],
+        "Hartung": [
+            "Hartung Game Master"
+        ],
+        "Micronique": [
+            "Hector HRX"
+        ],
+        "Interton": [
+            "Interton VC 4000"
+        ],
+        "Jupiter Cantab": [
+            "Jupiter Ace"
+        ],
+        "Community": [
+            "Linux"
+        ],
+        "Magnavox": [
+            "Magnavox Odyssey"
+        ],
+        "Magnavox \/ Philips": [
+            "Magnavox Odyssey 2"
+        ],
+        "Matra, Hachette, & Tandy": [
+            "Matra and Hachette Alice"
+        ],
+        "Radofin": [
+            "Mattel Aquarius"
+        ],
+        "Mattel": [
+            "Mattel HyperScan"
+        ],
+        "Mattel Electronics": [
+            "Mattel Intellivision"
+        ],
+        "Welback Holdings": [
+            "Mega Duck"
+        ],
+        "Memotech": [
+            "Memotech MTX512"
+        ],
+        "Flextronics International Ltd.": [
+            "Microsoft Xbox"
+        ],
+        "Flextronics International Ltd., Foxconn Technology Group, Celestica Inc., Wistron Corporation": [
+            "Microsoft Xbox 360"
+        ],
+        "Microsoft": [
+            "Microsoft Xbox One"
+        ],
+        "Namco": [
+            "Namco System 22"
+        ],
+        "Alps Electric": [
+            "Nintendo 64DD"
+        ],
+        "Nintendo Co., Ltd.": [
+            "Nintendo Entertainment System"
+        ],
+        "Mitsumi": [
+            "Nintendo Famicom Disk System"
+        ],
+        "Nintendo \/ Foxconn": [
+            "Nintendo GameCube"
+        ],
+        "Nintendo PTD": [
+            "Nintendo Switch"
+        ],
+        "Nintendo, Foxconn, Mitsumi": [
+            "Nintendo Wii U"
+        ],
+        "Nokia": [
+            "Nokia N-Gage"
+        ],
+        "Motorola, Samsung, Toshiba": [
+            "Nuon"
+        ],
+        "Oric Products": [
+            "Oric Atmos"
+        ],
+        "Tsukuda Original": [
+            "Othello Multivision"
+        ],
+        "Ouya, Inc.": [
+            "Ouya"
+        ],
+        "Radiotechnique": [
+            "Philips VG 5000"
+        ],
+        "RCA": [
+            "RCA Studio II"
+        ],
+        "MGT": [
+            "SAM Coup\u00c3\u00a9"
+        ],
+        "Sammy Corporation": [
+            "Sammy Atomiswave"
+        ],
+        "Sega Enterprises": [
+            "Sega Genesis"
+        ],
+        "SEGA Enterprises Ltd.": [
+            "Sega Master System"
+        ],
+        "Sega and Lockheed Martin": [
+            "Sega Model 3"
+        ],
+        "SEGA\/Namco\/Nintendo": [
+            "Sega Triforce"
+        ],
+        "Sharp Corporation": [
+            "Sharp X68000"
+        ],
+        "Sinclair Research": [
+            "Sinclair ZX Spectrum"
+        ],
+        "Sinclair": [
+            "Sinclair ZX-81"
+        ],
+        "Sony Computer Entertainment": [
+            "Sony Playstation"
+        ],
+        "Sony EMCS, Foxconn, ASUSTeK": [
+            "Sony Playstation 3"
+        ],
+        "Sony, Foxconn": [
+            "Sony Playstation 4"
+        ],
+        "Sord Computer Corporation": [
+            "Sord M5"
+        ],
+        "Motorola": [
+            "TRS-80 Color Computer"
+        ],
+        "Taito Corporation": [
+            "Taito Type X"
+        ],
+        "Tandy Corporation": [
+            "Tandy TRS-80"
+        ],
+        "Tapwave": [
+            "Tapwave Zodiac"
+        ],
+        "Texas Instruments": [
+            "Texas Instruments TI 99\/4A"
+        ],
+        "Tiger Electronics": [
+            "Tiger Game.com"
+        ],
+        "Matsushita": [
+            "Tomy Tutor"
+        ],
+        "Team Shanghai Alice": [
+            "Touhou Project"
+        ],
+        "Watara": [
+            "Watara Supervision"
+        ],
+        "Worlds of Wonder": [
+            "WoW Action Max"
+        ],
+        "SSD COMPANY LIMITED": [
+            "XaviXPORT"
+        ],
+        "Amstrad": [
+            "Amstrad CPC",
+            "Amstrad GX4000"
+        ],
+        "Apple Computer, Inc.": [
+            "Apple II",
+            "Apple IIGS"
+        ],
+        "Apple": [
+            "Apple iOS",
+            "Apple Mac OS"
+        ],
+        "Atari, Inc.": [
+            "Atari 2600",
+            "Atari 5200"
+        ],
+        "IBM": [
+            "Atari Jaguar",
+            "MS-DOS"
+        ],
+        "Casio": [
+            "Casio Loopy",
+            "Casio PV-1000"
+        ],
+        "Epoch": [
+            "Epoch Game Pocket Computer",
+            "Epoch Super Cassette Vision"
+        ],
+        "Fujitsu": [
+            "Fujitsu FM Towns Marty",
+            "Fujitsu FM-7"
+        ],
+        "ZAPiT Games": [
+            "Game Wave Family Entertainment System",
+            "GameWave"
+        ],
+        "NEC": [
+            "NEC PC-8801",
+            "NEC PC-9801"
+        ],
+        "NEC Home Electronics": [
+            "NEC PC-FX",
+            "PC Engine SuperGrafx"
+        ],
+        "NEC Corporation, Hudson Soft": [
+            "NEC TurboGrafx-16",
+            "NEC TurboGrafx-CD"
+        ],
+        "Nintendo, Foxconn": [
+            "Nintendo 3DS",
+            "Nintendo 64"
+        ],
+        "Foxconn": [
+            "Nintendo DS",
+            "Nintendo Wii"
+        ],
+        "Philips": [
+            "Philips CD-i",
+            "Philips Videopac+"
+        ],
+        "Sharp": [
+            "Sharp MZ-2500",
+            "Sharp X1"
+        ],
+        "VTech": [
+            "VTech CreatiVision",
+            "VTech Socrates"
+        ],
+        "Bandai Co., Ltd.": [
+            "WonderSwan",
+            "WonderSwan Color"
+        ],
+        "Atari Corporation": [
+            "Atari 7800",
+            "Atari Jaguar CD",
+            "Atari Lynx"
+        ],
+        "Atari": [
+            "Atari 800",
+            "Atari ST",
+            "Atari XEGS"
+        ],
+        "Acorn Computers": [
+            "Acorn Archimedes",
+            "Acorn Atom",
+            "Acorn Electron",
+            "BBC Microcomputer System"
+        ],
+        "Sony": [
+            "Sony Playstation 2",
+            "Sony Playstation Vita",
+            "Sony PocketStation",
+            "Sony PSP"
+        ],
+        "Various": [
+            "Android",
+            "Microsoft MSX",
+            "Microsoft MSX2",
+            "Microsoft MSX2+",
+            "Radio-86RK Mikrosha"
+        ],
+        "SNK": [
+            "SNK Neo Geo AES",
+            "SNK Neo Geo CD",
+            "SNK Neo Geo MVS",
+            "SNK Neo Geo Pocket",
+            "SNK Neo Geo Pocket Color"
+        ],
+        "Nintendo": [
+            "Nintendo Game & Watch",
+            "Nintendo Game Boy",
+            "Nintendo Game Boy Advance",
+            "Nintendo Game Boy Color",
+            "Nintendo Pokemon Mini",
+            "Nintendo Satellaview",
+            "Nintendo Virtual Boy",
+            "Super Nintendo Entertainment System"
+        ],
+        "Commodore": [
+            "Commodore 128",
+            "Commodore 64",
+            "Commodore Amiga",
+            "Commodore Amiga CD32",
+            "Commodore CDTV",
+            "Commodore MAX Machine",
+            "Commodore PET",
+            "Commodore Plus 4",
+            "Commodore VIC-20"
+        ],
+        "Generic": [
+            "Arcade",
+            "MUGEN",
+            "OpenBOR",
+            "Pinball",
+            "ScummVM",
+            "Sony PSP Minis",
+            "Spectravideo",
+            "Taito Type X",
+            "Vector-06C",
+            "Web Browser",
+            "Windows",
+            "Windows 3.X",
+            "XaviXPORT",
+            "ZiNc",
+            "Lviv PC-01"
+        ],
+        "Sega": [
+            "Sega 32X",
+            "Sega CD",
+            "Sega CD 32X",
+            "Sega Dreamcast",
+            "Sega Dreamcast VMU",
+            "Sega Game Gear",
+            "Sega Hikaru",
+            "Sega Model 1",
+            "Sega Model 2",
+            "Sega Naomi",
+            "Sega Naomi 2",
+            "Sega Pico",
+            "Sega Saturn",
+            "Sega SC-3000",
+            "Sega SG-1000",
+            "Sega ST-V",
+            "Sega System 16",
+            "Sega System 32"
+        ]
+    },
+    "TheGamesDB": {
+        "Panasonic Corporation, Sanyo Electric Co., Ltd., GoldStar": [
+            "3DO Interactive Multiplayer"
+        ],
+        "APF Electronics": [
+            "APF Imagination Machine"
+        ],
+        "Technosys Research Labs": [
+            "Aamber Pegasus"
+        ],
+        "ARB Plant": [
+            "Apogee BK-01"
+        ],
+        "Bally, Astrovision": [
+            "Bally Astrocade"
+        ],
+        "Camputers": [
+            "Camputers Lynx"
+        ],
+        "Coleco": [
+            "Coleco ADAM"
+        ],
+        "Coleco Industries, Inc.": [
+            "ColecoVision"
+        ],
+        "Dragon Data": [
+            "Dragon 32\/64"
+        ],
+        "EACA": [
+            "EACA EG2000 Colour Genie"
+        ],
+        "NPO Scientific Center": [
+            "Elektronika BK"
+        ],
+        "Emerson Radio": [
+            "Emerson Arcadia 2001"
+        ],
+        "Enterprise Computers": [
+            "Enterprise"
+        ],
+        "Entex": [
+            "Entex Adventure Vision"
+        ],
+        "Exelvision": [
+            "Exelvision EXL 100"
+        ],
+        "Exidy": [
+            "Exidy Sorcerer"
+        ],
+        "Fairchild Semiconductor": [
+            "Fairchild Channel F"
+        ],
+        "Funtech": [
+            "Funtech Super Acan"
+        ],
+        "General Consumer Electronics": [
+            "GCE Vectrex"
+        ],
+        "Game Park": [
+            "GamePark GP32"
+        ],
+        "Hartung": [
+            "Hartung Game Master"
+        ],
+        "Micronique": [
+            "Hector HRX"
+        ],
+        "Interton": [
+            "Interton VC 4000"
+        ],
+        "Jupiter Cantab": [
+            "Jupiter Ace"
+        ],
+        "Community": [
+            "Linux"
+        ],
+        "Magnavox": [
+            "Magnavox Odyssey"
+        ],
+        "Magnavox \/ Philips": [
+            "Magnavox Odyssey 2"
+        ],
+        "Matra, Hachette, & Tandy": [
+            "Matra and Hachette Alice"
+        ],
+        "Radofin": [
+            "Mattel Aquarius"
+        ],
+        "Mattel": [
+            "Mattel HyperScan"
+        ],
+        "Mattel Electronics": [
+            "Mattel Intellivision"
+        ],
+        "Welback Holdings": [
+            "Mega Duck"
+        ],
+        "Memotech": [
+            "Memotech MTX512"
+        ],
+        "Flextronics International Ltd.": [
+            "Microsoft Xbox"
+        ],
+        "Flextronics International Ltd., Foxconn Technology Group, Celestica Inc., Wistron Corporation": [
+            "Microsoft Xbox 360"
+        ],
+        "Microsoft": [
+            "Microsoft Xbox One"
+        ],
+        "Namco": [
+            "Namco System 22"
+        ],
+        "Alps Electric": [
+            "Nintendo 64DD"
+        ],
+        "Nintendo Co., Ltd.": [
+            "Nintendo Entertainment System"
+        ],
+        "Mitsumi": [
+            "Nintendo Famicom Disk System"
+        ],
+        "Nintendo \/ Foxconn": [
+            "Nintendo GameCube"
+        ],
+        "Nintendo PTD": [
+            "Nintendo Switch"
+        ],
+        "Nintendo, Foxconn, Mitsumi": [
+            "Nintendo Wii U"
+        ],
+        "Nokia": [
+            "Nokia N-Gage"
+        ],
+        "Motorola, Samsung, Toshiba": [
+            "Nuon"
+        ],
+        "Oric Products": [
+            "Oric Atmos"
+        ],
+        "Tsukuda Original": [
+            "Othello Multivision"
+        ],
+        "Ouya, Inc.": [
+            "Ouya"
+        ],
+        "Radiotechnique": [
+            "Philips VG 5000"
+        ],
+        "RCA": [
+            "RCA Studio II"
+        ],
+        "MGT": [
+            "SAM Coup\u00c3\u00a9"
+        ],
+        "Sammy Corporation": [
+            "Sammy Atomiswave"
+        ],
+        "Sega Enterprises": [
+            "Sega Genesis"
+        ],
+        "SEGA Enterprises Ltd.": [
+            "Sega Master System"
+        ],
+        "Sega and Lockheed Martin": [
+            "Sega Model 3"
+        ],
+        "SEGA\/Namco\/Nintendo": [
+            "Sega Triforce"
+        ],
+        "Sharp Corporation": [
+            "Sharp X68000"
+        ],
+        "Sinclair Research": [
+            "Sinclair ZX Spectrum"
+        ],
+        "Sinclair": [
+            "Sinclair ZX-81"
+        ],
+        "Sony Computer Entertainment": [
+            "Sony Playstation"
+        ],
+        "Sony EMCS, Foxconn, ASUSTeK": [
+            "Sony Playstation 3"
+        ],
+        "Sony, Foxconn": [
+            "Sony Playstation 4"
+        ],
+        "Sord Computer Corporation": [
+            "Sord M5"
+        ],
+        "Motorola": [
+            "TRS-80 Color Computer"
+        ],
+        "Taito Corporation": [
+            "Taito Type X"
+        ],
+        "Tandy Corporation": [
+            "Tandy TRS-80"
+        ],
+        "Tapwave": [
+            "Tapwave Zodiac"
+        ],
+        "Texas Instruments": [
+            "Texas Instruments TI 99\/4A"
+        ],
+        "Tiger Electronics": [
+            "Tiger Game.com"
+        ],
+        "Matsushita": [
+            "Tomy Tutor"
+        ],
+        "Team Shanghai Alice": [
+            "Touhou Project"
+        ],
+        "Watara": [
+            "Watara Supervision"
+        ],
+        "Worlds of Wonder": [
+            "WoW Action Max"
+        ],
+        "SSD COMPANY LIMITED": [
+            "XaviXPORT"
+        ],
+        "Amstrad": [
+            "Amstrad CPC",
+            "Amstrad GX4000"
+        ],
+        "Apple Computer, Inc.": [
+            "Apple II",
+            "Apple IIGS"
+        ],
+        "Apple": [
+            "Apple iOS",
+            "Apple Mac OS"
+        ],
+        "Atari, Inc.": [
+            "Atari 2600",
+            "Atari 5200"
+        ],
+        "IBM": [
+            "Atari Jaguar",
+            "MS-DOS"
+        ],
+        "Casio": [
+            "Casio Loopy",
+            "Casio PV-1000"
+        ],
+        "Epoch": [
+            "Epoch Game Pocket Computer",
+            "Epoch Super Cassette Vision"
+        ],
+        "Fujitsu": [
+            "Fujitsu FM Towns Marty",
+            "Fujitsu FM-7"
+        ],
+        "ZAPiT Games": [
+            "Game Wave Family Entertainment System",
+            "GameWave"
+        ],
+        "NEC": [
+            "NEC PC-8801",
+            "NEC PC-9801"
+        ],
+        "NEC Home Electronics": [
+            "NEC PC-FX",
+            "PC Engine SuperGrafx"
+        ],
+        "NEC Corporation, Hudson Soft": [
+            "NEC TurboGrafx-16",
+            "NEC TurboGrafx-CD"
+        ],
+        "Nintendo, Foxconn": [
+            "Nintendo 3DS",
+            "Nintendo 64"
+        ],
+        "Foxconn": [
+            "Nintendo DS",
+            "Nintendo Wii"
+        ],
+        "Philips": [
+            "Philips CD-i",
+            "Philips Videopac+"
+        ],
+        "Sharp": [
+            "Sharp MZ-2500",
+            "Sharp X1"
+        ],
+        "VTech": [
+            "VTech CreatiVision",
+            "VTech Socrates"
+        ],
+        "Bandai Co., Ltd.": [
+            "WonderSwan",
+            "WonderSwan Color"
+        ],
+        "Atari Corporation": [
+            "Atari 7800",
+            "Atari Jaguar CD",
+            "Atari Lynx"
+        ],
+        "Atari": [
+            "Atari 800",
+            "Atari ST",
+            "Atari XEGS"
+        ],
+        "Acorn Computers": [
+            "Acorn Archimedes",
+            "Acorn Atom",
+            "Acorn Electron",
+            "BBC Microcomputer System"
+        ],
+        "Sony": [
+            "Sony Playstation 2",
+            "Sony Playstation Vita",
+            "Sony PocketStation",
+            "Sony PSP"
+        ],
+        "Various": [
+            "Android",
+            "Microsoft MSX",
+            "Microsoft MSX2",
+            "Microsoft MSX2+",
+            "Radio-86RK Mikrosha"
+        ],
+        "SNK": [
+            "SNK Neo Geo AES",
+            "SNK Neo Geo CD",
+            "SNK Neo Geo MVS",
+            "SNK Neo Geo Pocket",
+            "SNK Neo Geo Pocket Color"
+        ],
+        "Nintendo": [
+            "Nintendo Game & Watch",
+            "Nintendo Game Boy",
+            "Nintendo Game Boy Advance",
+            "Nintendo Game Boy Color",
+            "Nintendo Pokemon Mini",
+            "Nintendo Satellaview",
+            "Nintendo Virtual Boy",
+            "Super Nintendo Entertainment System"
+        ],
+        "Commodore": [
+            "Commodore 128",
+            "Commodore 64",
+            "Commodore Amiga",
+            "Commodore Amiga CD32",
+            "Commodore CDTV",
+            "Commodore MAX Machine",
+            "Commodore PET",
+            "Commodore Plus 4",
+            "Commodore VIC-20"
+        ],
+        "Generic": [
+            "Arcade",
+            "MUGEN",
+            "OpenBOR",
+            "Pinball",
+            "ScummVM",
+            "Sony PSP Minis",
+            "Spectravideo",
+            "Taito Type X",
+            "Vector-06C",
+            "Web Browser",
+            "Windows",
+            "Windows 3.X",
+            "XaviXPORT",
+            "ZiNc",
+            "Lviv PC-01"
+        ],
+        "Sega": [
+            "Sega 32X",
+            "Sega CD",
+            "Sega CD 32X",
+            "Sega Dreamcast",
+            "Sega Dreamcast VMU",
+            "Sega Game Gear",
+            "Sega Hikaru",
+            "Sega Model 1",
+            "Sega Model 2",
+            "Sega Naomi",
+            "Sega Naomi 2",
+            "Sega Pico",
+            "Sega Saturn",
+            "Sega SC-3000",
+            "Sega SG-1000",
+            "Sega ST-V",
+            "Sega System 16",
+            "Sega System 32"
+        ]
+    },
+    "OldComputers": {
+        "Alpha Micro": [
+            "1000 Series"
+        ],
+        "Sportron": [
+            "101U"
+        ],
+        "Peerless": [
+            "150"
+        ],
+        "WICAT": [
+            "150"
+        ],
+        "IBP": [
+            "190"
+        ],
+        "Unitron (Germany)": [
+            "2200"
+        ],
+        "Central Data": [
+            "2650"
+        ],
+        "Cifer Systems": [
+            "2683"
+        ],
+        "Sands": [
+            "3000"
+        ],
+        "ITT": [
+            "3030"
+        ],
+        "Fortune": [
+            "32:16"
+        ],
+        "Sonico": [
+            "406-6 (Color TV Sports Video Game)"
+        ],
+        "Univox": [
+            "41N"
+        ],
+        "Exxon": [
+            "500 Series"
+        ],
+        "QUAY Corporation": [
+            "500 Series"
+        ],
+        "Asaflex": [
+            "6"
+        ],
+        "CAB": [
+            "65"
+        ],
+        "WELECT": [
+            "80.2"
+        ],
+        "Starex": [
+            "502"
+        ],
+        "I.S.T.C. (Informatic Syst\u00e8mes T\u00e9l\u00e9com)": [
+            "5000"
+        ],
+        "MSI": [
+            "6800"
+        ],
+        "Codimex": [
+            "6809"
+        ],
+        "BASF": [
+            "7100"
+        ],
+        "Gamatic": [
+            "7600"
+        ],
+        "elwro": [
+            "800 Junior"
+        ],
+        "National Radio Institute": [
+            "832"
+        ],
+        "ACC": [
+            "8000"
+        ],
+        "Marquette Electronics": [
+            "8000 Holter System"
+        ],
+        "Compucolor Corporation": [
+            "8001 \/ 8051"
+        ],
+        "V-marc": [
+            "88a"
+        ],
+        "Sanwa": [
+            "9015"
+        ],
+        "Mustang": [
+            "9016 Telespiel Computer"
+        ],
+        "Holborn": [
+            "9100"
+        ],
+        "Feedback": [
+            "ABACUS Educational Computer"
+        ],
+        "ACCESS Computer": [
+            "ACCESS Computer"
+        ],
+        "Advanced Computer Systems": [
+            "ACS-1007"
+        ],
+        "SMH - ALCATEL": [
+            "ALPHA Plus"
+        ],
+        "Computer &amp; Electronic System": [
+            "ATHENA"
+        ],
+        "Worlds of Wonder": [
+            "Action Max"
+        ],
+        "Industria Argentina": [
+            "Activision Family Game"
+        ],
+        "Actrix": [
+            "Actrix DS"
+        ],
+        "Advance Technology": [
+            "Advance 86"
+        ],
+        "Compumedic": [
+            "Analog Computer"
+        ],
+        "Misc": [
+            "Arcade video games"
+        ],
+        "Emerson": [
+            "Arcadia 2001"
+        ],
+        "Data Technology Industries": [
+            "Associate"
+        ],
+        "Bally": [
+            "Astrocade"
+        ],
+        "Solid State Technology": [
+            "Athena"
+        ],
+        "Otrona": [
+            "Attache"
+        ],
+        "Basis": [
+            "BASIS 108"
+        ],
+        "Billings": [
+            "BC-12"
+        ],
+        "Metrologie": [
+            "BFM 186"
+        ],
+        "Brascom": [
+            "BR-1000M"
+        ],
+        "System Formulet Inc.": [
+            "BUBCOM 80"
+        ],
+        "Be": [
+            "BeBox"
+        ],
+        "Independant Business Systems": [
+            "BetaSystem"
+        ],
+        "S.H.G.": [
+            "Black Point (FS-1003\/FS-2000)"
+        ],
+        "G.Z.E. Unimor": [
+            "Bosman 8"
+        ],
+        "Frael": [
+            "Bruc 100"
+        ],
+        "Convex Computer Corp.": [
+            "C3800"
+        ],
+        "EDS": [
+            "C64 EDC"
+        ],
+        "Seequa": [
+            "CHAMELEON"
+        ],
+        "COMX": [
+            "COMX 35"
+        ],
+        "Powertran Cybernetics": [
+            "CORTEX"
+        ],
+        "Kosmos": [
+            "CP1 \/ Computer Praxis"
+        ],
+        "Schneider (Germany)": [
+            "CPC-464"
+        ],
+        "CSIRAC": [
+            "CSIRAC"
+        ],
+        "Creative Technology": [
+            "CUBIC 99"
+        ],
+        "B\u00fcromaschinenwerke Zella-Mehlis": [
+            "Cellatron 8205"
+        ],
+        "Fairchild": [
+            "Channel F"
+        ],
+        "Tokyo": [
+            "Colour TV Game"
+        ],
+        "Teleng": [
+            "Colourstars"
+        ],
+        "Comart": [
+            "Communicator"
+        ],
+        "AVT Electronics": [
+            "Comp 2"
+        ],
+        "Gakken": [
+            "Compact Vision TV-Boy"
+        ],
+        "Telenova": [
+            "Compis"
+        ],
+        "Bentley": [
+            "Compu-vision"
+        ],
+        "ISC (Intelligent Systems Corp)": [
+            "CompuColor II"
+        ],
+        "Corvus Systems": [
+            "Concept"
+        ],
+        "ZBA": [
+            "Consul 2717"
+        ],
+        "CW\/P": [
+            "Cortex"
+        ],
+        "INDATA": [
+            "DAI"
+        ],
+        "English Electric Co.": [
+            "DEUCE"
+        ],
+        "Digitus": [
+            "DGT100 \/ DGT1000"
+        ],
+        "Intersystems": [
+            "DPS-1"
+        ],
+        "Darlay": [
+            "DY 80"
+        ],
+        "Voltmace": [
+            "Database Games-Computer"
+        ],
+        "Datapoint Corporation": [
+            "Datapoint 2200"
+        ],
+        "Bainbridge Research and Development, Inc.": [
+            "Dolphin"
+        ],
+        "Logystem": [
+            "ECRITEXT"
+        ],
+        "Electronic Product Ass.": [
+            "EPA-6800"
+        ],
+        "Nakajima": [
+            "ES 210"
+        ],
+        "Extensis": [
+            "EX3000"
+        ],
+        "Enterprise": [
+            "Enterprise 64 \/ 128"
+        ],
+        "Durango": [
+            "F85"
+        ],
+        "Fox": [
+            "Fox-640"
+        ],
+        "Siera": [
+            "G7000"
+        ],
+        "Miragama": [
+            "GMC-802"
+        ],
+        "GALAKSIJA": [
+            "Galaksija"
+        ],
+        "Redant": [
+            "Game Axe"
+        ],
+        "ENTEX": [
+            "Gameroom Tele-Pong"
+        ],
+        "Gavilan": [
+            "Gavilan"
+        ],
+        "Seattle Computer": [
+            "Gazelle"
+        ],
+        "Myarc": [
+            "Geneve 9640"
+        ],
+        "Gorenje": [
+            "Geti-3220"
+        ],
+        "Tele-Partner": [
+            "Giochi Televisivi (Mod. G)"
+        ],
+        "Mindset Corp.": [
+            "Graphics computer"
+        ],
+        "T.R.Q. (Talleres Radioel\u00e9ctricos Querol)": [
+            "H-21 Video Computer"
+        ],
+        "JVC": [
+            "HC-95"
+        ],
+        "Dynalogic": [
+            "HYPERION"
+        ],
+        "NBI": [
+            "Hantu"
+        ],
+        "Hobbit": [
+            "Hobbit"
+        ],
+        "Advision": [
+            "Home Arcade"
+        ],
+        "Interact": [
+            "Home Computer System"
+        ],
+        "Homelab Series": [
+            "Homelab"
+        ],
+        "Epcom \/ Sharp": [
+            "Hotbit HB-8000"
+        ],
+        "DVW Micro-electronics": [
+            "Husky"
+        ],
+        "IMCE": [
+            "IMCE Junior"
+        ],
+        "ZPA": [
+            "IQ-151"
+        ],
+        "Unisys": [
+            "Icon"
+        ],
+        "Spica": [
+            "Ines"
+        ],
+        "Signetics": [
+            "Instructor 50"
+        ],
+        "National Semiconductor": [
+            "Introkit"
+        ],
+        "Ivasim elektronika": [
+            "Ivel Ultra"
+        ],
+        "AM International Jacquard Systems": [
+            "J100 - J500"
+        ],
+        "Interstellar Fighter": [
+            "JN-838"
+        ],
+        "Electromagnetica": [
+            "Jet"
+        ],
+        "PRIM 6 VIDEO": [
+            "Jeux TV"
+        ],
+        "Microcomputer Associates Inc.": [
+            "Jolt"
+        ],
+        "Jupiter Cantab": [
+            "Jupiter Ace"
+        ],
+        "Kawai": [
+            "KMC-5000"
+        ],
+        "Kenbak Computer Company": [
+            "Kenbak-1"
+        ],
+        "Kyocera": [
+            "Kyotronic 85"
+        ],
+        "LNW Research": [
+            "LNW-80"
+        ],
+        "Camputers": [
+            "LYNX"
+        ],
+        "HBN Computeur": [
+            "Le Guepard"
+        ],
+        "Leisure-Dynamics": [
+            "Leisure-Vision"
+        ],
+        "Selcom": [
+            "Lemon II"
+        ],
+        "Lobo Drives International": [
+            "MAX-80"
+        ],
+        "Mostek": [
+            "MD"
+        ],
+        "Tangerine": [
+            "MICROTAN 65"
+        ],
+        "Acetronic": [
+            "MPU-1000\/2000"
+        ],
+        "JOSTYKIT": [
+            "MULTI-TV-GAME HF 344"
+        ],
+        "Unitron (Brazil)": [
+            "Mac 512"
+        ],
+        "Dulmont": [
+            "Magnum"
+        ],
+        "Unimex": [
+            "Mark IX"
+        ],
+        "Mecipt": [
+            "Mecipt"
+        ],
+        "Dataman Designs": [
+            "Menta"
+        ],
+        "ADDS": [
+            "Mentor 2000"
+        ],
+        "Mera-Elzab": [
+            "Meritum"
+        ],
+        "Saitek": [
+            "Micro Computer (?)"
+        ],
+        "Micromega": [
+            "Micro M16"
+        ],
+        "Microace": [
+            "MicroAce"
+        ],
+        "Sysdata Eletronica": [
+            "MicroColor"
+        ],
+        "Trios Micro Systems": [
+            "MicroMate PMC 101"
+        ],
+        "Science Fair": [
+            "Microcomputer Trainer"
+        ],
+        "Midwich": [
+            "Microcontroller"
+        ],
+        "Educatel": [
+            "Microlab"
+        ],
+        "Microwriter": [
+            "Microwriter"
+        ],
+        "Nokia": [
+            "Mikro Mikko 1"
+        ],
+        "British Micro": [
+            "Mimi 802 \/ 803 \/ 804"
+        ],
+        "Mark-8": [
+            "Minicomputer"
+        ],
+        "Radionic": [
+            "Model R1001"
+        ],
+        "Konix": [
+            "Multisystem"
+        ],
+        "Grundy": [
+            "NEW BRAIN"
+        ],
+        "Kemitron": [
+            "Naja"
+        ],
+        "Tashki Computer System": [
+            "OM 8064"
+        ],
+        "Normerel": [
+            "OPlite"
+        ],
+        "ABS Computer": [
+            "ORB"
+        ],
+        "Collins International Trading Corporation": [
+            "Orange 2"
+        ],
+        "Continental Edison \/ Saba": [
+            "Ordinateur Video Jeu JO 1450 (JOPAC)"
+        ],
+        "Brandt Electronique": [
+            "Ordinateur de Jeu JO7400 (JOPAC)"
+        ],
+        "Ormatu Electric BV": [
+            "Ormatu Video Spelcomputer 2001"
+        ],
+        "Tonel": [
+            "PC"
+        ],
+        "Nixdorf": [
+            "PC 05"
+        ],
+        "Lambda Electronics Ltd": [
+            "PC 8300"
+        ],
+        "Pertec": [
+            "PCC 2000"
+        ],
+        "Ordisor": [
+            "PCC 2000"
+        ],
+        "Imlac": [
+            "PDS-1"
+        ],
+        "Polycon": [
+            "PG 7 (Programmable TV Games)"
+        ],
+        "Microkey KFFT": [
+            "PRIMO A-32"
+        ],
+        "David Computer": [
+            "PROFI 203"
+        ],
+        "Kontron": [
+            "PSI 80"
+        ],
+        "Pioneer": [
+            "Palcom PX-7"
+        ],
+        "Promotors Ltd": [
+            "Palladium Game Console"
+        ],
+        "Tele Flip": [
+            "Paris Video Sport FY-707"
+        ],
+        "General": [
+            "Paxon PCK-50"
+        ],
+        "Semi-Tech": [
+            "Pied Piper"
+        ],
+        "Polycorp": [
+            "Poly 1 Educational Computer"
+        ],
+        "Conitec": [
+            "Prof80"
+        ],
+        "Proteus International": [
+            "Proteus III"
+        ],
+        "TELMI": [
+            "P\u00e9riminitel"
+        ],
+        "Q1 Corporation": [
+            "Q1 System"
+        ],
+        "Robik": [
+            "Robik"
+        ],
+        "RIL (Rollet International Limited)": [
+            "Robot"
+        ],
+        "SBS": [
+            "SBS 8000"
+        ],
+        "Match": [
+            "SD-01c"
+        ],
+        "Jou\u00e9Club": [
+            "SD-290"
+        ],
+        "ITMC": [
+            "SD-290"
+        ],
+        "Nano": [
+            "SKS 2500"
+        ],
+        "Siemens": [
+            "SME"
+        ],
+        "Processor Technology Corp": [
+            "SOL - 10 \/ 20"
+        ],
+        "Exidy": [
+            "SORCERER"
+        ],
+        "Apollo 7": [
+            "SQUALE"
+        ],
+        "Synertek": [
+            "SYM1"
+        ],
+        "Scientific Computer": [
+            "SYMBOLICS 3600"
+        ],
+        "MGT (Miles Gordon Technology)": [
+            "Sam Coup\u00e9"
+        ],
+        "Shelton Instruments": [
+            "Sig-Net"
+        ],
+        "Sixplay": [
+            "Sixplay"
+        ],
+        "Datavue": [
+            "Spark"
+        ],
+        "Concept 2000": [
+            "Spectrum 6"
+        ],
+        "Mentor": [
+            "Sport TG 20"
+        ],
+        "Fuji Electric": [
+            "Sportstron TV-Game (Coca-Cola edition)"
+        ],
+        "Videomaster": [
+            "Star Chess"
+        ],
+        "Intel (Germany)": [
+            "Super Tele-Sport (D-688\/36)"
+        ],
+        "Compupro": [
+            "System 816"
+        ],
+        "INTV Corp.": [
+            "System III"
+        ],
+        "ASCI": [
+            "SystemX"
+        ],
+        "Medusa": [
+            "T-40"
+        ],
+        "Riva": [
+            "T-800c"
+        ],
+        "Cray Research": [
+            "T3D"
+        ],
+        "Terta": [
+            "TAP-34"
+        ],
+        "Timex Computers": [
+            "TC-2048"
+        ],
+        "Talent\/Telematica": [
+            "TPC-310"
+        ],
+        "Superlectron": [
+            "TV Challenger Series 3000 (TVC-3000)"
+        ],
+        "Videoton": [
+            "TV Computer"
+        ],
+        "Radio Shack": [
+            "TV Scoreboard (handheld)"
+        ],
+        "Blaupunkt": [
+            "TV-Action"
+        ],
+        "Saft Leclanch\u00e9": [
+            "TV8 Sports"
+        ],
+        "Schmid": [
+            "TVG 2000"
+        ],
+        "Texet": [
+            "TX 8000"
+        ],
+        "Magiclick": [
+            "Teleclick"
+        ],
+        "Sonolor": [
+            "Telematch"
+        ],
+        "SEB Loisirs": [
+            "Telescore (Model 750)"
+        ],
+        "A10": [
+            "Telespiel 9010"
+        ],
+        "Playtech": [
+            "Telesport"
+        ],
+        "H.G.S. Electronic": [
+            "Telesport"
+        ],
+        "DMS": [
+            "Telesports Mini"
+        ],
+        "Rowtron": [
+            "Television Computer System"
+        ],
+        "TEI": [
+            "Terminal Processor"
+        ],
+        "Tiki-Data": [
+            "Tiki-100"
+        ],
+        "Sobrelec": [
+            "Totus"
+        ],
+        "Transam": [
+            "Tuscan S-100"
+        ],
+        "World Book": [
+            "Tutor Vision"
+        ],
+        "Compukit": [
+            "UK-101"
+        ],
+        "Remington Rand": [
+            "Univac 1"
+        ],
+        "Cabel": [
+            "Universal Game Computer"
+        ],
+        "Victor": [
+            "V-Saturn"
+        ],
+        "Polistil": [
+            "V.G. 2"
+        ],
+        "Sages": [
+            "V1"
+        ],
+        "Computer Data Systems": [
+            "VERSATILE 2"
+        ],
+        "Radiola": [
+            "VG 5000"
+        ],
+        "Vectrix": [
+            "VX 384"
+        ],
+        "Milton Bradley": [
+            "Vectrex"
+        ],
+        "Microkit": [
+            "Vegas 6809"
+        ],
+        "Sirius Computer": [
+            "Victor 9000 \/ Sirius 1"
+        ],
+        "Alex": [
+            "Video Spiel TG-621"
+        ],
+        "Pizon Bros": [
+            "Visiomatic 101"
+        ],
+        "Atomic Energy Authority (UK)": [
+            "WITCH"
+        ],
+        "Thorn EMI": [
+            "WREN"
+        ],
+        "Ampere": [
+            "WS 1"
+        ],
+        "MIT": [
+            "Whirlwind"
+        ],
+        "General Home Products (GHP)": [
+            "Wonder Wizard (model N\u00b0 7702)"
+        ],
+        "Convergent Technologies": [
+            "Workslate"
+        ],
+        "Ingersoll": [
+            "XK 410C"
+        ],
+        "Yashica": [
+            "YC-64"
+        ],
+        "C.ITOH": [
+            "YD-8110"
+        ],
+        "Cambridge Computers": [
+            "Z 88"
+        ],
+        "Telcon Industries": [
+            "Zorba"
+        ],
+        "Iasis": [
+            "ia-7301"
+        ],
+        "Intervision": [
+            "2001 - Home Video Centre",
+            "3001 - Home Video Centre"
+        ],
+        "Goldstar": [
+            "3DO Interactive Multiplayer",
+            "FC-80 \/ FC-200"
+        ],
+        "Iskra Delta": [
+            "800",
+            "PARTNER"
+        ],
+        "Poppy": [
+            "9015",
+            "9017 - Colour TV Game"
+        ],
+        "Rockwell": [
+            "AIM 65",
+            "AIM 65\/40"
+        ],
+        "MBC": [
+            "ALCYANE A6E",
+            "Alcyane"
+        ],
+        "Matra Hachette": [
+            "ALICE",
+            "ALICE 90"
+        ],
+        "Radofin Electronics Limited": [
+            "AQUARIUS 2",
+            "Tele-Sports"
+        ],
+        "Aval": [
+            "AVC 777",
+            "AVC 777 - J2"
+        ],
+        "Axel": [
+            "AX-20",
+            "AX-25"
+        ],
+        "Northstar": [
+            "Advantage",
+            "Horizon"
+        ],
+        "LEMZ": [
+            "Agat",
+            "Agat 9"
+        ],
+        "Ontel": [
+            "Amigo",
+            "OP-1"
+        ],
+        "Bit Corporation": [
+            "BIT 60",
+            "BIT 90"
+        ],
+        "RAIR microcomputer": [
+            "Black Box",
+            "Business Computer"
+        ],
+        "Electronica": [
+            "CIP-03",
+            "CIP-04"
+        ],
+        "Prologica": [
+            "CP-200",
+            "CP-400"
+        ],
+        "Stellar Electronique": [
+            "Combat lunaire",
+            "Micromat"
+        ],
+        "Honeywell": [
+            "DDP-516",
+            "H316 - Kitchen computer"
+        ],
+        "Digital Micro Systems": [
+            "DMS-3\/F",
+            "DMS-5000"
+        ],
+        "Computer Devices Incorporated": [
+            "DOT",
+            "Miniterm"
+        ],
+        "Morrow Designs": [
+            "Decision 1",
+            "Micro Decision"
+        ],
+        "Heathkit": [
+            "EC-1",
+            "H8"
+        ],
+        "ISOT": [
+            "EC-1035",
+            "EC-1037S"
+        ],
+        "Tatung": [
+            "EINSTEIN TC-01",
+            "PC-2000"
+        ],
+        "Exelvision": [
+            "EXL 100",
+            "Exeltel"
+        ],
+        "Gradiente": [
+            "Expert Plus",
+            "Expert XP-800"
+        ],
+        "Salora": [
+            "Fellow",
+            "Manager"
+        ],
+        "GEM": [
+            "GEM 1000 Junior Computer \/ Charlemagne 999",
+            "GEM-2000 \/ 3000 \/ 4000"
+        ],
+        "PEL Varazdin": [
+            "Galeb",
+            "Orao"
+        ],
+        "Intertec": [
+            "HEADSTART",
+            "SUPERBRAIN"
+        ],
+        "Husky Computers Limited": [
+            "HUSKY HUNTER",
+            "Hawk"
+        ],
+        "MOS Technology": [
+            "KIM 1",
+            "TIM"
+        ],
+        "Logabax": [
+            "LX-500 series",
+            "PERSONA 1600"
+        ],
+        "Merlin": [
+            "M4000",
+            "Tonto"
+        ],
+        "Matra": [
+            "MAX 20",
+            "MAX 90"
+        ],
+        "CCE": [
+            "MC 1000",
+            "Supergame VG 3000"
+        ],
+        "Schneider (Philips)": [
+            "MC-810",
+            "Telelude"
+        ],
+        "MCM Computers": [
+            "MCM 70 \/ 700",
+            "MCM 800"
+        ],
+        "Columbia Data Products": [
+            "MPC",
+            "VP"
+        ],
+        "Memotech": [
+            "MTX 500 \/512",
+            "RS 128"
+        ],
+        "Prinztronic": [
+            "Micro 5500",
+            "Videosport 600"
+        ],
+        "IPTVT (Traian Vuia Polytechnical Institute)": [
+            "MicroTim",
+            "MicroTim+"
+        ],
+        "Mupid": [
+            "Mupid",
+            "Mupid 2"
+        ],
+        "Next Computers": [
+            "NeXT Cube",
+            "NeXT Station"
+        ],
+        "Litton - Monroe": [
+            "OC-8820",
+            "OC-8880"
+        ],
+        "ATT": [
+            "PC 6300",
+            "Unix PC"
+        ],
+        "Data Soft": [
+            "PCS 80",
+            "VDP 80"
+        ],
+        "Elektronska industrija NIS": [
+            "PECOM 32",
+            "PECOM 64"
+        ],
+        "Polymorphic": [
+            "POLY 88",
+            "System 8813"
+        ],
+        "Sears": [
+            "PONG (Model 25796)",
+            "Tele-Games Pinball Breakaway (model 99713)"
+        ],
+        "Audiosonic": [
+            "PP-800",
+            "Tele-Sports IV"
+        ],
+        "Roberts": [
+            "Paddle IV",
+            "Rally IV"
+        ],
+        "Quasar Data Products": [
+            "QDP-100",
+            "QDP-300"
+        ],
+        "Regnecentralen": [
+            "RC 700 Piccolo",
+            "RC759 Piccoline"
+        ],
+        "ADD-X Syst\u00e8me": [
+            "SMP-5",
+            "SMP-8"
+        ],
+        "Samsung": [
+            "SPC-1000",
+            "Saturn"
+        ],
+        "Sage Computer Technology": [
+            "Sage II",
+            "Sage IV"
+        ],
+        "Akor": [
+            "Super TV-Boy",
+            "TV-Boy"
+        ],
+        "Grandstand": [
+            "T.V. Game Model 2000",
+            "T.V. Game Model 3000"
+        ],
+        "Novoton": [
+            "TJ-141",
+            "Video Sports"
+        ],
+        "Conic": [
+            "TV Sports TG-621",
+            "TVG-209"
+        ],
+        "Ultrasound": [
+            "TV-9010",
+            "Tele-Sports"
+        ],
+        "Tomy": [
+            "Tutor \/ Pyuuta",
+            "Tutor MK II"
+        ],
+        "Rollet": [
+            "Video Secam System (4\/303)",
+            "Videocolor"
+        ],
+        "Visual Technology": [
+            "Visual 1050",
+            "Visual 1083 \/ Commuter"
+        ],
+        "Zenith Data Systems": [
+            "Z-160 PC",
+            "Z-171 PC"
+        ],
+        "Gemini": [
+            "801",
+            "Challenger",
+            "GALAXY"
+        ],
+        "TIMEX \/ SINCLAIR": [
+            "1000",
+            "1500",
+            "2068"
+        ],
+        "South West Technical Products Corporation": [
+            "6800",
+            "S-PLUS",
+            "S\/09"
+        ],
+        "Sanco": [
+            "7000",
+            "8000",
+            "TPC-8300"
+        ],
+        "Seiko": [
+            "9100",
+            "9500",
+            "MC-2200"
+        ],
+        "OKI": [
+            "A 10",
+            "IF 800",
+            "IF COM7"
+        ],
+        "Luxor": [
+            "ABC 80",
+            "ABC 800 Series",
+            "Sportsman 2001"
+        ],
+        "MITS": [
+            "ALTAIR 8800",
+            "Altair 680",
+            "Altair 8800b"
+        ],
+        "Mattel Electronics": [
+            "Aquarius",
+            "Intellivision",
+            "Keyboard Component"
+        ],
+        "Olympia": [
+            "BOSS",
+            "OP 544 \/ OP 644",
+            "PHC-2"
+        ],
+        "R.F.T.": [
+            "BSS 01 (Bildschirmspiel 01)",
+            "KC 85\/3",
+            "KC 85\/4"
+        ],
+        "Eaca": [
+            "COLOUR GENIE \/ EG-2000",
+            "VIDEO GENIE 1 \/ EG-3003",
+            "VIDEO GENIE III \/ EG-3200"
+        ],
+        "Dick Smith": [
+            "Cat",
+            "VZ200",
+            "VZ300"
+        ],
+        "Grid": [
+            "Compass",
+            "GridCase",
+            "GridLite"
+        ],
+        "Applied Technologies": [
+            "Computer In a Book",
+            "Microbee 128",
+            "Microbee 32"
+        ],
+        "Heathkit \/ Zenith": [
+            "ET-3400",
+            "H-89",
+            "Z-100\/110\/120"
+        ],
+        "Motorola": [
+            "EXORSET 30",
+            "MEK-6802-D5",
+            "WDR-1-Bit Computer"
+        ],
+        "Eagle Computers Inc.": [
+            "Eagle",
+            "Eagle PC",
+            "Spirit"
+        ],
+        "Leanord": [
+            "Elan",
+            "SIL'Z Model 5 \/ 6",
+            "Silex"
+        ],
+        "Didaktik": [
+            "Gama",
+            "Kompakt",
+            "M"
+        ],
+        "SMT": [
+            "Goupil 2",
+            "Goupil 3",
+            "Goupil G4"
+        ],
+        "Open University, UK": [
+            "Hektor 2",
+            "Hektor 3",
+            "PT501"
+        ],
+        "Bull": [
+            "L'attach\u00e9",
+            "MICRAL 80\/22",
+            "TTX 80 \/ 85 \/ 90"
+        ],
+        "Research Machines": [
+            "LINK 480Z",
+            "Nimbus PC",
+            "RM-380Z"
+        ],
+        "PSION": [
+            "MC 200 \/ 400 \/ 600",
+            "Organiser II",
+            "Series 3"
+        ],
+        "SYMAG Informatique": [
+            "Micromachine 2000 et 3000",
+            "Micromachine 4000",
+            "Orchid\u00e9e"
+        ],
+        "Lucas": [
+            "Nascom 1",
+            "Nascom 2",
+            "Nascom 3"
+        ],
+        "Matsushita": [
+            "National JR 100",
+            "National JR 200",
+            "National JR 300"
+        ],
+        "SNK": [
+            "Neo Geo Advanced Entertainment System (AES)",
+            "Neo Geo Pocket",
+            "Neo Geo Pocket Color"
+        ],
+        "ICL": [
+            "OPD - One Per Desk",
+            "Personal computer",
+            "Quattro"
+        ],
+        "Televideo": [
+            "Personal Mini PM\/4T",
+            "TS-802",
+            "TS-803"
+        ],
+        "Soundic": [
+            "SD-290 Programmable Colour Video Game",
+            "Soundicvision SD-200",
+            "Victory MPT-02"
+        ],
+        "Palladium": [
+            "Tele-Cassetten-Game",
+            "Tele-Play SR",
+            "Video-Computer-Game"
+        ],
+        "K\u00f6rting": [
+            "Tele-Multiplay 6000",
+            "Tele-Multiplay 8000",
+            "Tele-Video-Computer TVC 4000"
+        ],
+        "INTERTON": [
+            "VC 4000",
+            "Video 2400",
+            "Video 3000"
+        ],
+        "Pravetz": [
+            "16A",
+            "8C",
+            "8D",
+            "IMKO-1\/2 &amp; Pravetz 82"
+        ],
+        "IMSAI": [
+            "8048",
+            "8080",
+            "PCS 80",
+            "VDP 80"
+        ],
+        "Robotron": [
+            "A5105",
+            "KC 85\/1 - Z 9001",
+            "KC 87",
+            "PC 1715"
+        ],
+        "AI Electronics": [
+            "ABC 20",
+            "ABC 24",
+            "ABC 26",
+            "ai-M16"
+        ],
+        "Yeno": [
+            "DPC-64",
+            "MX-64",
+            "SC 3000 \/ SC 3000H",
+            "Super Cassette Vision"
+        ],
+        "NCR": [
+            "Decision Mate V",
+            "PC4",
+            "PC6",
+            "PC8"
+        ],
+        "Dragon Data Ltd": [
+            "Dragon 200",
+            "Dragon 32",
+            "Dragon 64",
+            "MSX-64"
+        ],
+        "Epson": [
+            "HC \/ HX-20",
+            "PX 4 \/ HC 40",
+            "PX 8 \/ HC-88 \/ Geneva",
+            "QX 10"
+        ],
+        "APF": [
+            "Imagination Machine",
+            "M1000 \/ MP1000",
+            "Match",
+            "TV Fun (Model 401)"
+        ],
+        "Intel": [
+            "Intellec Series",
+            "SDK-85",
+            "SDK-86",
+            "iPDS"
+        ],
+        "R2E": [
+            "MICRAL-N",
+            "Micral 8020 Series",
+            "Micral 8030 series",
+            "PORTAL"
+        ],
+        "MSX": [
+            "MSX 1",
+            "MSX 2",
+            "MSX 2+",
+            "MSX Turbo R"
+        ],
+        "Vector Graphics": [
+            "MZ",
+            "Vector 1",
+            "Vector 3 (VIP)",
+            "Vector 4"
+        ],
+        "Tesla": [
+            "Mato",
+            "ONDRA",
+            "PMD-85",
+            "PMI-80"
+        ],
+        "Soci\u00e9t\u00e9 Occitane d'Electronique": [
+            "OC 2000",
+            "OC 4",
+            "OC 5000",
+            "OC 6000"
+        ],
+        "Compaq": [
+            "Portable",
+            "Portable 386",
+            "Portable II",
+            "Portable III"
+        ],
+        "Spectravideo": [
+            "SV 318",
+            "SV 328",
+            "SVI 728",
+            "SVI 738 - X'press"
+        ],
+        "Osborne Corp.": [
+            "08",
+            "ENCORE",
+            "Executive",
+            "OSBORNE 1",
+            "VIXEN"
+        ],
+        "Altos Computer Systems": [
+            "ACS-186",
+            "ACS-580",
+            "ACS-586 \/ 686",
+            "ACS-8000",
+            "Serie 5"
+        ],
+        "Oric": [
+            "ATMOS",
+            "NOVA 64",
+            "ORIC 1",
+            "STRATOS \/ IQ 164",
+            "TELESTRAT"
+        ],
+        "Bandai": [
+            "Arcadia",
+            "Gundam RX-78",
+            "Pippin @World",
+            "TV Jack 5000",
+            "WonderSwan"
+        ],
+        "Yamaha": [
+            "C1",
+            "CX5",
+            "CX5M Music Computer",
+            "YIS-303",
+            "YIS-503 \/ Diabolik"
+        ],
+        "NATIONAL": [
+            "CF-2000",
+            "CF-2700",
+            "CF-3000",
+            "FS-4000",
+            "FS-4500"
+        ],
+        "Czerweny": [
+            "CZ-1000",
+            "CZ-1000 Plus",
+            "CZ-2000",
+            "Spectrum",
+            "Spectrum Plus"
+        ],
+        "Epoch": [
+            "Cassette Vision",
+            "Super Cassette Vision",
+            "TV Baseball",
+            "TV Block",
+            "TV Vader"
+        ],
+        "UNIVERSUM": [
+            "Color TV-Multi-Spiel 4010",
+            "Color TV-Multi-Spiel 4014",
+            "Multispiel 2006",
+            "TV Multi-Spiel (Handheld)",
+            "TV-Spiel 1004"
+        ],
+        "RCA": [
+            "Cosmac Microtutor",
+            "Cosmac VIP",
+            "Fred 2",
+            "Studio II",
+            "SuperElf"
+        ],
+        "Ice-Felix": [
+            "Felix-PC",
+            "HC-2000",
+            "HC-85",
+            "HC-91",
+            "M18 series"
+        ],
+        "Xerox": [
+            "6085",
+            "8 \/ 16",
+            "820",
+            "820-II",
+            "860",
+            "Sunrise 1800 \/ 1805"
+        ],
+        "Franklin": [
+            "ACE 100",
+            "ACE 1000",
+            "ACE 1200",
+            "ACE 2000",
+            "ACE 500",
+            "PC 5000, 6000, 8000"
+        ],
+        "Cromemco": [
+            "C10",
+            "System I \/ II \/ III",
+            "System V",
+            "Systeme 0",
+            "Z-1",
+            "Z-2"
+        ],
+        "Micronique": [
+            "HECTOR HRX",
+            "HECTOR MX",
+            "Hector XT",
+            "Victor \/ Hector  2HR \/ 2HR +",
+            "Victor \/ Hector 1",
+            "Victor Lambda"
+        ],
+        "Mitsubishi": [
+            "ML-F110 \/ ML-F120",
+            "ML-F48 \/ ML-F80",
+            "ML-FX1 \/ FX2",
+            "ML-G10",
+            "Multi 16",
+            "Multi 8"
+        ],
+        "Triumph Adler": [
+            "ALPHATRONIC PC",
+            "Alphatronic P-30 \/ P-40",
+            "Alphatronic PC models P1\/P2",
+            "Alphatronic PC models P3 \/ P4",
+            "TA-1000",
+            "TA-1100",
+            "TA-1600"
+        ],
+        "OHIO Scientific": [
+            "C2",
+            "CHALLENGER 4P",
+            "CHALLENGER II",
+            "CHALLENGER III",
+            "Challenger 1P",
+            "MODEL 500",
+            "Superboard II"
+        ],
+        "Multitech": [
+            "MPF II",
+            "MPF-1 A\/B",
+            "MPF-1 Plus",
+            "MPF-1\/65",
+            "MPF-I\/88",
+            "MPF-III\/312",
+            "Microkit 09"
+        ],
+        "Hanimex": [
+            "666",
+            "677",
+            "7771",
+            "HMG 2650",
+            "HMG-7900",
+            "PENCIL II",
+            "SD 070 Colour (programmable TV-game console)",
+            "T-338"
+        ],
+        "ACT": [
+            "ACT-800",
+            "Apricot F1",
+            "Apricot F2 \/ F10",
+            "Apricot PC",
+            "Apricot Portable",
+            "Apricot Xen",
+            "Apricot Xi",
+            "QI-300"
+        ],
+        "Nintendo": [
+            "Family Computer Keyboard",
+            "NES",
+            "Nintendo 64",
+            "Racing 112 (model CTG-CR112)",
+            "Super Famicom",
+            "Super Nintendo Entertainment System",
+            "Super Nintendo Entertainment System 2",
+            "TV-Game 6 (model CTG-6V)"
+        ],
+        "Video Technology": [
+            "LASER 100\/110",
+            "LASER 128 \/ 128EX \/ 128EX2",
+            "LASER 200 \/ 210",
+            "LASER 2001",
+            "LASER 3000",
+            "LASER 310",
+            "Laser 350 \/ 500 \/ 700 \/ 750",
+            "Laser 50 \/ One"
+        ],
+        "Magnavox": [
+            "Odyssey",
+            "Odyssey 100",
+            "Odyssey 200",
+            "Odyssey 2000",
+            "Odyssey 300",
+            "Odyssey 400",
+            "Odyssey 500",
+            "Odyssey\u00b2"
+        ],
+        "Microdigital": [
+            "TK EXTended",
+            "TK-2000",
+            "TK-3000",
+            "TK-82",
+            "TK-83",
+            "TK-85",
+            "TK-90X",
+            "Tk-95"
+        ],
+        "MBO": [
+            "Tele-Ball",
+            "Tele-Ball II",
+            "Tele-Ball III",
+            "Tele-Ball IV",
+            "Tele-Ball IX",
+            "Tele-Ball VII",
+            "Tele-Ball VIII",
+            "Teleball-Cassetten-Game"
+        ],
+        "Digital Equipment Corporation": [
+            "300 Professional series",
+            "4000 AXP",
+            "DE 68DT",
+            "DECMATE II",
+            "DECmate III",
+            "PDP-8",
+            "RAINBOW 100",
+            "VT-180",
+            "VT78"
+        ],
+        "Canon": [
+            "AS-100",
+            "CAT",
+            "CX-1 \/ BX-3",
+            "Object.Station",
+            "V-10",
+            "V-20",
+            "V-25",
+            "V-8",
+            "X-07"
+        ],
+        "Texas Instruments": [
+            "COMPACT COMPUTER 40 (CC40)",
+            "Computer 99\/8",
+            "DS990",
+            "LCM-1001",
+            "Portable Professional Computer (PPC)",
+            "TI 99 \/ 2",
+            "TI 99 \/ 4A",
+            "TI 99 \/ 4A Beige",
+            "TI-55-II"
+        ],
+        "Kaypro": [
+            "2000",
+            "Kaypro 1",
+            "Kaypro 10",
+            "Kaypro 16",
+            "Kaypro 2x",
+            "Kaypro 4",
+            "Kaypro II",
+            "Kaypro IV",
+            "PC &amp; 286i",
+            "Robie"
+        ],
+        "Binatone": [
+            "Colour TV Game (model n\u00b0 01 \/ 4931)",
+            "Colour TV Game 4 plus 2 (model n\u00b0 01 \/ 4850)",
+            "Colour TV Game MK 10 (model n\u00b0 01 \/ 4842)",
+            "Colour TV Game MK 6 (model n\u00b0 01 \/ 4761)",
+            "TV Game Unit (model n\u00b0 01 \/ 4990)",
+            "TV Master 4 plus 2 (model n\u00b0 01 \/ 4869)",
+            "TV Master MK 10 (model n\u00b0 01 \/ 4834)",
+            "TV Master MK 6 (model n\u00b0 01 \/ 4907)",
+            "TV Master MK 8 (model n\u00b0 01 \/ 4823)",
+            "TV Master MK IV (model n\u00b0 01 \/ 4974)"
+        ],
+        "Toshiba": [
+            "HX-10",
+            "HX-20 \/ HX-21 \/ Pasopia IQ",
+            "HX-52",
+            "PASOPIA",
+            "PASOPIA 16 \/ T300 \/ PAP",
+            "PASOPIA 7",
+            "T 100",
+            "T 1200",
+            "T 200",
+            "T100-X  Dynapad"
+        ],
+        "Sord": [
+            "IS 11",
+            "IS-11c",
+            "M 170",
+            "M 5",
+            "M 68 \/ M 68 MX",
+            "M-100ACE",
+            "M203 Mark II",
+            "M223 series",
+            "M23 Mark III",
+            "M343"
+        ],
+        "Sinclair": [
+            "MK 14",
+            "PC 200",
+            "QL (Quantum Leap)",
+            "ZX 80",
+            "ZX 81",
+            "ZX SPECTRUM",
+            "ZX SPECTRUM +2",
+            "ZX SPECTRUM +3",
+            "ZX SPECTRUM 128",
+            "ZX SPECTRUM+"
+        ],
+        "Olivetti": [
+            "A5",
+            "ETS 1010",
+            "M10",
+            "M20",
+            "M24",
+            "P6040",
+            "P6060",
+            "PC 1",
+            "Prodest PC 128",
+            "Prodest PC 128S",
+            "Programma P101\/P102"
+        ],
+        "Hitachi": [
+            "AH-200",
+            "B16 EX",
+            "H1 \/ H1E",
+            "H2",
+            "MB 6892 \/ Basic Master Level-3 Mark-5",
+            "MB-16000",
+            "MB-6880 \/ Basic Master and Basic Master Level 2",
+            "MB-6885 \/ Basic Master Jr",
+            "MB-6890 \/ Basic Master Level 3",
+            "MB-6891 \/ Basic Master Level 3 Mark 2",
+            "S1"
+        ],
+        "Thomson": [
+            "JV1T",
+            "MICROMEGA 32",
+            "MO 5",
+            "MO 6",
+            "MO5 E",
+            "MO5 NR",
+            "TO 7",
+            "TO 7 \/ 70",
+            "TO 8 - TO 8D",
+            "TO 9",
+            "TO 9 PLUS"
+        ],
+        "Panasonic": [
+            "CF-2700",
+            "FH 2000",
+            "FS A1",
+            "FS A1 FX",
+            "FS A1 GT",
+            "FS A1 ST",
+            "FS A1 WX \/ WSX",
+            "FS A1F",
+            "HHC",
+            "JD series",
+            "JR-200U",
+            "Senior Partner"
+        ],
+        "Coleco": [
+            "ADAM",
+            "Colecovision",
+            "Combat!",
+            "Gemini",
+            "Telstar",
+            "Telstar Alpha - Model #6030",
+            "Telstar Arcade",
+            "Telstar Classic - Model #6045",
+            "Telstar Colormatic - Model #6130",
+            "Telstar Colortron",
+            "Telstar Gemini",
+            "Telstar Marksman",
+            "Telstar Ranger"
+        ],
+        "IBM": [
+            "5100",
+            "5120",
+            "5140 Convertible",
+            "AN\/FSQ-7",
+            "Instruments Computer System",
+            "PC - Model 5150",
+            "PC AT",
+            "PC JX",
+            "PC Junior",
+            "PC Portable - Model 5155",
+            "PC XT - Model 5160",
+            "PC XT 286",
+            "PS\/1",
+            "PS\/2 Model 25",
+            "RT (6150)"
+        ],
+        "Hewlett Packard": [
+            "HP-110",
+            "HP-150",
+            "HP-200LX",
+            "HP-5036A",
+            "HP-65",
+            "HP-75C \/ 75D",
+            "HP-85",
+            "HP-86",
+            "HP-87",
+            "HP-9810",
+            "HP-9816",
+            "HP-9825",
+            "HP-9826",
+            "HP-9830",
+            "HP-9836",
+            "INTEGRAL PC"
+        ],
+        "Sanyo": [
+            "MBC 4000 - MBC 4050",
+            "MBC-1000",
+            "MBC-1100 \/ 1150",
+            "MBC-1200 \/ 1250",
+            "MBC-55x",
+            "MPC 100",
+            "PHC 25",
+            "PHC 3000",
+            "PHC-28",
+            "PHC-30",
+            "PHC-33",
+            "Wavy 10 (MPC 10)",
+            "Wavy 23",
+            "Wavy 3",
+            "Wavy 35",
+            "Wavy 70FD"
+        ],
+        "Amstrad": [
+            "464 \/ 6128 Plus",
+            "CPC 464",
+            "CPC 5512",
+            "CPC 6128",
+            "CPC 664",
+            "CSD",
+            "GX 4000",
+            "NC 100",
+            "NC 150",
+            "NC 200",
+            "PC 1512",
+            "PC 1640",
+            "PCW 16",
+            "PCW 8256 \/ 8512",
+            "PCW 9512",
+            "PPC 512 \/ 640",
+            "PenPad"
+        ],
+        "Casio": [
+            "FP 1000 \/ FP 1100",
+            "FP 200",
+            "FP 6000",
+            "FX-700P",
+            "FX-702P",
+            "FX-9000P",
+            "Loopy (My Seal Computer SV-100)",
+            "MX-10 \/ MX-101",
+            "PB-100",
+            "PB-1000",
+            "PB-300",
+            "PB-700",
+            "PB-770",
+            "PV-1000",
+            "PV-16",
+            "PV-2000",
+            "PV-7"
+        ],
+        "Apple": [
+            "APPLE 1",
+            "APPLE II",
+            "APPLE II+",
+            "APPLE III",
+            "APPLE IIc",
+            "APPLE IIc Plus",
+            "APPLE IIe",
+            "APPLE IIe Platinum",
+            "APPLE IIgs",
+            "Apple II clones",
+            "LISA \/ LISA 2 - Mac XL",
+            "MACINTOSH",
+            "MACINTOSH II",
+            "MACINTOSH Plus",
+            "MACINTOSH Portable",
+            "MACINTOSH SE",
+            "MACINTOSH SE 30",
+            "Macintosh Color Classic"
+        ],
+        "Sega": [
+            "Dreamcast",
+            "Game Gear",
+            "Genesis",
+            "Genesis 2",
+            "Genesis 3",
+            "Mark III",
+            "Master System",
+            "Master System II",
+            "Master System III",
+            "Mega Drive",
+            "Mega Drive II",
+            "Nomad",
+            "SC 3000 \/ SC 3000H",
+            "SG-1000",
+            "SG-1000 Mark II",
+            "Saturn",
+            "Teradrive",
+            "Wondermega"
+        ],
+        "Sony": [
+            "Hit-Bit 10",
+            "Hit-Bit 101",
+            "Hit-Bit 20",
+            "Hit-Bit 201",
+            "Hit-Bit 501",
+            "Hit-Bit 55",
+            "Hit-Bit 75",
+            "Hit-Bit F1XD",
+            "Hit-Bit F500",
+            "Hit-Bit F700",
+            "Hit-Bit F9",
+            "Hit-Bit G900F",
+            "PlayStation",
+            "PlayStation 2",
+            "SMC 70",
+            "SMC 70G",
+            "SMC 777 - 777C",
+            "Series 35 Model 10"
+        ],
+        "Acorn Computer": [
+            "A4",
+            "ABC 110",
+            "ABC 210 \/ Cambridge Workstation",
+            "ABC 310",
+            "ATOM",
+            "Archimedes",
+            "Archimedes A3000",
+            "Archimedes A3010",
+            "Archimedes A3020",
+            "Archimedes A4000",
+            "Archimedes A5000",
+            "Archimedes A7000",
+            "BBC Master",
+            "BBC Master AIV",
+            "BBC Master Compact",
+            "BBC Model A \/ B \/ B+",
+            "Electron",
+            "Risc PC",
+            "System 1"
+        ],
+        "Philips": [
+            "CD-i 210",
+            "Las Vegas ES-2208",
+            "N20",
+            "NMS-801",
+            "Odyssey 2001",
+            "Odyssey 2100",
+            "P\/330",
+            "P2000 T\/M",
+            "P2000C",
+            "P3000",
+            "P5000 series",
+            "Tele-Spiel ES-2201",
+            "VG 5000",
+            "VG 8000 \/ 8010",
+            "VG 8020",
+            "VG 8235",
+            "Videopac C52",
+            "Videopac G7000",
+            "Videopac G7200"
+        ],
+        "Fujitsu": [
+            "FM 11 AD",
+            "FM 11 AD 2",
+            "FM 11 BS",
+            "FM 11 EX",
+            "FM 16 Beta",
+            "FM 16 Pi",
+            "FM 7",
+            "FM 77 AV",
+            "FM 77 AV 20",
+            "FM 77 AV 40",
+            "FM 77 AV EX",
+            "FM 77 AV SX",
+            "FM 77 Level 2",
+            "FM 77 Level 4",
+            "FM 8",
+            "FM New 7",
+            "FM R 70",
+            "FM Towns",
+            "FM Towns II",
+            "FM Towns II EX",
+            "Micro 16s"
+        ],
+        "Tandy Radio Shack": [
+            "1000",
+            "1000 EX",
+            "1000 HX",
+            "1000 SL &amp; SL\/2",
+            "1000 SX",
+            "1000 TX",
+            "1400 LT\/FD\/HD",
+            "2000",
+            "Color Computer",
+            "Color Computer 2",
+            "Color Computer 3",
+            "MC 10",
+            "Portable Wordprocessor WP-2 \/ WP-3",
+            "TRS 80 MODEL 16",
+            "TRS 80 MODEL 4",
+            "TRS 80 MODEL I",
+            "TRS 80 MODEL II",
+            "TRS 80 MODEL III",
+            "TRS 80 Model 4P",
+            "TRS 80 PC-1",
+            "TRS 80 PC-2",
+            "TRS 80 PC-4",
+            "TRS-80 Model 100 \/ 102",
+            "TRS-80 Model 12",
+            "TRS-80 Model 200",
+            "TRS-80 Model 600"
+        ],
+        "NEC": [
+            "APC",
+            "APC III",
+            "Compo BS\/80",
+            "CoreGrafx",
+            "CoreGrafx II",
+            "PC 6001",
+            "PC 6001 MK 2",
+            "PC 6001 MK 2 SR",
+            "PC 6601",
+            "PC 8001",
+            "PC 8001 MK 2",
+            "PC 8001 MK 2 SR",
+            "PC 8201A",
+            "PC 8401A",
+            "PC 8801",
+            "PC 8801 FA",
+            "PC 8801 FE",
+            "PC 88VA",
+            "PC 9801 E",
+            "PC 9801 F",
+            "PC Engine",
+            "PC Engine Duo",
+            "PC Engine Duo R",
+            "PC Engine Duo RX",
+            "PC Engine Super Grafx",
+            "PC-88 VA 2",
+            "PC-FX",
+            "TK 80",
+            "TurboDuo",
+            "TurboGrafx-16\/Turbografx"
+        ],
+        "Atari": [
+            "1200 XL",
+            "130 ST - 260 ST",
+            "1400 XL",
+            "1450 XLD",
+            "400",
+            "4160 Ste",
+            "520 \/ 1040 STe",
+            "520 \/ 1040 STf \/ STfm",
+            "520 ST \/ ST+ \/ STM",
+            "5200 SuperSystem",
+            "600 \/ 800 XL",
+            "65 \/ 130 XE",
+            "65XEP \/ 65XEM",
+            "7800 ProSystem",
+            "800",
+            "800XE",
+            "Abaq ATW Transputer 800",
+            "FALCON 030",
+            "FALCON 030 MicroBox",
+            "FX-1 Sparrow",
+            "Jaguar",
+            "Lynx\/Lynx II",
+            "MEGA ST",
+            "MEGA STe",
+            "PC",
+            "PONG (Model C-100)",
+            "PORTFOLIO",
+            "ST BOOK",
+            "STACY",
+            "STYLUS - ST PAD",
+            "SUPER PONG (Model C-140)",
+            "Stunt Cycle (model SC-450)",
+            "TT 030",
+            "Ultra Pong Doubles (Model C-402)",
+            "VCS 2600",
+            "Video Pinball (Model C-380)"
+        ],
+        "Commodore": [
+            "AMIGA 1000",
+            "AMIGA 1500",
+            "AMIGA 2000",
+            "AMIGA 2500",
+            "AMIGA 3000",
+            "AMIGA 4000",
+            "Amiga 1200",
+            "Amiga 500",
+            "Amiga 500 Plus",
+            "Amiga 600",
+            "Amiga 600HD",
+            "Amiga CD32",
+            "C116",
+            "C128 - C128D",
+            "C16",
+            "C64",
+            "C64 Aldi",
+            "C64 GS (Games System)",
+            "C64 Golden Jubilee",
+            "C64C",
+            "C64G",
+            "C65",
+            "CBM 500 \/ 600 Series",
+            "CBM 700 Series",
+            "CBM 80xx",
+            "CDTV",
+            "Educator 64",
+            "LCD",
+            "MAX Machine \/ Ultimax \/ VC-10",
+            "PC Compatible systems",
+            "PET \/ CBM 40xx",
+            "PET 200",
+            "PET 2001",
+            "PET 30xx",
+            "PLUS 4 - C232\/264\/364",
+            "SX\/DX 64 - Executive computer",
+            "SuperPet",
+            "TV Game 2000K",
+            "VIC 20",
+            "VIC-1001"
+        ],
+        "Sharp": [
+            "AX 286",
+            "MZ 2000",
+            "MZ 2200",
+            "MZ 2500",
+            "MZ 2800",
+            "MZ 40K",
+            "MZ 5500 - 5600",
+            "MZ 700",
+            "MZ 800 - MZ 1500",
+            "MZ 80A - MZ 1200",
+            "MZ 80B",
+            "MZ 80C",
+            "MZ 80K",
+            "MZ-3500",
+            "PC-1210 \/ 1211 \/ 1212",
+            "PC-1245",
+            "PC-1250 PC-1251",
+            "PC-1260  PC-1261  PC-1262",
+            "PC-1401  PC-1402  PC-1421",
+            "PC-1403 (H)",
+            "PC-1500 \/ PC-1500A",
+            "PC-2500",
+            "PC-3101",
+            "PC-3201",
+            "PC-5000",
+            "PC-7000",
+            "SM-B-80TC",
+            "SM-B-80TE",
+            "WD 2000",
+            "X1 (CZ-800C)",
+            "X1 Turbo",
+            "X1 Turbo III",
+            "X1 Turbo Z (CZ-880C)",
+            "X1 Turbo Z III",
+            "X1-C (CZ-801C)",
+            "X1-CK (CZ-804C)",
+            "X1-CS (CZ-803C)",
+            "X1-D (CZ-802C)",
+            "X68000",
+            "X68000 ACE \/ ACE HD",
+            "X68000 Expert",
+            "X68000 Expert II",
+            "X68000 Pro",
+            "X68000 Pro II",
+            "X68000 Super \/ Super HD",
+            "X68000 XVI",
+            "X68000 XVI Compact",
+            "X68030 \/ 68030 Compact"
+        ]
+    },
+    "Redump": {
+        "Panasonic": [
+            "3DO Interactive Multiplayer"
+        ],
+        "Philips": [
+            "CD-i"
+        ],
+        "Incredible Technologies": [
+            "Eagle"
+        ],
+        "Fujitsu": [
+            "FM-Towns"
+        ],
+        "ZAPiT Games": [
+            "Game Wave Family Entertainment System"
+        ],
+        "Atari": [
+            "Jaguar CD Interactive Multimedia System"
+        ],
+        "Tomy": [
+            "Kiss-Site"
+        ],
+        "Apple": [
+            "Macintosh"
+        ],
+        "VM Labs": [
+            "NUON"
+        ],
+        "SNK": [
+            "Neo Geo CD"
+        ],
+        "IBM": [
+            "PC compatible"
+        ],
+        "funworld": [
+            "Photo Play"
+        ],
+        "Sony": [
+            "PlayStation Portable"
+        ],
+        "TAB-Austria": [
+            "Quizard"
+        ],
+        "Namco": [
+            "System 246"
+        ],
+        "Namco - Sega - Nintendo": [
+            "Triforce"
+        ],
+        "VTech": [
+            "V.Flash & V.Smile Pro"
+        ],
+        "Memorex": [
+            "Visual Information System"
+        ],
+        "Mattel": [
+            "Fisher-Price iXL",
+            "HyperScan"
+        ],
+        "Bandai": [
+            "Pippin",
+            "Playdia Quick Interactive System"
+        ],
+        "Commodore": [
+            "Amiga CD",
+            "Amiga CD32",
+            "Amiga CDTV"
+        ],
+        "Konami": [
+            "FireBeat",
+            "System GV",
+            "e-Amusement"
+        ],
+        "NEC": [
+            "PC Engine CD & TurboGrafx CD",
+            "PC-88 series",
+            "PC-98 series",
+            "PC-FX & PC-FXGA"
+        ],
+        "Sega": [
+            "Chihiro",
+            "Lindbergh",
+            "Naomi",
+            "Naomi 2",
+            "Dreamcast",
+            "Mega CD & Sega CD",
+            "Saturn"
+        ]
+    },
+    "TOSEC": {
+        "AT&T": [
+            "3B20"
+        ],
+        "Enterprise": [
+            "64 & 128"
+        ],
+        "Raytheon": [
+            "704"
+        ],
+        "Terak": [
+            "8510A & 8600"
+        ],
+        "Rockwell": [
+            "AIM65"
+        ],
+        "Alspa Computers": [
+            "ALSPA"
+        ],
+        "Technosys": [
+            "Aamber Pegasus"
+        ],
+        "Entex": [
+            "Adventure Vision"
+        ],
+        "Patisonic": [
+            "Aleste 520EX"
+        ],
+        "MITS": [
+            "Altair 8800"
+        ],
+        "ACT": [
+            "Apricot PC-Xi"
+        ],
+        "Radica": [
+            "Arcade Legends & Play TV Legends"
+        ],
+        "Emerson": [
+            "Arcadia 2001"
+        ],
+        "Otrona": [
+            "Attache"
+        ],
+        "Burroughs": [
+            "B1000 Series"
+        ],
+        "Ferguson": [
+            "Big Board II"
+        ],
+        "Control Data Corporation": [
+            "CDC110"
+        ],
+        "Fairlight": [
+            "CMI Series III"
+        ],
+        "VEB Mikroelektronik Erfurt": [
+            "Chess-Master Diamond"
+        ],
+        "Yamaha": [
+            "Copera"
+        ],
+        "NCR": [
+            "Decision Mate V"
+        ],
+        "Micro Craft": [
+            "Dimension 68000"
+        ],
+        "University of Cambridge": [
+            "EDSAC"
+        ],
+        "EACA": [
+            "EG2000 Colour Genie"
+        ],
+        "Motorola": [
+            "EXORciser"
+        ],
+        "Tatung": [
+            "Einstein TC-01"
+        ],
+        "Didact": [
+            "Esselte 100"
+        ],
+        "Fuji Photo Film": [
+            "FUJIC"
+        ],
+        "Interact": [
+            "Family Computer"
+        ],
+        "Game Park": [
+            "GP32"
+        ],
+        "Bit Corporation": [
+            "Gamate"
+        ],
+        "Hartung": [
+            "Game Master"
+        ],
+        "Nascom": [
+            "I & II"
+        ],
+        "Kaypro": [
+            "II"
+        ],
+        "Intec": [
+            "Interact"
+        ],
+        "Jupiter Cantab": [
+            "Jupiter Ace"
+        ],
+        "Keio University": [
+            "K-1"
+        ],
+        "Tiki Data": [
+            "Kontiki-100 & Tiki-100"
+        ],
+        "Pioneer": [
+            "LaserActive"
+        ],
+        "LeapFrog": [
+            "Leapster"
+        ],
+        "AMPRO Computers": [
+            "LittleBoard Z80"
+        ],
+        "Camputers": [
+            "Lynx"
+        ],
+        "Sord": [
+            "M5"
+        ],
+        "Sanyo": [
+            "MBC-550 & 555"
+        ],
+        "Compugraphic": [
+            "MCS-10"
+        ],
+        "Zilog": [
+            "MCZ-2"
+        ],
+        "Memotech": [
+            "MTX"
+        ],
+        "Front Fareast": [
+            "Magic Drive"
+        ],
+        "Creatronic": [
+            "Mega Duck & Cougar Boy"
+        ],
+        "Applied Technology": [
+            "MicroBee"
+        ],
+        "Nuclear Data": [
+            "ND4410 & ND4420"
+        ],
+        "Matsushita": [
+            "National JR 200"
+        ],
+        "RM": [
+            "Nimbus PC"
+        ],
+        "Magnavox": [
+            "Odyssey2"
+        ],
+        "AEG": [
+            "Olympia Olytext 20"
+        ],
+        "PEL Varazdin": [
+            "Orao"
+        ],
+        "OCC": [
+            "Osborne 1 & Osborne Executive"
+        ],
+        "Tsukuda Original": [
+            "Othello Multivision"
+        ],
+        "Aquaplus": [
+            "P-ECE"
+        ],
+        "University of Tokyo": [
+            "PC-1"
+        ],
+        "Advanced Computer Design": [
+            "PDQ-3"
+        ],
+        "Elektronska Industrija Nis": [
+            "PECOM 32 & 64"
+        ],
+        "Tesla": [
+            "PMD 85"
+        ],
+        "Epson": [
+            "PX-8, HC-88 & Geneva"
+        ],
+        "OpenPandora": [
+            "Pandora"
+        ],
+        "Toshiba": [
+            "Pasopia"
+        ],
+        "Sony": [
+            "PocketStation"
+        ],
+        "Microkey": [
+            "Primo"
+        ],
+        "AlphaSmart": [
+            "Pro"
+        ],
+        "Bally": [
+            "Professional Arcade & Astrocade"
+        ],
+        "Megatel": [
+            "Quark"
+        ],
+        "Spectravideo": [
+            "SVI-318 & SVI-328"
+        ],
+        "MGT": [
+            "Sam Coupe"
+        ],
+        "Fidelity": [
+            "Sensory Chess Challenger"
+        ],
+        "UNIVAC": [
+            "Series 90"
+        ],
+        "PTC": [
+            "Sol Terminal Computer SOL-20"
+        ],
+        "Exidy": [
+            "Sorcerer"
+        ],
+        "Funtech": [
+            "Super A'can"
+        ],
+        "Epoch": [
+            "Super Cassette Vision"
+        ],
+        "Watara": [
+            "Supervision"
+        ],
+        "Videoton": [
+            "TV-Computer"
+        ],
+        "Hawthorne Technology": [
+            "TinyGiant 68000 Single Board Computer"
+        ],
+        "Tomy": [
+            "Tutor & Pyuuta"
+        ],
+        "Fairchild": [
+            "VES & Channel F"
+        ],
+        "Wang": [
+            "VS"
+        ],
+        "GCE": [
+            "Vectrex"
+        ],
+        "TRQ": [
+            "Video Computer H-21"
+        ],
+        "SABA": [
+            "Videoplay"
+        ],
+        "Visual Technology": [
+            "Visual 1050"
+        ],
+        "Infocom": [
+            "Z-Machine"
+        ],
+        "Telcon": [
+            "Zorba"
+        ],
+        "Convergent Technologies": [
+            "AWS NGEN Workstation",
+            "MiniFrame"
+        ],
+        "NorthStar": [
+            "Advantage",
+            "Horizon"
+        ],
+        "Matra Hachette": [
+            "Alice 32",
+            "Alice 90"
+        ],
+        "Elektronika": [
+            "BK-0010-0011M",
+            "BK-0011-411"
+        ],
+        "HomeLab": [
+            "BraiLab",
+            "HomeLab"
+        ],
+        "Amstrad": [
+            "CPC",
+            "PCW"
+        ],
+        "Coleco": [
+            "ColecoVision",
+            "ColecoVision ADAM"
+        ],
+        "Cybiko": [
+            "Cybiko",
+            "Xtreme"
+        ],
+        "Exelvision": [
+            "Exeltel",
+            "EXL100"
+        ],
+        "Galaksija": [
+            "Galaksija",
+            "Galaksija Plus"
+        ],
+        "Tiger Electronics": [
+            "Game.com",
+            "K28 Talking Learning Computer"
+        ],
+        "TimeTop": [
+            "GameKing",
+            "GameKing 3"
+        ],
+        "APF": [
+            "Imagination Machine",
+            "M-1000"
+        ],
+        "Tangerine": [
+            "Microtan 65",
+            "Oric-1 & Oric Atmos"
+        ],
+        "SNK": [
+            "Neo-Geo Pocket",
+            "Neo-Geo Pocket Color"
+        ],
+        "Bandai": [
+            "WonderSwan",
+            "WonderSwan Color"
+        ],
+        "Bondwell": [
+            "12",
+            "14",
+            "2"
+        ],
+        "Tektronix": [
+            "405x",
+            "4100 Series",
+            "4400 Series"
+        ],
+        "RCA": [
+            "Chip-8",
+            "Studio II",
+            "Superchip"
+        ],
+        "Dragon Data": [
+            "Dragon",
+            "Dragon Alpha",
+            "Dragon Beta"
+        ],
+        "Fujitsu": [
+            "FM Towns",
+            "FM-7",
+            "FM77-AV"
+        ],
+        "Gould": [
+            "K105-D Logic Analyzer",
+            "K115 Logic Analyzer",
+            "K450 Logic Analyzer"
+        ],
+        "ETL": [
+            "Mark II",
+            "Mark IV",
+            "Mark IV A"
+        ],
+        "Philips": [
+            "P2000",
+            "VG 5000",
+            "Videopac+"
+        ],
+        "Sinclair": [
+            "QL",
+            "ZX Spectrum",
+            "ZX81"
+        ],
+        "TeleVideo Systems": [
+            "TS-802 & TS-802H",
+            "TS-803, TS-803H & TPC-1",
+            "TS-806"
+        ],
+        "IBM": [
+            "1620",
+            "PC Compatibles",
+            "PCjr",
+            "System-360"
+        ],
+        "Altos Computer Systems": [
+            "ACS-186, 586, 686 & 986",
+            "ACS-8000",
+            "ACS-8600",
+            "Series 5"
+        ],
+        "Mattel": [
+            "Aquarius",
+            "Intellivision",
+            "Intellivision ECS",
+            "Juice Box"
+        ],
+        "Casio": [
+            "CFX-9850",
+            "Loopy",
+            "PB-1000",
+            "PV-2000"
+        ],
+        "Robotron": [
+            "HC900, KC85 2, KC85 3 & KC85 4",
+            "KC Compact",
+            "Z1013",
+            "Z9001 & KC85 1"
+        ],
+        "Thomson": [
+            "MO5",
+            "MO6",
+            "TO7",
+            "TO8, TO8D, TO9, TO9+"
+        ],
+        "MSX": [
+            "MSX",
+            "MSX2",
+            "MSX2+",
+            "TurboR"
+        ],
+        "Luxor": [
+            "ABC 1600",
+            "ABC 80",
+            "ABC 800",
+            "ABC 806",
+            "Video Entertainment System"
+        ],
+        "Acorn": [
+            "Archimedes",
+            "Atom",
+            "BBC",
+            "Electron",
+            "FileStore E01"
+        ],
+        "Sharp": [
+            "MZ-700",
+            "MZ-800 & MZ-1500",
+            "X1",
+            "X1 Turbo",
+            "X68000"
+        ],
+        "Apple": [
+            "1",
+            "II",
+            "IIGS",
+            "III",
+            "Lisa",
+            "Macintosh"
+        ],
+        "Xerox": [
+            "1108",
+            "1186",
+            "6085",
+            "820",
+            "820-II",
+            "860"
+        ],
+        "Hewlett-Packard": [
+            "16500A",
+            "4951C & 4952A",
+            "HP48",
+            "HP49",
+            "HP85",
+            "HP9835A-B"
+        ],
+        "Radio-86RK": [
+            "Apogej BK-01",
+            "Mikro-80",
+            "Mikrosha",
+            "Partner-01.01",
+            "Radio-86RK",
+            "YuT-88"
+        ],
+        "Tandy Radio Shack": [
+            "TRS-80 Color Computer",
+            "TRS-80 MC-10",
+            "TRS-80 Model 100",
+            "TRS-80 Model 4",
+            "TRS-80 Model I",
+            "TRS-80 Model III"
+        ],
+        "Atari": [
+            "2600 & VCS",
+            "5200",
+            "7800",
+            "8bit",
+            "Jaguar",
+            "Lynx",
+            "ST"
+        ],
+        "VTech": [
+            "Genius",
+            "Genius Junior Movie",
+            "Genius Leader 2000",
+            "Genius Leader 6000SL",
+            "Genius Leader Color",
+            "Laser 200",
+            "Laser 2001 & CreatiVision",
+            "Laser 3000 & Dick Smith CAT",
+            "Laser 310"
+        ],
+        "NEC": [
+            "Advanced Personal Computer",
+            "PC-6001",
+            "PC-8001",
+            "PC-8201",
+            "PC-8801",
+            "PC-88VA",
+            "PC-9801",
+            "PC-9821",
+            "PC-Engine & TurboGrafx-16",
+            "SuperGrafx"
+        ],
+        "Commodore": [
+            "Amiga",
+            "BX256-80HP",
+            "C128",
+            "C16, C116 & Plus-4",
+            "C64",
+            "C64DTV",
+            "C65",
+            "MAX Machine & VIC10",
+            "PET",
+            "VIC20"
+        ],
+        "Nintendo": [
+            "64",
+            "64DD",
+            "Famicom & Entertainment System",
+            "Famicom Disk System",
+            "Game Boy",
+            "Game Boy Advance",
+            "Game Boy Color",
+            "Play-Yan",
+            "Pokemon Mini",
+            "Super Famicom & Super Entertainment System",
+            "Virtual Boy"
+        ],
+        "Texas Instruments": [
+            "CC-40",
+            "TI-73",
+            "TI-80",
+            "TI-81",
+            "TI-82",
+            "TI-83",
+            "TI-85",
+            "TI-86",
+            "TI-89",
+            "TI-92",
+            "TI-99 4A"
+        ],
+        "Sega": [
+            "32X",
+            "Advanced Pico Beena",
+            "Computer 3000",
+            "Game 1000",
+            "Game Gear",
+            "Mark III & Master System",
+            "Mega Drive & Genesis",
+            "Mega-CD & Sega CD",
+            "Pico",
+            "Super Control Station",
+            "Visual Memory System",
+            "WonderMega"
+        ],
+        "DEC": [
+            "AlphaServer",
+            "DECPx AXP 150",
+            "PDP-1",
+            "PDP-10",
+            "PDP-11",
+            "PDP-12",
+            "PDP-15",
+            "PDP-7",
+            "PDP-8",
+            "PDP-9",
+            "Rainbow 100",
+            "VT-180"
+        ]
+    },
+    "TOSEC-ISO": {
+        "3DO": [
+            "3DO Interactive Multiplayer"
+        ],
+        "Acorn": [
+            "Archimedes"
+        ],
+        "American Laser Games": [
+            "CD-ROM System"
+        ],
+        "Philips": [
+            "CD-i"
+        ],
+        "Capcom": [
+            "CP System III"
+        ],
+        "Incredible Technologies": [
+            "Eagle"
+        ],
+        "Fujitsu": [
+            "FM Towns"
+        ],
+        "ZAPiT Games": [
+            "Game Wave Family Entertainment System"
+        ],
+        "Nintendo": [
+            "GameCube"
+        ],
+        "Mattel": [
+            "HyperScan"
+        ],
+        "Atari": [
+            "Jaguar CD"
+        ],
+        "Tomy": [
+            "KISS-Site"
+        ],
+        "Apple": [
+            "Macintosh"
+        ],
+        "VM Labs": [
+            "Nuon"
+        ],
+        "IBM": [
+            "PC Compatibles"
+        ],
+        "VTech": [
+            "V.Flash Home Edutainment System"
+        ],
+        "Memorex": [
+            "Video Information System"
+        ],
+        "Sinclair": [
+            "ZX Spectrum"
+        ],
+        "SNK": [
+            "Hyper Neo-Geo 64",
+            "Neo-Geo CD"
+        ],
+        "Bandai": [
+            "Pippin @World & Pippin Atmark",
+            "Playdia"
+        ],
+        "Sony": [
+            "PlayStation",
+            "PlayStation 2"
+        ],
+        "Konami": [
+            "Bemani System 573 Analog",
+            "Bemani System 573 Digital",
+            "System 573"
+        ],
+        "NEC": [
+            "PC-Engine CD & TurboGrafx-16 CD",
+            "PC-FX",
+            "PC-FXGA"
+        ],
+        "Commodore": [
+            "Amiga",
+            "Amiga CD32",
+            "Amiga CDTV",
+            "C64"
+        ],
+        "Sega": [
+            "32X",
+            "Chihiro",
+            "Dreamcast",
+            "Mega-CD & Sega CD",
+            "NAOMI",
+            "NAOMI 2",
+            "Saturn",
+            "WonderMega"
+        ]
+    },
+    "TOSEC-PIX": {
+        "3DO": [
+            "3DO Interactive Multiplayer"
+        ],
+        "Technosys": [
+            "Aamber Pegasus"
+        ],
+        "Entex": [
+            "Adventure Vision"
+        ],
+        "Philips": [
+            "CD-i"
+        ],
+        "Canon": [
+            "Cat"
+        ],
+        "Dragon Data": [
+            "Dragon"
+        ],
+        "University of Cambridge": [
+            "EDSAC"
+        ],
+        "EACA": [
+            "EG2000 Colour Genie"
+        ],
+        "Jupiter Cantab": [
+            "Jupiter Ace"
+        ],
+        "Applied Technology": [
+            "MicroBee"
+        ],
+        "Matsushita": [
+            "National JR-100"
+        ],
+        "SNK": [
+            "Neo-Geo AES"
+        ],
+        "Casio": [
+            "PB-1000"
+        ],
+        "MSX": [
+            "Palcom"
+        ],
+        "Bandai": [
+            "Playdia"
+        ],
+        "iQue": [
+            "Player"
+        ],
+        "Microkey": [
+            "Primo"
+        ],
+        "Bally": [
+            "Professional Arcade & Astrocade"
+        ],
+        "Exidy": [
+            "Sorcerer"
+        ],
+        "Dick Smith": [
+            "System 80"
+        ],
+        "Tandy Radio Shack": [
+            "TRS-80 Color Computer"
+        ],
+        "VTech": [
+            "V.Flash Home Edutainment System"
+        ],
+        "Fairchild": [
+            "VES & Channel F"
+        ],
+        "Sinclair": [
+            "ZX Spectrum"
+        ],
+        "HomeLab": [
+            "BraiLab",
+            "HomeLab"
+        ],
+        "Coleco": [
+            "ColecoVision",
+            "ColecoVision ADAM"
+        ],
+        "Mattel": [
+            "HyperScan",
+            "Intellivision"
+        ],
+        "APF": [
+            "Imagination Machine",
+            "PeCos One"
+        ],
+        "Magnavox": [
+            "Odyssey",
+            "Odyssey2"
+        ],
+        "IBM": [
+            "PC Compatibles",
+            "PCjr"
+        ],
+        "Texas Instruments": [
+            "TI-73",
+            "TI-99 4A"
+        ],
+        "ACT": [
+            "Apricot",
+            "Apricot F1",
+            "Apricot Portable"
+        ],
+        "Amstrad": [
+            "CPC",
+            "GX4000",
+            "PCW"
+        ],
+        "NEC": [
+            "PC-Engine & TurboGrafx-16",
+            "PC-Engine CD & TurboGrafx-16 CD",
+            "PC-FX"
+        ],
+        "Microsoft": [
+            "Xbox",
+            "Xbox 360",
+            "Xbox One"
+        ],
+        "Franklin": [
+            "ACE 100",
+            "ACE 1000",
+            "ACE 2000",
+            "ACE 500"
+        ],
+        "Acorn": [
+            "Archimedes",
+            "Atom",
+            "BBC",
+            "Electron",
+            "System 1"
+        ],
+        "Sony": [
+            "PlayStation",
+            "PlayStation 2",
+            "PlayStation 3",
+            "PlayStation 4",
+            "PlayStation Portable"
+        ],
+        "Apple": [
+            "1",
+            "II",
+            "IIGS",
+            "III",
+            "iPad",
+            "Lisa",
+            "Macintosh"
+        ],
+        "Atari": [
+            "2600 & VCS",
+            "5200",
+            "7800",
+            "8bit",
+            "Jaguar",
+            "Jaguar CD",
+            "Lynx",
+            "ST"
+        ],
+        "Commodore": [
+            "Amiga",
+            "Amiga CD32",
+            "Amiga CDTV",
+            "C128",
+            "C16, C116 & Plus-4",
+            "C64",
+            "PET",
+            "VIC20"
+        ],
+        "Sega": [
+            "32X",
+            "Computer 3000",
+            "Dreamcast",
+            "Game Gear",
+            "Mark III & Master System",
+            "Mega Drive & Genesis",
+            "Mega-CD & Sega CD",
+            "Pico",
+            "Saturn"
+        ],
+        "Nintendo": [
+            "3DS",
+            "64",
+            "64DD",
+            "DS",
+            "Famicom & Entertainment System",
+            "Game Boy Advance",
+            "Super Famicom & Super Entertainment System",
+            "Virtual Boy",
+            "Wii",
+            "Wii U"
+        ]
+    }
+}

@@ -3,14 +3,14 @@
 * generates console/composer manufacturer - platform mappings 
 */
 
-require_once __DIR__.'/../../bootstrap.php';
+require_once __DIR__.'/../bootstrap.php';
 
 function launchbox() {
 	/**
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	$rows = $db->query("select Manufacturer, Name from launchbox_platforms");
+	$rows = $db->query("select Manufacturer, Name from launchbox_platforms order by Manufacturer, Name");
 	$platforms = [];
 	foreach ($rows as $row) {
 		$platform = trim($row['Name']);
@@ -20,6 +20,7 @@ function launchbox() {
 		if (!in_array($platform, $platforms[$manufacturer]))
 			$platforms[$manufacturer][] = $platform;
 	}
+	asort($platforms);
 	return $platforms;
 }
 
@@ -28,7 +29,7 @@ function thegamesdb() {
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	$rows = $db->query("select manufacturer, name from launchbox_platforms");
+	$rows = $db->query("select manufacturer, name from launchbox_platforms order by manufacturer, name");
 	$platforms = [];
 	foreach ($rows as $row) {
 		$platform = trim($row['name']);
@@ -38,6 +39,7 @@ function thegamesdb() {
 		if (!in_array($platform, $platforms[$manufacturer]))
 			$platforms[$manufacturer][] = $platform;
 	}
+	asort($platforms);
 	return $platforms;
 }
 
@@ -46,7 +48,7 @@ function oldcomputers() {
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	$rows = $db->query("select name, manufacturer from oldcomputers_platforms");
+	$rows = $db->query("select name, manufacturer from oldcomputers_platforms order by manufacturer, name");
 	$platforms = [];
 	foreach ($rows as $row) {
 		$platform = $row['name'];
@@ -56,6 +58,7 @@ function oldcomputers() {
 		if (!in_array($platform, $platforms[$manufacturer]))
 			$platforms[$manufacturer][] = $platform;
 	}
+	asort($platforms);
 	return $platforms;
 }
 
@@ -64,7 +67,7 @@ function redump() {
 	* @var \Workerman\MySQL\Connection
 	*/
 	global $db;
-	$rows = $db->column("select name from dat_files where type='Redump'");
+	$rows = $db->column("select name from dat_files where type='Redump' order by name");
 	$platforms = [];
 	foreach ($rows as $name) {
 		$name = preg_replace('/^Arcade - /muU', '', $name);
@@ -75,10 +78,9 @@ function redump() {
 			$platform = substr($name, strrpos($name, ' - ') + strlen(' - '));
 			if (!in_array($platform, $platforms[$manufacturer]))
 				$platforms[$manufacturer][] = $platform;
-			
 		}
-		
 	}
+	asort($platforms);
 	return $platforms;
 }
 
@@ -103,9 +105,11 @@ function tosec($type) {
 		if (!in_array($platform, $platforms[$manufacturer]))
 			$platforms[$manufacturer][] = $platform;
 	}
+	asort($platforms);
 	return $platforms;
 }
 
+$dataDir = '/storage/local/ConSolo/json';
 $sources = [];
 $sources['LaunchBox'] = launchbox();
 $sources['TheGamesDB'] = thegamesdb();
@@ -115,4 +119,7 @@ tosec_prepare();
 foreach (['TOSEC', 'TOSEC-ISO', 'TOSEC-PIX'] as $type)
 	$sources[$type] = tosec($type);
 tosec_cleanup();
-echo json_encode($sources, JSON_PRETTY_PRINT);
+$json = json_encode($sources, JSON_PRETTY_PRINT);
+echo $json.PHP_EOL;
+file_put_contents($dataDir.'/platform_manufacturers.json', $json);
+

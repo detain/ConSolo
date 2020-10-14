@@ -91,6 +91,7 @@ $mediaTypes = [
 	'ROM',
 ];
 $json = json_decode(file_get_contents(__DIR__.'/../../json/platforms.json'), true);
+$platform_manufacturers = json_decode(file_get_contents(__DIR__.'/../../json/platform_manufacturers.json'), true);
 $platformSrc = [];
 $platformAlt = [];
 $platforms = [];
@@ -135,6 +136,42 @@ foreach ($rows as $platform) {
 		}		
 	}
 }
+$dataDir = '/storage/local/ConSolo/json';
+$silentSources = ['OldComputers'];
+foreach ($platform_manufacturers as $source => $manufacturers) {
+	foreach ($manufacturers as $manufacturer => $sourcePlatforms) {
+		foreach ($sourcePlatforms as $idx => $platform) {
+			if (in_array($source, ['TheGamesDB', 'LaunchBox'])) {
+				// the platforms for these often include the manufacturer name already
+				if (!array_key_exists($manufacturer.' '.$platform, $platformAlt)) {
+					if (!array_key_exists($platform, $platformAlt)) {
+						if (!in_array($source, $silentSources))
+							echo 'Missing '.$source.' Manufacturer '.$manufacturer.' with combined Platform '.$platform.PHP_EOL;
+					} else {
+						$sourcePlatforms[$idx] = [$platform => $platformAlt[$platform]];
+						//echo 'Found '.$source.' Manufacturer '.$manufacturer.' with combined Platform '.$platform.PHP_EOL;
+					}
+				} else {
+					$sourcePlatforms[$idx] = [$platform => $platformAlt[$manufacturer.' '.$platform]];
+					//echo 'Found '.$source.' Manufacturer '.$manufacturer.' Platform '.$platform.PHP_EOL;
+				}				
+			} else {
+				// the platform and manufacturer are seprate/nested
+				if (!array_key_exists($manufacturer.' '.$platform, $platformAlt)) {
+					if (!in_array($source, $silentSources))
+						echo "\"{$manufacturer} {$platform}\":{\"{$manufacturer} {$platform}\":[\"{$source}\"]},".PHP_EOL;
+				} else {
+					//echo 'Found '.$source.' Manufacturer '.$manufacturer.' Platform '.$platform.PHP_EOL;
+					$sourcePlatforms[$idx] = [$platform => $platformAlt[$manufacturer.' '.$platform]];
+				}
+			}
+			
+		}
+		$manufacturers[$manufacturer] = $sourcePlatforms;
+	}
+	$platform_manufacturers[$source] = $manufacturers;
+}
+file_put_contents($dataDir.'/platform_manufacturers_new.json', json_encode($platform_manufacturers, JSON_PRETTY_PRINT));
 $rows = $db->query('SELECT platform,platform_description FROM mame_software group by platform');
 foreach ($rows as $row) {
 	$platform = $row['platform_description'];
