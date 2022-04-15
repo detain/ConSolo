@@ -13,6 +13,24 @@ global $config;
 $config = require __DIR__.'/config.php';
 include_once __DIR__.'/stdObject.php';
 
+/**
+ * @param $string
+ * @return mixed|string
+ */
+function slugify($string)
+{
+		$string = utf8_encode($string);
+		$string = iconv('UTF-8', 'ASCII//TRANSLIT', $string);
+		$string = preg_replace('/[^a-z0-9- ]/i', '', $string);
+		$string = str_replace(' ', '-', $string);
+		$string = trim($string, '-');
+		$string = strtolower($string);
+		if (empty($string)) {
+				return 'n-a';
+		}
+		return $string;
+}
+
 
 function FlattenAttr(&$parent) {
 	if (isset($parent['attr'])) {
