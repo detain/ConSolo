@@ -1,32 +1,29 @@
-## ScreenScraper API Docs
+# ScreenScraper API Docs
 
 **API Calls**
-*   ssinfraInfos.php 		 Information about the ScreenScraper framework
-*   ssuserInfos.php 		 ScreenScraper user information
-*   userlevelsListe.php 	 List of ScreenScraper user levels
-*   nbJoueursListe.php 		 List of numbers of players
-*   supportTypesListe.php 	 List of support types
-*   romTypesListe.php 		 List of room types
-*   genresListe.php 		 List of genres
-*   regionsListe.php 		 List of regions
-*   languesListe.php 		 List of languages
-*   classificationListe.php  Liste des Classification (Game Rating)
-*   mediasSystemeListe.php 	 List of media for systems
-*   mediasJeuListe.php 		 List of media for games
-*   infosJeuListe.php 		 List of info for games
-*   infosRomListe.php 		 List of info for roms
-*   mediaGroup.php 		 	Download image media from game groups
-*   mediaCompagnie.php 		 Download image media from game groups
-*   systemesListe.php 		 List of systems / system information / system media information
-*   mediaSysteme.php 		 Download system image media
-*   mediaVideoSysteme.php 	 Download system video media
-*   jeuRecherche.php 		 Search for a game with its name (returns a table of games (limited to 30 games) classified by probability)
-*   jeuInfos.php 		 	Information on a game / Media of a game
-*   mediaJeu.php 		 	Download game image media
-*   mediaVideoJeu.php 		 Download game video media
-*   mediaManuelJeu.php 		 Download game manuals
-*   botNote.php 			System for sending game note automation from a ScreenScraper member
-*   botProposition.php 		 System for automating sending news or media proposals to ScreenScraper
+*   [ssuserInfos.php 		 ScreenScraper user information](#ssuserinfosphp-screenscraper-user-information)
+*   [userlevelsListe.php 	 List of ScreenScraper user levels](#userlevelslistephp-list-of-screenscraper-user-levels)
+*   [nbJoueursListe.php 		 List of numbers of players](#nbjoueurslistephp-list-of-numbers-of-players)
+*   [supportTypesListe.php 	 List of support types](#supporttypeslistephp-list-of-support-types)
+*   [romTypesListe.php 		 List of room types](#romtypeslistephp-list-of-room-types)
+*   [genresListe.php 		 List of genres](#genreslistphp-list-of-genres)
+*   [regionsListe.php 		 List of regions](#regionslistephp-list-of-regions)
+*   [languesListe.php 		 List of languages](#languageslistphp-list-of-languages)
+*   [classificationListe.php  Liste des Classification (Game Rating)]()
+*   [mediasSystemeListe.php 	 List of media for systems](#mediassystemelistephp-list-of-media-for-systems)
+*   [mediasJeuListe.php 		 List of media for games](#mediasjeulistephp-list-of-media-for-games)
+*   [infosJeuListe.php 		 List of info for games](#infosjeulistephp-list-of-info-for-games)
+*   [infosRomListe.php 		 List of info for roms](#infosromlistephp-list-of-info-for-roms)
+*   [mediaGroup.php 		 	Download image media from game groups](#mediagroupphp-download-image-media-from-game-groups)
+*   [mediaCompagnie.php 		 Download image media from game groups](#mediacompagniephp-download-media-images-of-game-companies)
+*   [systemesListe.php 		 List of systems / system information / system media information](#systemslistphp-list-of-systems--system-information--system-media-information)
+*   [mediaSysteme.php 		 Download system image media](#mediasystemephp-download-system-image-media)
+*   [mediaVideoSysteme.php 	 Download system video media](#mediavideosystemephp-download-system-video-media)
+*   [jeuRecherche.php 		 Search for a game with its name (returns a table of games (limited to 30 games) classified by probability)](#jeurecherchephp-search-for-a-game-with-its-name-returns-a-table-of-games-limited-to-30-games-classified-by-probability)
+*   [jeuInfos.php 		 	Information on a game / Media of a game](#jeuinfosphp-information-on-a-game--media-of-a-game)
+*   [mediaJeu.php 		 	Download game image media](#mediajeuphp-download-game-image-media-1)
+*   [mediaVideoJeu.php 		 Download game video media](#mediavideojeuphp-download-game-video-media-1)
+*   [mediaManuelJeu.php 		 Download game manuals](#mediamanueljeuphp-download-game-manuals-1)
 
 
 ### Error Response Codes
@@ -309,7 +306,7 @@ Sample call\
 <https://www.screenscraper.fr/api2/languesListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=xml&ssid=test&sspassword=test>\
  |
 
-classificationListe.php : Liste des Classification (Game Rating)
+### classificationListe.php : Liste des Classification (Game Rating)
 
 | Input parameters:\
 **devid **: your developer ID\
