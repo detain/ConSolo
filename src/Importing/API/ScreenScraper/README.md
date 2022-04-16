@@ -1,5 +1,8 @@
 # ScreenScraper API Docs
 
+* Web API v2 Docs: https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0
+
+
 **API Calls**
 
 *   [ScreenScraper user information](#ssuserinfosphp-screenscraper-user-information)
