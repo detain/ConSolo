@@ -1,3 +1,5 @@
+<?php
+/*
 ### languagesList.php: List of languages
 
 | Input parameters:\
@@ -32,6 +34,8 @@ Returned Items:\
 
 * * * * *
 
-Sample call\
-<https://www.screenscraper.fr/api2/languesListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=json&ssid=test&sspassword=test>\
- |
+Sample call
+*/
+global $config;
+$url = 'https://www.screenscraper.fr/api2/languesListe.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json';
+

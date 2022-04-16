@@ -46,4 +46,5 @@ Quotas\
 
 Sample call
 */
-$url = 'https://www.screenscraper.fr/api2/ssuserInfos.php?devid=xxx&devpassword=yyy&softname=zzz&output=json&ssid=xxx&sspassword=yyy';
+global $config;
+$url = 'https://www.screenscraper.fr/api2/ssuserInfos.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json&ssid='.$config['screenscraper']['my_user'].'&sspassword='.$config['screenscraper']['my_pass'];

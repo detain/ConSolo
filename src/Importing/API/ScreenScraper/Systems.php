@@ -1,3 +1,5 @@
+<?php
+/*
 ### systemsList.php: List of systems / system information / system media information
 
 | Input parameters:\
@@ -209,5 +211,7 @@ Returned Items:\
 
 * * * * *
 
-Sample call\
-<https://www.screenscraper.fr/api2/systemesListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=json&ssid=test&sspassword=test> |
+Sample call
+*/
+global $config;
+$url = 'https://www.screenscraper.fr/api2/systemesListe.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json';

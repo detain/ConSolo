@@ -1,3 +1,5 @@
+<?php
+/*
 ### mediaJeu.php: Download game image media
 
 | Input parameters:\
@@ -28,6 +30,8 @@ Text **NOMEDIA **if the media file was not found
 
 * * * * *
 
-Sample call\
-<https://www.screenscraper.fr/api2/mediaJeu.php?devid=xxx&devpassword=yyy&softname=zzz&ssid=test&sspassword=test&crc=&md5=&sha1=&systemeid=1&jeuid=3&media=wheel-hd(wor)>\
- |
+Sample call
+*/
+global $config;
+$url = 'https://www.screenscraper.fr/api2/mediaJeu.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&crc=&md5=&sha1=&systemeid=1&jeuid=3&media=wheel-hd(wor)';
+

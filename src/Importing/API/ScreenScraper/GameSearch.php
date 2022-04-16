@@ -1,3 +1,5 @@
+<?php
+/*
 ### jeuRecherche.php: Search for a game with its name (returns a table of games (limited to 30 games) classified by probability)
 
 | Input parameters:\
@@ -54,5 +56,7 @@ Same as jeuInfos API but without rom info
 
 * * * * *
 
-Sample call\
-<https://www.screenscraper.fr/api2/jeuRecherche.php?devid=xxx&devpassword=yyy&softname=zzz&output=json&ssid=test&sspassword=test&systemeid=1&recherche=sonic> |
+Sample call
+*/
+global $config;
+$url = 'https://www.screenscraper.fr/api2/jeuRecherche.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json&systemeid=1&recherche=sonic';

@@ -1,3 +1,5 @@
+<?php
+/*
 ### infosRomListe.php: List of info for roms
 
 | Input parameters:\
@@ -30,6 +32,8 @@ Returned Items:\
 
 * * * * *
 
-Sample call\
-<https://www.screenscraper.fr/api2/infosRomListe.php?devid=xxx&devpassword=yyy&softname=zzz&output=json&ssid=test&sspassword=test>\
- |
+Sample call
+*/
+global $config;
+$url = 'https://www.screenscraper.fr/api2/infosRomListe.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json';
+

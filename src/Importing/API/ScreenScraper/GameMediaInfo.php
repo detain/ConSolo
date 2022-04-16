@@ -1,3 +1,5 @@
+<?php
+/*
 ### jeuInfos.php: Information on a game / Media of a game
 
 | Input parameters:\
@@ -377,6 +379,8 @@ For multi-page Flyers, add the page number, example: **media_flyer_wor1 **, **me
 
 * * * * *
 
-Sample call\
-<https://www.screenscraper.fr/api2/jeuInfos.php?devid=xxx&devpassword=yyy&softname=zzz&output=json&ssid=test&sspassword=test&crc=50ABC90A&systemeid=1&romtype=rom&romnom=Sonic%20The%20Hedgehog%202%20(World).zip&romtaille=749652> |
+Sample call
+*/
+global $config;
+$url = 'https://www.screenscraper.fr/api2/jeuInfos.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json&crc=50ABC90A&systemeid=1&romtype=rom&romnom=Sonic%20The%20Hedgehog%202%20(World).zip&romtaille=749652';
 
