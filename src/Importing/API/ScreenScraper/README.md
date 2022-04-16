@@ -2,6 +2,7 @@
 List of text info types for games (modiftypeinfo)
 
 | Type | Designation | Region | Tongue | Multiple choice | Format |
+| --- | --- | --- | --- | --- | --- |
 | name | Game Name (by Region) | mandatory | | | Text |
 | editor | Editor | | | | Text |
 | developer | Developer | | | | Text |
@@ -22,6 +23,7 @@ List of text info types for games (modiftypeinfo)
 List of text info types for roms (modiftypeinfo)
 
 | Type | Designation | Region | Tongue | Multiple choice | Format |
+| --- | --- | --- | --- | --- | --- |
 | developer | Developer | | | | Text |
 | editor | Editor | | | | Text |
 | datessortie | Release date(s) | mandatory | | | Format: yyyy-mm-dd ("xxxx-01-01" if year only) |
@@ -37,6 +39,7 @@ List of text info types for roms (modiftypeinfo)
 List of media types (regionsList)
 
 | Type | Designation | Format | Region | Num Support | Multi-Version |
+| --- | --- | --- | --- | --- | --- |
 | sstitle | Screenshot Titre | jpg | mandatory | | |
 | ss | Screenshot | jpg | mandatory | | |
 | fanart | Fan Art | jpg | | | |
