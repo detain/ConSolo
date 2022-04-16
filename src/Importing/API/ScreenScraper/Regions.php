@@ -36,6 +36,25 @@ Returned Items:\
 
 Sample call
 */
+
+require_once __DIR__.'/../../../bootstrap.php';
+
+
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
 global $config;
-$url = 'https://www.screenscraper.fr/api2/regionsListe.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json';
+global $queriesRemaining;
+global $dataDir;
+global $curl_config;
+$curl_config = [];
+global $userInfo;
+$return = ssApi('regionsListe');
+if ($return['code'] == 200) {
+	echo "Response:".print_r($return,true)."\n";
+	$regions = $return['response']['response']['regions'];
+	file_put_contents('regions.json', json_encode($regions, JSON_PRETTY_PRINT));
+	print_r($regions);
+}
 

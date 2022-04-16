@@ -2,6 +2,22 @@
 
 * Web API v2 Docs: https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0
 
+## TODO
+
+userlevelsListe.php : List of ScreenScraper user levels
+nbJoueursListe.php : List of numbers of players
+supportTypesListe.php : List of support types
+mediaGroup.php : Download image media from game groups
+mediaCompagnie.php : Download image media from game groups
+mediaSysteme.php : Download system image media
+mediaVideoSysteme.php : Download system video media
+jeuRecherche.php : Search for a game with its name (returns a table of games (limited to 30 games) classified by probability)
+jeuInfos.php : Information on a game / Media of a game
+mediaJeu.php : Download game image media
+mediaVideoJeu.php : Download game video media
+mediaManuelJeu.php : Download game manuals
+botNote.php : System for sending game note automation from a ScreenScraper member
+
 
 **API Calls**
 

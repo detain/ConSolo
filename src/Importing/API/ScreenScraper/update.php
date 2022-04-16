@@ -101,9 +101,12 @@ global $db;
 global $config;
 global $queriesRemaining;
 global $dataDir;
+global $curl_config;
+$curl_config = [];
 $usePrivate = false;
 $useCache = true;
 $dataDir = '/storage/local/ConSolo/data';
+
 if (file_exists($dataDir.'/json/tgdb/queries.json')) {
 	$queriesRemaining = json_decode(file_Get_contents($dataDir.'/json/tgdb/queries.json'), true);
 } else {

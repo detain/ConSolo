@@ -31,6 +31,26 @@ Text **NOMEDIA **if the media file was not found
 
 Sample call
 */
+
+require_once __DIR__.'/../../../bootstrap.php';
+
+
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
 global $config;
+global $queriesRemaining;
+global $dataDir;
+global $curl_config;
+$curl_config = [];
+global $userInfo;
+$return = ssApi('romTypesListe');
+if ($return['code'] == 200) {
+	//echo "Response:".print_r($return,true)."\n";
+	$romTypes = $return['response']['response']['romtypes'];
+	file_put_contents('romTypes.json', json_encode($romTypes, JSON_PRETTY_PRINT));
+	print_r($romTypes);
+}
 $url = 'https://www.screenscraper.fr/api2/mediaCompagnie.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&crc=&md5=&sha1=&companyid=3&media=logo-monochrome';
 

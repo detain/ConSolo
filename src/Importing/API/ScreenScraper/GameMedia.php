@@ -36,5 +36,24 @@ Returned Items:\
 
 Sample call
 */
+
+require_once __DIR__.'/../../../bootstrap.php';
+
+
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
 global $config;
-$url = 'https://www.screenscraper.fr/api2/mediasJeuListe.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json';
+global $queriesRemaining;
+global $dataDir;
+global $curl_config;
+$curl_config = [];
+global $userInfo;
+$return = ssApi('mediasJeuListe');
+if ($return['code'] == 200) {
+	//echo "Response:".print_r($return,true)."\n";
+	$medias = $return['response']['response']['medias'];
+	file_put_contents('medias.json', json_encode($medias, JSON_PRETTY_PRINT));
+	print_r($medias);
+}

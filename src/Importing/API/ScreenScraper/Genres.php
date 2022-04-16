@@ -35,6 +35,24 @@ Returned Items:\
 
 Sample call
 */
-global $config;
-$url = 'https://www.screenscraper.fr/api2/genresListe.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json';
 
+require_once __DIR__.'/../../../bootstrap.php';
+
+
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
+global $config;
+global $queriesRemaining;
+global $dataDir;
+global $curl_config;
+$curl_config = [];
+global $userInfo;
+$return = ssApi('genresListe');
+if ($return['code'] == 200) {
+	//echo "Response:".print_r($return,true)."\n";
+	$genres = $return['response']['response']['genres'];
+	file_put_contents('genres.json', json_encode($genres, JSON_PRETTY_PRINT));
+	print_r($genres);
+}

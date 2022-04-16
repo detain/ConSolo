@@ -213,5 +213,24 @@ Returned Items:\
 
 Sample call
 */
+
+require_once __DIR__.'/../../../bootstrap.php';
+
+
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
 global $config;
-$url = 'https://www.screenscraper.fr/api2/systemesListe.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json';
+global $queriesRemaining;
+global $dataDir;
+global $curl_config;
+$curl_config = [];
+global $userInfo;
+$return = ssApi('systemesListe');
+if ($return['code'] == 200) {
+	//echo "Response:".print_r($return,true)."\n";
+	$systems = $return['response']['response']['systemes'];
+	file_put_contents('systems.json', json_encode($systems, JSON_PRETTY_PRINT));
+	print_r($systems);
+}

@@ -36,6 +36,24 @@ Returned Items:\
 
 Sample call
 */
-global $config;
-$url = 'https://www.screenscraper.fr/api2/languesListe.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json';
 
+require_once __DIR__.'/../../../bootstrap.php';
+
+
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
+global $config;
+global $queriesRemaining;
+global $dataDir;
+global $curl_config;
+$curl_config = [];
+global $userInfo;
+$return = ssApi('languesListe');
+if ($return['code'] == 200) {
+	echo "Response:".print_r($return,true)."\n";
+	$langs = $return['response']['response']['langues'];
+	file_put_contents('langs.json', json_encode($langs, JSON_PRETTY_PRINT));
+	print_r($langs);
+}
