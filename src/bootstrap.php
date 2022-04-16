@@ -41,7 +41,7 @@ function FlattenAttr(&$parent) {
 			foreach ($parent['attr'] as $attrKey => $attrValue) {
 				$parent[$attrKey] = $attrValue;
 			}
-			unset($parent['attr']); 
+			unset($parent['attr']);
 		}
 	}
 }
@@ -82,8 +82,8 @@ function cleanUtf8($text) {
 	'|[\xE0-\xEF](([\x80-\xBF](?![\x80-\xBF]))|(?![\x80-\xBF]{2})|[\x80-\xBF]{3,})/',
 	'ï¿½', $text);
 	$text = preg_replace('/\xE0[\x80-\x9F][\x80-\xBF]'.
-	'|\xED[\xA0-\xBF][\x80-\xBF]/S','?', $text);    
-	return $text;    
+	'|\xED[\xA0-\xBF][\x80-\xBF]/S','?', $text);
+	return $text;
 }
 
 /**
@@ -178,7 +178,7 @@ function make_insert_query($table, $args, $duplicate_args = false)
 
 /**
 * returns whether or not the given extension is one of the ones mediainfo supports
-* 
+*
 * @param string $ext the file extension
 * @return bool
 */
@@ -192,7 +192,7 @@ function isMediainfo($ext) {
 
 /**
 * returns whether or not the given extension is one of the ones exifinfo supports
-* 
+*
 * @param string $ext the file extension
 * @return bool
 */
@@ -244,7 +244,9 @@ function normalizePath($path) {
 }
 
 /**
+ * getcurlpage()
  * gets a webpage via curl and returns the response.
+ * also it sets a mozilla type agent.
  * @param string $url        the url of the page you want
  * @param string $postfields postfields in the format of "v1=10&v2=20&v3=30"
  * @param string $options
@@ -252,24 +254,28 @@ function normalizePath($path) {
  */
 function getcurlpage($url, $postfields = '', $options = '')
 {
-	$agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2790.0 Safari/537.36';
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2790.0 Safari/537.36');
 	if (is_array($postfields) || $postfields != '') {
 		if (is_array($postfields)) {
 			$postdata = [];
-			foreach ($postfields as $field => $value)
+			foreach ($postfields as $field => $value) {
 				$postdata[] = $field.'='.urlencode($value);
+			}
 			curl_setopt($ch, CURLOPT_POSTFIELDS, implode('&', $postdata));
 		} else {
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
 		}
 	}
-	if (is_array($options) && count($options) > 0)
-		foreach ($options as $key => $value)
+	if (is_array($options) && count($options) > 0) {
+		foreach ($options as $key => $value) {
 			curl_setopt($ch, $key, $value);
+		}
+	}
 	$tmp = curl_exec($ch);
+	$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	$GLOBALS['curl_http_code'] = (int)$status;
 	curl_close($ch);
 	$ret = $tmp;
 	return $ret;
@@ -288,6 +294,37 @@ function loadJson($tag) {
 function putJson($tag, $data) {
 	file_put_contents(filenameJson($tag), json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 	echo '['.$tag.'] wrote '.count($data).' records to data file'.PHP_EOL;
+}
+
+/**
+* ScreenScraper API v2 Wrapper
+*
+* @param string $page the page base name to visit, such as ssuserInfos
+* @param string $params optional params for the url like '&param1=value&param2=value'
+* @erturn array anm array indicating a respones code, the response text
+*/
+function ssApi($page, $params = '') {
+	global $config, $curl_config;
+	$url = 'https://www.screenscraper.fr/api2/'.$page.'.php'
+		.'?devid='.$config['screenscraper']['api_user']
+		.'&devpassword='.$config['screenscraper']['api_pass']
+		.'&softname=ConSolo'
+		.'&output=json'
+		. $params;
+	$response = getcurlpage($url, '', $curl_config);
+	$code = $GLOBALS['curl_http_code'];
+	// display errors, otherwise deccode response
+	$success = $code === 200;
+	if ($success)
+		$response = json_decode($response, true);
+	else
+		echo "ScreenScraper API returned HTTP code {$code} with response: {$response}\n";
+	$return = [
+		'code' => $code,
+		'response' => $response
+	];
+	file_put_contents('screenscraper_response.json', json_encode($return, JSON_PRETTY_PRINT));
+	return $return;
 }
 
 function loadTmdbMovieGenres() {
@@ -399,7 +436,7 @@ function cleanPath($path) {
 	global $driveReplacements, $Windows;
 	foreach ($driveReplacements['search'] as $idx => $search) {
 		$replace = $driveReplacements['replace'][$idx];
-		$path = preg_replace($search, $replace, $path); 
+		$path = preg_replace($search, $replace, $path);
 	}
 	return $path;
 }
