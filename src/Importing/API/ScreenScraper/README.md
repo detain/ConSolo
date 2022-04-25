@@ -19,6 +19,28 @@ mediaManuelJeu.php : Download game manuals
 botNote.php : System for sending game note automation from a ScreenScraper member
 
 
+### Checksuming
+
+Use Rhash
+```
+rhash --crc32 --md5 --sha1 <file>
+```
+
+
+$ echo abcdefg.. | md5sum 
+$ echo abcdefg.. | sha1sum 
+For the CRC32 calculation of a file: 
+$ cksum /path/filename.ext  
+For MD5 or SHA calculation of a file: 
+$ md5sum /path/filename.ext 
+$ sha1sum /path/filename.ext 
+$ sha256 /path/filename.ext 
+$ sha512 /path/filename.ext 
+To verify: 
+$ sha256sum -c /path/filename-CHECKSUM 
+In this case, if the calculation coincides, an OK will be given. 
+
+
 **API Calls**
 
 *   [ScreenScraper user information](#ssuserinfosphp-screenscraper-user-information)

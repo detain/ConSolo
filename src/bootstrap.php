@@ -444,14 +444,18 @@ function cleanPath($path) {
 global $db, $mysqlLinkId;
 $characterSet = 'utf8mb4';
 $collation = 'utf8mb4_unicode_ci';
-$db = new \Workerman\MySQL\Connection($config['db']['host'], $config['db']['port'], $config['db']['name'], $config['db']['user'], $config['db']['pass']);
-$mysqlLinkId = mysqli_init();
-$mysqlLinkId->options(MYSQLI_INIT_COMMAND, "SET NAMES {$characterSet} COLLATE {$collation}, COLLATION_CONNECTION = {$collation}, COLLATION_DATABASE = {$collation}");
-if (isset($config['db']['port']) && $config['db']['port'] != '')
-	$mysqlLinkId->real_connect($config['db']['host'], $config['db']['user'], $config['db']['pass'], $config['db']['name'], $config['db']['port']);
-else
-	$mysqlLinkId->real_connect($config['db']['host'], $config['db']['user'], $config['db']['pass'], $config['db']['name']);
-$mysqlLinkId->set_charset($characterSet);
+try {
+	$db = new \Workerman\MySQL\Connection($config['db']['host'], $config['db']['port'], $config['db']['name'], $config['db']['user'], $config['db']['pass']);
+	$mysqlLinkId = mysqli_init();
+	$mysqlLinkId->options(MYSQLI_INIT_COMMAND, "SET NAMES {$characterSet} COLLATE {$collation}, COLLATION_CONNECTION = {$collation}, COLLATION_DATABASE = {$collation}");
+	if (isset($config['db']['port']) && $config['db']['port'] != '')
+		$mysqlLinkId->real_connect($config['db']['host'], $config['db']['user'], $config['db']['pass'], $config['db']['name'], $config['db']['port']);
+	else
+		$mysqlLinkId->real_connect($config['db']['host'], $config['db']['user'], $config['db']['pass'], $config['db']['name']);
+	$mysqlLinkId->set_charset($characterSet);
+} catch (\PDOException $e) {
+	echo 'Caught PDO Exception #'.$e->getCode().' '.$e->getMessage().PHP_EOL;
+}
 
 
 global $twig;
@@ -502,6 +506,12 @@ if (file_exists('/usr/bin/uname') || file_exists('/usr/bin/uname.exe') || file_e
 
 global $hostId, $hostData;
 $hostname = gethostname();
-$hostData = $db->query("select * from hosts where name='{$hostname}'");
+$hostData = [];
+try {
+	if (!is_null($db))
+		$hostData = $db->query("select * from hosts where name='{$hostname}'");
+} catch (\PDOException $e) {
+	echo 'Caught PDO Exception #'.$e->getCode().' '.$e->getMessage().PHP_EOL;
+}
 $hostData = count($hostData) == 0 ? ['id' => null, 'name' => $hostname] : $hostData[0];
 $hostId = $hostData['id'];
