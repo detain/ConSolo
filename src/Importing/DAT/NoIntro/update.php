@@ -20,15 +20,16 @@ if (count($row) == 0) {
 	$last = $row[0]['value'];
 }
 $force = in_array('-f', $_SERVER['argv']);
-$version = trim(`curl -s "https://datomatic.no-intro.org/?page=download&op=daily"|grep "Version <b>"|cut -d">" -f2-|cut -d" " -f1`);
+// using wget to auto follow location headers
+$version = trim(`wget -q -O - "https://datomatic.no-intro.org/?page=download&op=daily" |grep "Version <b>"|cut -d">" -f2-|cut -d" " -f1`);
 echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval(str_replace('-','', $version)) <= intval(str_replace('-','', $last)) && !$force) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
 $dataDir = '/storage/local/ConSolo/data';
 $type = 'No-Intro';
-$dir = $dataDir.'/dat/'.$type.'/Standard';
-$glob = $dir.'/*/*';
+$dir = $dataDir.'/dat/'.$type;
+$glob = $dir.'/*';
 $client = new Client();
 $crawler = $client->request('GET', 'https://datomatic.no-intro.org/index.php?page=download&op=daily');
 $form = $crawler->selectButton('Prepare')->form();
@@ -37,6 +38,7 @@ $form = $crawler->selectButton('Download')->form();
 $crawler = $client->submit($form);
 file_put_contents('dats.zip', $client->getResponse()->getContent());
 echo `rm -rf {$dir};`;
+@mkdir($dir, 0775, true);
 echo `7z x -o{$dir} dats.zip;`;
 unlink('dats.zip');
 (new \Detain\ConSolo\Importing\DAT\ImportDat())->go($type, $glob, $dataDir);

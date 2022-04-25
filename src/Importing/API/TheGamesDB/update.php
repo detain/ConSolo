@@ -104,7 +104,7 @@ global $config;
 global $queriesRemaining;
 global $dataDir;
 $usePrivate = false;
-$useCache = true;
+$useCache = false;
 $dataDir = '/storage/local/ConSolo/data';
 $force = in_array('-f', $_SERVER['argv']);
 if (file_exists($dataDir.'/json/tgdb/queries.json')) {
@@ -127,6 +127,7 @@ foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 		file_put_contents($dataDir.'/json/tgdb/'.$type.'.json', json_encode($json, JSON_PRETTY_PRINT));
 		$lower = strtolower($type);
 		$db->query('delete from tgdb_'.$lower);
+		$db->query('truncate tgdb_'.$lower);
 		foreach ($json['data'][$lower] as $idx => $data) {
 			$db->insert('tgdb_'.$lower)->cols($data)->lowPriority($config['db']['low_priority'])->query();
 		}
@@ -139,6 +140,7 @@ if ($useCache == true && file_exists($dataDir.'/json/tgdb/Platforms.json')) {
 	$platforms = apiGet('Platforms?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&fields='.urlencode(implode(',',$fields)));
 	file_put_contents($dataDir.'/json/tgdb/Platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
 	$db->query('delete from tgdb_platforms');
+	//$db->query('truncate tgdb_platforms');
 	foreach ($platforms['data']['platforms'] as $idx => $data) {
 			$db->insert('tgdb_platforms')->cols($data)->lowPriority($config['db']['low_priority'])->query();
 	}
@@ -153,6 +155,7 @@ if ($useCache == true && file_exists($dataDir.'/json/tgdb/PlatformImages.json'))
 $fields = ['players', 'publishers', 'genres', 'overview', 'last_updated', 'rating', 'platform', 'coop', 'youtube', 'os', 'processor', 'ram', 'hdd', 'video', 'sound', 'alternates'];
 $subfields = ['developers', 'genres', 'publishers', 'alternates'];
 $db->query('delete from tgdb_games');
+//$db->query('truncate from tgdb_games');
 foreach ($subfields as $field)
 	$db->query('truncate tgdb_game_'.$field);
 foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {

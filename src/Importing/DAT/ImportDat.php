@@ -4,10 +4,10 @@ namespace Detain\ConSolo\Importing\DAT;
 class ImportDat
 {
 	public $deleteOld = true;
-	
+
 	public function __construct() {
 	}
-	
+
 	public function go($type, $glob, $storageDir) {
 		/**
 		* @var \Workerman\MySQL\Connection
@@ -34,13 +34,17 @@ class ImportDat
 			if (isset($array['datafile']['game'])) {
 				$cols = $array['datafile']['header'];
 				$cols['type'] = $type;
+				if (isset($cols['romcenter'])) {
+					$cols['romcenter'] = $cols['romcenter']['plugin'];
+				}
+
 				if (isset($cols['clrmamepro'])) {
 					foreach (['forcepackaging', 'forcenodump', 'forcemerging'] as $section) {
 						if (isset($cols['clrmamepro'][$section])) {
 							$cols['clrmamepro_'.$section] = $cols['clrmamepro'][$section];
 						}
 					}
-					unset($cols['clrmamepro']); 
+					unset($cols['clrmamepro']);
 				}
 				foreach (['description','version','author','homepage','url'] as $section) {
 					if (isset($cols[$section]) && is_array($cols[$section]) && count($cols[$section]) == 0) {
@@ -58,13 +62,13 @@ class ImportDat
 					.'File:'.$e->getFile().PHP_EOL
 					.'Line:'.$e->getLine().PHP_EOL);
 				}
-				$gameSections = ['rom','disk','release','sample','biosset'];    
+				$gameSections = ['rom','disk','release','sample','biosset'];
 				if (isset($array['datafile']['game']['name']))
 					$array['datafile']['game'] = [$array['datafile']['game']];
 				echo count($array['datafile']['game'])." games..";
 				foreach ($array['datafile']['game'] as $gameIdx => $gameData) {
 					$cols = $gameData;
-					$cols['file'] = $fileId; 
+					$cols['file'] = $fileId;
 					foreach ($gameSections as $section) {
 						unset($cols[$section]);
 						if (isset($gameData[$section]) && isset($gameData[$section]['name']))
@@ -72,7 +76,7 @@ class ImportDat
 					}
 					if (isset($cols['manufacturer']) && is_array($cols['manufacturer']) && count($cols['manufacturer']) == 0) {
 						unset($cols['manufacturer']);
-					}            
+					}
 					//echo 'dat_games:'.json_encode($cols).PHP_EOL;
 					try {
 						$gameId = $db->insert('dat_games')->cols($cols)->lowPriority($config['db']['low_priority'])->query();
@@ -107,7 +111,7 @@ class ImportDat
 									.'File:'.$e->getFile().PHP_EOL
 									.'Line:'.$e->getLine().PHP_EOL);
 								}
-							}                    
+							}
 						}
 					}
 				}
@@ -117,7 +121,7 @@ class ImportDat
 			}
 		}
 	}
-	
+
 	public function FlattenAttr(&$parent) {
 		if (isset($parent['attr'])) {
 			if (count($parent['attr']) == 2 && isset($parent['attr']['name']) && isset($parent['attr']['value'])) {
@@ -127,7 +131,7 @@ class ImportDat
 				foreach ($parent['attr'] as $attrKey => $attrValue) {
 					$parent[$attrKey] = $attrValue;
 				}
-				unset($parent['attr']); 
+				unset($parent['attr']);
 			}
 		}
 	}

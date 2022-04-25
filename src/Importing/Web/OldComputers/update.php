@@ -40,13 +40,11 @@ echo ' done'.PHP_EOL;
 file_put_contents($dataDir.'/json/oldcomputers/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
 $computerUrls = json_decode(file_get_contents($dataDir.'/json/oldcomputers/urls.json'), true);
 echo 'Loading Computer URLs'.PHP_EOL;
-/*
 $db->query("truncate oldcomputers_emulator_platforms");
 $db->query("delete from oldcomputers_platforms");
 $db->query("delete from oldcomputers_emulators");
 $db->query("alter table oldcomputers_emulators auto_increment=1");
 $db->query("alter table oldcomputers_platforms auto_increment=1");
-*/
 $platforms = [];
 $total = count($computerUrls);
 $allEmulators = [];
@@ -159,7 +157,7 @@ foreach ($computerUrls as $idx => $url) {
 }
 file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
 echo PHP_EOL.'done!'.PHP_EOL;
-exit;
+//exit;
 echo 'Inserting Emulators into DB   ';
 foreach ($allEmulators as $name => $emulator) {
 	$emulator['host'] = implode(', ', $emulator['hosts']);
