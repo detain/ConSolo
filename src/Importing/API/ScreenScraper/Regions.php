@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### regionsListe.php: List of regions
 
@@ -50,7 +52,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('regionsListe');
+$return = ScreenScraper::api('regionsListe');
 if ($return['code'] == 200) {
 	echo "Response:".print_r($return,true)."\n";
 	$regions = $return['response']['response']['regions'];

@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### jeuInfos.php: Information on a game / Media of a game
 
@@ -408,7 +410,7 @@ gameid **: Force the search for the game with its numerical identifier
 * unless there is a waiver, you must send at least one (the best would be 3) of these calculations (crc,md5,sha1) of rom/iso file or folder identification with your request.
 ** No rom information is sent in this case.
 */
-$return = ssApi('jeuInfos');
+$return = ScreenScraper::api('jeuInfos');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$romTypes = $return['response']['response']['jeu'];

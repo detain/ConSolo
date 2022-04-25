@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 $systems = json_decode(file_get_contents('systems.json'), true);
 $out = [];
 foreach ($systems as $system) {

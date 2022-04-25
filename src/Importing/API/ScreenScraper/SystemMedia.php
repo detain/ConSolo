@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### mediasSystemeListe.php: List of media for systems
 
@@ -50,7 +52,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('mediasSystemeListe');
+$return = ScreenScraper::api('mediasSystemeListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$medias = $return['response']['response']['medias'];

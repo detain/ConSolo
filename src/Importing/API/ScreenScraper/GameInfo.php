@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### infosJeuListe.php: List of info for games
 
@@ -48,7 +50,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('infosJeuListe');
+$return = ScreenScraper::api('infosJeuListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$infos = $return['response']['response']['infos'];

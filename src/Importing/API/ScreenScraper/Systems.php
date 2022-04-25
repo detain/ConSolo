@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### systemsList.php: List of systems / system information / system media information
 
@@ -227,7 +229,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('systemesListe');
+$return = ScreenScraper::api('systemesListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$systems = $return['response']['response']['systemes'];

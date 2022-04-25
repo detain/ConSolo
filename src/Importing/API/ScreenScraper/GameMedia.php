@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### mediasJeuListe.php: List of media for games
 
@@ -50,7 +52,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('mediasJeuListe');
+$return = ScreenScraper::api('mediasJeuListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$medias = $return['response']['response']['medias'];

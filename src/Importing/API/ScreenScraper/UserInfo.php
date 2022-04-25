@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### ssuserInfos.php: ScreenScraper user information
 
@@ -60,7 +62,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('ssuserInfos', '&ssid='.$config['screenscraper']['my_user'].'&sspassword='.$config['screenscraper']['my_pass']);
+$return = ScreenScraper::api('ssuserInfos', '&ssid='.$config['screenscraper']['my_user'].'&sspassword='.$config['screenscraper']['my_pass']);
 if ($return['code'] == 200) {
 	////echo "Response:".print_r($return,true)."\n";
 	$userInfo = $return['response']['response']['ssuser'];

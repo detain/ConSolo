@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### mediaCompagnie.php: Download media images of game companies
 
@@ -45,7 +47,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('romTypesListe');
+$return = ScreenScraper::api('romTypesListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$romTypes = $return['response']['response']['romtypes'];

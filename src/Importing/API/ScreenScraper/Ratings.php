@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### classificationListe.php : Liste des Classification (Game Rating)
 
@@ -50,7 +52,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('classificationListe');
+$return = ScreenScraper::api('classificationListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$classifications = $return['response']['response']['classifications'];

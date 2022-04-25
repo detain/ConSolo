@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### languagesList.php: List of languages
 
@@ -50,7 +52,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('languesListe');
+$return = ScreenScraper::api('languesListe');
 if ($return['code'] == 200) {
 	echo "Response:".print_r($return,true)."\n";
 	$langs = $return['response']['response']['langues'];

@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### mediaVideoJeu.php: Download game video media
 
@@ -42,7 +44,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('romTypesListe');
+$return = ScreenScraper::api('romTypesListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$romTypes = $return['response']['response']['romtypes'];

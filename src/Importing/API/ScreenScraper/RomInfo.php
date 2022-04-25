@@ -1,4 +1,6 @@
 <?php
+
+use Detain\ConSolo\Importing\API\ScreenScraper;
 /*
 ### infosRomListe.php: List of info for roms
 
@@ -48,7 +50,7 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ssApi('infosRomListe');
+$return = ScreenScraper::api('infosRomListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$infos = $return['response']['response']['infos'];

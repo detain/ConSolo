@@ -3,6 +3,8 @@
 * grabs latest ScreenScraper.fr data and updates db
 */
 
+use Detain\ConSolo\Importing\API\ScreenScraper;
+
 require_once __DIR__.'/../../../bootstrap.php';
 
 function apiIp() {
