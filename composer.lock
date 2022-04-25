@@ -962,28 +962,34 @@
         },
         {
             "name": "php-ai/php-ml",
-            "version": "0.4.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.com/php-ai/php-ml.git",
-                "reference": "39747efdc1ff781939c45f321475f00f71ef3172"
+                "reference": "fd8b70629e16ed67307fe150ba25738449b9a6b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/php-ai%2Fphp-ml/repository/archive.zip?sha=39747efdc1ff781939c45f321475f00f71ef3172",
-                "reference": "39747efdc1ff781939c45f321475f00f71ef3172",
+                "url": "https://gitlab.com/api/v4/projects/php-ai%2Fphp-ml/repository/archive.zip?sha=fd8b70629e16ed67307fe150ba25738449b9a6b2",
+                "reference": "fd8b70629e16ed67307fe150ba25738449b9a6b2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0.0"
+                "php": "^7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.0"
+                "phpbench/phpbench": "^0.16.0",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-phpunit": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12",
+                "phpunit/phpunit": "^8.0",
+                "symplify/easy-coding-standard": "^6.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Phpml": "src/"
+                "psr-4": {
+                    "Phpml\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1008,9 +1014,10 @@
                 "pattern recognition"
             ],
             "support": {
-                "issues": "https://gitlab.com/api/v4/projects/19024967/issues"
+                "issues": "https://gitlab.com/api/v4/projects/19024967/issues",
+                "source": "https://gitlab.com/php-ai/php-ml/-/tree/0.9.0"
             },
-            "time": "2017-03-05T16:45:48+00:00"
+            "time": "2020-05-27T09:52:59+00:00"
         },
         {
             "name": "psr/container",
