@@ -17,6 +17,7 @@ if (count($row) == 0) {
 } else {
 	$last = $row[0]['value'];
 }
+$force = in_array('-f', $_SERVER['argv']);
 $dataDir = '/storage/local/ConSolo/data';
 $type = 'Redump';
 $dir = $dataDir.'/dat/'.$type;
@@ -34,4 +35,4 @@ foreach ($urls as $url) {
 	unlink('dats.zip');
 	$import->go($type, $glob, $dataDir);
 }
-//$db->query("update config set config.value='{$version}' where field='{$configKey}'"); 
+//$db->query("update config set config.value='{$version}' where field='{$configKey}'");

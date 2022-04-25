@@ -1,7 +1,7 @@
 <?php
 /**
 * parses data from old-computers.com
-* 
+*
 * @todo import software,videos,docs,comments pages
 */
 
@@ -20,6 +20,7 @@ if (count($row) == 0) {
 } else {
 	$last = $row[0]['value'];
 }
+$force = in_array('-f', $_SERVER['argv']);
 $client = new Client();
 $sitePrefix = 'https://www.emucr.com/';
 $types = ['st' => 'type_id', 'c' => 'computer_id'];
@@ -78,7 +79,7 @@ foreach ($computerUrls as $idx => $url) {
 	echo "[{$idx}/{$total}] Loading URL $url\n";
 	if (file_exists($dataDir.'/json/emucr/platforms/'.$cols['computer_id'].'.json')) {
 		$cols = json_decode($dataDir.'/json/emucr/platforms/'.$cols['computer_id'].'.json', true);
-	} else{ 
+	} else{
 		/**
 		* @var \Symfony\Component\DomCrawler\Crawler
 		*/

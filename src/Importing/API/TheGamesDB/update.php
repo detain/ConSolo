@@ -1,7 +1,7 @@
 <?php
 /**
 * grabs latest TheGamesDB data and updates db
-* 
+*
 * https://api.thegamesdb.net/#/Games/GamesByPlatformID
 */
 
@@ -34,12 +34,12 @@ function apiGet($url, $index = null, $assocNested = true) {
 	}
 	$url = 'https://api.thegamesdb.net/v1/'.$url;
 	$page = 1;
-	echo 'Getting '.$index.' Page '.$page; 
+	echo 'Getting '.$index.' Page '.$page;
 	$end = false;
 	while (!$end) {
 		$ip = apiIp();
 		if ($ip === false) {
-			$end = true;				 
+			$end = true;
 		} else {
 			$cmd = 'curl -s -X GET '.escapeshellarg($url).' -H  "accept: application/json"';
 			$cmd .= ' --interface '.$ip;
@@ -48,7 +48,7 @@ function apiGet($url, $index = null, $assocNested = true) {
 			updateQueries($ip, $json);
 			if ($json['code'] == 200) {
 				$end = true;
-			}				
+			}
 		}
 	}
 	if ($json['code'] != 200) {
@@ -62,16 +62,16 @@ function apiGet($url, $index = null, $assocNested = true) {
 		while (!$end) {
 			$ip = apiIp();
 			if ($ip === false) {
-				$end = true;				 
+				$end = true;
 			} else {
 				$cmd = 'curl -s -X GET "'.$json['pages']['next'].'" -H  "accept: application/json"';
 				$cmd .= ' --interface '.$ip;
-				$response = trim(`{$cmd}`);        
+				$response = trim(`{$cmd}`);
 				$json = json_decode($response, true);
 				updateQueries($ip, $json);
 				if ($json['code'] == 200) {
 					$end = true;
-				}				
+				}
 			}
 		}
 		if ($json['code'] != 200) {
@@ -106,6 +106,7 @@ global $dataDir;
 $usePrivate = false;
 $useCache = true;
 $dataDir = '/storage/local/ConSolo/data';
+$force = in_array('-f', $_SERVER['argv']);
 if (file_exists($dataDir.'/json/tgdb/queries.json')) {
 	$queriesRemaining = json_decode(file_Get_contents($dataDir.'/json/tgdb/queries.json'), true);
 } else {
@@ -120,7 +121,7 @@ if (date('Ym') > $queriesRemaining['yearmonth']) {
 foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 	if ($useCache == true && file_exists($dataDir.'/json/tgdb/'.$type.'.json')) {
 		$var = strtolower($type);
-		$$var = json_decode(file_get_contents($dataDir.'/json/tgdb/'.$type.'.json'), true);            
+		$$var = json_decode(file_get_contents($dataDir.'/json/tgdb/'.$type.'.json'), true);
 	} else {
 		$json = apiGet($type.'?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']));
 		file_put_contents($dataDir.'/json/tgdb/'.$type.'.json', json_encode($json, JSON_PRETTY_PRINT));

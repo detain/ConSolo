@@ -21,7 +21,8 @@ if (count($row) == 0) {
 }
 $version = trim(`curl -s -L https://github.com/mamedev/mame/releases/latest|grep /mamedev/mame/releases/download/|grep lx.zip|cut -d/ -f6|cut -c5-`);
 echo "Last:    {$last}\nCurrent: {$version}\n";
-if (intval($version) <= intval($last)) {
+$force = in_array('-f', $_SERVER['argv']);
+if (intval($version) <= intval($last) && !$force) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
 echo `mkdir -p {$dataDir}/xml/mame;`;
@@ -34,7 +35,7 @@ if (!file_exists($fileXml) || !file_exists($fileSoftware)) {
 	echo 'Uncompressing MAME '.$version.PHP_EOL;
 	echo `7z x -o/tmp/update /tmp/mame.exe;`;
 	unlink('/tmp/mame.exe');
-	if (!file_exists($fileXml)) {    
+	if (!file_exists($fileXml)) {
 		echo 'Generating XML '.$fileXml.PHP_EOL;
 		//echo `mame -listxml > {$fileXml};`;
 		echo `cd /tmp/update/; wine64 mame64.exe -listxml 2>/dev/null | pv > {$fileXml};`;
@@ -63,12 +64,13 @@ $db->query("alter table mame_machines auto_increment = 1");
 $db->query("alter table mame_software auto_increment = 1");
 echo ' done!'.PHP_EOL;
 $xml = ['software', 'xml'];
-$removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster'];
+$removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster', 'sharedfeat'];
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
+	//@mkdir($dataDir.'/json/mame/'.$list);
 	$jsonFile = $dataDir.'/json/mame/'.$list.'-'.$version.'.json';
 	$fileName = $dataDir.'/xml/mame/'.$list.'-'.$version.'.xml';
-	if (!file_exists($jsonFile)) {    
+	if (!file_exists($jsonFile)) {
 		$string = file_get_contents($fileName);
 		echo "Parsing XML To Array   ";
 		$array = xml2array($string, 1, 'attribute');
@@ -81,7 +83,7 @@ foreach ($xml as $list) {
 			$array = $array['mame']['machine'];
 		}
 		echo "Writing to JSON {$jsonFile}";
-		file_put_contents($jsonFile, json_encode($array, JSON_PRETTY_PRINT));
+		//file_put_contents($jsonFile, json_encode($array, JSON_PRETTY_PRINT));
 	} else {
 		$array = json_decode(file_get_contents($jsonFile), TRUE);
 	}
@@ -90,7 +92,7 @@ foreach ($xml as $list) {
 		$fileName =  $dataDir.'/json/mame/'.$list.'/'.$data['name'].'.json';
 		echo ' '.$data['name'];
 		$jsonData = json_encode($data, JSON_PRETTY_PRINT);
-		file_put_contents($fileName, $jsonData);
+		//file_put_contents($fileName, $jsonData);
 		$db
 			->insert($list == 'software' ? 'mame_software_platforms' : 'mame')
 			->cols(['doc' => $jsonData])
@@ -116,8 +118,16 @@ foreach ($xml as $list) {
 					$partArea = (isset($gameData['part']['name']) ? [$gameData['part']] : $gameData['part']);
 					unset($gameData['part']);
 				}
+				/*if (isset($gameData['sharedfeat'])) {
+					if (isset($gameData['sharedfeat']['compatibility']))
+						$gameData['compatibility'] =  $gameData['sharedfeat']['compatibility'];
+					unset($gameData['sharedfeat']);
+				}*/
 				$gameData['platform'] = $software['name'];
 				$gameData['platform_description'] = $software['description'];
+				foreach ($removeXml as $remove)
+					if (array_key_exists($remove, $gameData))
+						unset($gameData[$remove]);
 				$gameId = $db
 					->insert('mame_software')
 					->cols($gameData)
@@ -148,7 +158,7 @@ foreach ($xml as $list) {
 						}
 					}
 				}
-			}            
+			}
 		}
 	} elseif ($list == 'xml') {
 		$machines = [];
@@ -181,7 +191,9 @@ foreach ($xml as $list) {
 			}
 		}
 	}
+	@unlink($jsonFile);
+	@unlink($fileName);
 	echo "done\n";
 }
 //echo `rm -rf /tmp/update;`;
-$db->query("update config set config.value='{$version}' where field='{$configKey}'"); 
+$db->query("update config set config.value='{$version}' where field='{$configKey}'");

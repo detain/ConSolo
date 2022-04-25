@@ -1,7 +1,7 @@
 <?php
 /**
 * parses data from old-computers.com
-* 
+*
 * @todo import software,videos,docs,comments pages
 */
 
@@ -20,6 +20,7 @@ if (count($row) == 0) {
 } else {
 	$last = $row[0]['value'];
 }
+$force = in_array('-f', $_SERVER['argv']);
 $client = new Client();
 $sitePrefix = 'https://www.old-computers.com/museum/';
 $types = ['st' => 'type_id', 'c' => 'id'];
@@ -62,7 +63,7 @@ foreach ($computerUrls as $idx => $url) {
 	echo "[{$idx}/{$total}] Loading URL $url\n";
 	if (file_exists($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json')) {
 		$cols = json_decode(file_get_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json'), true);
-	} else { 
+	} else {
 		/**
 		* @var \Symfony\Component\DomCrawler\Crawler
 		*/
@@ -106,7 +107,7 @@ foreach ($computerUrls as $idx => $url) {
 							'url' => $node->attr('href'),
 							'platform' => str_replace(' emulator', '', $node->parents()->eq(1)->filter('td:nth-child(1) > img')->attr('alt')),
 							'description' => $node->parents()->eq(1)->filter('td:nth-child(4) > p')->count() ?  str_replace(["\r\n", "\n\n"], ["\n", "\n"], $node->parents()->eq(1)->filter('td:nth-child(4) > p')->html()) : '',
-						];				 
+						];
 					});
 				} elseif ($page == 'connectors') {
 					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table tr > td:nth-child(3) > p')->each(function(Crawler $node, $i) use (&$cols, $sitePrefix) {
@@ -114,7 +115,7 @@ foreach ($computerUrls as $idx => $url) {
 							'name' => trim($node->parents()->eq(1)->filter('td:nth-child(3) > p')->text()),
 							'image' => $sitePrefix.$node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('href'),
 							'description' => str_replace(["\r\n", "\n\n", '<blockquote>', '<strong>', '</blockquote>', '</strong>'], ["\n", "\n", '', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('title'))),
-						];					
+						];
 					});
 				} elseif ($page == 'hardware') {
 					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table tr > td:nth-child(3) > p')->each(function(Crawler $node, $i) use (&$cols, $sitePrefix) {
@@ -122,7 +123,7 @@ foreach ($computerUrls as $idx => $url) {
 							'name' => trim($node->parents()->eq(1)->filter('td:nth-child(3) > p')->text()),
 							'image' => $sitePrefix.$node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('href'),
 							'description' => str_replace(["\r\n", "\n\n", '<blockquote>', '<strong>', '</blockquote>', '</strong>'], ["\n", "\n", '', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->parents()->eq(1)->filter('td:nth-child(1) > a')->attr('title'))),
-						];					
+						];
 					});
 				} elseif ($page == 'adverts') {
 					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(6) tr > td > a.highslide')->each(function(Crawler $node, $i) use (&$cols, $sitePrefix) {
@@ -131,17 +132,17 @@ foreach ($computerUrls as $idx => $url) {
 							'name' => $node->filter('img')->attr('alt')
 						];
 					});
-				} elseif ($page == 'photos') {					
+				} elseif ($page == 'photos') {
 					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(6) tr td a')->each(function(Crawler $node, $i) use (&$cols, $sitePrefix) {
 						$cols['photos'][] = [
 							'name' => trim($node->parents()->eq(0)->text()),
-							'image' => $sitePrefix.$node->attr('href'), 
+							'image' => $sitePrefix.$node->attr('href'),
 							'description' => str_replace(['<blockquote>', '<strong>', '</blockquote>', '</strong>'], ['', '', '', ''], preg_replace('/^<br><font color="red"><strong>.*<\/strong><\/font><br>/', '', $node->attr('title'))),
-						];					
+						];
 					});
 				} elseif ($page == 'links') {
 					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > blockquote > a.petitnoir3')->each(function(Crawler $node, $i) use (&$cols) {
-						$cols['links'][$i] = ['url' => $node->attr('href'), 'name' => trim($node->text())];  
+						$cols['links'][$i] = ['url' => $node->attr('href'), 'name' => trim($node->text())];
 					});
 					$crawler->filter('.petitnoir2 tr:nth-child(1) > td:nth-child(3) > blockquote > span.petitgris')->each(function(Crawler $node, $i) use (&$cols) {
 						$cols['links'][$i]['description'] = $node->html();

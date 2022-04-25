@@ -17,11 +17,12 @@ if (count($row) == 0) {
 } else {
 	$last = $row[0]['value'];
 }
+$force = in_array('-f', $_SERVER['argv']);
 $cmd = 'curl -s "https://www.tosecdev.org/downloads/category/22-datfiles"|grep pd-ctitle|sed s#"^.*<a href=\"\([^\"]*\)\">\([^>]*\)<.*$"#"\1 \2"#g';
 list($url, $version) = explode(' ', trim(`$cmd`));
 $version = str_replace('-','', $version);
 echo "Last:    {$last}\nCurrent: {$version}\n";
-if (intval($version) <= intval($last)) {
+if (intval($version) <= intval($last) && !$force) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
 $dataDir = '/storage/local/ConSolo/data';
@@ -35,4 +36,4 @@ unlink('dats.zip');
 foreach (glob($dir.'/TOSEC*') as $tosecdir) {
 	(new \Detain\ConSolo\Importing\DAT\ImportDat())->go(basename($tosecdir), $tosecdir.'/*', $dataDir);
 }
-$db->query("update config set config.value='{$version}' where field='{$configKey}'"); 
+$db->query("update config set config.value='{$version}' where field='{$configKey}'");
