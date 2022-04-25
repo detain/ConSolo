@@ -7,95 +7,6 @@ use Detain\ConSolo\Importing\API\ScreenScraper;
 
 require_once __DIR__.'/../../../bootstrap.php';
 
-function apiIp() {
-	global $queriesRemaining, $config;
-	$best = false;
-	foreach ($queriesRemaining as $key => $value) {
-		if ($key == 'yearmonth')
-			continue;
-		if ($value > 0 && ($best === false || $value > $queriesRemaining[$best]))
-			$best = $key;
-	}
-	return $best;
-}
-
-function updateQueries($ip, $json) {
-	global $queriesRemaining, $dataDir;
-	if (isset($json['remaining_monthly_allowance'])) {
-		$queriesRemaining[$ip] = $json['remaining_monthly_allowance'];
-	}
-	file_put_contents($dataDir.'/json/tgdb/queries.json', json_encode($queriesRemaining, JSON_PRETTY_PRINT));
-}
-
-function apiGet($url, $index = null, $assocNested = true) {
-	global $queriesRemaining;
-	if (is_null($index)) {
-		$index = strtolower(basename(preg_replace('/\?.*$/', '', $url)));
-	}
-	$url = 'https://api.thegamesdb.net/v1/'.$url;
-	$page = 1;
-	echo 'Getting '.$index.' Page '.$page;
-	$end = false;
-	while (!$end) {
-		$ip = apiIp();
-		if ($ip === false) {
-			$end = true;
-		} else {
-			$cmd = 'curl -s -X GET '.escapeshellarg($url).' -H  "accept: application/json"';
-			$cmd .= ' --interface '.$ip;
-			$response = trim(`{$cmd}`);
-			$json = json_decode($response, true);
-			updateQueries($ip, $json);
-			if ($json['code'] == 200) {
-				$end = true;
-			}
-		}
-	}
-	if ($json['code'] != 200) {
-		die($index.' got unknown code '.$json['code'].' status '.$json['status']);
-	}
-	$out = $json['data'][$index];
-	while (isset($json['pages']) && !is_null($json['pages']['next'])) {
-		$page++;
-		echo ' '.$page;
-		$end = false;
-		while (!$end) {
-			$ip = apiIp();
-			if ($ip === false) {
-				$end = true;
-			} else {
-				$cmd = 'curl -s -X GET "'.$json['pages']['next'].'" -H  "accept: application/json"';
-				$cmd .= ' --interface '.$ip;
-				$response = trim(`{$cmd}`);
-				$json = json_decode($response, true);
-				updateQueries($ip, $json);
-				if ($json['code'] == 200) {
-					$end = true;
-				}
-			}
-		}
-		if ($json['code'] != 200) {
-			die($index.' got unknown code '.$json['code'].' status '.$json['status'].' response:'.$response);
-		}
-		foreach ($json['data'][$index] as $idx => $data) {
-			if ($assocNested == true) {
-				if (!isset($out[$idx])) {
-					$out[$idx] = [];
-				}
-				foreach ($data as $dataIdx => $dataData) {
-					$out[$idx][] = $dataData;
-				}
-			} else {
-				$out[] = $data;
-			}
-		}
-		usleep(250000);
-	}
-	echo ' done  ';
-	$json['data'][$index] = $out;
-	return $json;
-}
-
 /**
 * @var \Workerman\MySQL\Connection
 */
@@ -108,9 +19,9 @@ $curl_config = [];
 $usePrivate = false;
 $useCache = true;
 $dataDir = '/storage/local/ConSolo/data';
-
-if (file_exists($dataDir.'/json/tgdb/queries.json')) {
-	$queriesRemaining = json_decode(file_Get_contents($dataDir.'/json/tgdb/queries.json'), true);
+@mkdir($dataDir.'/json/screenscraper', 0775, true);
+if (file_exists($dataDir.'/json/screenscraper/queries.json')) {
+	$queriesRemaining = json_decode(file_Get_contents($dataDir.'/json/screenscraper/queries.json'), true);
 } else {
 	$queriesRemaining = ['yearmonth' => 0];
 }
@@ -120,13 +31,32 @@ if (date('Ym') > $queriesRemaining['yearmonth']) {
 		$queriesRemaining[$ip] = 3000;
 	}
 }
+if ($useCache == true && file_exists($dataDir.'/json/screenscraper/platforms.json')) {
+	$platforms = json_decode(file_get_contents($dataDir.'/json/screenscraper/platforms.json'), true);
+} else {
+	$return = ScreenScraper::api('systemesListe');
+	if ($return['code'] == 200) {
+		//echo "Response:".print_r($return,true)."\n";
+		$platforms = $return['response']['response']['systemes'];
+		file_put_contents($dataDir.'/json/screenscraper/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
+		//print_r($platforms);
+	}
+}
+echo "Mapping Platforms to db\n";
+$db->query('truncate ss_platforms');
+foreach ($platforms as $platform) {
+	$db->insert('ss_platforms')
+	->cols(['doc' => json_encode($platform)])
+	->query();
+}
+exit;
 foreach (['Genres', 'Developers', 'Publishers'] as $type) {
-	if ($useCache == true && file_exists($dataDir.'/json/tgdb/'.$type.'.json')) {
+	if ($useCache == true && file_exists($dataDir.'/json/screenscraper/'.$type.'.json')) {
 		$var = strtolower($type);
-		$$var = json_decode(file_get_contents($dataDir.'/json/tgdb/'.$type.'.json'), true);
+		$$var = json_decode(file_get_contents($dataDir.'/json/screenscraper/'.$type.'.json'), true);
 	} else {
 		$json = apiGet($type.'?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']));
-		file_put_contents($dataDir.'/json/tgdb/'.$type.'.json', json_encode($json, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/json/screenscraper/'.$type.'.json', json_encode($json, JSON_PRETTY_PRINT));
 		$lower = strtolower($type);
 		$db->query('delete from tgdb_'.$lower);
 		foreach ($json['data'][$lower] as $idx => $data) {
@@ -134,23 +64,12 @@ foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 		}
 	}
 }
-if ($useCache == true && file_exists($dataDir.'/json/tgdb/Platforms.json')) {
-	$platforms = json_decode(file_get_contents($dataDir.'/json/tgdb/Platforms.json'), true);
-} else {
-	$fields = ['icon', 'console', 'controller', 'developer', 'manufacturer', 'media', 'cpu', 'memory', 'graphics', 'sound', 'maxcontrollers', 'display', 'overview', 'youtube'];
-	$platforms = apiGet('Platforms?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&fields='.urlencode(implode(',',$fields)));
-	file_put_contents($dataDir.'/json/tgdb/Platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
-	$db->query('delete from tgdb_platforms');
-	foreach ($platforms['data']['platforms'] as $idx => $data) {
-			$db->insert('tgdb_platforms')->cols($data)->lowPriority($config['db']['low_priority'])->query();
-	}
-}
 $platformIds = array_keys($platforms['data']['platforms']);
-if ($useCache == true && file_exists($dataDir.'/json/tgdb/PlatformImages.json')) {
-	$platformImages = json_decode(file_get_contents($dataDir.'/json/tgdb/PlatformImages.json'), true);
+if ($useCache == true && file_exists($dataDir.'/json/screenscraper/PlatformImages.json')) {
+	$platformImages = json_decode(file_get_contents($dataDir.'/json/screenscraper/PlatformImages.json'), true);
 } else {
 	$platformImages = apiGet('Platforms/Images?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&platforms_id='.urlencode(implode(',',$platformIds)));
-	file_put_contents($dataDir.'/json/tgdb/PlatformImages.json', json_encode($platformImages, JSON_PRETTY_PRINT));
+	file_put_contents($dataDir.'/json/screenscraper/PlatformImages.json', json_encode($platformImages, JSON_PRETTY_PRINT));
 }
 $fields = ['players', 'publishers', 'genres', 'overview', 'last_updated', 'rating', 'platform', 'coop', 'youtube', 'os', 'processor', 'ram', 'hdd', 'video', 'sound', 'alternates'];
 $subfields = ['developers', 'genres', 'publishers', 'alternates'];
@@ -160,11 +79,11 @@ foreach ($subfields as $field)
 foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {
 	$platformId = $platformData['id'];
 	echo 'Platform #'.$platformId.' '.$platformData['name'].' ';
-	if ($useCache == true && file_exists($dataDir.'/json/tgdb/platform/'.$platformId.'.json')) {
-		$games = json_decode(file_get_contents($dataDir.'/json/tgdb/platform/'.$platformId.'.json'), true);
+	if ($useCache == true && file_exists($dataDir.'/json/screenscraper/platform/'.$platformId.'.json')) {
+		$games = json_decode(file_get_contents($dataDir.'/json/screenscraper/platform/'.$platformId.'.json'), true);
 	} else {
 		$games = apiGet('Games/ByPlatformID?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&id='.$platformId.'&fields='.urlencode(implode(',',$fields)), 'games', false);
-		file_put_contents($dataDir.'/json/tgdb/platform/'.$platformId.'.json', json_encode($games, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/json/screenscraper/platform/'.$platformId.'.json', json_encode($games, JSON_PRETTY_PRINT));
 	}
 	echo 'Inserting DB Data..';
 	foreach ($games['data']['games'] as $idx => $game) {
