@@ -18,7 +18,7 @@
         "fabpot/goutte": "*",
         "react/child-process": "*",
         "react/event-loop": "*",
-        "react/http-client": "*",
+        "react/http": "*",
         "react/mysql": "*",
         "rubix/ml": "*",
         "masterminds/html5": "*",
