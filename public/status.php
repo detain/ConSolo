@@ -25,17 +25,17 @@ $names = [
     'tosec' => 'TOSEC',
 ];
 foreach ($results as $data) {
-    if ($data['key'] == 'launchbox') {
+    if ($data['field'] == 'launchbox') {
         $data['value'] = date('Y-m-d', $data['value']);
-    } elseif ($data['key'] == 'mame') {
+    } elseif ($data['field'] == 'mame') {
         $data['value'] = substr($data['value'], 0, 1).'.'.substr($data['value'], 1);
-    } elseif ($data['key'] == 'tosec') {
+    } elseif ($data['field'] == 'tosec') {
         $data['value'] = substr($data['value'], 0, 4).'-'.substr($data['value'], 4, 2).'-'.substr($data['value'], 6, 2);
     }
     $source = $newSource;
-    $source['name'] = array_key_exists($data['key'], $names) ? $names[$data['key']] : ucwords($data['key']);
+    $source['name'] = array_key_exists($data['field'], $names) ? $names[$data['field']] : ucwords($data['field']);
     $source['version'] = $data['value'];
-    $sources[$data['key']] = $source;
+    $sources[$data['field']] = $source;
 }
 $sources['toseciso'] = $sources['tosec'];
 $sources['toseciso']['name'] = 'TOSEC-ISO';
