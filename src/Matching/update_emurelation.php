@@ -346,27 +346,41 @@ foreach ($results as $data) {
 	$platforms[$platform['name']] = $matches;
 }
 $allPlatforms['local'] = $platforms;
-file_put_contents($sourceDir.'/local.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/local.json', json_encode(array_keys($platforms), JSON_PRETTY_PRINT));
 
 //file_put_contents($sourceDir.'/alternatives.json', json_encode($allAlternates, JSON_PRETTY_PRINT));
 //file_put_contents($sourceDir.'/platforms.json', json_encode($allPlatforms, JSON_PRETTY_PRINT));
 
 $found = [];
 foreach ($allPlatforms['local'] as $platform => $typeData) {
+	$found[$platform] = [];
+	//foreach (array_keys($allAlternates) as $type)
+		//$found[$platform][$type] = [];
 	foreach ($typeData as $type => $alts) {
 		foreach ($alts as $altKey) {
 			if (!array_key_exists($type, $allAlternates))
 				echo "No {$type} in all alternates for platform {$platform}\n";
 			if (array_key_exists($altKey, $allAlternates[$type])) {
 				$otherPlatform = $allAlternates[$type][$altKey];
-				if (!array_key_exists($type, $found))
-					$found[$type] = [];
-				if (!array_key_exists($otherPlatform, $found[$type]))
-					$found[$type][$otherPlatform] = [];
-				if (!in_array($platform, $found[$type][$otherPlatform]))
-					$found[$type][$otherPlatform][] = $platform;
+				if (!array_key_exists($platform, $found))
+					$found[$platform] = [];
+				if (!array_key_exists($type, $found[$platform]))
+					$found[$platform][$type] = [];
+				if (!in_array($otherPlatform, $found[$platform][$type]))
+					$found[$platform][$type][] = $otherPlatform;
 			}
 		}
 	}
+	foreach ($allAlternates as $type => $altData) {
+		if (array_key_exists($platform, $altData)) {
+			$otherPlatform = $allAlternates[$type][$platform];
+			if (!array_key_exists($platform, $found))
+				$found[$platform] = [];
+			if (!array_key_exists($type, $found[$platform]))
+				$found[$platform][$type] = [];
+			if (!in_array($otherPlatform, $found[$platform][$type]))
+				$found[$platform][$type][] = $otherPlatform;
+		}
+	}
 }
-//file_put_contents($sourceDir.'/matches.json', json_encode($found, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/../platforms.json', json_encode($found, JSON_PRETTY_PRINT));
