@@ -7,32 +7,12 @@ require_once __DIR__.'/../bootstrap.php';
 global $db, $mysqlLinkId;
 $sourceDir = '/storage/local/emurelation/sources';
 $allPlatforms = [];
-// Ours
-$results = $db->query("SELECT * FROM consolo.platforms");
-$platforms = [];
-foreach ($results as $data) {
-	unset($data['id']);
-	$platform = [];
-	foreach ($data as $field => $value)
-		if (!is_null($value))
-			$platform[$field] = $value;
-	$matches = [];
-	$results2 = $db->query("SELECT name, type FROM consolo.platform_matches where parent='".$mysqlLinkId->real_escape_string($platform['name'])."'");
-	foreach ($results2 as $data2) {
-		$data2['type'] = strtolower(str_replace(['TOSEC-PIX', 'TOSEC-ISO'], ['TOSEC', 'TOSEC'], $data2['type']));
-		if (!array_key_exists($data2['type'], $matches))
-			$matches[$data2['type']] = [];
-		if (!in_array($data2['name'], $matches[$data2['type']]))
-			$matches[$data2['type']][] = $data2['name'];
-	}
-	//if (count($matches) > 0)
-		//$platform['matches'] = $matches;
-	$platforms[$platform['name']] = $matches;
-}
-file_put_contents($sourceDir.'/local.json', json_encode($platforms, JSON_PRETTY_PRINT));
+$allAlternates = [];
 
 // LaunchBox
 $results = $db->query("SELECT * FROM consolo.launchbox_platforms");
+$alternates = [];
+$alternates = [];
 $platforms = [];
 foreach ($results as $data) {
 	$platform = [];
@@ -41,16 +21,22 @@ foreach ($results as $data) {
 			$platform[strtolower($field)] = $value;
 	$alts = [];
 	$results2 = $db->query("SELECT Alternate FROM consolo.launchbox_platformalternatenames where Name='".$mysqlLinkId->real_escape_string($data['Name'])."'");
-	foreach ($results2 as $data2)
+	foreach ($results2 as $data2) {
 		$alts[] = $data2['Alternate'];
+		$alternates[$data2['Alternate']] = $platform['name'];
+	}
 	if (count($alts) > 0)
 		$platform['alternate'] = $alts;
+	$alternates[$platform['name']] = $platform['name'];
 	$platforms[$platform['name']] = $platform;
 }
+$allPlatforms['launchbox'] = $platforms;
+$allAlternates['launchbox'] = $alternates;
 file_put_contents($sourceDir.'/launchbox.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
 // TheGamesDB
 $results = $db->query("SELECT * FROM consolo.tgdb_platforms");
+$alternates = [];
 $platforms = [];
 foreach ($results as $data) {
 	$platform = [];
@@ -64,36 +50,32 @@ foreach ($results as $data) {
 		if (strtolower(substr($platform, 0, strlen($manuf)+1)) != strtolower($manuf.' '))
 			$platform = $manuf.' '.$platform;
 	}
+	$alternates[$platform] = $platform;
 	$platforms[$platform] = $data;
 }
+$allPlatforms['thegamesdb'] = $platforms;
+$allAlternates['thegamesdb'] = $alternates;
 file_put_contents($sourceDir.'/thegamesdb.json', json_encode($platforms, JSON_PRETTY_PRINT));
-
-// Old-Computers.com
-$results = $db->query("SELECT * FROM consolo.oc_platforms");
-$platforms = [];
-foreach ($results as $data) {
-	unset($data['doc']);
-	$platform = [];
-	foreach ($data as $field => $value)
-		if (!is_null($value))
-			$platform[$field] = $value;
-	$platforms[$platform['company_name'].' '.$platform['name']] = $platform;
-}
-file_put_contents($sourceDir.'/oldcomputers.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
 // TOSEC
 $results = $db->query("SELECT name FROM consolo.dat_files where type in ('TOSEC','TOSEC-ISO')");
+$alternates = [];
 $platforms = [];
 foreach ($results as $data) {
 	$platform = preg_replace('/^(.*) - .*$/uU', '$1', $data['name']);
 	if (!array_key_exists($platform, $platforms))
 		$platforms[$platform] = ['files' => []];
 	$platforms[$platform]['files'][] = $data['name'];
+	$alternates[$platform] = $platform;
+	$alternates[$data['name']] = $platform;
 }
+$allPlatforms['tosec'] = $platforms;
+$allAlternates['tosec'] = $alternates;
 file_put_contents($sourceDir.'/tosec.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
 // No-Intro
 $results = $db->query("SELECT name FROM consolo.dat_files where type='No-Intro'");
+$alternates = [];
 $platforms = [];
 foreach ($results as $data) {
 	$platform = preg_replace('/^((Unofficial|Non-Redump|Source Code) - )?(.*)$/u', '$3', $data['name']);
@@ -106,102 +88,33 @@ foreach ($results as $data) {
 		$platform = $manufacturer.' '.$platform;
 		if (!array_key_exists($platform, $platforms))
 			$platforms[$platform] = ['files' => []];
+		$alternates[$platform] = $platform;
+		$alternates[$data['name']] = $platform;
 		$platforms[$platform]['files'][] = $data['name'];
 	}
 }
+$allPlatforms['nointro'] = $platforms;
+$allAlternates['nointro'] = $alternates;
 file_put_contents($sourceDir.'/nointro.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
 // Redump
 $results = $db->query("SELECT name FROM consolo.dat_files where type='Redump'");
+$alternates = [];
 $platforms = [];
 foreach ($results as $data) {
 	$platform = preg_replace('/^(Arcade - )?(.*)$/mu', '$2', $data['name']);
 	$platform = str_replace(' - ', ' ', $platform);
 	if (!array_key_exists($platform, $platforms))
 		$platforms[$platform] = ['files' => []];
+	$alternates[$platform] = $platform;
+	$alternates[$data['name']] = $platform;
 	$platforms[$platform]['files'][] = $data['name'];
 }
+$allPlatforms['redump'] = $platforms;
+$allAlternates['redump'] = $alternates;
 file_put_contents($sourceDir.'/redump.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
-// ScreenScraper.fr
-$results = $db->query("SELECT doc FROM consolo.ss_platforms");
-$fields = [
-	'compagnie' => 'company',
-	'datedebut' => 'date_start',
-	'datefin' => 'date_end',
-];
-$types = [
-	'Accessoire' => 'Accessory',
-	'Arcade' => 'Arcade',
-	'Autres' => 'Others',
-	'Console' => 'Console',
-	'Console & Arcade' => 'Console & Arcade',
-	'Console &amp; Arcade' => 'Console & Arcade',
-	'Console Portable' => 'Portable Console',
-	'Emulation Arcade' => 'Arcade Emulator',
-	'Flipper' => 'Pinball',
-	'Machine Virtuelle' => 'Virtual Machine',
-	'Ordinateur' => 'Computer',
-	'Smartphone' => 'Smartphone',
-];
-$romtypes = [
-	'dossier' => 'folder',
-	'fichier' => 'file',
-	'iso' => 'iso',
-	'rom' => 'rom',
-];
-$supporttypes = [
-	'carte' => 'menu',
-	'cartouche' => 'cartridge',
-	'cartouche-download' => 'cartridge-download',
-	'cartouche-k7' => 'cartridge-k7',
-	'cartouche-k7-disquette' => 'cartridge-k7-floppy disk',
-	'cd' => 'cd',
-	'cd-disquette' => 'cd-floppy disk',
-	'disquette' => 'floppy disk',
-	'download' => 'download',
-	'hardware' => 'hardware',
-	'k7' => 'k7',
-	'k7-disquette' => 'k7-floppy disk',
-	'non-applicable' => 'non-applicable',
-	'pcb' => 'pcb',
-	'smc' => 'smc',
-	'videotape' => 'video tape',
-];
-$platforms = [];
-foreach ($results as $data) {
-	$json = json_decode(str_replace('&apos;', "'", html_entity_decode($data['doc'])), true);
-	unset($json['medias']);
-	foreach ($json['noms'] as $field => $value) {
-		$field = str_replace(['noms_commun', 'nom_'], ['alternate', 'name_'], $field);
-		$json[$field] = $value;
-	}
-	unset($json['noms']);
-	if (isset($json['name_us']))
-		$json['name'] = $json['name_us'];
-	elseif (isset($json['name_eu']))
-		$json['name'] = $json['name_eu'];
-	elseif (isset($json['name_jp']))
-		$json['name'] = $json['name_jp'];
-	foreach ($fields as $field => $value) {
-		if (isset($json[$field])) {
-			$json[$value] = $json[$field];
-			unset($json[$field]);
-		}
-	}
-	if (isset($json['type']))
-		$json['type'] = $types[$json['type']];
-	if (isset($json['romtype']))
-		$json['romtype'] = $romtypes[$json['romtype']];
-	if (isset($json['supporttype']))
-		$json['supporttype'] = $supporttypes[$json['supporttype']];
-	if (isset($json['alternate']))
-		$json['alternate'] = explode(',', $json['alternate']);
-	$platform = isset($json['company']) ? $json['company'].' '.$json['name'] : $json['name'];
-	$platforms[$platform] = $json;
-}
-file_put_contents($sourceDir.'/screenscraper.json', json_encode($platforms, JSON_PRETTY_PRINT));
-
+// MAME
 $mediaTypes = [
 	'- Datach Joint ROM System mini-cartridges',
 	'- Nantettatte!! Baseball mini-cartridges',
@@ -288,6 +201,7 @@ $mediaTypes = [
 	'ROM',
 ];
 $results = $db->query("SELECT name, description FROM consolo.mame_software_platforms");
+$alternates = [];
 $platforms = [];
 foreach ($results as $data) {
 	$platform = $data['description'];
@@ -296,212 +210,163 @@ foreach ($results as $data) {
 			$platform = preg_replace('/\s+'.preg_quote($type, '/').'$/i', '', $platform);
 	if (!array_key_exists($platform, $platforms))
 		$platforms[$platform] = ['types' => [], 'short' => []];
+	$alternates[$platform] = $platform;
+	$alternates[$data['description']] = $platform;
+	$alternates[$data['name']] = $platform;
 	$platforms[$platform]['types'][] = $data['description'];
 	$platforms[$platform]['short'][] = $data['name'];
 }
+$allPlatforms['mame'] = $platforms;
+$allAlternates['mame'] = $alternates;
 file_put_contents($sourceDir.'/mame.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
-
-
-exit;
-$json = json_decode(file_get_contents(__DIR__.'/../../json/platforms.json'), true);
-$platform_manufacturers = json_decode(file_get_contents(__DIR__.'/../../json/platform_manufacturers.json'), true);
-$platformSrc = [];
-$platformAlt = [];
+// Old-Computers.com
+$results = $db->query("SELECT * FROM consolo.oc_platforms");
+$alternates = [];
 $platforms = [];
-foreach ($json as $platform => $alternatives) {
-	$platforms[] = $platform;
-	foreach ($alternatives as $alternative => $sources) {
-		if (!array_key_exists($alternative, $platformAlt))
-			$platformAlt[$alternative] = $platform;
-		if (!array_key_exists($alternative, $platformSrc))
-			$platformSrc[$alternative] = [];
-		foreach ($sources as $source) {
-			$platformSrc[$alternative][] = $source;
-		}
-	}
+foreach ($results as $data) {
+	unset($data['doc']);
+	$platform = [];
+	foreach ($data as $field => $value)
+		if (!is_null($value))
+			$platform[$field] = $value;
+	$alternates[$platform['company_name'].' '.$platform['name']] = $platform['company_name'].' '.$platform['name'];
+	$platforms[$platform['company_name'].' '.$platform['name']] = $platform;
 }
-$rows = $db->select('name')
-	->from('tgdb_platforms')
-	->column();
-foreach ($rows as $platform) {
-	if (!array_key_exists($platform, $platformAlt)) {
-		echo "Missing TGDB Platform {$platform}\n";
-	}
-}
-$rows = $db->select('Name')
-	->from('launchbox_platforms')
-	->column();
-foreach ($rows as $platform) {
-	if (!array_key_exists($platform, $platformAlt)) {
-		echo "Missing LaunchBox Platform {$platform}\n";
-	} else {
+$allPlatforms['oldcomputers'] = $platforms;
+$allAlternates['oldcomputers'] = $alternates;
+file_put_contents($sourceDir.'/oldcomputers.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
-		$rows2 = $db->query("SELECT Name, Alternate FROM launchbox_platformalternatenames where Name='".$mysqlLinkId->real_escape_string($platform)."'");
-		$mainPlatform = $platformAlt[$platform];
-		foreach ($rows2 as $row) {
-			if (!array_key_exists($row['Alternate'], $platformAlt))
-				$platformAlt[$row['Alternate']] = $mainPlatform;
-			if (!array_key_exists($row['Alternate'], $platformSrc)) {
-				$platformSrc[$row['Alternate']] = ['LaunchBox'];
-			} elseif (!in_array('LaunchBox', $platformSrc[$row['Alternate']])) {
-				$platformSrc[$row['Alternate']][] = 'LaunchBox';
-			}
+// ScreenScraper.fr
+$results = $db->query("SELECT doc FROM consolo.ss_platforms");
+$fields = [
+	'compagnie' => 'company',
+	'datedebut' => 'date_start',
+	'datefin' => 'date_end',
+];
+$types = [
+	'Accessoire' => 'Accessory',
+	'Arcade' => 'Arcade',
+	'Autres' => 'Others',
+	'Console' => 'Console',
+	'Console & Arcade' => 'Console & Arcade',
+	'Console &amp; Arcade' => 'Console & Arcade',
+	'Console Portable' => 'Portable Console',
+	'Emulation Arcade' => 'Arcade Emulator',
+	'Flipper' => 'Pinball',
+	'Machine Virtuelle' => 'Virtual Machine',
+	'Ordinateur' => 'Computer',
+	'Smartphone' => 'Smartphone',
+];
+$romtypes = [
+	'dossier' => 'folder',
+	'fichier' => 'file',
+	'iso' => 'iso',
+	'rom' => 'rom',
+];
+$supporttypes = [
+	'carte' => 'menu',
+	'cartouche' => 'cartridge',
+	'cartouche-download' => 'cartridge-download',
+	'cartouche-k7' => 'cartridge-k7',
+	'cartouche-k7-disquette' => 'cartridge-k7-floppy disk',
+	'cd' => 'cd',
+	'cd-disquette' => 'cd-floppy disk',
+	'disquette' => 'floppy disk',
+	'download' => 'download',
+	'hardware' => 'hardware',
+	'k7' => 'k7',
+	'k7-disquette' => 'k7-floppy disk',
+	'non-applicable' => 'non-applicable',
+	'pcb' => 'pcb',
+	'smc' => 'smc',
+	'videotape' => 'video tape',
+];
+$alternates = [];
+$platforms = [];
+foreach ($results as $data) {
+	$json = json_decode(str_replace('&apos;', "'", html_entity_decode($data['doc'])), true);
+	unset($json['medias']);
+	foreach ($json['noms'] as $field => $value) {
+		$field = str_replace(['noms_commun', 'nom_'], ['alternate', 'name_'], $field);
+		$json[$field] = $value;
+	}
+	unset($json['noms']);
+	if (isset($json['name_us']))
+		$json['name'] = $json['name_us'];
+	elseif (isset($json['name_eu']))
+		$json['name'] = $json['name_eu'];
+	elseif (isset($json['name_jp']))
+		$json['name'] = $json['name_jp'];
+	foreach ($fields as $field => $value) {
+		if (isset($json[$field])) {
+			$json[$value] = $json[$field];
+			unset($json[$field]);
 		}
 	}
+	$platform = isset($json['company']) ? $json['company'].' '.$json['name'] : $json['name'];
+	if (isset($json['type']))
+		$json['type'] = $types[$json['type']];
+	if (isset($json['romtype']))
+		$json['romtype'] = $romtypes[$json['romtype']];
+	if (isset($json['supporttype']))
+		$json['supporttype'] = $supporttypes[$json['supporttype']];
+	if (isset($json['alternate'])) {
+		$json['alternate'] = explode(',', $json['alternate']);
+		foreach ($json['alternate'] as $alternate)
+			$alternates[$alternate] = $platform;
+	}
+	$alternates[$platform] = $platform;
+	$platforms[$platform] = $json;
 }
-$dataDir = '/storage/local/ConSolo/json';
-$silentSources = ['OldComputers'];
-foreach ($platform_manufacturers as $source => $manufacturers) {
-	foreach ($manufacturers as $manufacturer => $sourcePlatforms) {
-		foreach ($sourcePlatforms as $idx => $platform) {
-			if (is_array($platform)) {
-				$platformArray = $platform;
-				$platform = key($platformArray);
-				$mainPlatform = $platformArray[$platform];
-			}
-			if (in_array($source, ['TheGamesDB', 'LaunchBox'])) {
-				// the platforms for these often include the manufacturer name already
-				if (!array_key_exists($manufacturer.' '.$platform, $platformAlt)) {
-					if (!array_key_exists($platform, $platformAlt)) {
-						if (!in_array($source, $silentSources))
-							echo 'Missing '.$source.' Manufacturer '.$manufacturer.' with combined Platform '.$platform.PHP_EOL;
-					} else {
-						$sourcePlatforms[$idx] = [$platform => $platformAlt[$platform]];
-						//echo 'Found '.$source.' Manufacturer '.$manufacturer.' with combined Platform '.$platform.PHP_EOL;
-					}
-				} else {
-					$sourcePlatforms[$idx] = [$platform => $platformAlt[$manufacturer.' '.$platform]];
-					//echo 'Found '.$source.' Manufacturer '.$manufacturer.' Platform '.$platform.PHP_EOL;
-				}
-			} else {
-				// the platform and manufacturer are seprate/nested
-				if (!array_key_exists($manufacturer.' '.$platform, $platformAlt)) {
-					if (!in_array($source, $silentSources))
-						echo "\"{$manufacturer} {$platform}\":{\"{$manufacturer} {$platform}\":[\"{$source}\"]},".PHP_EOL;
-				} else {
-					//echo 'Found '.$source.' Manufacturer '.$manufacturer.' Platform '.$platform.PHP_EOL;
-					$sourcePlatforms[$idx] = [$platform => $platformAlt[$manufacturer.' '.$platform]];
-				}
-			}
+$allPlatforms['screenscraper'] = $platforms;
+$allAlternates['screenscraper'] = $alternates;
+file_put_contents($sourceDir.'/screenscraper.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
-		}
-		$manufacturers[$manufacturer] = $sourcePlatforms;
+// Ours
+$results = $db->query("SELECT * FROM consolo.platforms");
+$platforms = [];
+foreach ($results as $data) {
+	unset($data['id']);
+	$platform = [];
+	foreach ($data as $field => $value)
+		if (!is_null($value))
+			$platform[$field] = $value;
+	$matches = [];
+	$results2 = $db->query("SELECT name, type FROM consolo.platform_matches where parent='".$mysqlLinkId->real_escape_string($platform['name'])."'");
+	foreach ($results2 as $data2) {
+		$data2['type'] = strtolower(str_replace(['TOSEC-PIX', 'TOSEC-ISO'], ['TOSEC', 'TOSEC'], $data2['type']));
+		if (!array_key_exists($data2['type'], $matches))
+			$matches[$data2['type']] = [];
+		if (!in_array($data2['name'], $matches[$data2['type']]))
+			$matches[$data2['type']][] = $data2['name'];
 	}
-	$platform_manufacturers[$source] = $manufacturers;
+	//if (count($matches) > 0)
+		//$platform['matches'] = $matches;
+	$platforms[$platform['name']] = $matches;
 }
-file_put_contents($dataDir.'/platform_manufacturers.json', json_encode($platform_manufacturers, JSON_PRETTY_PRINT));
-$rows = $db->query('SELECT platform,platform_description FROM mame_software group by platform');
-foreach ($rows as $row) {
-	$platform = $row['platform_description'];
-	$platformCut = $platform;
-	foreach ($mediaTypes as $type) {
-		if (preg_match('/\s+'.preg_quote($type, '/').'$/i', $platformCut) !== false) {
-			$platformCut = preg_replace('/\s+'.preg_quote($type, '/').'$/i', '', $platformCut);
-		}
-	}
-	if (!array_key_exists($platform, $platformSrc))
-		$platformSrc[$platform] = [];
-	//if (!array_key_exists($platformCut, $platformSrc))
-		//$platformSrc[$platformCut] = [];
-	if (!array_key_exists($platform, $platformAlt)) {
-		if (!array_key_exists($platformCut, $platformAlt)) {
-			$platforms[] = $platformCut;
-			$platformAlt[$platform] = $platformCut;
-			$platformSrc[$platform][] = 'MAME';
-			//$platformSrc[$platformCut][] = 'MAME';
-		} else {
-			$platformAlt[$platform] = $platformAlt[$platformCut];
-			if (!in_array('MAME', $platformSrc[$platform]))
-				$platformSrc[$platform][] = 'MAME';
-			if (!array_key_exists($row['platform'], $platformAlt))
-				$platformAlt[$row['platform']] = $platformAlt[$platformCut];
-			if (!array_key_exists($row['platform'], $platformSrc)) {
-				$platformSrc[$row['platform']] = ['MAME'];
-			} elseif (!in_array('MAME', $platformSrc[$row['platform']])) {
-				$platformSrc[$row['platform']][] = 'MAME';
+$allPlatforms['local'] = $platforms;
+file_put_contents($sourceDir.'/local.json', json_encode($platforms, JSON_PRETTY_PRINT));
+
+//file_put_contents($sourceDir.'/alternatives.json', json_encode($allAlternates, JSON_PRETTY_PRINT));
+//file_put_contents($sourceDir.'/platforms.json', json_encode($allPlatforms, JSON_PRETTY_PRINT));
+
+$found = [];
+foreach ($allPlatforms['local'] as $platform => $typeData) {
+	foreach ($typeData as $type => $alts) {
+		foreach ($alts as $altKey) {
+			if (!array_key_exists($type, $allAlternates))
+				echo "No {$type} in all alternates for platform {$platform}\n";
+			if (array_key_exists($altKey, $allAlternates[$type])) {
+				$otherPlatform = $allAlternates[$type][$altKey];
+				if (!array_key_exists($type, $found))
+					$found[$type] = [];
+				if (!array_key_exists($otherPlatform, $found[$type]))
+					$found[$type][$otherPlatform] = [];
+				if (!in_array($platform, $found[$type][$otherPlatform]))
+					$found[$type][$otherPlatform][] = $platform;
 			}
 		}
-	} else {
-		if (!array_key_exists($platformCut, $platformAlt)) {
-			//$platformAlt[$platformCut] = $platformAlt[$platform];
-			//$platformSrc[$platformCut] = ['MAME'];
-		}
-		if (!array_key_exists($row['platform'], $platformAlt))
-			$platformAlt[$row['platform']] = $platform;
-		if (!array_key_exists($row['platform'], $platformSrc)) {
-			//echo 'Added MAME Platform '.$row['platform'].PHP_EOL;
-			$platformSrc[$row['platform']] = ['MAME'];
-		} elseif (!in_array('MAME', $platformSrc[$row['platform']])) {
-			//echo 'Added MAME Platform '.$row['platform'].PHP_EOL;
-			$platformSrc[$row['platform']][] = 'MAME';
-		}
 	}
 }
-$platformMain = [];
-foreach ($platformAlt as $alt => $platform) {
-	if (!array_key_exists($platform, $platformMain))
-		$platformMain[$platform] = [];
-	$platformMain[$platform][] = $alt;
-}
-foreach ($platforms as $platform) {
-	$all = $alt = array_key_exists($platform, $platformMain) ? $platformMain[$platform] : [];
-	$all[] = $platform;
-	foreach ($all as $idx => $row) {
-		$all[$idx] = str_replace("'", "\\'", $row);
-	}
-	$rows = $db->query("select name, manufacturer from oldcomputers_platforms where name in ('".implode("','", $all)."') or concat(manufacturer, ' ', name) in ('".implode("','", $all)."')");
-	if (count($rows)) {
-		//echo "Found for ".count($rows)." Platform {$platform} Alts ".implode(', ', $alt).PHP_EOL;
-		//print_r($rows);
-		$name = str_replace($rows[0]['manufacturer'].' '.$rows[0]['manufacturer'].' ', $rows[0]['manufacturer'].' ', $rows[0]['manufacturer'].' '.$rows[0]['name']);
-		if (!array_key_exists($name, $platformAlt))
-			$platformAlt[$name] = $platform;
-		if (!array_key_exists($platform, $platformMain))
-			$platformMain[$platform] = [$name];
-		elseif (!in_array($name, $platformMain[$platform]))
-			$platformMain[$platform][] = $name;
-		if (!array_key_exists($name, $platformSrc))
-			$platformSrc[$name] = ['OldComputers'];
-		elseif (!in_array('OldComputers', $platformSrc[$name]))
-			$platformSrc[$name][] = 'OldComputers';
-	}
-}
-$db->query("truncate platform_matches");
-$db->query("truncate platforms");
-//$db->query("delete from platforms");
-//$db->query("alter table platforms auto_increment=1");
-sort($platforms);
-$json = [];
-foreach ($platforms as $platform) {
-	$json[$platform] = [];
-	$id = $db->insert('platforms')
-		->cols(['name' => $platform])
-		->query();
-	echo 'Added Platform '.$id.' '.$platform.PHP_EOL;
-	if (isset($platformMain[$platform]))
-		foreach ($platformMain[$platform] as $alt) {
-			$json[$platform][$alt] = [];
-			foreach ($platformSrc[$alt] as $source) {
-				$json[$platform][$alt][] = $source;
-				$db->insert('platform_matches')
-					->cols([
-						'parent' => $platform,
-						'name' => $alt,
-						'type' => $source,
-					])
-					->query();
-				echo '	Added '.$source.' Platform Alt '.$alt.PHP_EOL;
-			}
-		}
-}
-foreach ($json as $platform => $data) {
-	foreach ($data as $name => $subplatforms)
-		$data[$name] = array_unique($subplatforms);
-	$json[$platform] = $data;
-}
-$lines = [];
-foreach ($json as $platform => $rows) {
-	$lines[] = '	"'.$platform.'": '.json_encode($rows);
-}
-file_put_contents(__DIR__.'/../../json/platforms.json', '{'.PHP_EOL.implode(','.PHP_EOL, $lines).PHP_EOL.'}');
+//file_put_contents($sourceDir.'/matches.json', json_encode($found, JSON_PRETTY_PRINT));
