@@ -57,7 +57,8 @@ $types = [
 	'Arcade' => 'Arcade',
 	'Autres' => 'Others',
 	'Console' => 'Console',
-	'Console &amp; Arcade' => 'Console &amp; Arcade',
+	'Console & Arcade' => 'Console & Arcade',
+	'Console &amp; Arcade' => 'Console & Arcade',
 	'Console Portable' => 'Portable Console',
 	'Emulation Arcade' => 'Arcade Emulator',
 	'Flipper' => 'Pinball',
@@ -91,7 +92,7 @@ $supporttypes = [
 ];
 $platforms = [];
 foreach ($results as $data) {
-	$json = json_decode($data['doc'], true);
+	$json = json_decode(str_replace('&apos;', "'", html_entity_decode($data['doc'])), true);
 	unset($json['medias']);
 	foreach ($json['noms'] as $field => $value) {
 		$field = str_replace(['noms_commun', 'nom_'], ['alternate', 'name_'], $field);
