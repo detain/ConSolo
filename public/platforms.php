@@ -24,30 +24,30 @@ global $twig;
 $results = $db->query("select * from config");
 $sources = [];
 $newSource = [
-    'name' => '',
-    'version' => '',
-    'games' => 0,
-    'roms' => 0,
-    'platforms' => 0,
-    'emulators' => 0,
+	'name' => '',
+	'version' => '',
+	'games' => 0,
+	'roms' => 0,
+	'platforms' => 0,
+	'emulators' => 0,
 ];
 $names = [
-    'launchbox' => 'LaunchBox',
-    'mame' => 'MAME',
-    'tosec' => 'TOSEC',
+	'launchbox' => 'LaunchBox',
+	'mame' => 'MAME',
+	'tosec' => 'TOSEC',
 ];
 foreach ($results as $data) {
-    if ($data['field'] == 'launchbox') {
-        $data['value'] = date('Y-m-d', $data['value']);
-    } elseif ($data['field'] == 'mame') {
-        $data['value'] = substr($data['value'], 0, 1).'.'.substr($data['value'], 1);
-    } elseif ($data['field'] == 'tosec') {
-        $data['value'] = substr($data['value'], 0, 4).'-'.substr($data['value'], 4, 2).'-'.substr($data['value'], 6, 2);
-    }
-    $source = $newSource;
-    $source['name'] = array_key_exists($data['field'], $names) ? $names[$data['field']] : ucwords($data['field']);
-    $source['version'] = $data['value'];
-    $sources[$data['field']] = $source;
+	if ($data['field'] == 'launchbox') {
+		$data['value'] = date('Y-m-d', $data['value']);
+	} elseif ($data['field'] == 'mame') {
+		$data['value'] = substr($data['value'], 0, 1).'.'.substr($data['value'], 1);
+	} elseif ($data['field'] == 'tosec') {
+		$data['value'] = substr($data['value'], 0, 4).'-'.substr($data['value'], 4, 2).'-'.substr($data['value'], 6, 2);
+	}
+	$source = $newSource;
+	$source['name'] = array_key_exists($data['field'], $names) ? $names[$data['field']] : ucwords($data['field']);
+	$source['version'] = $data['value'];
+	$sources[$data['field']] = $source;
 }
 $sources['toseciso'] = $sources['tosec'];
 $sources['toseciso']['name'] = 'TOSEC-ISO';
@@ -74,12 +74,12 @@ $sources['oldcomputers'] = $newSource;
 $sources['oldcomputers']['name'] = 'Old-Computers';
 $sources['oldcomputers']['platforms'] = ($db->column("SELECT count(*) FROM oldcomputers_platforms"))[0];
 $sources['oldcomputers']['emulators'] = ($db->column("SELECT count(*) FROM oldcomputers_emulators"))[0];
- 
-//echo '<pre style="text-align: left;">';print_r($versions);echo '</pre>';exit;  
+
+//echo '<pre style="text-align: left;">';print_r($versions);echo '</pre>';exit;
 
 echo $twig->render('status.twig', array(
-    'sources' => $sources,
+	'sources' => $sources,
 //    'client_id' => $_GET['client_id'],
 //    'response_type' => $_GET['response_type'],
-    'queryString' => $_SERVER['QUERY_STRING']
+	'queryString' => $_SERVER['QUERY_STRING']
 ));
