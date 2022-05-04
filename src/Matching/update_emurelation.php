@@ -6,6 +6,49 @@ require_once __DIR__.'/../bootstrap.php';
 */
 global $db;
 $sourceDir = '/storage/local/emurelation/sources';
+// LaunchBox
+$results = $db->query("SELECT * FROM consolo.launchbox_platforms");
+$platforms = [];
+foreach ($results as $data) {
+	$platform = [];
+	foreach ($data as $field => $value)
+		if (!is_null($value))
+			$platform[strtolower($field)] = $value;
+	$alts = [];
+	$results2 = $db->query("SELECT Alternate FROM consolo.launchbox_platformalternatenames where Name='{$data['Name']}'");
+	foreach ($results2 as $data2)
+		$alts[] = $data2['Alternate'];
+	if (count($alts) > 0)
+		$platform['alternate'] = $alts;
+	$platforms[$platform['name']] = $platform;
+}
+file_put_contents($sourceDir.'/launchbox.json', json_encode($platforms, JSON_PRETTY_PRINT));
+
+// TheGamesDB
+$results = $db->query("SELECT * FROM consolo.tgdb_platforms");
+$platforms = [];
+foreach ($results as $data) {
+	$platform = [];
+	foreach ($data as $field => $value)
+		if (!is_null($value))
+			$platform[$field] = $value;
+	$platforms[$platform['name']] = $platform;
+}
+file_put_contents($sourceDir.'/thegamesdb.json', json_encode($platforms, JSON_PRETTY_PRINT));
+
+// Old-Computers.com
+$results = $db->query("SELECT * FROM consolo.oc_platforms");
+$platforms = [];
+foreach ($results as $data) {
+	unset($data['doc']);
+	$platform = [];
+	foreach ($data as $field => $value)
+		if (!is_null($value))
+			$platform[$field] = $value;
+	$platforms[$platform['company_name'].' '.$platform['name']] = $platform;
+}
+file_put_contents($sourceDir.'/oldcomputers.json', json_encode($platforms, JSON_PRETTY_PRINT));
+
 // TOSEC
 $results = $db->query("SELECT name FROM consolo.dat_files where type in ('TOSEC','TOSEC-ISO')");
 $platforms = [];
@@ -122,7 +165,6 @@ foreach ($results as $data) {
 }
 file_put_contents($sourceDir.'/screenscraper.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
-exit;
 $mediaTypes = [
 	'- Datach Joint ROM System mini-cartridges',
 	'- Nantettatte!! Baseball mini-cartridges',
@@ -208,6 +250,23 @@ $mediaTypes = [
 	'ROMs',
 	'ROM',
 ];
+$results = $db->query("SELECT name, description FROM consolo.mame_software_platforms");
+$platforms = [];
+foreach ($results as $data) {
+	$platform = $data['description'];
+	foreach ($mediaTypes as $type)
+		if (preg_match('/\s+'.preg_quote($type, '/').'$/i', $platform) !== false)
+			$platform = preg_replace('/\s+'.preg_quote($type, '/').'$/i', '', $platform);
+	if (!array_key_exists($platform, $platforms))
+		$platforms[$platform] = ['types' => [], 'short' => []];
+	$platforms[$platform]['types'][] = $data['description'];
+	$platforms[$platform]['short'][] = $data['name'];
+}
+file_put_contents($sourceDir.'/mame.json', json_encode($platforms, JSON_PRETTY_PRINT));
+
+
+
+exit;
 $json = json_decode(file_get_contents(__DIR__.'/../../json/platforms.json'), true);
 $platform_manufacturers = json_decode(file_get_contents(__DIR__.'/../../json/platform_manufacturers.json'), true);
 $platformSrc = [];
