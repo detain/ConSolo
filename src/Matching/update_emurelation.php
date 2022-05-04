@@ -4,8 +4,33 @@ require_once __DIR__.'/../bootstrap.php';
 /**
 * @var \Workerman\MySQL\Connection
 */
-global $db;
+global $db, $mysqlLinkId;
 $sourceDir = '/storage/local/emurelation/sources';
+$allPlatforms = [];
+// Ours
+$results = $db->query("SELECT * FROM consolo.platforms");
+$platforms = [];
+foreach ($results as $data) {
+	unset($data['id']);
+	$platform = [];
+	foreach ($data as $field => $value)
+		if (!is_null($value))
+			$platform[$field] = $value;
+	$matches = [];
+	$results2 = $db->query("SELECT name, type FROM consolo.platform_matches where parent='".$mysqlLinkId->real_escape_string($platform['name'])."'");
+	foreach ($results2 as $data2) {
+		$data2['type'] = strtolower(str_replace(['TOSEC-PIX', 'TOSEC-ISO'], ['TOSEC', 'TOSEC'], $data2['type']));
+		if (!array_key_exists($data2['type'], $matches))
+			$matches[$data2['type']] = [];
+		if (!in_array($data2['name'], $matches[$data2['type']]))
+			$matches[$data2['type']][] = $data2['name'];
+	}
+	//if (count($matches) > 0)
+		//$platform['matches'] = $matches;
+	$platforms[$platform['name']] = $matches;
+}
+file_put_contents($sourceDir.'/local.json', json_encode($platforms, JSON_PRETTY_PRINT));
+
 // LaunchBox
 $results = $db->query("SELECT * FROM consolo.launchbox_platforms");
 $platforms = [];
@@ -15,7 +40,7 @@ foreach ($results as $data) {
 		if (!is_null($value))
 			$platform[strtolower($field)] = $value;
 	$alts = [];
-	$results2 = $db->query("SELECT Alternate FROM consolo.launchbox_platformalternatenames where Name='{$data['Name']}'");
+	$results2 = $db->query("SELECT Alternate FROM consolo.launchbox_platformalternatenames where Name='".$mysqlLinkId->real_escape_string($data['Name'])."'");
 	foreach ($results2 as $data2)
 		$alts[] = $data2['Alternate'];
 	if (count($alts) > 0)
@@ -59,6 +84,7 @@ foreach ($results as $data) {
 	$platforms[$platform]['files'][] = $data['name'];
 }
 file_put_contents($sourceDir.'/tosec.json', json_encode($platforms, JSON_PRETTY_PRINT));
+
 // No-Intro
 $results = $db->query("SELECT name FROM consolo.dat_files where type='No-Intro'");
 $platforms = [];
@@ -70,24 +96,26 @@ foreach ($results as $data) {
 		$platform = $matches['platform'];
 		if (substr($platform, 0, strlen($manufacturer)+3) == $manufacturer.' - ')
 			$platform = substr($platform, strlen($manufacturer)+3);
-		if (!array_key_exists($manufacturer, $platforms))
-			$platforms[$manufacturer] = [];
-		if (!array_key_exists($platform, $platforms[$manufacturer]))
-			$platforms[$manufacturer][$platform] = ['files' => []];
-		$platforms[$manufacturer][$platform]['files'][] = $data['name'];
+		$platform = $manufacturer.' '.$platform;
+		if (!array_key_exists($platform, $platforms))
+			$platforms[$platform] = ['files' => []];
+		$platforms[$platform]['files'][] = $data['name'];
 	}
 }
 file_put_contents($sourceDir.'/nointro.json', json_encode($platforms, JSON_PRETTY_PRINT));
+
 // Redump
 $results = $db->query("SELECT name FROM consolo.dat_files where type='Redump'");
 $platforms = [];
 foreach ($results as $data) {
 	$platform = preg_replace('/^(Arcade - )?(.*)$/mu', '$2', $data['name']);
+	$platform = str_replace(' - ', ' ', $platform);
 	if (!array_key_exists($platform, $platforms))
 		$platforms[$platform] = ['files' => []];
 	$platforms[$platform]['files'][] = $data['name'];
 }
 file_put_contents($sourceDir.'/redump.json', json_encode($platforms, JSON_PRETTY_PRINT));
+
 // ScreenScraper.fr
 $results = $db->query("SELECT doc FROM consolo.ss_platforms");
 $fields = [
@@ -160,6 +188,8 @@ foreach ($results as $data) {
 		$json['romtype'] = $romtypes[$json['romtype']];
 	if (isset($json['supporttype']))
 		$json['supporttype'] = $supporttypes[$json['supporttype']];
+	if (isset($json['alternate']))
+		$json['alternate'] = explode(',', $json['alternate']);
 	$platform = isset($json['company']) ? $json['company'].' '.$json['name'] : $json['name'];
 	$platforms[$platform] = $json;
 }
@@ -300,7 +330,7 @@ foreach ($rows as $platform) {
 		echo "Missing LaunchBox Platform {$platform}\n";
 	} else {
 
-		$rows2 = $db->query("SELECT Name, Alternate FROM launchbox_platformalternatenames where Name='{$platform}'");
+		$rows2 = $db->query("SELECT Name, Alternate FROM launchbox_platformalternatenames where Name='".$mysqlLinkId->real_escape_string($platform)."'");
 		$mainPlatform = $platformAlt[$platform];
 		foreach ($rows2 as $row) {
 			if (!array_key_exists($row['Alternate'], $platformAlt))
