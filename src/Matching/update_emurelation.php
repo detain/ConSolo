@@ -10,6 +10,8 @@ $allPlatforms = [];
 $allAlternates = [];
 
 // LaunchBox
+echo "Building LaunchBox Platforms\n";
+echo "Building LaunchBox Platforms\n";
 $results = $db->query("SELECT * FROM consolo.launchbox_platforms");
 $alternates = [];
 $alternates = [];
@@ -32,9 +34,10 @@ foreach ($results as $data) {
 }
 $allPlatforms['launchbox'] = $platforms;
 $allAlternates['launchbox'] = $alternates;
-file_put_contents($sourceDir.'/launchbox.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/launchbox.json', json_encode($allPlatforms['launchbox'], JSON_PRETTY_PRINT));
 
 // TheGamesDB
+echo "Building TheGamesDB Platforms\n";
 $results = $db->query("SELECT * FROM consolo.tgdb_platforms");
 $alternates = [];
 $platforms = [];
@@ -55,9 +58,10 @@ foreach ($results as $data) {
 }
 $allPlatforms['thegamesdb'] = $platforms;
 $allAlternates['thegamesdb'] = $alternates;
-file_put_contents($sourceDir.'/thegamesdb.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/thegamesdb.json', json_encode($allPlatforms['thegamesdb'], JSON_PRETTY_PRINT));
 
 // TOSEC
+echo "Building TOSEC Platforms\n";
 $results = $db->query("SELECT name FROM consolo.dat_files where type in ('TOSEC','TOSEC-ISO')");
 $alternates = [];
 $platforms = [];
@@ -71,9 +75,10 @@ foreach ($results as $data) {
 }
 $allPlatforms['tosec'] = $platforms;
 $allAlternates['tosec'] = $alternates;
-file_put_contents($sourceDir.'/tosec.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/tosec.json', json_encode($allPlatforms['tosec'], JSON_PRETTY_PRINT));
 
 // No-Intro
+echo "Building No-Intro Platforms\n";
 $results = $db->query("SELECT name FROM consolo.dat_files where type='No-Intro'");
 $alternates = [];
 $platforms = [];
@@ -95,9 +100,10 @@ foreach ($results as $data) {
 }
 $allPlatforms['nointro'] = $platforms;
 $allAlternates['nointro'] = $alternates;
-file_put_contents($sourceDir.'/nointro.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/nointro.json', json_encode($allPlatforms['nointro'], JSON_PRETTY_PRINT));
 
 // Redump
+echo "Building Redump Platforms\n";
 $results = $db->query("SELECT name FROM consolo.dat_files where type='Redump'");
 $alternates = [];
 $platforms = [];
@@ -112,9 +118,10 @@ foreach ($results as $data) {
 }
 $allPlatforms['redump'] = $platforms;
 $allAlternates['redump'] = $alternates;
-file_put_contents($sourceDir.'/redump.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/redump.json', json_encode($allPlatforms['redump'], JSON_PRETTY_PRINT));
 
 // MAME
+echo "Building MAME Platforms\n";
 $mediaTypes = [
 	'- Datach Joint ROM System mini-cartridges',
 	'- Nantettatte!! Baseball mini-cartridges',
@@ -218,9 +225,10 @@ foreach ($results as $data) {
 }
 $allPlatforms['mame'] = $platforms;
 $allAlternates['mame'] = $alternates;
-file_put_contents($sourceDir.'/mame.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/mame.json', json_encode($allPlatforms['mame'], JSON_PRETTY_PRINT));
 
 // Old-Computers.com
+echo "Building Old-Computers.com Platforms\n";
 $results = $db->query("SELECT * FROM consolo.oc_platforms");
 $alternates = [];
 $platforms = [];
@@ -235,9 +243,10 @@ foreach ($results as $data) {
 }
 $allPlatforms['oldcomputers'] = $platforms;
 $allAlternates['oldcomputers'] = $alternates;
-file_put_contents($sourceDir.'/oldcomputers.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/oldcomputers.json', json_encode($allPlatforms['oldcomputers'], JSON_PRETTY_PRINT));
 
 // ScreenScraper.fr
+echo "Building ScreenScraper.fr Platforms\n";
 $results = $db->query("SELECT doc FROM consolo.ss_platforms");
 $fields = [
 	'compagnie' => 'company',
@@ -321,9 +330,10 @@ foreach ($results as $data) {
 }
 $allPlatforms['screenscraper'] = $platforms;
 $allAlternates['screenscraper'] = $alternates;
-file_put_contents($sourceDir.'/screenscraper.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/screenscraper.json', json_encode($allPlatforms['screenscraper'], JSON_PRETTY_PRINT));
 
 // Ours
+echo "Building Local Platforms\n";
 $results = $db->query("SELECT * FROM consolo.platforms");
 $platforms = [];
 foreach ($results as $data) {
@@ -346,11 +356,12 @@ foreach ($results as $data) {
 	$platforms[$platform['name']] = $matches;
 }
 $allPlatforms['local'] = $platforms;
-file_put_contents($sourceDir.'/local.json', json_encode(array_keys($platforms), JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/local.json', json_encode(array_keys($allPlatforms['local']), JSON_PRETTY_PRINT));
 
 //file_put_contents($sourceDir.'/alternatives.json', json_encode($allAlternates, JSON_PRETTY_PRINT));
 //file_put_contents($sourceDir.'/platforms.json', json_encode($allPlatforms, JSON_PRETTY_PRINT));
 
+echo "Building Platform Matches\n";
 $found = [];
 foreach ($allPlatforms['local'] as $platform => $typeData) {
 	$found[$platform] = [];
@@ -362,6 +373,10 @@ foreach ($allPlatforms['local'] as $platform => $typeData) {
 				echo "No {$type} in all alternates for platform {$platform}\n";
 			if (array_key_exists($altKey, $allAlternates[$type])) {
 				$otherPlatform = $allAlternates[$type][$altKey];
+				if (!array_key_exists('local', $allPlatforms[$type][$otherPlatform]))
+					$allPlatforms[$type][$otherPlatform]['local'] = [];
+				if (!in_array($platform, $allPlatforms[$type][$otherPlatform]['local']))
+					$allPlatforms[$type][$otherPlatform]['local'][] = $platform;
 				if (!array_key_exists($platform, $found))
 					$found[$platform] = [];
 				if (!array_key_exists($type, $found[$platform]))
@@ -374,6 +389,10 @@ foreach ($allPlatforms['local'] as $platform => $typeData) {
 	foreach ($allAlternates as $type => $altData) {
 		if (array_key_exists($platform, $altData)) {
 			$otherPlatform = $allAlternates[$type][$platform];
+			if (!array_key_exists('local', $allPlatforms[$type][$otherPlatform]))
+				$allPlatforms[$type][$otherPlatform]['local'] = [];
+			if (!in_array($platform, $allPlatforms[$type][$otherPlatform]['local']))
+				$allPlatforms[$type][$otherPlatform]['local'][] = $platform;
 			if (!array_key_exists($platform, $found))
 				$found[$platform] = [];
 			if (!array_key_exists($type, $found[$platform]))
@@ -383,4 +402,15 @@ foreach ($allPlatforms['local'] as $platform => $typeData) {
 		}
 	}
 }
+echo "Writng Platforms and Updated Source Exports\n";
 file_put_contents($sourceDir.'/../platforms.json', json_encode($found, JSON_PRETTY_PRINT));
+
+file_put_contents($sourceDir.'/launchbox.json', json_encode($allPlatforms['launchbox'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/thegamesdb.json', json_encode($allPlatforms['thegamesdb'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/tosec.json', json_encode($allPlatforms['tosec'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/nointro.json', json_encode($allPlatforms['nointro'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/redump.json', json_encode($allPlatforms['redump'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/mame.json', json_encode($allPlatforms['mame'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/oldcomputers.json', json_encode($allPlatforms['oldcomputers'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/screenscraper.json', json_encode($allPlatforms['screenscraper'], JSON_PRETTY_PRINT));
+echo "done\n";
