@@ -57,7 +57,14 @@ foreach ($results as $data) {
 	foreach ($data as $field => $value)
 		if (!is_null($value))
 			$platform[$field] = $value;
-	$platforms[$platform['name']] = $platform;
+	$data = $platform;
+	$platform = $data['name'];
+	if (isset($data['manufacturer']) || isset($data['developer'])) {
+		$manuf = $data['developer'] ?? $data['manufacturer'];
+		if (strtolower(substr($platform, 0, strlen($manuf)+1)) != strtolower($manuf.' '))
+			$platform = $manuf.' '.$platform;
+	}
+	$platforms[$platform] = $data;
 }
 file_put_contents($sourceDir.'/thegamesdb.json', json_encode($platforms, JSON_PRETTY_PRINT));
 
