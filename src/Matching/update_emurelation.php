@@ -404,13 +404,34 @@ foreach ($allPlatforms['local'] as $platform => $typeData) {
 }
 echo "Writng Platforms and Updated Source Exports\n";
 file_put_contents($sourceDir.'/../platforms.json', json_encode($found, JSON_PRETTY_PRINT));
+$sources = [
+	'tosec' => 'TOSEC',
+	'nointro' => 'No-Intro',
+	'redump' => 'Redump',
+	'mame' => 'MAME',
+	'launchbox' => 'LaunchBox',
+	'thegamesdb' => 'TheGamesDB',
+	'screenscraper' => 'ScreenScraper.fr',
+	'oldcomputers' => 'Old-Computers.com',
+];
+$platformCounts = [];
+$matchedCounts = [];
+$mdTable = [];
+$mdTable[] = '| Source | Platforms | Matched | Missing | % Completed |';
+$mdTable[] = '|--|--|--|--|--|';
 
-file_put_contents($sourceDir.'/launchbox.json', json_encode($allPlatforms['launchbox'], JSON_PRETTY_PRINT));
-file_put_contents($sourceDir.'/thegamesdb.json', json_encode($allPlatforms['thegamesdb'], JSON_PRETTY_PRINT));
-file_put_contents($sourceDir.'/tosec.json', json_encode($allPlatforms['tosec'], JSON_PRETTY_PRINT));
-file_put_contents($sourceDir.'/nointro.json', json_encode($allPlatforms['nointro'], JSON_PRETTY_PRINT));
-file_put_contents($sourceDir.'/redump.json', json_encode($allPlatforms['redump'], JSON_PRETTY_PRINT));
-file_put_contents($sourceDir.'/mame.json', json_encode($allPlatforms['mame'], JSON_PRETTY_PRINT));
-file_put_contents($sourceDir.'/oldcomputers.json', json_encode($allPlatforms['oldcomputers'], JSON_PRETTY_PRINT));
-file_put_contents($sourceDir.'/screenscraper.json', json_encode($allPlatforms['screenscraper'], JSON_PRETTY_PRINT));
+foreach ($sources as $sourceType => $sourceName) {
+	$platformCounts[$sourceType] = 0;
+	$matchedCounts[$sourceType] = 0;
+	foreach ($allPlatforms[$sourceType] as $platform => $data) {
+		$platformCounts[$sourceType]++;
+		if (isset($data['local']) && count($data['local']) > 0)
+			$matchedCounts[$sourceType]++;
+	}
+	$missing = $platformCounts[$sourceType] - $matchedCounts[$sourceType];
+	$percent = round(($matchedCounts[$sourceType] / $platformCounts[$sourceType]) * 100, 1);
+	$mdTable[] = '| '.$sources[$sourceType].' | '.$platformCounts[$sourceType].' | '.$matchedCounts[$sourceType].' | '.$missing.' | '.$percent.'% |';
+	file_put_contents($sourceDir.'/'.$sourceType.'.json', json_encode($allPlatforms[$sourceType], JSON_PRETTY_PRINT));
+}
+echo implode("\n", $mdTable)."\n";
 echo "done\n";
