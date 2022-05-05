@@ -363,6 +363,7 @@ file_put_contents($sourceDir.'/local.json', json_encode(array_keys($allPlatforms
 
 echo "Building Platform Matches\n";
 $found = [];
+$links = [];
 foreach ($allPlatforms['local'] as $platform => $typeData) {
 	$found[$platform] = [];
 	//foreach (array_keys($allAlternates) as $type)
@@ -381,8 +382,12 @@ foreach ($allPlatforms['local'] as $platform => $typeData) {
 					$found[$platform] = [];
 				if (!array_key_exists($type, $found[$platform]))
 					$found[$platform][$type] = [];
-				if (!in_array($otherPlatform, $found[$platform][$type]))
+				if (!array_key_exists($type, $links))
+					$links[$type] = [];
+				if (!in_array($otherPlatform, $found[$platform][$type])) {
 					$found[$platform][$type][] = $otherPlatform;
+					$links[$type][] = ['from' => $platform, 'to' => $otherPlatform];
+				}
 			}
 		}
 	}
@@ -397,14 +402,19 @@ foreach ($allPlatforms['local'] as $platform => $typeData) {
 				$found[$platform] = [];
 			if (!array_key_exists($type, $found[$platform]))
 				$found[$platform][$type] = [];
-			if (!in_array($otherPlatform, $found[$platform][$type]))
+			if (!array_key_exists($type, $links))
+				$links[$type] = [];
+			if (!in_array($otherPlatform, $found[$platform][$type])) {
 				$found[$platform][$type][] = $otherPlatform;
+				$links[$type][] = ['from' => $platform, 'to' => $otherPlatform];
+			}
 		}
 	}
 }
 echo "Writng Platforms and Updated Source Exports\n";
 file_put_contents($sourceDir.'/../platforms.json', json_encode($found, JSON_PRETTY_PRINT));
 $sources = [
+	'local' => 'Master List',
 	'tosec' => 'TOSEC',
 	'nointro' => 'No-Intro',
 	'redump' => 'Redump',
@@ -419,7 +429,7 @@ $matchedCounts = [];
 $mdTable = [];
 $mdTable[] = '| Source | Platforms | Matched | Missing | % Completed |';
 $mdTable[] = '|--|--|--|--|--|';
-
+$linker = ['lists' => [], 'links' => $links];
 foreach ($sources as $sourceType => $sourceName) {
 	$platformCounts[$sourceType] = 0;
 	$matchedCounts[$sourceType] = 0;
@@ -431,7 +441,10 @@ foreach ($sources as $sourceType => $sourceName) {
 	$missing = $platformCounts[$sourceType] - $matchedCounts[$sourceType];
 	$percent = round(($matchedCounts[$sourceType] / $platformCounts[$sourceType]) * 100, 1);
 	$mdTable[] = '| '.$sources[$sourceType].' | '.$platformCounts[$sourceType].' | '.$matchedCounts[$sourceType].' | '.$missing.' | '.$percent.'% |';
+	$list = ['name' => $sourceName, 'list' => array_keys($allPlatforms[$sourceType])];
+	$linker['lists'][$sourceType] = $list;
 	file_put_contents($sourceDir.'/'.$sourceType.'.json', json_encode($allPlatforms[$sourceType], JSON_PRETTY_PRINT));
 }
 echo implode("\n", $mdTable)."\n";
+file_put_contents('linker.json', json_encode($linker, JSON_PRETTY_PRINT));
 echo "done\n";
