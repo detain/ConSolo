@@ -446,5 +446,5 @@ foreach ($sources as $sourceType => $sourceName) {
 	file_put_contents($sourceDir.'/'.$sourceType.'.json', json_encode($allPlatforms[$sourceType], JSON_PRETTY_PRINT));
 }
 echo implode("\n", $mdTable)."\n";
-file_put_contents('linker.json', json_encode($linker, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/../linker.json', json_encode($linker, JSON_PRETTY_PRINT));
 echo "done\n";
