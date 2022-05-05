@@ -1,0 +1,48 @@
+/* 
+ Copyright (C) Philippe Meyer 2018
+ Distributed under the MIT License
+ linksMaker v 0.75
+*/
+
+.linksMaker div{
+	font-weight:bold;
+}
+
+.linksMaker ul {
+	list-style:none;
+	margin-left:0px;
+	padding-left:0px;
+	font-weight:normal;
+}
+
+.linksMaker li {
+	border:solid 1px grey;
+	padding:5px 2px 5px 8px;
+	margin-top:7px;
+	margin-bottom:8px;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	cursor:pointer;
+	background-color:#fff;
+	background: linear-gradient(#ffffff, #e9e9e9);
+	color:black;
+	border-radius : 0px;
+}
+
+.linksMaker li div{
+	font-weight:normal;
+	cursor:grab;
+}
+
+.linksMaker li[data-mandatory='true']{
+	background-color:#D7504C;
+	background: linear-gradient(#D7504C, #C12F2B);
+	color:white;
+}
+
+.linksMaker li.inactive{
+    opacity:0.5;
+}
+
