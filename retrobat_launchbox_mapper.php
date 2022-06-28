@@ -172,9 +172,10 @@ foreach ($map['retrobat']['platforms'] as $platform) {
 														$imageExt = $pathInfo['extension'];
 														$pathInfo = pathinfo(substr($game['path'], 2));
 														$imageName = './images/'.($pathInfo['dirname'] == '.' ? '' : $pathInfo['dirName']).'/'.basename($game['path'], '.'.$pathInfo['extension']).'-'.($retroImageType == 'thumbnail' ? 'thumb' : $retroImageType).'.'.$imageExt;
-														copy
+														if (!file_exists($config['retrobat']['base'].'/roms/'.$platform.'/'.dirname($imageName)))
+															mkdir(dirname($imageName), 0777, true);
+														copy($config['launchbox']['base'].'/Images/'.$data['Platform'].'/'.$lbImageType.'/'.$firstImage, $config['retrobat']['base'].'/roms/'.$platform.'/'.$imageName);
 														$listXml = str_replace("<path>{$game['path']}</path>", "<path>{$game['path']}</path>\n\t\t<{$retroImageType}>{$imageName}</{$retroImageType}>", $listXml);
-
 														continue 4;
 													}
 												}
