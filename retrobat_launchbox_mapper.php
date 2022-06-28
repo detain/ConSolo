@@ -27,10 +27,10 @@ $retroToLbFields = [
 	'path' => 'ApplicationPath',
 	'name' => 'Title',
 	'desc' => 'Notes',
-	'rating' => 'CommunityStarRating',
+//	'rating' => 'CommunityStarRating',
 	'releasedate' => 'ReleaseDate',
-	'developer' => 'Developer',
-	'publisher' => 'Publisher',
+//	'developer' => 'Developer',
+//	'publisher' => 'Publisher',
 	'genre' => 'Genre',
 	'players' => 'MaxPlayers',
 	'playcount' => 'PlayCount',
@@ -52,73 +52,80 @@ $map = [
 		'links' => [],
 	],
 ];
-// load LaunchBox games
-echo "Loading LaunchBox information\n";
-$listXml = file_get_contents($config['launchbox']['base'].'/Data/Platforms.xml');
-$list = xml2array($listXml, false);
-$map['launchbox']['platforms'] = $list['LaunchBox']['Platform'];
-foreach ($map['launchbox']['platforms'] as $platform) {
-	$name = $platform['Name'];
-	if (!file_exists($config['launchbox']['base'].'/Data/Platforms/'.$name.'.xml'))
-		continue;
-	$listXml = file_get_contents($config['launchbox']['base'].'/Data/Platforms/'.$name.'.xml');
+if (file_exists('mapper.json') && !in_array('-f', $_SERVER['argv'])) {
+	echo 'Loading Mapping Data...';
+	$map = json_decode(file_get_contents('mapper.json'), true);
+	echo 'loaded!'.PHP_EOL;
+} else {
+	// load LaunchBox games
+	echo "Loading LaunchBox information\n";
+	$listXml = file_get_contents($config['launchbox']['base'].'/Data/Platforms.xml');
 	$list = xml2array($listXml, false);
-	if (isset($list['LaunchBox']['AlternateName'])) {
-		foreach ($list['LaunchBox']['AlternateName'] as $data) {
-			if (!is_array($data))
-				continue;
-			if (!array_key_exists('GameID', $data))
-				continue;
-			if (!isset($map['launchbox']['altNames'][$data['GameID']]))
-				$map['launchbox']['altNames'][$data['GameID']] = [];
-			$map['launchbox']['altNames'][$data['GameID']][] = $data;
-		}
-	}
-	if (isset($list['LaunchBox']['AdditionalApplication'])) {
-		foreach ($list['LaunchBox']['AdditionalApplication'] as $data) {
-			if (!isset($map['launchbox']['altVers'][$data['GameID']]))
-				$map['launchbox']['altVers'][$data['GameID']] = [];
-			$map['launchbox']['altVers'][$data['GameID']][] = $data;
-		}
-	}
-	$games = $list['LaunchBox']['Game'];
-	echo "[LaunchBox] Working on {$name} (".count($games)." games)\n";
-	foreach ($games as $game) {
-		if (!is_array($game) || !array_key_exists('ApplicationPath', $game))
+	$map['launchbox']['platforms'] = $list['LaunchBox']['Platform'];
+	foreach ($map['launchbox']['platforms'] as $platform) {
+		$name = $platform['Name'];
+		if (!file_exists($config['launchbox']['base'].'/Data/Platforms/'.$name.'.xml'))
 			continue;
-		$gamePath = str_replace("\\", '/', $game['ApplicationPath']);
-		if (preg_match('/^([A-Z]):\//i', $gamePath, $matches))
-			$gamePath = str_replace($matches[0], '/mnt/'.strtolower($matches[1]).'/', $gamePath);
-		echo "[LaunchBox] Game {$gamePath}\n";
-		$map['launchbox']['filePaths'][$gamePath] = $game;
-		if (array_key_exists('ID', $game) && isset($map['launchbox']['altVers'][$game['ID']])) {
-			foreach ($map['launchbox']['altVers'][$game['ID']] as $data) {
-				$gamePath = str_replace("\\", '/', $data['ApplicationPath']);
-				if (preg_match('/^([A-Z]):\//i', $gamePath, $matches))
-					$gamePath = str_replace($matches[0], '/mnt/'.strtolower($matches[1]).'/', $gamePath);
-				echo "[LaunchBox] Game {$gamePath}\n";
-				$map['launchbox']['filePaths'][$gamePath] = $game;
+		$listXml = file_get_contents($config['launchbox']['base'].'/Data/Platforms/'.$name.'.xml');
+		$list = xml2array($listXml, false);
+		if (isset($list['LaunchBox']['AlternateName'])) {
+			foreach ($list['LaunchBox']['AlternateName'] as $data) {
+				if (!is_array($data))
+					continue;
+				if (!array_key_exists('GameID', $data))
+					continue;
+				if (!isset($map['launchbox']['altNames'][$data['GameID']]))
+					$map['launchbox']['altNames'][$data['GameID']] = [];
+				$map['launchbox']['altNames'][$data['GameID']][] = $data;
 			}
 		}
-		if (isset($map['launchbox']['altNames'][$game['ID']])) {
+		if (isset($list['LaunchBox']['AdditionalApplication'])) {
+			foreach ($list['LaunchBox']['AdditionalApplication'] as $data) {
+				if (!isset($map['launchbox']['altVers'][$data['GameID']]))
+					$map['launchbox']['altVers'][$data['GameID']] = [];
+				$map['launchbox']['altVers'][$data['GameID']][] = $data;
+			}
+		}
+		$games = $list['LaunchBox']['Game'];
+		echo "[LaunchBox] Working on {$name} (".count($games)." games)\n";
+		foreach ($games as $game) {
+			if (!is_array($game) || !array_key_exists('ApplicationPath', $game))
+				continue;
+			$gamePath = str_replace("\\", '/', $game['ApplicationPath']);
+			if (preg_match('/^([A-Z]):\//i', $gamePath, $matches))
+				$gamePath = str_replace($matches[0], '/mnt/'.strtolower($matches[1]).'/', $gamePath);
+			echo "[LaunchBox] Game {$gamePath}\n";
+			$map['launchbox']['filePaths'][$gamePath] = $game;
+			if (array_key_exists('ID', $game) && isset($map['launchbox']['altVers'][$game['ID']])) {
+				foreach ($map['launchbox']['altVers'][$game['ID']] as $data) {
+					$gamePath = str_replace("\\", '/', $data['ApplicationPath']);
+					if (preg_match('/^([A-Z]):\//i', $gamePath, $matches))
+						$gamePath = str_replace($matches[0], '/mnt/'.strtolower($matches[1]).'/', $gamePath);
+					echo "[LaunchBox] Game {$gamePath}\n";
+					$map['launchbox']['filePaths'][$gamePath] = $game;
+				}
+			}
+			if (isset($map['launchbox']['altNames'][$game['ID']])) {
+			}
 		}
 	}
+	echo "Loading LaunchBox Images\n";
+	preg_match_all('/Images\/(?P<platform>[^\/]*)\/(?P<type>.*)\/(?P<game>[^\/]*)-(?P<index>\d+)\.[pj][np]g$/muU', trim(`find {$config['launchbox']['base']}/Images -type f`), $matches);
+	foreach ($matches[0] as $idx => $imageFile) {
+		$platform = $matches['platform'][$idx];
+		$type = $matches['type'][$idx];
+		$game = $matches['game'][$idx];
+		$index = $matches['index'][$idx];
+		if (!array_key_exists($platform, $map['launchbox']['images']))
+			$map['launchbox']['images'][$platform] = [];
+		if (!array_key_exists($game, $map['launchbox']['images'][$platform]))
+			$map['launchbox']['images'][$platform][$game] = [];
+		if (!array_key_exists($type, $map['launchbox']['images'][$platform][$game]))
+			$map['launchbox']['images'][$platform][$game][$type] = [];
+		$map['launchbox']['images'][$platform][$game][$type][intval($index)] = basename($imageFile);
+	}
+	file_put_contents('mapper.json', json_encode($map, JSON_PRETTY_PRINT));
 }
-preg_match_all('/Images\/(?P<platform>[^\/]*)\/(?P<type>.*)\/(?P<game>[^\/]*)-(?P<index>\d+)\.[pj][np]g$/muU', trim(`find {$config['launchbox']['base']}/Images -type f`), $matches);
-foreach ($matches[0] as $idx => $imageFile) {
-	$platform = $matches['platform'][$idx];
-	$type = $matches['type'][$idx];
-	$game = $matches['game'][$idx];
-	$index = $matches['index'][$idx];
-	if (!array_key_exists($platform, $map['launchbox']['images']))
-		$map['launchbox']['images'][$platform] = [];
-	if (!array_key_exists($game, $map['launchbox']['images'][$platform]))
-		$map['launchbox']['images'][$platform][$game] = [];
-	if (!array_key_exists($type, $map['launchbox']['images'][$platform][$game]))
-		$map['launchbox']['images'][$platform][$game][$type] = [];
-	$map['launchbox']['images'][$platform][$game][$type][intval($index)] = basename($imageFile);
-}
-
 // load Retrobat games
 echo "Loading RetroBat information\n";
 // get symlinked paths
@@ -130,7 +137,7 @@ $map['retrobat']['platforms'] = json_decode(file_get_contents($config['retrobat'
 foreach ($map['retrobat']['platforms'] as $platform) {
 		$path = $platform['path'];
 		$path = str_replace(["\\", "~/.."], ['/', $config['retrobat']['base']], $path);
-		echo "[RetroBat] Platform {$platform['name']} {$path}\n";
+		//echo "[RetroBat] Platform {$platform['name']} {$path}\n";
 		if (file_exists($path.'/gamelist.xml')) {
 			$listXml = file_get_contents($path.'/gamelist.xml');
 			$list = xml2array($listXml, false);
@@ -150,48 +157,62 @@ foreach ($map['retrobat']['platforms'] as $platform) {
 				foreach ($map['retrobox']['links'] as $link => $target)
 					if (substr($gamePath, 0, strlen($link)+1) == $link.'/')
 						$gamePath = str_replace($link.'/', $target.'/', $gamePath);
-				echo "[RetroBat] Game {$gamePath}\n";
-				if (array_key_exists($gamePath, $map['launchbox']['filePaths'])) {
+				echo "	[RetroBat] Game {$gamePath}   ";
+				if (array_key_exists($gamePath, $map['launchbox']['filePaths']) && isset($map['launchbox']['filePaths'][$gamePath]['DatabaseID'])) {
 					$data = $map['launchbox']['filePaths'][$gamePath];
-					echo "[RetroBat] Found matching LaunchBox game {$gamePath}\n";
-					if (isset($data['DatabaseID'])) {
-						echo "[RetroBat] Found LaunchBox DatabaseID, Updating RetroBat\n";
+					echo "Found matching LaunchBox game + DatabaseID\n";
+					if ($game['path'] != $data['Title']) {
 						$listXml = str_replace("<path>{$game['path']}</path>\n\t\t<name>{$game['name']}</name>", "<path>{$game['path']}</path>\n\t\t<name>{$data['Title']}</name>", $listXml);
 						$updated = true;
-						$imageName = preg_replace('/[<>:"\/\\|\?\*]+/', '_', $data['Title']);
-						if (isset($map['launchbox']['images'][$data['Platform']])) {
-							if (isset($map['launchbox']['images'][$data['Platform']][$imageName])) {
-								foreach ($retroToLbImages as $retroImageType => $retroToLbImageTypes) { // image, marquee, thumbnail
-									if (!isset($game[$retroImageType])) {
-										foreach ($retroToLbImageTypes as $retroToLbImageType) {
-											foreach ($map['launchbox']['images'][$data['Platform']][$imageName] as $lbImageTypes) {
-												foreach ($lbImageTypes as $lbImageType => $lbImages) { // Fanart - Background/North America, Arcade - Marquee
-													if (substr($lbImageType, 0, strlen($retroToLbImageType)) == $retroToLbImageType) {
-														$firstImage = array_shift($lbImages);
-														$pathInfo = pathinfo($firstImage);
-														$imageExt = $pathInfo['extension'];
-														$pathInfo = pathinfo(substr($game['path'], 2));
-														$imageName = './images/'.($pathInfo['dirname'] == '.' ? '' : $pathInfo['dirName']).'/'.basename($game['path'], '.'.$pathInfo['extension']).'-'.($retroImageType == 'thumbnail' ? 'thumb' : $retroImageType).'.'.$imageExt;
-														if (!file_exists($config['retrobat']['base'].'/roms/'.$platform.'/'.dirname($imageName)))
-															mkdir(dirname($imageName), 0777, true);
-														copy($config['launchbox']['base'].'/Images/'.$data['Platform'].'/'.$lbImageType.'/'.$firstImage, $config['retrobat']['base'].'/roms/'.$platform.'/'.$imageName);
-														$listXml = str_replace("<path>{$game['path']}</path>", "<path>{$game['path']}</path>\n\t\t<{$retroImageType}>{$imageName}</{$retroImageType}>", $listXml);
-														continue 4;
-													}
-												}
+					}
+					foreach ($retroToLbFields as $retroField => $lbField) {
+						if (isset($data[$lbField]) && $data[$lbField] != '' && !isset($game[$retroField]) && $data[$lbField] != '0' && (!is_array($data[$lbField]) || count($data[$lbField]) > 0)) {
+							if ($lbField == 'ReleaseDate')
+								$data[$lbField] = str_replace('-', '', substr($data[$lbField], 0, 10)).'T000000';
+							elseif ($lbField == 'CommunityStarRating')
+								$data[$lbField] = floatval($data[$lbField]) * 0.2;
+							$game[$retroField] = $data[$lbField];
+							echo "		[RetroBat] Updating {$retroField} to {$data[$lbField]}\n";
+							$listXml = str_replace("<path>{$game['path']}</path>", "<path>{$game['path']}</path>\n\t\t<{$retroField}>{$game[$retroField]}</{$retroField}>", $listXml);
+							$updated = true;
+						}
+					}
+					$gameName = preg_replace('/[<>:"\/\\|\?\*]+/', '_', $data['Title']);
+					if (isset($map['launchbox']['images'][$data['Platform']])) {
+						if (isset($map['launchbox']['images'][$data['Platform']][$gameName])) {
+							foreach ($retroToLbImages as $retroImageType => $retroToLbImageTypes) { // image, marquee, thumbnail
+								if (!isset($game[$retroImageType])) {
+									foreach ($retroToLbImageTypes as $retroToLbImageType) {
+										foreach ($map['launchbox']['images'][$data['Platform']][$gameName] as $lbImageType => $lbImages) { // Fanart - Background/North America, Arcade - Marquee
+											//echo "[RetroBat] {$gameName} Checking if {$retroToLbImageType} = {$lbImageType}\n";
+											if (substr($lbImageType, 0, strlen($retroToLbImageType)) == $retroToLbImageType) {
+												$firstImage = array_shift($lbImages);
+												$pathInfo = pathinfo($firstImage);
+												$imageExt = $pathInfo['extension'];
+												$pathInfo = pathinfo(substr($game['path'], 2));
+												$imageName = './images/'.($pathInfo['dirname'] == '.' ? '' : $pathInfo['dirname']).'/'.basename($game['path'], '.'.$pathInfo['extension']).'-'.($retroImageType == 'thumbnail' ? 'thumb' : $retroImageType).'.'.$imageExt;
+												$sourceImage = $config['launchbox']['base'].'/Images/'.$data['Platform'].'/'.$lbImageType.'/'.$firstImage;
+												$destImage = $path.'/'.substr($imageName, 2);
+												if (!file_exists(dirname($destImage)))
+													mkdir(dirname($destImage), 0777, true);
+												echo "		[RetroBat] Copying '{$sourceImage}' to '{$destImage}'\n";
+												copy($sourceImage, $destImage);
+												$listXml = str_replace("<path>{$game['path']}</path>", "<path>{$game['path']}</path>\n\t\t<{$retroImageType}>{$imageName}</{$retroImageType}>", $listXml);
+												$updated = true;
+												continue 3;
 											}
 										}
 									}
 								}
-								echo "[LaunchBox] {$data['Platform']} - {$data['Title']} Images found: ".json_encode($map['launchbox']['images'][$data['Platform']][$imageName], JSON_PRETTY_PRINT)."\n";
-								exit;
 							}
 						}
 					}
+				} else {
+					echo "\n";
 				}
 			}
 			if ($updated === true) {
-				echo "[Retroat] Wrote Updated {$path}/gamelist.xml.new\n";
+				echo "	[Retroat] Wrote Updated {$path}/gamelist.xml.new\n";
 				//file_put_contents($path.'/gamelist.xml', $listXml);
 				file_put_contents($path.'/gamelist.xml.new', $listXml);
 			}
