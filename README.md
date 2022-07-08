@@ -7,9 +7,9 @@ Scrape Emulator/Rom/Platform/etc Info from Multiple Sources (No-Intro, TOSEC, Re
 
 Currently its a mass of scripts loosely tied together and development will be focused on a clean interface. Several UI's are planned although too soon to tell if they'll ever get finished. A web-ui which works the same but incorperates browser-based emulators.
 
-## Dev Workspace
+### Dev Workspace
 
-== EmuCR+GitHub Emulator links
+#### EmuCR+GitHub Emulator links
 [TASEmulators/desmume: DeSmuME is a Nintendo DS emulator](https://github.com/TASEmulators/desmume)
 [Releases · TASEmulators/desmume](https://github.com/TASEmulators/desmume/releases)
 [desmume - AppVeyor](https://ci.appveyor.com/project/zeromus/desmume/history)
@@ -43,7 +43,7 @@ Currently its a mass of scripts loosely tied together and development will be fo
 [DCMOTO v2022.06.15 - EmuCR](https://www.emucr.com/2022/06/dcmoto-v20220615.html)
 [EightyOne v1.29 - EmuCR](https://www.emucr.com/2022/06/eightyone-v129.html)
 
-## Scoop and Bucket Links
+#### Scoop and Bucket Links
 
 [Scoop Folder Layout · ScoopInstaller/Scoop Wiki](https://github.com/ScoopInstaller/Scoop/wiki/Scoop-Folder-Layout)
 [detain/scoop-emulators-temlate: a scoop bucket 🪣for console 🎮and arcade 🕹emulators.](https://github.com/detain/scoop-emulators-temlate)
@@ -54,7 +54,7 @@ Currently its a mass of scripts loosely tied together and development will be fo
 [nightly.link](https://nightly.link/)
 [updates · detain/scoop-emulators@ffe8e4b](https://github.com/detain/scoop-emulators/runs/7245573270?check_suite_focus=true)
 
-## Other Emulator Links
+#### Other Emulator Links
 
 [EmuCR - powered by FeedBurner](http://feeds.emucr.com/emucr)
 [reactmay/videogames: Application powered by IGDB API](https://github.com/reactmay/videogames)
