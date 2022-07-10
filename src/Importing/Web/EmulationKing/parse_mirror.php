@@ -13,189 +13,93 @@ global $db;
 
 $converter = new CssSelectorConverter();
 //var_dump($converter->toXPath('.post-labels a[rel="tag"]'));
-$dir = '/mnt/e/dev/ConSolo/mirror/emucr/www.emucr.com';
-$dataDir = '/mnt/e/dev/ConSolo/data';
-if (!file_Exists($dataDir.'/json/emucr')) {
-	mkdir($dataDir.'/json/emucr', 0777, true);
+$dir = '/mnt/e/dev/ConSolo/mirror/emulationking/emulationking.com';
+$dataDir = '/mnt/e/dev/ConSolo/data/json/emulationking';
+if (!file_Exists($dataDir)) {
+	mkdir($dataDir, 0777, true);
 }
-$fileNames = explode("\n", trim(`find "{$dir}" -type f`));
-$posts = [];
-echo "Loadiing json backups..";
-foreach (glob($dataDir.'/json/emucr/*.json') as $file) {
-	if (basename($file) != 'posts.json') {
-		$data = json_decode(file_get_contents($file), true);
-		$posts[] = $data;
-	}
+$html = file_get_contents($dir.'/index.html');
+$crawler = new Crawler($html);
+$rows = $crawler->filter('.site-main > div.row');
+$manufacturers = [];
+for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
+    $manufacturer = [
+        'url' => $rows->eq($idx)->filter('h2 a')->attr('href'),
+        'name' => $rows->eq($idx)->filter('h2 a')->text(),
+        'platforms' => [],
+    ];
+    $idx++;
+    $platformRows = $rows->eq($idx)->filter('div > a.console_icons');
+    for ($idxPlat = 0, $maxPlat = $platformRows->count(); $idxPlat < $maxPlat; $idxPlat++) {
+        preg_match('/^(?P<platform>.*) \(Rel (?P<year>[0-9][0-9][0-9][0-9])\)/', $rows->eq($idx)->filter('div > a.console_icons')->text(), $matches);
+        $platform = [
+            'url' => $rows->eq($idx)->filter('div > a.console_icons')->attr('href'),
+            'name' => $matches[1],
+            'year' => matches[2],
+            'runs' => [],
+            'sections' => [],
+       ];
+        $mnanufacturer['platforms'][] = $platform;
+        echo "Added Platform {$platform['name']}\n";
+    }
+    $manufacturers[] = $manufacturer;
+    echo "Added Manufacturer {$manufacturer['name']}\n";
 }
-echo "";
-echo "done";
-echo "";
-foreach ($fileNames as $idx => $file ) {
-    echo "Reading file {$file}\n";
-    $html = file_get_contents($file);
-	try {
-		$crawler = new Crawler($html);
-		$title = $crawler->filter('title')->text();
-		$title = preg_replace('/ - EmuCR$/', '', $title);
-		if ($title =='EmuCR') {
-			echo "Removing File {$file}\n";
-			unlink($file);
-			continue;
-		}
-		$tags = $crawler->filter('.post-labels a[rel="tag"]')->each(function (Crawler $node, $i) {
-			return $node->text();
-		});
-		$url = $crawler->filter('.postMain .title h1 a')->attr('href');
-		$seo = basename($url, '.html');
-		$nameVersion = $crawler->filter('.postMain .title h1 a')->text();
-		$datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
-		$body = $crawler->filter('.postMain .post-body p')->html();
-	} catch (\Exception $e) {
-		echo "Ran into a problem with {$file}: ".$e->getMessage()."\n";
-	} finally {
-		$data = [
-			'title' => $title,
-			'date' => $datePosted,
-			'nameVersion' => $nameVersion,
-			'url' => $url,
-			'seo' => $seo,
-			'tags' => $tags,
-			'body' => $body,
-		];
-		$posts[] = $data;
-		file_put_contents($dataDir.'/json/emucr/'.$data['seo'].'.json', json_encode($data));
-		if ($idx % 50 == 0) {
-			echo "Writing Posts..";
-			file_put_contents($dataDir.'/json/emucr/posts.json', json_encode($posts));
-			echo "done\n";
-		}
-		unlink($file);
-	}
+foreach ($manufacturers as $idxMan => $manufacturer) {
+    $html = file_get_contents($dir.$manufacturer['url']);
+    $crawler = new Crawler($html);
+    $manufacturers[$idxMan]['description'] = $crawler->filter('.entry-content')->html();
 }
-echo "Finished Processig Posts\n";
-echo "Writing Posts..";
-file_put_contents($dataDir.'/json/emucr/posts.json', json_encode($posts));
+foreach ($manufacturers as $idxMan => $manufacturer) {
+    foreach ($manufacturer['platforms'] as $idxPlat => $platform) {
+        $html = file_get_contents($dir.$platform['url']);
+        $crawler = new Crawler($html);
+        $crawler->filter('.lbb-block-slot')->each(function (Crawler $node, $i) {
+            foreach ($crawler as $node) {
+                echo "Removing This HTML:".$node->html()."\n";
+                $node->parentNode->removeChild($node);
+            }
+        });
+        $rows = $crawler->filter('article > .row');
+        $platform['name'] = $rows->eq(0)->filter('article .entry-title')->text();
+        $platform['image_cover'] = $rows->eq(1)->filter('div .game-cover .cover-image')->attr('src');
+        $specRows = $rows->eq(1)->filter('div .console-meta')->children();
+        for ($idxSpec = 1, $maxSpec = $specRows->count(); $idxSpec < $maxSpec; $idxSpec++) {
+            $node = $specRows->eq($idxSpec)->filter('strong');
+            $field = $node->text();
+            $node->parentNode->removeChild($node);
+            $value = $specRows->eq($idxSpec)->text();
+            $platform[$field] = $value;
+        }
+        $platform['description'] = $rows->eq(1)->filter('div .entry-content')->html();
+        for ($idxRow = 2, $maxRow = $rows->count(); $idxRow < $maxRow; $idxRow++) {
+            $seoSection = $rows->eq($idxRow)->filter('h2')->attr('id');
+            $section = $rows->eq($idxRow)->filter('h2')->text();
+            $platform[$seoSection] = [];
+            $platform['sections'][$seoSection] = $section;
+            $items = $rows->eq($idxRow)->filter('.border');
+            for ($idxItem = 0, $maxItem = $items->count(); $idxItem < $maxItem; $idxItem++) {
+                $row = [
+                    'url' => $items->eq($idxItem)->filter('.blog-reel-post')->attr('href'),
+                    'body_html' => $items->eq($idxItem)->filter('.blog-reel-post .emulator-description')->html(),
+                    'body_text' => $items->eq($idxItem)->filter('.blog-reel-post .emulator-description')->text(),
+                ];
+                if ($items->eq($idxItem)->filter('.blog-reel-post .emulator-image img')->count() > 0)
+                    $row['logo'] = $items->eq($idxItem)->filter('.blog-reel-post .emulator-image img')->attr('src');
+                $oses = $items->eq($idxItem)->filter('.blog-reel-post emulator-supported-osw-100 i');
+                if ($oses->count() > 0) {
+                    $row['runs'] = [];
+                    foreach ($oses as $node) {
+                        $os = $node->attr('class');
+                        $row['runs'][] = $os;
+                    }
+                }
+            }
+        }
+        $manufacturer['platforms'][$idxPlat] = $platform;
+        $manufacturers[$idxMan]['platforms'][$idxPlat] = $platform;
+    }
+}
+echo "Writing Parsed Tree..";
+file_put_contents($dataDir.'/json/emulationking/emulationking.json', json_encode($manufacturers));
 echo "done\n";
-
-
-
-$row = $db->query("select * from config where field='emucr'");
-if (count($row) == 0) {
-	$last = 0;
-	$db->query("insert into config values ('emucr','0')");
-} else {
-	$last = $row[0]['value'];
-}
-$force = in_array('-f', $_SERVER['argv']);
-$client = new Client();
-$sitePrefix = 'https://www.emucr.com/';
-$types = ['st' => 'type_id', 'c' => 'computer_id'];
-$dataDir = '/storage/local/ConSolo/data';
-echo 'Loading and scanning for archive pages..';
-$computerUrls = [];
-$crawler = $client->request('GET', $sitePrefix);
-$crawler->filter('li.archivedate a')->each(function ($node) use (&$computerUrls) {
-	$computerUrls[] = $node->attr('href');
-});
-echo ' done'.PHP_EOL;
-echo 'Found '.count($computerUrls).' Archive Pages'.PHP_EOL;
-rsort($computerUrls);
-$postUrls = [];
-echo 'Loading Archive Pages ';
-foreach ($computerUrls as $url) {
-	echo '.';
-	if (file_exists($dataDir.'/json/emucr/archive/'.str_replace($sitePrefix, '', $url).'.json')) {
-		$pageUrls = json_decode(file_get_contents($dataDir.'/json/emucr/archive/'.str_replace($sitePrefix, '', $url).'.json'), true);
-	} else {
-		$crawler = $client->request('GET', $url);
-		$pageUrls = [];
-		$crawler->filter('.blog-posts > a')->each(function ($node) use (&$pageUrls) {
-			$pageUrls[$node->attr('href')] = $node->attr('title');
-		});
-		file_put_contents($dataDir.'/json/emucr/archive/'.str_replace($sitePrefix, '', $url).'.json', json_encode($pageUrls, JSON_PRETTY_PRINT));
-	}
-	foreach ($pageUrls as $url => $title)
-		$postUrls[$url] = $title;
-}
-echo ' done'.PHP_EOL;
-echo 'Found '.count($postUrls).' Post Pages'.PHP_EOL;
-file_put_contents($dataDir.'/json/emucr/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
-exit;
-$computerUrls = json_decode(file_get_contents($dataDir.'/json/emucr/urls.json'), true);
-echo 'Loading Computer URLs'.PHP_EOL;
-/*
-$db->query("truncate emucr_emulator_platforms");
-$db->query("delete from emucr_platforms");
-$db->query("delete from emucr_emulators");
-$db->query("alter table emucr_emulators auto_increment=1");
-$db->query("alter table emucr_platforms auto_increment=1");
-*/
-$platforms = [];
-$total = count($computerUrls);
-$allEmulators = [];
-echo 'Found '.$total.' Systems'.PHP_EOL;
-foreach ($computerUrls as $idx => $url) {
-	$cols = [];
-	$urlParts = parse_url($url);
-	$query = explode('&', $urlParts['query']);
-	foreach ($query as $queryPart) {
-		list($key, $value) = explode('=', $queryPart);
-		$cols[$types[$key]] = $value;
-	}
-	echo "[{$idx}/{$total}] Loading URL $url\n";
-	if (file_exists($dataDir.'/json/emucr/platforms/'.$cols['computer_id'].'.json')) {
-		$cols = json_decode($dataDir.'/json/emucr/platforms/'.$cols['computer_id'].'.json', true);
-	} else{
-		/**
-		* @var \Symfony\Component\DomCrawler\Crawler
-		*/
-		$crawler = $client->request('GET', $sitePrefix.$url);
-		$key = false;
-		$value = false;
-		$emulators = false;
-		$cols['pages'] = [];
-		$crawler->filter('#navbar2 a.navbutton')->each(function($node, $i) use (&$cols) {
-			$link = $node->attr('href');
-			$text = $node->text();
-			$cols['pages'][strtolower($text)] = $link;
-			//echo "Link $link - $text\n";
-		});
-		if ($crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(3) tr:nth-child(1) > td:nth-child(1) > img:nth-child(1)')->count() > 0)
-			$cols['image'] = $sitePrefix.$crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3) > table:nth-child(3) tr:nth-child(1) > td:nth-child(1) > img:nth-child(1)')->attr('src');
-		$crawler = $crawler->filter('table.petitnoir2 tr:nth-child(1) > td:nth-child(3)')->eq(0);
-		$cols['company_link'] = $crawler->filter('.grandvert')->eq(0)->attr('href');
-		if ($crawler->filter('.grandvert img')->count() > 0) {
-			$cols['company_name'] = $crawler->filter('.grandvert img')->attr('alt');
-			$cols['company_logo'] = $sitePrefix.$crawler->filter('.grandvert img')->attr('src');
-		} else {
-			$cols['comany_name'] = $crawler->filter('.grandvert')->eq(0)->text();
-		}
-		$cols['description'] = trim(str_replace(['<br>',PHP_EOL.PHP_EOL.PHP_EOL,PHP_EOL.PHP_EOL],[PHP_EOL,PHP_EOL,PHP_EOL], $crawler->filter('p.petitnoir')->html()));
-		$crawler->filter('table tr td table tr td.petitnoir2')->each(function(Crawler $node, $i) use (&$cols, &$key, &$value) {
-			if ($i % 2 == 0)
-				$key = str_replace([' ','/','-','__'], ['_','','_','_'], strtolower(html_entity_decode(trim(preg_replace('/\s+/msuU', ' ', $node->text())))));
-			else
-				$cols[$key] = $node->html();
-		});
-		file_put_contents($dataDir.'/json/emucr/platforms/'.$cols['computer_id'].'.json', json_encode($cols, JSON_PRETTY_PRINT));
-	}
-	$platforms[] = $cols;
-}
-file_put_contents($dataDir.'/json/emucr/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
-echo PHP_EOL.'done!'.PHP_EOL;
-exit;
-echo 'Inserting Emulators into DB   ';
-foreach ($allEmulators as $name => $emulator) {
-	$emulator['host'] = implode(', ', $emulator['hosts']);
-	$platforms = $emulator['platforms'];
-	unset($emulator['platforms']);
-	unset($emulator['hosts']);
-	$emulatorId = $db->insert('emucr_emulators')->cols($emulator)->lowPriority($config['db']['low_priority'])->query();
-	foreach ($platforms as $platformId) {
-		$db->insert('emucr_emulator_platforms')->cols(['emulator' => $emulatorId, 'platform' => $platformId])->lowPriority($config['db']['low_priority'])->query();
-	}
-}
-echo 'done!'.PHP_EOL;
-file_put_contents($dataDir.'/json/emucr/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
-file_put_contents($dataDir.'/json/emucr/emulators.json', json_encode($allEmulators, JSON_PRETTY_PRINT));
-//echo PHP_EOL;
