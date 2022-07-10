@@ -15,45 +15,62 @@ $converter = new CssSelectorConverter();
 //var_dump($converter->toXPath('.post-labels a[rel="tag"]'));
 $dir = '/mnt/e/dev/ConSolo/mirror/emucr/www.emucr.com';
 $dataDir = '/mnt/e/dev/ConSolo/data';
-mkdir($dataDir.'/json/emucr', 0777, true);
+if (!file_Exists($dataDir.'/json/emucr')) {
+	mkdir($dataDir.'/json/emucr', 0777, true);
+}
 $fileNames = explode("\n", trim(`find "{$dir}" -type f`));
 $posts = [];
+echo "Loadiing json backups..";
+foreach (glob($dataDir.'/json/emucr/*.json') as $file) {
+	if (basename($file) != 'posts.json') {
+		$data = json_decode(file_get_contents($file), true);
+		$posts[] = $data;
+	}
+}
+echo "";
+echo "done";
+echo "";
 foreach ($fileNames as $idx => $file ) {
     echo "Reading file {$file}\n";
     $html = file_get_contents($file);
-    $crawler = new Crawler($html);
-    $title = $crawler->filter('title')->text();
-    $title = preg_replace('/ - EmuCR$/', '', $title);
-    if ($title =='EmuCR') {
-        echo "Removing File {$file}\n";
-        unlink($file);
-        continue;
-    }
-    $tags = $crawler->filter('.post-labels a[rel="tag"]')->each(function (Crawler $node, $i) {
-        return $node->text();
-    });
-    $url = $crawler->filter('.postMain .title h1 a')->attr('href');
-    $seo = basename($url, '.html');
-    $nameVersion = $crawler->filter('.postMain .title h1 a')->text();
-    $datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
-    $body = $crawler->filter('.postMain .post-body p')->html();
-    $data = [
-        'title' => $title,
-        'date' => $datePosted,
-        'nameVersion' => $nameVersion,
-        'url' => $url,
-        'seo' => $seo,
-        'tags' => $tags,
-        'body' => $body,
-    ];
-    $posts[] = $data;
-    file_put_contents($dataDir.'/json/emucr/'.$data['seo'].'.json', json_encode($data));
-    if ($idx % 50 == 0) {
-        echo "Writing Posts..";
-        file_put_contents($dataDir.'/json/emucr/posts.json', json_encode($posts));
-        echo "done\n";
-    }
-    unlink($file);
+	try {
+		$crawler = new Crawler($html);
+		$title = $crawler->filter('title')->text();
+		$title = preg_replace('/ - EmuCR$/', '', $title);
+		if ($title =='EmuCR') {
+			echo "Removing File {$file}\n";
+			unlink($file);
+			continue;
+		}
+		$tags = $crawler->filter('.post-labels a[rel="tag"]')->each(function (Crawler $node, $i) {
+			return $node->text();
+		});
+		$url = $crawler->filter('.postMain .title h1 a')->attr('href');
+		$seo = basename($url, '.html');
+		$nameVersion = $crawler->filter('.postMain .title h1 a')->text();
+		$datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
+		$body = $crawler->filter('.postMain .post-body p')->html();
+	} catch (\Exception $e) {
+		echo "Ran into a problem with {$file}: ".$e->getMessage()."\n";
+	} finally {
+		$data = [
+			'title' => $title,
+			'date' => $datePosted,
+			'nameVersion' => $nameVersion,
+			'url' => $url,
+			'seo' => $seo,
+			'tags' => $tags,
+			'body' => $body,
+		];
+		$posts[] = $data;
+		file_put_contents($dataDir.'/json/emucr/'.$data['seo'].'.json', json_encode($data));
+		if ($idx % 50 == 0) {
+			echo "Writing Posts..";
+			file_put_contents($dataDir.'/json/emucr/posts.json', json_encode($posts));
+			echo "done\n";
+		}
+		unlink($file);
+	}
 }
 echo "Finished Processig Posts\n";
 echo "Writing Posts..";
