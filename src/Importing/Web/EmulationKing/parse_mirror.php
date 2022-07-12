@@ -18,6 +18,7 @@ $dataDir = '/mnt/e/dev/ConSolo/data/json/emulationking';
 if (!file_Exists($dataDir)) {
 	mkdir($dataDir, 0777, true);
 }
+
 $html = getcurlpage($dir.'/');
 $crawler = new Crawler($html);
 $rows = $crawler->filter('.site-main > div.row');
@@ -47,68 +48,87 @@ for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
     echo "Added Manufacturer {$manufacturer['name']}\n";
 }
 foreach ($manufacturers as $idxMan => $manufacturer) {
+    sleep(1);
+    echo "Loading {$manufacturer['url']}\n";
     $html = getcurlpage($manufacturer['url']);
     $crawler = new Crawler($html);
     $manufacturers[$idxMan]['description'] = $crawler->filter('.entry-content')->html();
 }
 foreach ($manufacturers as $idxMan => $manufacturer) {
     foreach ($manufacturer['platforms'] as $idxPlat => $platform) {
+        sleep(1);
+        echo "Loading {$platform['url']}\n";
         $html = getcurlpage($platform['url']);
         $crawler = new Crawler($html);
         //eval(\Psy\sh());
         $crawler->filter('.lbb-block-slot')->each(function (Crawler $crawler, $i) {
             foreach ($crawler as $node) {
-                echo "Removing This HTML:".$crawler->html()."\n";
                 $node->parentNode->removeChild($node);
             }
         });
-
         $rows = $crawler->filter('article > .row');
+        if ($rows->eq(0)->filter('.entry-title')->count() == 0) {
+            eval(\Psy\sh());
+        }
         $platform['name'] = $rows->eq(0)->filter('.entry-title')->text();
         $platform['image_cover'] = $rows->eq(1)->filter('div .game-cover .cover-image')->attr('src');
-        $specRows = $rows->eq(1)->filter('div .console-meta')->children();
-        for ($idxSpec = 1, $maxSpec = $specRows->count(); $idxSpec < $maxSpec; $idxSpec++) {
-            $node = $specRows->eq($idxSpec)->filter('strong');
-            $field = str_replace([':'], [''], $node->text()) ;
-            foreach ($node as $thenode)
-                $thenode->parentNode->removeChild($thenode);
-            $value = trim($specRows->eq($idxSpec)->text());
-            $platform[$field] = $value;
-        }
         $platform['description'] = trim($rows->eq(1)->filter('div .entry-content')->html());
-        for ($idxRow = 2, $maxRow = $rows->count(); $idxRow < $maxRow; $idxRow++) {
-            $seoSection = $rows->eq($idxRow)->filter('h2')->attr('id');
-            if (is_null($seoSection))
-                continue;
-            $section = $rows->eq($idxRow)->filter('h2')->text();
-            $platform[$seoSection] = [];
-            $platform['sections'][$seoSection] = $section;
-            $items = $rows->eq($idxRow)->filter('.border');
-            for ($idxItem = 0, $maxItem = $items->count(); $idxItem < $maxItem; $idxItem++) {
-                $row = [
-                    'url' => $items->eq($idxItem)->filter('.blog-reel-post')->attr('href'),
-                    'body_html' => $items->eq($idxItem)->filter('.emulator-description')->html(),
-                    'body_text' => $items->eq($idxItem)->filter('.emulator-description')->text(),
-                ];
-                if ($items->eq($idxItem)->filter('.emulator-image img')->count() > 0)
-                    $row['logo'] = $items->eq($idxItem)->filter('.emulator-image img')->attr('src');
-                $oses = $items->eq($idxItem)->filter('.emulator-supported-osw-100 i');
-                if ($oses->count() > 0) {
-                    $row['runs'] = [];
-                    for ($idxOs = 0, $maxOs = $oses->count(); $idxOs < $maxOs; $idxOs++ ) {
-                        $os = $oses->eq($idxOs)->attr('class');
-                        $row['runs'][] = $os;
-                    }
+        if ($rows->eq(1)->filter('div .console-meta')->count() > 0) {
+            $specRows = $rows->eq(1)->filter('div .console-meta')->children();
+            for ($idxSpec = 1, $maxSpec = $specRows->count(); $idxSpec < $maxSpec; $idxSpec++) {
+                $node = $specRows->eq($idxSpec)->filter('strong');
+                if ($node->count() > 0) {
+                    $field = str_replace([':'], [''], $node->text()) ;
+                    foreach ($node as $thenode)
+                        $thenode->parentNode->removeChild($thenode);
                 }
-                $platform[$seoSection][] = $row;
+                $value = trim($specRows->eq($idxSpec)->text());
+                echo "  Spec {$field} .= {$value}\n";
+                $platform[$field] = !array_key_exists($field, $platform) ? $value : $platform[$field].'<br>'.$value;
+            }
+        }
+        if ($rows->count() > 2) {
+            for ($idxRow = 2, $maxRow = $rows->count(); $idxRow < $maxRow; $idxRow++) {
+                $seoSection = $rows->eq($idxRow)->filter('h2')->attr('id');
+                $section = $rows->eq($idxRow)->filter('h2')->text();
+                if (is_null($seoSection)) {
+                    echo "  Skipping section {$section} (null seo section)\n";
+                    continue;
+                }
+                if ($rows->eq($idxRow)->filter('.border .blog-reel-post')->count() == 0) {
+                    echo "  Skipping section {$section} (doesnt match our stuff)\n";
+                    continue;
+                }
+                echo "  Adding Section {$section} ({$seoSection})\n";
+                $platform[$seoSection] = [];
+                $platform['sections'][$seoSection] = $section;
+                $items = $rows->eq($idxRow)->filter('.border');
+                for ($idxItem = 0, $maxItem = $items->count(); $idxItem < $maxItem; $idxItem++) {
+                    $row = [
+                        'url' => $items->eq($idxItem)->filter('.blog-reel-post')->attr('href'),
+                        'body_html' => $items->eq($idxItem)->filter('.emulator-description')->html(),
+                        'body_text' => $items->eq($idxItem)->filter('.emulator-description')->text(),
+                    ];
+                    if ($items->eq($idxItem)->filter('.emulator-image img')->count() > 0)
+                        $row['logo'] = $items->eq($idxItem)->filter('.emulator-image img')->attr('src');
+                    $oses = $items->eq($idxItem)->filter('.emulator-supported-osw-100 i');
+                    if ($oses->count() > 0) {
+                        $row['runs'] = [];
+                        for ($idxOs = 0, $maxOs = $oses->count(); $idxOs < $maxOs; $idxOs++ ) {
+                            $os = $oses->eq($idxOs)->attr('class');
+                            $row['runs'][] = $os;
+                        }
+                    }
+                    echo "      Adding {$section}: {$row['url']}\n";
+                    $platform[$seoSection][] = $row;
+                }
             }
         }
         $manufacturer['platforms'][$idxPlat] = $platform;
         $manufacturers[$idxMan]['platforms'][$idxPlat] = $platform;
-        eval(\Psy\sh());
     }
 }
-print_r($manufacturers);exit;
+
 echo "Writing Parsed Tree..";
-file_put_contents($dataDir.'/json/emulationking/emulationking.json', json_encode($manufacturers));
+file_put_contents($dataDir.'/emulationking.json', json_encode($manufacturers));
 echo "done\n";
