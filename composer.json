@@ -15,6 +15,7 @@
         "ext-curl": "*",
         "ext-pcntl": "*",
         "ext-posix": "*",
+        "psy/psysh": "*",
         "react/child-process": "*",
         "react/event-loop": "*",
         "react/http": "*",
