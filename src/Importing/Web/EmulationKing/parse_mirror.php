@@ -52,7 +52,7 @@ foreach ($manufacturers as $idxMan => $manufacturer) {
     echo "Loading {$manufacturer['url']}\n";
     $html = getcurlpage($manufacturer['url']);
     $crawler = new Crawler($html);
-    $manufacturers[$idxMan]['description'] = $crawler->filter('.entry-content')->html();
+    $manufacturers[$idxMan]['description'] = trim($crawler->filter('.entry-content')->html());
 }
 foreach ($manufacturers as $idxMan => $manufacturer) {
     foreach ($manufacturer['platforms'] as $idxPlat => $platform) {
