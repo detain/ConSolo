@@ -122,91 +122,13 @@ file_put_contents($sourceDir.'/redump.json', json_encode($allPlatforms['redump']
 
 // MAME
 echo "Building MAME Platforms\n";
-$mediaTypes = [
-	'- Datach Joint ROM System mini-cartridges',
-	'- Nantettatte!! Baseball mini-cartridges',
-	'- Karaoke Studio 4ion cartridges',
-	'- Aladdin Deck Enhancer cartridges',
-	"'Game' cartridges",
-	'Beta Disc / TR-DOS disk images',
-	"'Design / Media' cartridges",
-	'cleanly cracked 5.25" disks',
-	'cleanly cracked 5.25 disks',
-	'5.25 miscellaneous disks',
-	'5.25" miscellaneous disks',
-	'disk images (misc list)',
-	'Hardware driver disks',
-	'Master Compact disks',
-	'SmartMedia Flash ROM',
-	'5.25" original disks',
-	'5.25 original disks',
-	'2nd Processor discs',
-	'Digital Data Packs',
-	'ROMPACK cartridges',
-	'5.25" inch floppies',
-	'5.25 inch floppies',
-	'(German) cassettes',
-	'Application disks',
-	'Master cartridges',
-	'ROMPAK cartridges',
-	'tapes/cartridges',
-	'Master cassettes',
-	'Media cartridges',
-	'SmartMedia cards',
-	'internal sockets',
-	'Workbench disks',
-	'mini-cartridges',
-	'cartridge tapes',
-	'snapshot images',
-	'ROM extensions',
-	'expansion ROMs',
-	'Original disks',
-	'ROM expansions',
-	'(Euro) CD-ROMs',
-	'(Jpn) CD-ROMs',
-	'Function ROMs',
-	'expansion ROM',
-	'floppy images',
-	'miscellaneous disks',
-	'CD-ROM images',
-	'floppy disks',
-	'memory cards',
-	'ROM capsules',
-	'Memory Packs',
-	'System disks',
-	'Option ROMs',
-	'RFID cards',
-	'hard disk images',
-	'Floppy Discs',
-	'disk images',
-	'disc images',
-	'Master disks',
-	'ROM images',
-	'cartridges',
-	'5.25" disks',
-	'5.25 disks',
-	'(US) disks',
-	'quickloads',
-	'hard disks',
-	'diskettes',
-	'cassettes',
-	'3.5" disks',
-	'quickload',
-	'3.5 disks',
-	'ROM Packs',
-	'snapshots',
-	'cassette',
-	'floppies',
-	'Datapack',
-	'QD disks',
-	'software',
-	'modules',
-	'CD-ROMs',
-	'Discs',
-	'disks',
-	'ROMs',
-	'ROM',
-];
+$mediaTypes = json_decode(file_get_contents('mame_media_types.json'), true);
+function mameMediaSort($a, $b) {
+	return mb_strlen($b) <=> mb_strlen($a);
+}
+usort($mediaTypes, 'mameMediaSort');
+file_put_contents('mame_media_types.json', json_encode($mediaTypes, JSON_PRETTY_PRINT));
+
 $results = $db->query("SELECT name, description FROM consolo.mame_software_platforms");
 $alternates = [];
 $platforms = [];
@@ -320,6 +242,14 @@ foreach ($results as $data) {
 		$json['romtype'] = $romtypes[$json['romtype']];
 	if (isset($json['supporttype']))
 		$json['supporttype'] = $supporttypes[$json['supporttype']];
+	foreach (['recalbox', 'retropie', 'hyperspin', 'launchbox'] as $nameSuffix) {
+		if (isset($json['name_'.$nameSuffix])) {
+			$names = explode(',', $json['name_'.$nameSuffix]);
+			foreach ($names as $name) {
+				$alternates[$name] = $platform;
+			}
+		}
+	}
 	if (isset($json['alternate'])) {
 		$json['alternate'] = explode(',', $json['alternate']);
 		foreach ($json['alternate'] as $alternate)
@@ -426,6 +356,7 @@ $sources = [
 ];
 $platformCounts = [];
 $matchedCounts = [];
+$unmatched = [];
 $mdTable = [];
 $mdTable[] = '| Source | Platforms | Matched | Missing | % Completed |';
 $mdTable[] = '|--|--|--|--|--|';
@@ -433,10 +364,13 @@ $linker = ['lists' => [], 'links' => $links];
 foreach ($sources as $sourceType => $sourceName) {
 	$platformCounts[$sourceType] = 0;
 	$matchedCounts[$sourceType] = 0;
+	$unmatched[$sourceType] = [];
 	foreach ($allPlatforms[$sourceType] as $platform => $data) {
 		$platformCounts[$sourceType]++;
 		if (isset($data['local']) && count($data['local']) > 0)
 			$matchedCounts[$sourceType]++;
+		else
+			$unmatched[$sourceType][] = $platform;
 	}
 	$missing = $platformCounts[$sourceType] - $matchedCounts[$sourceType];
 	$percent = round(($matchedCounts[$sourceType] / $platformCounts[$sourceType]) * 100, 1);
@@ -445,6 +379,10 @@ foreach ($sources as $sourceType => $sourceName) {
 	$linker['lists'][$sourceType] = $list;
 	file_put_contents($sourceDir.'/'.$sourceType.'.json', json_encode($allPlatforms[$sourceType], JSON_PRETTY_PRINT));
 }
-echo implode("\n", $mdTable)."\n";
+$readme = file_get_contents($sourceDir.'/../README.md');
+preg_match_all('/\| Source.*$\n(\|.*$\n)+^$/muU', $readme, $matches);
+$readme = str_replace($matches[0], implode("\n", $mdTable), $readme);
+file_put_contents($sourceDir.'/../README.md', $readme);
+file_put_contents($sourceDir.'/../unmatched.json', json_encode($unmatched, JSON_PRETTY_PRINT));
 file_put_contents($sourceDir.'/../linker.json', json_encode($linker, JSON_PRETTY_PRINT));
 echo "done\n";

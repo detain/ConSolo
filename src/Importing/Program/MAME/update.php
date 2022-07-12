@@ -31,19 +31,19 @@ $fileSoftware = $dataDir.'/xml/mame/software-'.$version.'.xml';
 echo `rm -rf /tmp/update;`;
 if (!file_exists($fileXml) || !file_exists($fileSoftware)) {
 	echo 'Downloading MAME '.$version.PHP_EOL;
-	echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_64bit.exe -O /tmp/mame.exe;`;
+	//echo `wget -q https://github.com/mamedev/mame/releases/download/mame{$version}/mame{$version}b_64bit.exe -O /tmp/mame.exe;`;
 	echo 'Uncompressing MAME '.$version.PHP_EOL;
-	echo `7z x -o/tmp/update /tmp/mame.exe;`;
-	unlink('/tmp/mame.exe');
+	//echo `7z x -o/tmp/update /tmp/mame.exe;`;
+	//unlink('/tmp/mame.exe');
 	if (!file_exists($fileXml)) {
 		echo 'Generating XML '.$fileXml.PHP_EOL;
-		//echo `mame -listxml > {$fileXml};`;
-		echo `cd /tmp/update/; wine64 mame64.exe -listxml 2>/dev/null | pv > {$fileXml};`;
+		echo `cd ~/mame;./mame -listxml > {$fileXml};`;
+		//echo `cd /tmp/update/; wine64 mame64.exe -listxml 2>/dev/null | pv > {$fileXml};`;
 	}
 	if (!file_exists($fileSoftware)) {
 		echo 'Generating Software '.$fileSoftware.PHP_EOL;
-		//echo `mame -listsoftware > {$fileSoftware};`;
-		echo `cd /tmp/update/; wine64 mame64.exe -listsoftware 2>/dev/null | pv > {$fileSoftware};`;
+		echo `cd ~/mame;./mame -listsoftware > {$fileSoftware};`;
+		//echo `cd /tmp/update/; wine64 mame64.exe -listsoftware 2>/dev/null | pv > {$fileSoftware};`;
 	}
 	/*$txt = ['brothers', 'clones', 'crc', 'devices', 'full', 'media', 'roms', 'samples', 'slots', 'source'];
 	foreach ($txt as $list) {
