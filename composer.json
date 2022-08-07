@@ -36,7 +36,7 @@
         "psr/http-client": "*",
         "nyholm/psr7": "*",
         "php-http/discovery": "*",
-        "guzzlehttp/guzzle": ">=7.4.5",
+        "guzzlehttp/guzzle": ">=7.4.5@stable",
         "guzzlehttp/promises": "*",
         "amphp/http-client": "*",
         "masterminds/html5": "*",

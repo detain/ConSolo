@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06ab0a9696e83b6e50f5887421187d9b",
+    "content-hash": "b0145ac9a6204470c1610a6ed337443b",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1287,16 +1287,25 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "dev-master",
+            "version": "7.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
+<<<<<<< HEAD
                 "reference": "4e28ee5d7ee044ebd9be0ab8852997e2bd034cce"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/guzzle/guzzle/zipball/4e28ee5d7ee044ebd9be0ab8852997e2bd034cce",
                 "reference": "4e28ee5d7ee044ebd9be0ab8852997e2bd034cce",
+=======
+                "reference": "1dd98b0564cb3f6bd16ce683cb755f94c10fbd82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/1dd98b0564cb3f6bd16ce683cb755f94c10fbd82",
+                "reference": "1dd98b0564cb3f6bd16ce683cb755f94c10fbd82",
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
                 "shasum": ""
             },
             "require": {
@@ -1322,7 +1331,6 @@
                 "ext-intl": "Required for Internationalized Domain Name (IDN) support",
                 "psr/log": "Required for using the Log middleware"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1392,7 +1400,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/master"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.5"
             },
             "funding": [
                 {
@@ -1408,7 +1416,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2022-07-31T09:40:09+00:00"
+=======
+            "time": "2022-06-20T22:16:13+00:00"
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
         },
         {
             "name": "guzzlehttp/promises",
@@ -3902,12 +3914,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
+<<<<<<< HEAD
                 "reference": "8b99cfd0a6224d0fc7b223603210d48e36a79966"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/8b99cfd0a6224d0fc7b223603210d48e36a79966",
                 "reference": "8b99cfd0a6224d0fc7b223603210d48e36a79966",
+=======
+                "reference": "83594c26a26f66af6e5322b9011b2e243a5509e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/83594c26a26f66af6e5322b9011b2e243a5509e8",
+                "reference": "83594c26a26f66af6e5322b9011b2e243a5509e8",
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
                 "shasum": ""
             },
             "conflict": {
@@ -4409,7 +4430,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2022-08-06T06:06:57+00:00"
+=======
+            "time": "2022-07-29T23:04:14+00:00"
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
         },
         {
             "name": "rubix/ml",
@@ -4752,12 +4777,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
+<<<<<<< HEAD
                 "reference": "24cb54f151f8134d1ae735c465aa338761ca8fce"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/console/zipball/24cb54f151f8134d1ae735c465aa338761ca8fce",
                 "reference": "24cb54f151f8134d1ae735c465aa338761ca8fce",
+=======
+                "reference": "39a9f1de5c0028a6d7b1c8f83379aae755d5d9b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/39a9f1de5c0028a6d7b1c8f83379aae755d5d9b0",
+                "reference": "39a9f1de5c0028a6d7b1c8f83379aae755d5d9b0",
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
                 "shasum": ""
             },
             "require": {
@@ -4840,7 +4874,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2022-08-05T15:59:14+00:00"
+=======
+            "time": "2022-08-02T16:18:05+00:00"
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
         },
         {
             "name": "symfony/css-selector",
@@ -4981,12 +5019,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
+<<<<<<< HEAD
                 "reference": "8cb4c6e6c8d30c26f70529ed5e50d79a09576c0c"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/8cb4c6e6c8d30c26f70529ed5e50d79a09576c0c",
                 "reference": "8cb4c6e6c8d30c26f70529ed5e50d79a09576c0c",
+=======
+                "reference": "58eb9858d8752ac3586fffb37421441fc18f793c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/58eb9858d8752ac3586fffb37421441fc18f793c",
+                "reference": "58eb9858d8752ac3586fffb37421441fc18f793c",
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
                 "shasum": ""
             },
             "require": {
@@ -5043,7 +5090,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2022-08-04T19:19:00+00:00"
+=======
+            "time": "2022-06-27T17:24:16+00:00"
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
         },
         {
             "name": "symfony/http-client",
@@ -6051,12 +6102,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
+<<<<<<< HEAD
                 "reference": "102fd1bc064b62a9ea1b5f90101f0cdd462229de"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/string/zipball/102fd1bc064b62a9ea1b5f90101f0cdd462229de",
                 "reference": "102fd1bc064b62a9ea1b5f90101f0cdd462229de",
+=======
+                "reference": "c064c881a8e7c989c6989cd9217420f6a4a82c5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/string/zipball/c064c881a8e7c989c6989cd9217420f6a4a82c5c",
+                "reference": "c064c881a8e7c989c6989cd9217420f6a4a82c5c",
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
                 "shasum": ""
             },
             "require": {
@@ -6128,7 +6188,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2022-08-04T19:19:24+00:00"
+=======
+            "time": "2022-07-27T15:51:04+00:00"
+>>>>>>> 56164aa6923e956833b30e84bd9a115eebe4152f
         },
         {
             "name": "symfony/var-dumper",
@@ -6644,7 +6708,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "roave/security-advisories": 20
+        "roave/security-advisories": 20,
+        "guzzlehttp/guzzle": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
