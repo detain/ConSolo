@@ -565,9 +565,9 @@ datatables.net-searchpanes@>=1.4.0:
     jquery ">=1.7"
 
 datatables.net-select-bs@^*:
-  version "1.3.4"
-  resolved "https://registry.npmjs.org/datatables.net-select-bs/-/datatables.net-select-bs-1.3.4.tgz"
-  integrity sha512-aUxHT+C45uMWUbInP3wrmbgjco/zfgm8kGKTBQ/p8fkXGyBRpoTxJPa12ohbKbHSlHF0khIl5Xii0KtwGVVXkQ==
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/datatables.net-select-bs/-/datatables.net-select-bs-1.4.0.tgz#7caf6ea9116bfa4198416c140774982f8d1e54a7"
+  integrity sha512-sZdD0T84UR+CqV4tQYoLyZ/WSxrVWxTI31gipG5F8nH5Fn1Y1TKdfTjFw/q8Hks5tXRhCxe4ZfO8toRyS1gDqA==
   dependencies:
     datatables.net-bs ">=1.11.3"
     datatables.net-select ">=1.3.3"
