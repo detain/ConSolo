@@ -424,9 +424,9 @@ datatables.net-colreorder@>=1.5.4:
     jquery ">=1.7"
 
 datatables.net-fixedcolumns-bs@^*:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/datatables.net-fixedcolumns-bs/-/datatables.net-fixedcolumns-bs-4.0.2.tgz"
-  integrity sha512-DdOZy1WN9V3hF7C9jzPspjC9VEnKdeP225jDs5O8/ZYHrEM2MHOuUVKIpNjikICi4ABQFJPd6pMKDXqvQLvKHQ==
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/datatables.net-fixedcolumns-bs/-/datatables.net-fixedcolumns-bs-4.1.0.tgz#c682f7ae6301ffb906a7c773a8ba8de4f11a1320"
+  integrity sha512-h6dY4b+huXM7bGzyMrZCqoc6kVkJN8PPnjPKPq37i9datEocAbGb4lccv2mi+78cFn9JhB1V/ceXe6Gbj2OG9g==
   dependencies:
     datatables.net-bs ">=1.11.3"
     datatables.net-fixedcolumns ">=4.0.0"
