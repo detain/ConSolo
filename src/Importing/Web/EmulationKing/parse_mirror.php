@@ -1,5 +1,14 @@
 <?php
-
+/**
+* EmulationKing.com scraper
+*
+* TODO:
+* - extract platform manufactuter image
+* - extract seo short names and full names from thigns like emulators, platforms, etc.
+* - move platforms and emulators into thier own array with seoshort reference to them from the parent
+* - parse emulators pages
+* - convert utf8 chars to local equivalents
+*/
 
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
@@ -23,6 +32,8 @@ $html = getcurlpage($dir.'/');
 $crawler = new Crawler($html);
 $rows = $crawler->filter('.site-main > div.row');
 $manufacturers = [];
+$platforms = [];
+$emulators = [];
 for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
     $manufacturer = [
         'url' => $rows->eq($idx)->filter('h2 a')->attr('href'),
@@ -38,7 +49,6 @@ for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
             'url' => $platformRows->eq($idxPlat)->attr('href'),
             'name' => $matches[1],
             'year' => $matches[2],
-            'runs' => [],
             'sections' => [],
        ];
         $manufacturer['platforms'][] = $platform;
@@ -116,7 +126,7 @@ foreach ($manufacturers as $idxMan => $manufacturer) {
                         $row['runs'] = [];
                         for ($idxOs = 0, $maxOs = $oses->count(); $idxOs < $maxOs; $idxOs++ ) {
                             $os = $oses->eq($idxOs)->attr('class');
-                            $row['runs'][] = $os;
+                            $row['runs'][] = str_replace('emu-icon-', '', $os);
                         }
                     }
                     echo "      Adding {$section}: {$row['url']}\n";
@@ -130,5 +140,6 @@ foreach ($manufacturers as $idxMan => $manufacturer) {
 }
 
 echo "Writing Parsed Tree..";
-file_put_contents($dataDir.'/emulationking.json', json_encode($manufacturers));
+$manufacturers = json_decode(file_get_contents($dataDir.'/emulationking.json'), true);
+file_put_contents($dataDir.'/emulationking.json', json_encode($manufacturers, JSON_PRETTY_PRINT));
 echo "done\n";
