@@ -531,20 +531,20 @@ datatables.net-rowreorder@1.2.8:
     jquery ">=1.7"
 
 datatables.net-scroller-bs@^*:
-  version "2.0.5"
-  resolved "https://registry.npmjs.org/datatables.net-scroller-bs/-/datatables.net-scroller-bs-2.0.5.tgz"
-  integrity sha512-gnqi7RbblOkWbioc3jfKM0+HdtNfR1BWShufoIjgD40Ot+SvyA0t02RIDIaTIRh+xWWMhKm2E8SH2A41gvjmqg==
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/datatables.net-scroller-bs/-/datatables.net-scroller-bs-2.0.7.tgz#01fa9a8fc91593a4aae0203a68d36b19889d36d5"
+  integrity sha512-7VhpSBcXovYb2ehn/wEshT/bNI8Us9D/4W3qpT2Yxc8BIdRNgvBG4iBskhCCR3TW4ve5eTJibXP9twIPJzbATQ==
   dependencies:
-    datatables.net-bs ">=1.10.25"
-    datatables.net-scroller ">=2.0.4"
+    datatables.net-bs ">=1.11.3"
+    datatables.net-scroller ">=2.0.5"
     jquery ">=1.7"
 
-datatables.net-scroller@>=2.0.4:
-  version "2.0.5"
-  resolved "https://registry.npmjs.org/datatables.net-scroller/-/datatables.net-scroller-2.0.5.tgz"
-  integrity sha512-gXxQcbUgDURcxGUCIj+5YBepJJcWWGJgFlewGy/odaAi+H1Ol8TKcXoQD20y2zcO7l5DWEbzNwHwN0bciBONPw==
+datatables.net-scroller@>=2.0.5:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/datatables.net-scroller/-/datatables.net-scroller-2.0.7.tgz#37a79ca38b13682b957918f6bda728089f620a19"
+  integrity sha512-FmlQn/1T5L+974aa1IOlcGvz4akx7RrJlk0fnDuvKHyyn98iywb/kfmfsOKsmnMqz3erRUOhF1sXpRwqQ88cgQ==
   dependencies:
-    datatables.net ">=1.10.25"
+    datatables.net ">=1.11.3"
     jquery ">=1.7"
 
 datatables.net-searchpanes-bs@^*:
