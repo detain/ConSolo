@@ -75,6 +75,27 @@ $data = [
     'countries' => [],
     'languages' => [],
 ];
+
+function gitClone($repo) {
+    $repoPrefix = 'https://github.com/PhoenixInteractiveNL/';
+    $return = passthru("git clone --recursive {$repoPrefix}{$repo} {$repo}");
+    return $return == 0;
+}
+
+function gitUpdate($repo) {
+    $repoPrefix = 'https://github.com/PhoenixInteractiveNL/';
+    $return = passthru("cd {$repo} && git pull --all");
+    return $return == 0;
+}
+
+function gitSetup($repo) {
+    return file_exists($repo) ? gitUpdate($repo) : gitClone($repo);
+}
+
+// emuControlCenter emuControlCenter.wiki emuDownloadCenter emuDownloadCenter.wiki ecc-datfiles ecc-toolsused ecc-updates
+// edc-repo0001 edc-repo0002 edc-repo0003 edc-repo0004 edc-repo0005 edc-repo0006 edc-repo0007 edc-repo0008 edc-repo0009
+$repos = ['emuDownloadCenter', 'emuDownloadCenter.wiki', 'emuControlCenter'];
+gitSetup('emuDownloadCenter');
 echo "Loading Language/Countriy Data..\n";
 foreach (($ini = loadIni('emuDownloadCenter/edc_conversion_language.ini'))['COUNTRY'] as $id => $value)
     $data['countries'][$id] = $value;
@@ -89,6 +110,8 @@ foreach (($ini = loadIni('emuDownloadCenter/ecc_platform_categories.ini'))['ECCI
 echo "Loading Platform <=> emulator matchups..\n";
 foreach ($ini = loadIni('emuDownloadCenter/ecc_platform_emulators.ini') as $id => $value)
     $data['platforms'][$id]['emulators'] = array_keys($value);
+gitSetup('emuDownloadCenter.wiki');
+gitSetup('emuControlCenter');
 echo "Loading Platforms...\n";
 foreach ($data['platforms'] as $id => $platform) {
     echo "  Platform {$id}....";
@@ -161,4 +184,7 @@ if ($json === false) {
     echo json_last_error_msg().PHP_EOL;
     exit;
 }
-file_put_contents('emuControlCenter.json', $json);
+file_put_contents('emucontrolcenter.json', $json);
+echo "Cleaning up repos..\n";
+foreach ($repos as $repo)
+    echo `rm -rf {$repo};`;
