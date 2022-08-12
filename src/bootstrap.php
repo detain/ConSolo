@@ -410,6 +410,91 @@ function cleanPath($path) {
 	return $path;
 }
 
+function loadRegularIni($fileName) {
+    sanitizeEncoding($fileName);
+    $ini = parse_ini_string($fileName, true, INI_SCANNER_RAW);
+    return $ini;
+}
+
+function loadQuotedIni($fileName) {
+    sanitizeEncoding($fileName);
+    $ini = [];
+    $fileStr = file_get_contents($fileName);
+    preg_match_all('/^\[(?P<section>[^\]]+)\]$\n(?P<settings>(^[^\[].*$\n)*)/mu', $fileStr, $matches);
+    foreach ($matches['section'] as $idx => $section) {
+        $settings = $matches['settings'][$idx];
+        $ini[$section]  = [];
+        if (trim($settings) != '') {
+            preg_match_all('/^(?P<field>\w+)\s*=\s*"(?P<value>.*)"$/msuU', $settings, $fieldMatches);
+            foreach ($fieldMatches['field'] as $fieldIdx => $field) {
+                $value = $fieldMatches['value'][$fieldIdx];
+                $ini[$section][$field] = trim($value);
+            }
+        }
+    }
+    return $ini;
+}
+
+function loadIni($fileName) {
+    sanitizeEncoding($fileName);
+    $iniStr = file_get_contents($fileName);
+    $iniArr = explode("\n", $iniStr);
+    $ini = []; // to hold the categories, and within them the entries
+    $last = '';
+    foreach ($iniArr as $i) {
+        if (@preg_match('/\[(.+)\]/', $i, $matches)) {
+            $last = stripQuotes(trim($matches[1]));
+        } elseif (@preg_match('/^([^;=][^=]+)=(.*)$/', $i, $matches)) {
+            $key = stripQuotes(trim($matches[1]));
+            if (strlen($key)>0) {
+                $val=stripQuotes(trim($matches[2]));
+                if (strlen($last) > 0) {
+                    $ini[$last][$key] = trim($val);
+                } else {
+                    $ini[$key] = trim($val);
+                }
+            }
+        }
+    }
+    return $ini;
+}
+
+function sanitizeEncoding($iniFile) {
+    // check for  ISO or Non-ISO text and convert to utf8
+    if (strpos(`file {$iniFile}`, 'ISO') !== false) {
+        echo "Fixing {$iniFile} encoding\n";
+        `iconv -f ISO-8859-14 -t UTF-8 {$iniFile} -o {$iniFile}_new || rm -fv {$iniFile}_new && mv -fv {$iniFile}_new {$iniFile}`;
+    }
+}
+
+function stripQuotes($text) {
+    return preg_replace('/^(\'(.*)\'|"(.*)")$/', '$2$3', $text);
+}
+
+function camelSnake($input) {
+    preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
+    $ret = $matches[0];
+    foreach ($ret as &$match)
+        $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+    return implode('_', $ret);
+}
+
+function gitClone($repo) {
+    $repoPrefix = 'https://github.com/PhoenixInteractiveNL/';
+    $return = passthru("git clone --recursive {$repoPrefix}{$repo} {$repo}");
+    return $return == 0;
+}
+
+function gitUpdate($repo) {
+    $repoPrefix = 'https://github.com/PhoenixInteractiveNL/';
+    $return = passthru("cd {$repo} && git pull --all");
+    return $return == 0;
+}
+
+function gitSetup($repo) {
+    return file_exists($repo) ? gitUpdate($repo) : gitClone($repo);
+}
+
 global $db, $mysqlLinkId;
 $characterSet = 'utf8mb4';
 $collation = 'utf8mb4_unicode_ci';
