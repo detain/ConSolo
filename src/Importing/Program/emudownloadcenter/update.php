@@ -91,7 +91,9 @@ function gitSetup($repo) {
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = '/storage/local/ConSolo/data/json/emucontrolcenter';
+$dataDir = __DIR__.'/../../../../data/json/emucontrolcenter';
+if (!file_exists($dataDir))
+    mkdir($dataDir, 0777, true);
 // emuControlCenter emuControlCenter.wiki emuDownloadCenter emuDownloadCenter.wiki ecc-datfiles ecc-toolsused ecc-updates
 // edc-repo0001 edc-repo0002 edc-repo0003 edc-repo0004 edc-repo0005 edc-repo0006 edc-repo0007 edc-repo0008 edc-repo0009
 $repos = ['emuDownloadCenter', 'emuDownloadCenter.wiki', 'emuControlCenter'];
@@ -198,13 +200,18 @@ foreach ($data['emulators'] as $id => $emulator) {
 echo "Loading misc Images..\n";
 $data['misc_images'] = glob('emuDownloadCenter.wiki/images_misc/*');
 echo "Writing JSON...\n";
-$json = json_encode($data, JSON_PRETTY_PRINT |  JSON_UNESCAPED_UNICODE |  JSON_UNESCAPED_SLASHES);
-if ($json === false) {
-    echo json_last_error_msg().PHP_EOL;
-    exit;
+$jsonOpts = JSON_PRETTY_PRINT |  JSON_UNESCAPED_UNICODE |  JSON_UNESCAPED_SLASHES;
+file_put_contents($dataDir.'/emucontrolcenter.json', json_encode($data, $jsonOpts));
+foreach ($data as $key => $value) {
+    file_put_contents($dataDir.'/'.$key.'.json', json_encode($value, $jsonOpts));
+    if (in_array($key, ['emulators', 'platforms']))
+        foreach ($value as $subKey => $subValue) {
+            if (!file_exists($dataDir.'/'.$key))
+                mkdir($dataDir.'/'.$key);
+                file_put_contents($dataDir.'/'.$key.'/'.$subKey.'.json', json_encode($subValue, $jsonOpts));
+        }
 }
-file_put_contents('emucontrolcenter.json', $json);
 echo "Cleaning up repos..\n";
-//foreach ($repos as $repo)
-//    echo `rm -rf {$repo};`;
+foreach ($repos as $repo)
+    echo `rm -rf {$repo};`;
 
