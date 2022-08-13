@@ -40,7 +40,10 @@
         "guzzlehttp/promises": "*",
         "amphp/http-client": "*",
         "masterminds/html5": "*",
-        "querypath/querypath": "*"
+        "querypath/querypath": "*",
+                "corneltek/cliframework": "dev-master",
+                "league/climate": "*",
+                "php-school/cli-menu": "*"
     },
     "suggest": {
         "workerman/channel": "*",
