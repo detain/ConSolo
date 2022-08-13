@@ -29,7 +29,6 @@ Currently its a mass of scripts loosely tied together and development will be fo
 
 #### Other Emulator Links
 
-- [EmuCR - powered by FeedBurner](http://feeds.emucr.com/emucr)
 - [reactmay/videogames: Application powered by IGDB API](https://github.com/reactmay/videogames)
 - [n795113/IGDB-videogame: Play with IGDB API](https://github.com/n795113/IGDB-videogame)
 - [bryceandy/games-db: Video games aggregator using IGDB](https://github.com/bryceandy/games-db)
@@ -44,56 +43,15 @@ Currently its a mass of scripts loosely tied together and development will be fo
 - [Requests – IGDB API docs](https://api-docs.igdb.com/#requests)
 - [API Documentation](https://www.mobygames.com/info/api)
 - [MobyGames | Tracy Poff](https://www.mobygames.com/user/sheet/userSheetId,82693/)
-- [chinagreenelvis/MAME-Coin-Control: Retrictions on coin inputs with per player starting coins and incremental coins on a timer.](https://github.com/chinagreenelvis/MAME-Coin-Control)
-- [Sony - /r/Roms Megathread](https://r-roms.github.io/megathread/sony/)
-- [NoPayStation v3](https://nopaystation.com/)
-- [detain/storsage: 🗄storSage is a file organization and management system customizable with plugins to handle everything from nicely browsing, tagging, deduplicatoin, and more.](https://github.com/detain/storsage)
-- [detain/watchable: 🎞 Get information📽 on all things 📺watchable such as 🎥Movies, 🎬TV Series, and 📹Anime Series📼](https://github.com/detain/watchable)
-- [SCREENSCRAPER - Base de données et téléchargement médias pour front-end gaming multi-systèmes](https://www.screenscraper.fr/webapi2.php?alpha=0&numpage=0#nbJoueursListe)
-- [detain/ConSolo: 🎮ConSolo🕹is a ROM matching and general emulation related goodness. It aims to support information from more sites, software, formats, etc than anything else out there. Its still early in development so the scope or direction isnt very solidified yet.](https://github.com/detain/ConSolo)
-- [PHP-CRUD-API](https://consolo.is.cc/crud/ui.php/menu)
 - [FieldsLinker](http://consolo.is.cc/FieldsLinker/)
 - [linksMaker](http://consolo.is.cc/LinksMaker/)
 - [detain/emurelation: Emu⬅re➡lation is project with 1 simple purpose; to provide a mapping in JSON format of platforms accross different sources. There are several varied naming conventions used and many different programs and sites and this aims to allow you an easy way to convert or map the data from one type to another. It will eventually expand to include emulators, games, etc; but for now the initial focus is simply platform matching accross all sources.](https://github.com/detain/emurelation)
 - [detain/emurelator: Emu<re>lator maps+links your games, media, etc into into the names+layout needed by the target.](https://github.com/detain/emurelator)
-- [Yaba Sanshiro Emulator for Saturn on Android | Emuparadise](https://www.emuparadise.me/Sega_Saturn_Emulators/Android/Yaba_Sanshiro/194)
-- [Downloads - Emulators](https://www.emutopia.com/index.php/emulators)
-- [PS4 Installation Guide](https://gist.github.com/detain/a0574e6dae28b16a488bb356ec5aee74)
-- [nopaystation_scripts/nps_psp.sh at master · sigmaboy/nopaystation_scripts](https://github.com/sigmaboy/nopaystation_scripts/blob/master/nps_psp.sh)
-
-### Vault View VPS Pages
-	
-- [VPS vps242828 (242828) Details | My Interserver](https://mystage.interserver.net/admin/view_vps?link=vnc&id=242828&type=browser_vnc)
-- [VPS vps465503 (465503) Details | My Interserver](https://mystage.interserver.net/admin/view_vps?id=465503&link=invoices)
-- [VPS vps2187966 (2187966) Details | My Interserver](https://mystage.interserver.net/admin/view_vps?link=repeat_invoices&id=2187966)
-- [VPS vps2187973 (2187973) Details | My Interserver](https://mystage.interserver.net/admin/view_vps?link=history&id=2187973)
-- [VPS vps2187979 (2187979) Details | My Interserver](https://mystage.interserver.net/admin/view_vps?link=vnc&id=2187979&type=browser_vnc)
 
 ### Infinite Gallery
 	
 - [bizarro/infinite-webl-gallery: Infinite Auto-Scrolling Gallery using WebGL and GLSL Shaders.](https://github.com/bizarro/infinite-webl-gallery)
 - [messier102/portico: Source-agnostic infinite-scrolling media gallery.](https://github.com/messier102/portico)
-
-### Skyscraper
-
-- [skyscraper/SCRAPINGMODULES.md at master · muldjord/skyscraper](https://github.com/muldjord/skyscraper/blob/master/docs/SCRAPINGMODULES.md)
-- [skyscraper/FRONTENDS.md at master · muldjord/skyscraper](https://github.com/muldjord/skyscraper/blob/master/docs/FRONTENDS.md)
-- [skyscraper/PLATFORMS.md at master · muldjord/skyscraper](https://github.com/muldjord/skyscraper/blob/master/docs/PLATFORMS.md)
-- [skyscraper/IMPORT.md at master · muldjord/skyscraper](https://github.com/muldjord/skyscraper/blob/master/docs/IMPORT.md)
-- [skyscraper/ARTWORK.md at master · muldjord/skyscraper](https://github.com/muldjord/skyscraper/blob/master/docs/ARTWORK.md)
-- [skyscraper/USECASE.md at master · muldjord/skyscraper](https://github.com/muldjord/skyscraper/blob/master/docs/USECASE.md)
-- [skyscraper/CACHE.md at master · muldjord/skyscraper](https://github.com/muldjord/skyscraper/blob/master/docs/CACHE.md)
-- [Editing ConSolo/README.md at master · detain/ConSolo](https://github.com/detain/ConSolo/edit/master/README.md)
-
-
-## Alternate Names
-
-Thinking of names for the base server / daemon part of this
-
-* RageStore
-* FileScape
-* FileFront
-* ServerStar
 
 ## Features
 
