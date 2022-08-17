@@ -724,7 +724,7 @@ duplexer2@~0.1.4:
   dependencies:
     readable-stream "^2.0.2"
 
-eme-encryption-scheme-polyfill@^2.0.5:
+eme-encryption-scheme-polyfill@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/eme-encryption-scheme-polyfill/-/eme-encryption-scheme-polyfill-2.1.1.tgz#91c823ed584e8ec5a9f03a6a676def8f80c57a4c"
   integrity sha512-njD17wcUrbqCj0ArpLu5zWXtaiupHb/2fIUQGdInf83GlI+Q6mmqaPGLdrke4savKAu15J/z1Tg/ivDgl14g0g==
@@ -1569,11 +1569,11 @@ setimmediate@^1.0.5:
   integrity sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==
 
 shaka-player@*:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-4.1.2.tgz#4c351d7665b3346717bbd82cdef1196ba9db232c"
-  integrity sha512-rTj+YMSyO+kbstll3P+8qYxrsaZBDsQlz5xVz1D4A66yJvv9ZqhDFDiEhL6iII5V7BFNA+dOdsR8yKuYHWi8NQ==
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-4.2.0.tgz#874f8e7f8b270045bdbcf1cf5656b60bfe88e74b"
+  integrity sha512-+Ng2jEpgqpfv5j0X9HcYclxqYcTXsAarGRTds5HcFq2CNaFrVwKpjzXysD6OFLpgd/AgH/nuakP3uQDCT2s8FQ==
   dependencies:
-    eme-encryption-scheme-polyfill "^2.0.5"
+    eme-encryption-scheme-polyfill "^2.1.1"
 
 shallow-copy@~0.0.1:
   version "0.0.1"
