@@ -66,7 +66,7 @@ $return = ScreenScraper::api('ssuserInfos', '&ssid='.$config['screenscraper']['m
 if ($return['code'] == 200) {
 	////echo "Response:".print_r($return,true)."\n";
 	$userInfo = $return['response']['response']['ssuser'];
-	file_put_contents('user.json', json_encode($userInfo, JSON_PRETTY_PRINT));
+	file_put_contents('user.json', json_encode($userInfo, getJsonOpts()));
 	print_r($userInfo);
 }
 /*

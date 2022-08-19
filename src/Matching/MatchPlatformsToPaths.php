@@ -110,7 +110,7 @@ foreach ($path2id as $path => $id) {
     $manufacturer = basename(dirname($path));
     echo '    '.$manufacturer.'/'.$name.'  =>  '.$platform['name'].PHP_EOL;
 }
-echo 'Missing:'.json_encode($missing, JSON_PRETTY_PRINT).PHP_EOL;
+echo 'Missing:'.json_encode($missing, getJsonOpts()).PHP_EOL;
 echo 'Found '.count($path2id).' Missing '.count($missing).PHP_EOL;
 
 foreach ($missing as $missingData) {
@@ -219,6 +219,6 @@ foreach ($path2id as $path => $id) {
     $developer = basename(dirname($path));
     echo '    '.$developer.'/'.$name.'  =>  '.$platform['name'].PHP_EOL;
 }
-echo 'Missing:'.json_encode($missing, JSON_PRETTY_PRINT).PHP_EOL;
+echo 'Missing:'.json_encode($missing, getJsonOpts()).PHP_EOL;
 */
 echo 'Found '.count($path2id).' Missing '.count($missing).PHP_EOL;

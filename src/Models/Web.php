@@ -84,7 +84,7 @@ class Web extends Base {
 			$response['status'] = 'error';
 		}
 		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($response, JSON_PRETTY_PRINT);
+		echo json_encode($response, getJsonOpts());
 		
 	}    
 
@@ -99,7 +99,7 @@ class Web extends Base {
 			$response['status'] = 'error';
 		}
 		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($response, JSON_PRETTY_PRINT);
+		echo json_encode($response, getJsonOpts());
 	}
 	
 	public function emulation() {

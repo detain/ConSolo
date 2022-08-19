@@ -47,7 +47,7 @@ $return = ScreenScraper::api('romTypesListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$romTypes = $return['response']['response']['romtypes'];
-	file_put_contents('romTypes.json', json_encode($romTypes, JSON_PRETTY_PRINT));
+	file_put_contents('romTypes.json', json_encode($romTypes, getJsonOpts()));
 	print_r($romTypes);
 }
 $url = 'https://www.screenscraper.fr/api2/mediaVideoSysteme.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&crc=&md5=&sha1=&systemeid=1&media=video';

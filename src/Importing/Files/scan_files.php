@@ -174,7 +174,7 @@ function updateCompressedFile($path, $parentId, $pathStat = false)  {
 			if (!is_array($fileData[$extraField]))
 				$extraData[$extraField] = $fileData[$extraField];
 			elseif (count($fileData[$extraField]) > 0)
-				$extraData[$extraField] = json_encode($fileData[$extraField]);
+				$extraData[$extraField] = json_encode($fileData[$extraField], getJsonOpts());
 			unset($fileData[$extraField]);
 		}
 	}
@@ -429,7 +429,7 @@ function updateFile($path, $pathStat = false)  {
 			if (!is_array($newData[$extraField]))
 				$extraData[$extraField] = $newData[$extraField];
 			elseif (count($newData[$extraField]) > 0)
-				$extraData[$extraField] = json_encode($newData[$extraField]);
+				$extraData[$extraField] = json_encode($newData[$extraField], getJsonOpts());
 			unset($newData[$extraField]);
 		}
 	}

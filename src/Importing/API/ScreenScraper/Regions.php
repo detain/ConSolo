@@ -56,7 +56,7 @@ $return = ScreenScraper::api('regionsListe');
 if ($return['code'] == 200) {
 	echo "Response:".print_r($return,true)."\n";
 	$regions = $return['response']['response']['regions'];
-	file_put_contents('regions.json', json_encode($regions, JSON_PRETTY_PRINT));
+	file_put_contents('regions.json', json_encode($regions, getJsonOpts()));
 	print_r($regions);
 }
 

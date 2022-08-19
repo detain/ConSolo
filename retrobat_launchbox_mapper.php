@@ -124,7 +124,7 @@ if (file_exists('mapper.json') && !in_array('-f', $_SERVER['argv'])) {
 			$map['launchbox']['images'][$platform][$game][$type] = [];
 		$map['launchbox']['images'][$platform][$game][$type][intval($index)] = basename($imageFile);
 	}
-	file_put_contents('mapper.json', json_encode($map, JSON_PRETTY_PRINT));
+	file_put_contents('mapper.json', json_encode($map, getJsonOpts()));
 }
 // load Retrobat games
 echo "Loading RetroBat information\n";
@@ -148,7 +148,7 @@ foreach ($map['retrobat']['platforms'] as $platform) {
 			$updated = false;
 			foreach ($games as $game) {
 				if (!is_array($game)) {
-					echo json_encode($game, JSON_PRETTY_PRINT).PHP_EOL;
+					echo json_encode($game, getJsonOpts()).PHP_EOL;
 					exit;
 				}
 				if (!array_key_exists('path', $game))

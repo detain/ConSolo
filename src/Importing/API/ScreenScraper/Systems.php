@@ -233,6 +233,6 @@ $return = ScreenScraper::api('systemesListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$systems = $return['response']['response']['systemes'];
-	file_put_contents('systems.json', json_encode($systems, JSON_PRETTY_PRINT));
+	file_put_contents('systems.json', json_encode($systems, getJsonOpts()));
 	print_r($systems);
 }

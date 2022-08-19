@@ -95,7 +95,7 @@ foreach ($xml as $list) {
 			$array = $array['mame']['machine'];
 		}
 		echo "Writing to JSON {$jsonFile}";
-		file_put_contents($jsonFile, json_encode($array, JSON_PRETTY_PRINT));
+		file_put_contents($jsonFile, json_encode($array, getJsonOpts()));
 	} else {
 		$array = json_decode(file_get_contents($jsonFile), TRUE);
 	}
@@ -103,7 +103,7 @@ foreach ($xml as $list) {
 	foreach ($array as $idx => $data) {
 		$fileName =  $dataDir.'/json/mame/'.$list.'/'.$data['name'].'.json';
 		echo ' '.$data['name'];
-		$jsonData = json_encode($data, JSON_PRETTY_PRINT);
+		$jsonData = json_encode($data, getJsonOpts());
 		file_put_contents($fileName, $jsonData);
 		$db
 			->insert($list == 'software' ? 'mame_software_platforms' : 'mame')
@@ -159,7 +159,7 @@ foreach ($xml as $list) {
 											$dataPart['rom'] = [$dataPart['rom']];
 										foreach ($dataPart['rom'] as $rom) {
 											$rom['software_id'] = $gameId;
-											//echo json_encode($rom).PHP_EOL;
+											//echo json_encode($rom, getJsonOpts()).PHP_EOL;
 											$db
 												->insert('mame_software_roms')
 												->cols($rom)

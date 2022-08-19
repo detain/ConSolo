@@ -56,6 +56,6 @@ $return = ScreenScraper::api('classificationListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$classifications = $return['response']['response']['classifications'];
-	file_put_contents('classifications.json', json_encode($classifications, JSON_PRETTY_PRINT));
+	file_put_contents('classifications.json', json_encode($classifications, getJsonOpts()));
 	print_r($classifications);
 }

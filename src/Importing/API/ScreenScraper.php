@@ -35,7 +35,7 @@ class ScreenScraper
 			'code' => $code,
 			'response' => $response
 		];
-		file_put_contents('screenscraper_response.json', json_encode($return, JSON_PRETTY_PRINT));
+		file_put_contents('screenscraper_response.json', json_encode($return, getJsonOpts()));
 		return $return;
 	}
 

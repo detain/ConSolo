@@ -63,7 +63,7 @@ function recursive_read($directory, $entries_array = []) {
 
 /**
 * Translates text using a local translation cache file
-* 
+*
 * @param string $old the foreign text
 * @return string the translated text
 */
@@ -77,14 +77,14 @@ function translate($old) {
 		$language = detectLanguage($old);
 	}
 	$cmd = 'deep_translator -trans '.escapeshellarg($translator).' -src '.escapeshellarg($language).' -tg en --text '.escapeshellarg($old).'|grep -v -e "^ | Translation" -e "^Translated text"|cut -c2-';
-	echo '💱 Looking up the translation using:'.$cmd.PHP_EOL; 
+	echo '💱 Looking up the translation using:'.$cmd.PHP_EOL;
 	$new = trim(`{$cmd}`);
 	echo "OLD:{$old}\nGOT:{$new}\n";
 	if (trim($new) != '') {
 		$translations[$old] = $new;
-		file_put_contents('translations.json', json_encode($translations));
+		file_put_contents('translations.json', json_encode($translations, getJsonOpts()));
 	}
-	return $new;    
+	return $new;
 }
 
 /**
@@ -102,12 +102,12 @@ function detectLanguage($text) {
 	if ($result == 'zh')
 		$result = 'zh_CN';
 	echo ' = '.$result.PHP_EOL;
-	return $result;        
+	return $result;
 }
 
 /**
 * ensures you do not go over a certain amount of requests per second to avoid bans
-* 
+*
 * @param int $requestsPerSecond
 * @return void
 */
@@ -117,7 +117,7 @@ function throttleCode($requestsPerSecond = 5) {
 	while ($end === false) {
 		$now = time();
 		$old = $now - 2;
-		if (count($throttle) > 0)        
+		if (count($throttle) > 0)
 			while ($throttle[0] >= $old)
 				array_shift($throttle);
 		if (count($throttle) >= 4) {
@@ -130,7 +130,7 @@ function throttleCode($requestsPerSecond = 5) {
 	$throttle[] = $now;
 }
 
-include 'vendor/autoload.php';
+include 'src/bootstrap.php';
 if ($_SERVER['argc'] < 2)
 	die('Missing directory argument(s)');
 global $translations, $throttle, $language, $translator;
@@ -150,10 +150,10 @@ for ($arg = 1; $arg < $_SERVER['argc']; $arg++) {
 		$updates = 0;
 		$file = file_get_contents($fileName);
 		$eol = detectEol($file);
-		if (false !== $pos = strpos(json_encode($file), '\\u')) {
+		if (false !== $pos = strpos(json_encode($file, getJsonOpts()), '\\u')) {
 			$lines = explode($eol, $file);
 			foreach ($lines as $idx => $line) {
-				$lineEnc = json_encode($line);
+				$lineEnc = json_encode($line, getJsonOpts());
 				$pos = strpos($lineEnc, '\\u');
 				if (false !== $pos) {
 					$old = substr($line, $pos - 1);
@@ -165,7 +165,7 @@ for ($arg = 1; $arg < $_SERVER['argc']; $arg++) {
 							$line = str_replace($old, $new, $line);
 							$lines[$idx] = $line;
 						}
-					}					
+					}
 				}
 			}
 			$newFile = implode($eol, $lines);

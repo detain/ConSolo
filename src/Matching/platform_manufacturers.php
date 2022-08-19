@@ -119,7 +119,7 @@ tosec_prepare();
 foreach (['TOSEC', 'TOSEC-ISO', 'TOSEC-PIX'] as $type)
 	$sources[$type] = tosec($type);
 tosec_cleanup();
-$json = json_encode($sources, JSON_PRETTY_PRINT);
+$json = json_encode($sources, getJsonOpts());
 echo $json.PHP_EOL;
 file_put_contents($dataDir.'/platform_manufacturers.json', $json);
 

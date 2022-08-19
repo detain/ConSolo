@@ -292,7 +292,7 @@ function loadJson($tag) {
 }
 
 function putJson($tag, $data) {
-	file_put_contents(filenameJson($tag), json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+	file_put_contents(filenameJson($tag), json_encode($data, getJsonOpts()));
 	echo '['.$tag.'] wrote '.count($data).' records to data file'.PHP_EOL;
 }
 

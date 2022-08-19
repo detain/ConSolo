@@ -29,7 +29,7 @@ class ImportDat
 			$this->RunArray($array);
 			echo "Writing JSON..";
 			@mkdir($storageDir.'/json/dat/'.$type);
-			file_put_contents($storageDir.'/json/dat/'.$type.'/'.$list.'.json', json_encode($array, JSON_PRETTY_PRINT));
+			file_put_contents($storageDir.'/json/dat/'.$type.'/'.$list.'.json', json_encode($array, getJsonOpts()));
 			echo "DB Entries..";
 			if (isset($array['datafile']['game'])) {
 				$cols = $array['datafile']['header'];
@@ -51,7 +51,7 @@ class ImportDat
 						unset($cols[$section]);
 					}
 				}
-				//echo 'dat_files:'.json_encode($cols).PHP_EOL;
+				//echo 'dat_files:'.json_encode($cols, getJsonOpts()).PHP_EOL;
 				try {
 					$fileId = $db->insert('dat_files')->cols($cols)->lowPriority($config['db']['low_priority'])->query();
 				} catch (\PDOException $e) {
@@ -77,7 +77,7 @@ class ImportDat
 					if (isset($cols['manufacturer']) && is_array($cols['manufacturer']) && count($cols['manufacturer']) == 0) {
 						unset($cols['manufacturer']);
 					}
-					//echo 'dat_games:'.json_encode($cols).PHP_EOL;
+					//echo 'dat_games:'.json_encode($cols, getJsonOpts()).PHP_EOL;
 					try {
 						$gameId = $db->insert('dat_games')->cols($cols)->lowPriority($config['db']['low_priority'])->query();
 					} catch (\PDOException $e) {
@@ -100,7 +100,7 @@ class ImportDat
 									}
 								}
 								$cols['game'] = $gameId;
-								//echo 'dat_'.$section.'s:'.json_encode($cols).PHP_EOL;
+								//echo 'dat_'.$section.'s:'.json_encode($cols, getJsonOpts()).PHP_EOL;
 								try {
 									$db->insert('dat_'.$section.'s')->cols($cols)->lowPriority($config['db']['low_priority'])->query();
 								} catch (\PDOException $e) {

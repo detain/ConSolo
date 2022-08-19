@@ -105,7 +105,7 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 			}
 		}
 		echo 'inserted!'.PHP_EOL.'		writing json..';
-		file_put_contents($dataDir.'/'.$type.'.json', json_encode($data, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/'.$type.'.json', json_encode($data, getJsonOpts()));
 		echo 'done'.PHP_EOL;
 	}
 	unset($array);

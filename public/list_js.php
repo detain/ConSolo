@@ -8,4 +8,4 @@ global $db;
 $max = 100;
 $response = $db->query("select * from imdb limit {$max}");
 header('Content-type: application/javascript; charset=UTF-8');
-echo 'var result = '.json_encode($response).';'.PHP_EOL;
+echo 'var result = '.json_encode($response, getJsonOpts()).';'.PHP_EOL;

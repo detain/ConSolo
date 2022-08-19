@@ -56,6 +56,6 @@ $return = ScreenScraper::api('languesListe');
 if ($return['code'] == 200) {
 	echo "Response:".print_r($return,true)."\n";
 	$langs = $return['response']['response']['langues'];
-	file_put_contents('langs.json', json_encode($langs, JSON_PRETTY_PRINT));
+	file_put_contents('langs.json', json_encode($langs, getJsonOpts()));
 	print_r($langs);
 }

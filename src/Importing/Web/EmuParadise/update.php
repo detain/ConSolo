@@ -46,14 +46,14 @@ foreach ($computerUrls as $url) {
 		$crawler->filter('.blog-posts > a')->each(function ($node) use (&$pageUrls) {
 			$pageUrls[$node->attr('href')] = $node->attr('title');
 		});
-		file_put_contents($dataDir.'/json/emucr/archive/'.str_replace($sitePrefix, '', $url).'.json', json_encode($pageUrls, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/json/emucr/archive/'.str_replace($sitePrefix, '', $url).'.json', json_encode($pageUrls, getJsonOpts()));
 	}
 	foreach ($pageUrls as $url => $title)
 		$postUrls[$url] = $title;
 }
 echo ' done'.PHP_EOL;
 echo 'Found '.count($postUrls).' Post Pages'.PHP_EOL;
-file_put_contents($dataDir.'/json/emucr/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/json/emucr/urls.json', json_encode($computerUrls, getJsonOpts()));
 exit;
 $computerUrls = json_decode(file_get_contents($dataDir.'/json/emucr/urls.json'), true);
 echo 'Loading Computer URLs'.PHP_EOL;
@@ -111,11 +111,11 @@ foreach ($computerUrls as $idx => $url) {
 			else
 				$cols[$key] = $node->html();
 		});
-		file_put_contents($dataDir.'/json/emucr/platforms/'.$cols['computer_id'].'.json', json_encode($cols, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/json/emucr/platforms/'.$cols['computer_id'].'.json', json_encode($cols, getJsonOpts()));
 	}
 	$platforms[] = $cols;
 }
-file_put_contents($dataDir.'/json/emucr/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/json/emucr/platforms.json', json_encode($platforms, getJsonOpts()));
 echo PHP_EOL.'done!'.PHP_EOL;
 exit;
 echo 'Inserting Emulators into DB   ';
@@ -130,6 +130,6 @@ foreach ($allEmulators as $name => $emulator) {
 	}
 }
 echo 'done!'.PHP_EOL;
-file_put_contents($dataDir.'/json/emucr/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
-file_put_contents($dataDir.'/json/emucr/emulators.json', json_encode($allEmulators, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/json/emucr/platforms.json', json_encode($platforms, getJsonOpts()));
+file_put_contents($dataDir.'/json/emucr/emulators.json', json_encode($allEmulators, getJsonOpts()));
 //echo PHP_EOL;

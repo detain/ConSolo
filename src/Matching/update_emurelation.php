@@ -34,7 +34,7 @@ foreach ($results as $data) {
 }
 $allPlatforms['launchbox'] = $platforms;
 $allAlternates['launchbox'] = $alternates;
-file_put_contents($sourceDir.'/launchbox.json', json_encode($allPlatforms['launchbox'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/launchbox.json', json_encode($allPlatforms['launchbox'], getJsonOpts()));
 
 // TheGamesDB
 echo "Building TheGamesDB Platforms\n";
@@ -58,7 +58,7 @@ foreach ($results as $data) {
 }
 $allPlatforms['thegamesdb'] = $platforms;
 $allAlternates['thegamesdb'] = $alternates;
-file_put_contents($sourceDir.'/thegamesdb.json', json_encode($allPlatforms['thegamesdb'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/thegamesdb.json', json_encode($allPlatforms['thegamesdb'], getJsonOpts()));
 
 // TOSEC
 echo "Building TOSEC Platforms\n";
@@ -75,7 +75,7 @@ foreach ($results as $data) {
 }
 $allPlatforms['tosec'] = $platforms;
 $allAlternates['tosec'] = $alternates;
-file_put_contents($sourceDir.'/tosec.json', json_encode($allPlatforms['tosec'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/tosec.json', json_encode($allPlatforms['tosec'], getJsonOpts()));
 
 // No-Intro
 echo "Building No-Intro Platforms\n";
@@ -100,7 +100,7 @@ foreach ($results as $data) {
 }
 $allPlatforms['nointro'] = $platforms;
 $allAlternates['nointro'] = $alternates;
-file_put_contents($sourceDir.'/nointro.json', json_encode($allPlatforms['nointro'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/nointro.json', json_encode($allPlatforms['nointro'], getJsonOpts()));
 
 // Redump
 echo "Building Redump Platforms\n";
@@ -118,7 +118,7 @@ foreach ($results as $data) {
 }
 $allPlatforms['redump'] = $platforms;
 $allAlternates['redump'] = $alternates;
-file_put_contents($sourceDir.'/redump.json', json_encode($allPlatforms['redump'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/redump.json', json_encode($allPlatforms['redump'], getJsonOpts()));
 
 // MAME
 echo "Building MAME Platforms\n";
@@ -127,7 +127,7 @@ function mameMediaSort($a, $b) {
 	return mb_strlen($b) <=> mb_strlen($a);
 }
 usort($mediaTypes, 'mameMediaSort');
-file_put_contents('mame_media_types.json', json_encode($mediaTypes, JSON_PRETTY_PRINT));
+file_put_contents('mame_media_types.json', json_encode($mediaTypes, getJsonOpts()));
 
 $results = $db->query("SELECT name, description FROM consolo.mame_software_platforms");
 $alternates = [];
@@ -147,7 +147,7 @@ foreach ($results as $data) {
 }
 $allPlatforms['mame'] = $platforms;
 $allAlternates['mame'] = $alternates;
-file_put_contents($sourceDir.'/mame.json', json_encode($allPlatforms['mame'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/mame.json', json_encode($allPlatforms['mame'], getJsonOpts()));
 
 // Old-Computers.com
 echo "Building Old-Computers.com Platforms\n";
@@ -165,7 +165,7 @@ foreach ($results as $data) {
 }
 $allPlatforms['oldcomputers'] = $platforms;
 $allAlternates['oldcomputers'] = $alternates;
-file_put_contents($sourceDir.'/oldcomputers.json', json_encode($allPlatforms['oldcomputers'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/oldcomputers.json', json_encode($allPlatforms['oldcomputers'], getJsonOpts()));
 
 // ScreenScraper.fr
 echo "Building ScreenScraper.fr Platforms\n";
@@ -260,7 +260,7 @@ foreach ($results as $data) {
 }
 $allPlatforms['screenscraper'] = $platforms;
 $allAlternates['screenscraper'] = $alternates;
-file_put_contents($sourceDir.'/screenscraper.json', json_encode($allPlatforms['screenscraper'], JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/screenscraper.json', json_encode($allPlatforms['screenscraper'], getJsonOpts()));
 
 // Ours
 echo "Building Local Platforms\n";
@@ -286,10 +286,10 @@ foreach ($results as $data) {
 	$platforms[$platform['name']] = $matches;
 }
 $allPlatforms['local'] = $platforms;
-file_put_contents($sourceDir.'/local.json', json_encode(array_keys($allPlatforms['local']), JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/local.json', json_encode(array_keys($allPlatforms['local'], getJsonOpts()), getJsonOpts()));
 
-//file_put_contents($sourceDir.'/alternatives.json', json_encode($allAlternates, JSON_PRETTY_PRINT));
-//file_put_contents($sourceDir.'/platforms.json', json_encode($allPlatforms, JSON_PRETTY_PRINT));
+//file_put_contents($sourceDir.'/alternatives.json', json_encode($allAlternates, getJsonOpts()));
+//file_put_contents($sourceDir.'/platforms.json', json_encode($allPlatforms, getJsonOpts()));
 
 echo "Building Platform Matches\n";
 $found = [];
@@ -342,7 +342,7 @@ foreach ($allPlatforms['local'] as $platform => $typeData) {
 	}
 }
 echo "Writng Platforms and Updated Source Exports\n";
-file_put_contents($sourceDir.'/../platforms.json', json_encode($found, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/../platforms.json', json_encode($found, getJsonOpts()));
 $sources = [
 	'local' => 'Master List',
 	'tosec' => 'TOSEC',
@@ -377,12 +377,12 @@ foreach ($sources as $sourceType => $sourceName) {
 	$mdTable[] = '| '.$sources[$sourceType].' | '.$platformCounts[$sourceType].' | '.$matchedCounts[$sourceType].' | '.$missing.' | '.$percent.'% |';
 	$list = ['name' => $sourceName, 'list' => array_keys($allPlatforms[$sourceType])];
 	$linker['lists'][$sourceType] = $list;
-	file_put_contents($sourceDir.'/'.$sourceType.'.json', json_encode($allPlatforms[$sourceType], JSON_PRETTY_PRINT));
+	file_put_contents($sourceDir.'/'.$sourceType.'.json', json_encode($allPlatforms[$sourceType], getJsonOpts()));
 }
 $readme = file_get_contents($sourceDir.'/../README.md');
 preg_match_all('/\| Source.*$\n(\|.*$\n)+^$/muU', $readme, $matches);
 $readme = str_replace($matches[0], implode("\n", $mdTable), $readme);
 file_put_contents($sourceDir.'/../README.md', $readme);
-file_put_contents($sourceDir.'/../unmatched.json', json_encode($unmatched, JSON_PRETTY_PRINT));
-file_put_contents($sourceDir.'/../linker.json', json_encode($linker, JSON_PRETTY_PRINT));
+file_put_contents($sourceDir.'/../unmatched.json', json_encode($unmatched, getJsonOpts()));
+file_put_contents($sourceDir.'/../linker.json', json_encode($linker, getJsonOpts()));
 echo "done\n";

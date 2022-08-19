@@ -38,7 +38,7 @@ if ($useCache == true && file_exists($dataDir.'/json/screenscraper/platforms.jso
 	if ($return['code'] == 200) {
 		//echo "Response:".print_r($return,true)."\n";
 		$platforms = $return['response']['response']['systemes'];
-		file_put_contents($dataDir.'/json/screenscraper/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/json/screenscraper/platforms.json', json_encode($platforms, getJsonOpts()));
 		//print_r($platforms);
 	}
 }
@@ -46,7 +46,7 @@ echo "Mapping Platforms to db\n";
 $db->query('truncate ss_platforms');
 foreach ($platforms as $platform) {
 	$db->insert('ss_platforms')
-	->cols(['doc' => json_encode($platform)])
+	->cols(['doc' => json_encode($platform, getJsonOpts())])
 	->query();
 }
 exit;
@@ -56,7 +56,7 @@ foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 		$$var = json_decode(file_get_contents($dataDir.'/json/screenscraper/'.$type.'.json'), true);
 	} else {
 		$json = apiGet($type.'?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']));
-		file_put_contents($dataDir.'/json/screenscraper/'.$type.'.json', json_encode($json, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/json/screenscraper/'.$type.'.json', json_encode($json, getJsonOpts()));
 		$lower = strtolower($type);
 		$db->query('delete from tgdb_'.$lower);
 		foreach ($json['data'][$lower] as $idx => $data) {
@@ -69,7 +69,7 @@ if ($useCache == true && file_exists($dataDir.'/json/screenscraper/PlatformImage
 	$platformImages = json_decode(file_get_contents($dataDir.'/json/screenscraper/PlatformImages.json'), true);
 } else {
 	$platformImages = apiGet('Platforms/Images?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&platforms_id='.urlencode(implode(',',$platformIds)));
-	file_put_contents($dataDir.'/json/screenscraper/PlatformImages.json', json_encode($platformImages, JSON_PRETTY_PRINT));
+	file_put_contents($dataDir.'/json/screenscraper/PlatformImages.json', json_encode($platformImages, getJsonOpts()));
 }
 $fields = ['players', 'publishers', 'genres', 'overview', 'last_updated', 'rating', 'platform', 'coop', 'youtube', 'os', 'processor', 'ram', 'hdd', 'video', 'sound', 'alternates'];
 $subfields = ['developers', 'genres', 'publishers', 'alternates'];
@@ -83,7 +83,7 @@ foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {
 		$games = json_decode(file_get_contents($dataDir.'/json/screenscraper/platform/'.$platformId.'.json'), true);
 	} else {
 		$games = apiGet('Games/ByPlatformID?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&id='.$platformId.'&fields='.urlencode(implode(',',$fields)), 'games', false);
-		file_put_contents($dataDir.'/json/screenscraper/platform/'.$platformId.'.json', json_encode($games, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/json/screenscraper/platform/'.$platformId.'.json', json_encode($games, getJsonOpts()));
 	}
 	echo 'Inserting DB Data..';
 	foreach ($games['data']['games'] as $idx => $game) {

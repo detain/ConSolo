@@ -63,4 +63,4 @@ foreach ($lines as $line) {
     $dir['files'] = $dirfiles;
     $dirs[] = $dir;
 }
-file_put_contents('tinydl.json', json_encode($dirs, JSON_PRETTY_PRINT));
+file_put_contents('tinydl.json', json_encode($dirs, getJsonOpts()));

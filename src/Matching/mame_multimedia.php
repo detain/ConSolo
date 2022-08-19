@@ -47,7 +47,7 @@ foreach ($matches['section'] as $idx => $section) {
 		echo 'Found unmatched arcade game name '.$name.' section '.$section.PHP_EOL;
 	$media[$platform][$name][] = $section;
 }
-file_put_contents('media.json', json_encode($media,JSON_PRETTY_PRINT));
+file_put_contents('media.json', json_encode($media, getJsonOpts()));
 /*
 files in these dirs dont corrispond to game names
 * ctrlr

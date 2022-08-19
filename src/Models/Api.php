@@ -12,7 +12,7 @@ class Api extends Base {
 		$limit = 100;
 		$rows = $this->db->query("select tmdb_movie.id, title, poster_path, vote_average, overview, release_date from movies left join tmdb_movie on tmdb_movie.id=movies.tmdb_id left join files on file_id=files.id where host={$this->hostId} and title is not null order by title limit {$limit}");
 		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($rows, JSON_PRETTY_PRINT);
+		echo json_encode($rows, getJsonOpts());
 	}
 	
 	public function movie($vars) {
@@ -22,7 +22,7 @@ class Api extends Base {
 		$json = json_decode($this->db->single("select doc from tmdb_movie where id={$id} limit 1"), true);
 		$json['fileId'] = $this->db->single("select id from files where tmdb_id={$json['id']} and host={$this->hostId}");
 		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($json, JSON_PRETTY_PRINT);
+		echo json_encode($json, getJsonOpts());
 	}    
 
 	public function genres() {
@@ -43,7 +43,7 @@ class Api extends Base {
 				}    
 		}
 		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($genres, JSON_PRETTY_PRINT);
+		echo json_encode($genres, getJsonOpts());
 	}    
 
 	public function collections() {
@@ -65,7 +65,7 @@ class Api extends Base {
 			$response['status'] = 'error';
 		}
 		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($response, JSON_PRETTY_PRINT);
+		echo json_encode($response, getJsonOpts());
 		
 	}    
 
@@ -80,6 +80,6 @@ class Api extends Base {
 			$response['status'] = 'error';
 		}
 		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($response, JSON_PRETTY_PRINT);
+		echo json_encode($response, getJsonOpts());
 	}    
 }  

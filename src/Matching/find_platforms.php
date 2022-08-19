@@ -105,7 +105,7 @@ foreach ($json as $platform => $alternatives) {
 		foreach ($sources as $source) {
 			$platformSrc[$alternative][] = $source;
 		}
-	} 
+	}
 }
 $rows = $db->select('name')
 	->from('tgdb_platforms')
@@ -122,7 +122,7 @@ foreach ($rows as $platform) {
 	if (!array_key_exists($platform, $platformAlt)) {
 		echo "Missing LaunchBox Platform {$platform}\n";
 	} else {
-		
+
 		$rows2 = $db->query("SELECT Name, Alternate FROM launchbox_platformalternatenames where Name='{$platform}'");
 		$mainPlatform = $platformAlt[$platform];
 		foreach ($rows2 as $row) {
@@ -133,7 +133,7 @@ foreach ($rows as $platform) {
 			} elseif (!in_array('LaunchBox', $platformSrc[$row['Alternate']])) {
 				$platformSrc[$row['Alternate']][] = 'LaunchBox';
 			}
-		}		
+		}
 	}
 }
 $dataDir = '/storage/local/ConSolo/json';
@@ -159,7 +159,7 @@ foreach ($platform_manufacturers as $source => $manufacturers) {
 				} else {
 					$sourcePlatforms[$idx] = [$platform => $platformAlt[$manufacturer.' '.$platform]];
 					//echo 'Found '.$source.' Manufacturer '.$manufacturer.' Platform '.$platform.PHP_EOL;
-				}				
+				}
 			} else {
 				// the platform and manufacturer are seprate/nested
 				if (!array_key_exists($manufacturer.' '.$platform, $platformAlt)) {
@@ -170,13 +170,13 @@ foreach ($platform_manufacturers as $source => $manufacturers) {
 					$sourcePlatforms[$idx] = [$platform => $platformAlt[$manufacturer.' '.$platform]];
 				}
 			}
-			
+
 		}
 		$manufacturers[$manufacturer] = $sourcePlatforms;
 	}
 	$platform_manufacturers[$source] = $manufacturers;
 }
-file_put_contents($dataDir.'/platform_manufacturers.json', json_encode($platform_manufacturers, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/platform_manufacturers.json', json_encode($platform_manufacturers, getJsonOpts()));
 $rows = $db->query('SELECT platform,platform_description FROM mame_software group by platform');
 foreach ($rows as $row) {
 	$platform = $row['platform_description'];
@@ -189,7 +189,7 @@ foreach ($rows as $row) {
 	if (!array_key_exists($platform, $platformSrc))
 		$platformSrc[$platform] = [];
 	//if (!array_key_exists($platformCut, $platformSrc))
-		//$platformSrc[$platformCut] = [];	
+		//$platformSrc[$platformCut] = [];
 	if (!array_key_exists($platform, $platformAlt)) {
 		if (!array_key_exists($platformCut, $platformAlt)) {
 			$platforms[] = $platformCut;
@@ -222,7 +222,7 @@ foreach ($rows as $row) {
 			//echo 'Added MAME Platform '.$row['platform'].PHP_EOL;
 			$platformSrc[$row['platform']][] = 'MAME';
 		}
-	}	
+	}
 }
 $platformMain = [];
 foreach ($platformAlt as $alt => $platform) {
@@ -250,7 +250,7 @@ foreach ($platforms as $platform) {
 		if (!array_key_exists($name, $platformSrc))
 			$platformSrc[$name] = ['OldComputers'];
 		elseif (!in_array('OldComputers', $platformSrc[$name]))
-			$platformSrc[$name][] = 'OldComputers';		
+			$platformSrc[$name][] = 'OldComputers';
 	}
 }
 $db->query("truncate platform_matches");
@@ -281,13 +281,13 @@ foreach ($platforms as $platform) {
 			}
 		}
 }
-foreach ($json as $platform => $data) {	
+foreach ($json as $platform => $data) {
 	foreach ($data as $name => $subplatforms)
 		$data[$name] = array_unique($subplatforms);
 	$json[$platform] = $data;
 }
 $lines = [];
 foreach ($json as $platform => $rows) {
-	$lines[] = '	"'.$platform.'": '.json_encode($rows);
+	$lines[] = '	"'.$platform.'": '.json_encode($rows, getJsonOpts());
 }
 file_put_contents(__DIR__.'/../../json/platforms.json', '{'.PHP_EOL.implode(','.PHP_EOL, $lines).PHP_EOL.'}');

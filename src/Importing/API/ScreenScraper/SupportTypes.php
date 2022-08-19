@@ -40,6 +40,6 @@ global $userInfo;
 $return = ScreenScraper::api('supportTypesListe');
 if ($return['code'] == 200) {
 	$romTypes = $return['response']['response']['supporttypes'];
-	file_put_contents('supportTypes.json', json_encode($romTypes, JSON_PRETTY_PRINT));
+	file_put_contents('supportTypes.json', json_encode($romTypes, getJsonOpts()));
 	print_r($romTypes);
 }

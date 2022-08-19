@@ -54,6 +54,6 @@ $return = ScreenScraper::api('infosJeuListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$infos = $return['response']['response']['infos'];
-	file_put_contents('infos.json', json_encode($infos, JSON_PRETTY_PRINT));
+	file_put_contents('infos.json', json_encode($infos, getJsonOpts()));
 	print_r($infos);
 }

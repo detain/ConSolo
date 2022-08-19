@@ -38,7 +38,7 @@ foreach ($letters as $letter) {
 	});
 }
 echo ' done'.PHP_EOL;
-file_put_contents($dataDir.'/json/oldcomputers/urls.json', json_encode($computerUrls, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/json/oldcomputers/urls.json', json_encode($computerUrls, getJsonOpts()));
 $computerUrls = json_decode(file_get_contents($dataDir.'/json/oldcomputers/urls.json'), true);
 echo 'Loading Computer URLs'.PHP_EOL;
 $db->query("truncate oldcomputers_emulator_platforms");
@@ -149,14 +149,14 @@ foreach ($computerUrls as $idx => $url) {
 				}
 			}
 		}
-		file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json', json_encode($cols, JSON_PRETTY_PRINT));
+		file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json', json_encode($cols, getJsonOpts()));
 	}
 	$platforms[$cols['id']] = $cols;
 	$db->insert('oc_platforms')
-		->cols(['doc' => json_encode($cols)])
+		->cols(['doc' => json_encode($cols, getJsonOpts())])
 		->query();
 }
-file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, getJsonOpts()));
 echo PHP_EOL.'done!'.PHP_EOL;
 //exit;
 echo 'Inserting Emulators into DB   ';
@@ -177,6 +177,6 @@ foreach ($allEmulators as $name => $emulator) {
 	}
 }
 echo 'done!'.PHP_EOL;
-file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
-file_put_contents($dataDir.'/json/oldcomputers/emulators.json', json_encode($allEmulators, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, getJsonOpts()));
+file_put_contents($dataDir.'/json/oldcomputers/emulators.json', json_encode($allEmulators, getJsonOpts()));
 //echo PHP_EOL;

@@ -414,7 +414,7 @@ $return = ScreenScraper::api('jeuInfos');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$romTypes = $return['response']['response']['jeu'];
-	file_put_contents('romTypes.json', json_encode($romTypes, JSON_PRETTY_PRINT));
+	file_put_contents('romTypes.json', json_encode($romTypes, getJsonOpts()));
 	print_r($romTypes);
 }
 $url = 'https://www.screenscraper.fr/api2/jeuInfos.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json&crc=50ABC90A&systemeid=1&romtype=rom&romnom=Sonic%20The%20Hedgehog%202%20(World).zip&romtaille=749652';

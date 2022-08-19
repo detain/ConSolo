@@ -43,7 +43,7 @@ foreach ($platforms['LaunchBox']['PlatformFolder'] as $idx => $data) {
 		mkdir($path);
 	}
 }
-file_put_contents('/storage/json/data/Platforms.json', json_encode($platforms, JSON_PRETTY_PRINT));
+file_put_contents('/storage/json/data/Platforms.json', json_encode($platforms, getJsonOpts()));
 */
 $xml = '<?xml version="1.0" standalone="yes"?>
 <LaunchBox>'.PHP_EOL;

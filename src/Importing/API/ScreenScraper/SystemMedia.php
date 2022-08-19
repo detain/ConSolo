@@ -56,6 +56,6 @@ $return = ScreenScraper::api('mediasSystemeListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$medias = $return['response']['response']['medias'];
-	file_put_contents('medias.json', json_encode($medias, JSON_PRETTY_PRINT));
+	file_put_contents('medias.json', json_encode($medias, getJsonOpts()));
 	print_r($medias);
 }

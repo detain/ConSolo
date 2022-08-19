@@ -53,10 +53,10 @@ foreach ($platformNames as $name) {
 	$result = $process->extract($name, $choices, null, null, 2);
 	$results = [];
 	foreach ($result as $idx => $data) {
-		$results[] = $data; 
+		$results[] = $data;
 	}
-	echo json_encode($results).PHP_EOL;
-	$jsonOut[] = '"'.$name.'": '.json_encode($results, JSON_PRETTY_PRINT);
+	echo json_encode($results, getJsonOpts()).PHP_EOL;
+	$jsonOut[] = '"'.$name.'": '.json_encode($results, getJsonOpts());
 }
 $json = '{'.PHP_EOL.'    '.implode(','.PHP_EOL.'    ', $jsonOut).PHP_EOL.'}';
 echo $json.PHP_EOL;
@@ -113,7 +113,7 @@ foreach ($path2id as $path => $id) {
 	$manufacturer = basename(dirname($path));
 	echo '    '.$manufacturer.'/'.$name.'  =>  '.$platform['name'].' - '.$platform['manufacturer'].PHP_EOL;
 }
-echo 'Missing:'.json_encode($missing, JSON_PRETTY_PRINT).PHP_EOL;
+echo 'Missing:'.json_encode($missing, getJsonOpts()).PHP_EOL;
 echo 'Found '.count($path2id).' Missing '.count($missing).PHP_EOL;
 exit;
 foreach ($missing as $missingData) {
@@ -121,16 +121,16 @@ foreach ($missing as $missingData) {
 	//$search = $name;
 	$searches = [$name];
 	if (!in_array(str_replace($manufacturer.' '.$manufacturer, $manufacturer, $manufacturer.' '.$name), $searches)) {
-		$searches[] = str_replace($manufacturer.' '.$manufacturer, $manufacturer, $manufacturer.' '.$name); 
+		$searches[] = str_replace($manufacturer.' '.$manufacturer, $manufacturer, $manufacturer.' '.$name);
 	}
 	if (!in_array(str_replace($manufacturer.' - '.$manufacturer, $manufacturer, $manufacturer.' - '.$name), $searches)) {
-		$searches[] = str_replace($manufacturer.' - '.$manufacturer, $manufacturer, $manufacturer.' - '.$name); 
+		$searches[] = str_replace($manufacturer.' - '.$manufacturer, $manufacturer, $manufacturer.' - '.$name);
 	}
 	foreach ($searches as $search) {
 		$scores = [];
 		echo 'Searching for '.$search.PHP_EOL;
-		
-		$results = $fuse->search($search); 
+
+		$results = $fuse->search($search);
 		foreach ($results as $idx => $data) {
 			$out[] = $data['name'];
 			$scores[$data['name']] = (isset($scores[$data['name']]) ? $scores[$data['name']] : 0) + ceil(100 - ($idx * (100 / count($results))));
@@ -141,7 +141,7 @@ foreach ($missing as $missingData) {
 		if (count($out) > 0) {
 			echo '      Fuse:'.implode(', ', $out).PHP_EOL;
 		}
-		
+
 		$c = $process->extract($search, $names);
 		$results = $c->toArray();
 		$out = [];
@@ -155,7 +155,7 @@ foreach ($missing as $missingData) {
 		if (count($out) > 0) {
 			echo '      Fuzzy:'.implode(', ', $out).PHP_EOL;
 		}
-		
+
 		$levs = [];
 		foreach ($names as $name) {
 			$levs[$name] = levenshtein($search, $name);
@@ -174,7 +174,7 @@ foreach ($missing as $missingData) {
 				if ($value == $levValue) {
 					$foundResults++;
 					$out[] = $name.' ('.$value.')';
-					$scores[$name] = (isset($scores[$name]) ? $scores[$name] : 0) + (100 - ($found * 10 + $value)); 
+					$scores[$name] = (isset($scores[$name]) ? $scores[$name] : 0) + (100 - ($found * 10 + $value));
 					if ($foundResults >= $maxResults) {
 						break;
 					}
@@ -185,7 +185,7 @@ foreach ($missing as $missingData) {
 			}
 		}
 		echo '      Levenshtein:'.implode(', ', $out).PHP_EOL;
-		
+
 		/*
 		$scoreValues = array_values($scores);
 		$scoreValues = array_unique($scoreValues);
@@ -222,6 +222,6 @@ foreach ($path2id as $path => $id) {
 	$developer = basename(dirname($path));
 	echo '    '.$developer.'/'.$name.'  =>  '.$platform['name'].PHP_EOL;
 }
-echo 'Missing:'.json_encode($missing, JSON_PRETTY_PRINT).PHP_EOL;
+echo 'Missing:'.json_encode($missing, getJsonOpts()).PHP_EOL;
 */
 echo 'Found '.count($path2id).' Missing '.count($missing).PHP_EOL;

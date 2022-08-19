@@ -141,5 +141,5 @@ foreach ($manufacturers as $idxMan => $manufacturer) {
 
 echo "Writing Parsed Tree..";
 $manufacturers = json_decode(file_get_contents($dataDir.'/emulationking.json'), true);
-file_put_contents($dataDir.'/emulationking.json', json_encode($manufacturers, JSON_PRETTY_PRINT));
+file_put_contents($dataDir.'/emulationking.json', json_encode($manufacturers, getJsonOpts()));
 echo "done\n";

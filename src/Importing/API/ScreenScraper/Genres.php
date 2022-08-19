@@ -55,6 +55,6 @@ $return = ScreenScraper::api('genresListe');
 if ($return['code'] == 200) {
 	//echo "Response:".print_r($return,true)."\n";
 	$genres = $return['response']['response']['genres'];
-	file_put_contents('genres.json', json_encode($genres, JSON_PRETTY_PRINT));
+	file_put_contents('genres.json', json_encode($genres, getJsonOpts()));
 	print_r($genres);
 }

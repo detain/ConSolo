@@ -115,15 +115,14 @@ foreach ($data['emulators'] as $id => $emulator) {
 echo "Loading misc Images..\n";
 $data['misc_images'] = glob('emuDownloadCenter.wiki/images_misc/*');
 echo "Writing JSON...\n";
-$jsonOpts = JSON_PRETTY_PRINT |  JSON_UNESCAPED_UNICODE |  JSON_UNESCAPED_SLASHES;
-file_put_contents($dataDir.'/emucontrolcenter.json', json_encode($data, $jsonOpts));
+file_put_contents($dataDir.'/emucontrolcenter.json', json_encode($data, getJsonOpts()));
 foreach ($data as $key => $value) {
-    file_put_contents($dataDir.'/'.$key.'.json', json_encode($value, $jsonOpts));
+    file_put_contents($dataDir.'/'.$key.'.json', json_encode($value, getJsonOpts()));
     if (in_array($key, ['emulators', 'platforms']))
         foreach ($value as $subKey => $subValue) {
             if (!file_exists($dataDir.'/'.$key))
                 mkdir($dataDir.'/'.$key);
-                file_put_contents($dataDir.'/'.$key.'/'.$subKey.'.json', json_encode($subValue, $jsonOpts));
+                file_put_contents($dataDir.'/'.$key.'/'.$subKey.'.json', json_encode($subValue, getJsonOpts()));
         }
 }
 echo "Cleaning up repos..\n";

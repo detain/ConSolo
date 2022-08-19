@@ -69,7 +69,7 @@ foreach ($platformNames as $name) {
 			$outResults[] = [$result, $value];
 		  
 	}
-	$jsonOut[] = '"'.$name.'": '.json_encode($outResults, JSON_PRETTY_PRINT);
+	$jsonOut[] = '"'.$name.'": '.json_encode($outResults, getJsonOpts());
 }
 $json = '{'.PHP_EOL.'    '.implode(','.PHP_EOL.'    ', $jsonOut).PHP_EOL.'}';
 echo $json.PHP_EOL;
@@ -126,7 +126,7 @@ foreach ($path2id as $path => $id) {
 	$manufacturer = basename(dirname($path));
 	echo '    '.$manufacturer.'/'.$name.'  =>  '.$platform['name'].' - '.$platform['manufacturer'].PHP_EOL;
 }
-echo 'Missing:'.json_encode($missing, JSON_PRETTY_PRINT).PHP_EOL;
+echo 'Missing:'.json_encode($missing, getJsonOpts()).PHP_EOL;
 echo 'Found '.count($path2id).' Missing '.count($missing).PHP_EOL;
 exit;
 foreach ($missing as $missingData) {
@@ -235,6 +235,6 @@ foreach ($path2id as $path => $id) {
 	$developer = basename(dirname($path));
 	echo '    '.$developer.'/'.$name.'  =>  '.$platform['name'].PHP_EOL;
 }
-echo 'Missing:'.json_encode($missing, JSON_PRETTY_PRINT).PHP_EOL;
+echo 'Missing:'.json_encode($missing, getJsonOpts()).PHP_EOL;
 */
 echo 'Found '.count($path2id).' Missing '.count($missing).PHP_EOL;
