@@ -1,6 +1,5 @@
-![Screenshot](http://i.is.cc/storage/1FidsZ47.png)
-
 # **🎮ConSolo🕹**
+
 from ROMs to Installed Populated Emulators and Frontends in under 12 parsecs!
 
 Scrape Emulator/Rom/Platform/etc Info from Multiple Sources (No-Intro, TOSEC, Redump, MAME, GamesDb, etc) and Intelligently matchs up your media to figure out what you have and writes out configuration files for various Frontends/Emulators/Tools such as LaunchBox/HyperSpin/RocketLauncher/RetroArch/MAMEUI/etc. It maintains a list of most emulators and how to use each one allowing automated/quick installs of 1 to every emulator/rom tool. Pluggable/Extensible architecture and a central repo of user submitted plugins.
@@ -16,9 +15,24 @@ Currently its a mass of scripts loosely tied together and development will be fo
 
 ### Dev Workspace
 
-- No-Intro/TOSEC/Redump DATs and MAME should provide the main list of platforms to focus on
+- Main list of platforms should come from:
+  - No-Intro
+  - TOSEC
+  - Redump
+  - MAME
+- Types to match between sources:
+  - Manufacturers
+  - Platforms
+  - Emulators
+  - Games
+- each Type will have:
+  - ID
+  - Short Name (dirname)
+  - Name
+  - Links<source,id>
+  - AltNames[]
 
-
+![Screenshot](http://i.is.cc/storage/1FidsZ47.png)
 
 #### Scoop and Bucket Links
 
