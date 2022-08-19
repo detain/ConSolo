@@ -66,14 +66,16 @@ if (!file_exists($fileXml) || !file_exists($fileSoftware)) {
 	}*/
 	echo `rm -rf /tmp/update;`;
 }
-echo 'Clearing out old DB data';
-$db->query("truncate mame_machine_roms");
-$db->query("truncate mame_software_roms");
-$db->query("truncate mame_software_platforms");
-$db->query("delete from mame_machines");
-$db->query("delete from mame_software");
-$db->query("alter table mame_machines auto_increment = 1");
-$db->query("alter table mame_software auto_increment = 1");
+if (!in_array('--no-db', $_SERVER['argv'])) {
+    echo 'Clearing out old DB data';
+    $db->query("truncate mame_machine_roms");
+    $db->query("truncate mame_software_roms");
+    $db->query("truncate mame_software_platforms");
+    $db->query("delete from mame_machines");
+    $db->query("delete from mame_software");
+    $db->query("alter table mame_machines auto_increment = 1");
+    $db->query("alter table mame_software auto_increment = 1");
+}
 echo ' done!'.PHP_EOL;
 $xml = ['software', 'xml'];
 $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster', 'sharedfeat'];
@@ -105,11 +107,13 @@ foreach ($xml as $list) {
 		echo ' '.$data['name'];
 		$jsonData = json_encode($data, getJsonOpts());
 		file_put_contents($fileName, $jsonData);
-		$db
-			->insert($list == 'software' ? 'mame_software_platforms' : 'mame')
-			->cols(['doc' => $jsonData])
-			->lowPriority($config['db']['low_priority'])
-			->query();
+        if (!in_array('--no-db', $_SERVER['argv'])) {
+		    $db
+			    ->insert($list == 'software' ? 'mame_software_platforms' : 'mame')
+			    ->cols(['doc' => $jsonData])
+			    ->lowPriority($config['db']['low_priority'])
+			    ->query();
+        }
 	}
 	if (!in_array('--no-db', $_SERVER['argv'])) {
 		echo 'Parsing Into DB ';
