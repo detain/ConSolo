@@ -13,6 +13,10 @@ global $config;
 $config = require __DIR__.'/config.php';
 include_once __DIR__.'/stdObject.php';
 
+function getJsonOpts() {
+    return JSON_PRETTY_PRINT |  JSON_UNESCAPED_UNICODE |  JSON_UNESCAPED_SLASHES;
+}
+
 /**
  * @param $string
  * @return mixed|string

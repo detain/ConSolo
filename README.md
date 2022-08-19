@@ -16,6 +16,10 @@ Currently its a mass of scripts loosely tied together and development will be fo
 
 ### Dev Workspace
 
+- No-Intro/TOSEC/Redump DATs and MAME should provide the main list of platforms to focus on
+
+
+
 #### Scoop and Bucket Links
 
 - [Scoop Folder Layout · ScoopInstaller/Scoop Wiki](https://github.com/ScoopInstaller/Scoop/wiki/Scoop-Folder-Layout)
@@ -49,7 +53,7 @@ Currently its a mass of scripts loosely tied together and development will be fo
 - [detain/emurelator: Emu<re>lator maps+links your games, media, etc into into the names+layout needed by the target.](https://github.com/detain/emurelator)
 
 ### Infinite Gallery
-	
+
 - [bizarro/infinite-webl-gallery: Infinite Auto-Scrolling Gallery using WebGL and GLSL Shaders.](https://github.com/bizarro/infinite-webl-gallery)
 - [messier102/portico: Source-agnostic infinite-scrolling media gallery.](https://github.com/messier102/portico)
 
@@ -114,7 +118,7 @@ https://shaka-player-demo.appspot.com/docs/api/tutorial-welcome.html
   * Stores file 'mediainfo' data
   * Supports recursive compressed file scanning of 7z, zip, and rar files
   * File Removal Detection
-  
+
 * API Scrapper
   * IMDB info
   * TMDB info

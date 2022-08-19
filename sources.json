@@ -23,7 +23,106 @@
             "https://github.com/PhoenixInteractiveNL/edc-repo0006": "repo",
             "https://github.com/PhoenixInteractiveNL/edc-repo0007": "repo",
             "https://github.com/PhoenixInteractiveNL/edc-repo0008": "repo",
-            "https://github.com/PhoenixInteractiveNL/edc-repo0009": "repo",
+            "https://github.com/PhoenixInteractiveNL/edc-repo0009": "repo"
+        }
+    },
+    {
+        "id": "nointro",
+        "name": "No-Intro",
+        "type": "",
+        "provides": ["platforms"],
+        "info": "",
+        "updatedLast": false,
+        "updateTrigger": "commit",
+        "web": {
+        }
+    },
+    {
+        "id": "tosec",
+        "name": "TOSEC",
+        "type": "",
+        "provides": ["platforms"],
+        "info": "",
+        "updatedLast": false,
+        "updateTrigger": "commit",
+        "web": {
+        }
+    },
+    {
+        "id": "redump",
+        "name": "Redump",
+        "type": "",
+        "provides": ["platforms"],
+        "info": "",
+        "updatedLast": false,
+        "updateTrigger": "commit",
+        "web": {
+        }
+    },
+    {
+        "id": "mame",
+        "name": "MAME",
+        "type": "",
+        "provides": ["emulators", "platforms"],
+        "info": "",
+        "updatedLast": false,
+        "updateTrigger": "commit",
+        "web": {
+        }
+    },
+    {
+        "id": "launchbox",
+        "name": "LaunchBox",
+        "type": "",
+        "provides": ["emulators", "platforms"],
+        "info": "",
+        "updatedLast": false,
+        "updateTrigger": "commit",
+        "web": {
+        }
+    },
+    {
+        "id": "tgdb",
+        "name": "TheGamesDB",
+        "type": "",
+        "provides": ["platforms"],
+        "info": "",
+        "updatedLast": false,
+        "updateTrigger": "commit",
+        "web": {
+        }
+    },
+    {
+        "id": "screenscraper",
+        "name": "ScreenScraper",
+        "type": "",
+        "provides": ["emulators", "platforms"],
+        "info": "",
+        "updatedLast": false,
+        "updateTrigger": "commit",
+        "web": {
+        }
+    },
+    {
+        "id": "oldcomputers",
+        "name": "Old-Computers",
+        "type": "",
+        "provides": ["platforms"],
+        "info": "",
+        "updatedLast": false,
+        "updateTrigger": "commit",
+        "web": {
+        }
+    },
+    {
+        "id": "",
+        "name": "",
+        "type": "",
+        "provides": ["emulators", "platforms"],
+        "info": "",
+        "updatedLast": false,
+        "updateTrigger": "commit",
+        "web": {
         }
     }
 ]
