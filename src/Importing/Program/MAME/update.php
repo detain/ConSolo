@@ -79,8 +79,10 @@ if (!in_array('--no-db', $_SERVER['argv'])) {
 echo ' done!'.PHP_EOL;
 $xml = ['software', 'xml'];
 $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster', 'sharedfeat'];
-$platforms = [];
-$platforms['mame'] = [
+$mame = [
+    'platforms' => [],
+];
+$mame['platforms']['mame'] = [
     'id' => 'mame',
     'shortName' => 'mame',
     'name' => 'MAME',
@@ -111,7 +113,7 @@ foreach ($xml as $list) {
     echo '  Mapping '.$list.' Data to files...';
 	foreach ($array as $idx => $data) {
         if ($list == 'software') {
-            $platforms[$data['name']] = [
+            $mame['platforms'][$data['name']] = [
                 'id' => $data['name'],
                 'shortName' => $data['name'],
                 'name' => $data['description'],
@@ -226,7 +228,8 @@ foreach ($xml as $list) {
 	echo "done\n";
 }
 echo `rm -rf /tmp/update;`;
-file_put_contents($dataDir.'/json/mame/platforms.json', json_encode($platforms, getJsonOpts()));
+file_put_contents($dataDir.'/json/mame/platforms.json', json_encode($mame['platforms'], getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../../emurelation/sources/mame.json', json_encode($mame, getJsonOpts()));
 if (!in_array('--no-db', $_SERVER['argv'])) {
     $db->query("update config set config.value='{$version}' where field='{$configKey}'");
 }
