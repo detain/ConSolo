@@ -25,12 +25,16 @@ Currently its a mass of scripts loosely tied together and development will be fo
   - Platforms
   - Emulators
   - Games
-- each Type will have:
-  - ID
-  - Short Name (dirname)
-  - Name
-  - Links<source,id>
-  - AltNames[]
+- each Type will have (* required):
+  - id*
+  - name*
+  - shortName (dirname)
+  - description
+  - altNames[]
+  - images<url,type>
+  - urls<url, name>
+- local repo will also have this type:
+  - Matches<source,id>
 
 ![Screenshot](http://i.is.cc/storage/1FidsZ47.png)
 
