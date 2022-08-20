@@ -37,7 +37,7 @@ $force = in_array('-f', $_SERVER['argv']);
 if (intval($version) <= intval($last) && !$force) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
-echo `mkdir -p {$dataDir}/xml/mame;`;
+@mkdir($dataDir.'/xml/mame', 0777, true);
 $fileXml = $dataDir.'/xml/mame/xml-'.$version.'.xml';
 $fileSoftware = $dataDir.'/xml/mame/software-'.$version.'.xml';
 echo `rm -rf /tmp/update;`;
@@ -79,6 +79,13 @@ if (!in_array('--no-db', $_SERVER['argv'])) {
 echo ' done!'.PHP_EOL;
 $xml = ['software', 'xml'];
 $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster', 'sharedfeat'];
+$platforms = [];
+$platforms[] = [
+    'id' => 'mame',
+    'shortName' => 'mame',
+    'name' => 'MAME',
+    'altNames' => ['Arcade']
+];
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
 	@mkdir($dataDir.'/json/mame/'.$list);
@@ -101,15 +108,22 @@ foreach ($xml as $list) {
 	} else {
 		$array = json_decode(file_get_contents($jsonFile), TRUE);
 	}
-	echo '  Mapping '.$list.' Data to files...';
+    echo '  Mapping '.$list.' Data to files...';
 	foreach ($array as $idx => $data) {
-		$fileName =  $dataDir.'/json/mame/'.$list.'/'.$data['name'].'.json';
+        if ($list == 'software') {
+            $platforms[] = [
+                'id' => $data['name'],
+                'shortName' => $data['name'],
+                'name' => $data['description'],
+                'altNames' => [stripMameName($data['description'])]
+            ];
+        }
+        $fileName =  $dataDir.'/json/mame/'.$list.'/'.$data['name'].'.json';
 		echo ' '.$data['name'];
 		$jsonData = json_encode($data, getJsonOpts());
 		file_put_contents($fileName, $jsonData);
         if (!in_array('--no-db', $_SERVER['argv'])) {
-		    $db
-			    ->insert($list == 'software' ? 'mame_software_platforms' : 'mame')
+		    $db->insert($list == 'software' ? 'mame_software_platforms' : 'mame')
 			    ->cols(['doc' => $jsonData])
 			    ->lowPriority($config['db']['low_priority'])
 			    ->query();
@@ -145,8 +159,7 @@ foreach ($xml as $list) {
 					foreach ($removeXml as $remove)
 						if (array_key_exists($remove, $gameData))
 							unset($gameData[$remove]);
-					$gameId = $db
-						->insert('mame_software')
+					$gameId = $db->insert('mame_software')
 						->cols($gameData)
 						->lowPriority($config['db']['low_priority'])
 						->query();
@@ -164,8 +177,7 @@ foreach ($xml as $list) {
 										foreach ($dataPart['rom'] as $rom) {
 											$rom['software_id'] = $gameId;
 											//echo json_encode($rom, getJsonOpts()).PHP_EOL;
-											$db
-												->insert('mame_software_roms')
+											$db->insert('mame_software_roms')
 												->cols($rom)
 												->lowPriority($config['db']['low_priority'])
 												->query();
@@ -191,16 +203,14 @@ foreach ($xml as $list) {
 					if (isset($roms['name']))
 						$roms = [$roms];
 				}
-				$gameId = $db
-					->insert('mame_machines')
+				$gameId = $db->insert('mame_machines')
 					->cols($machine)
 					->lowPriority($config['db']['low_priority'])
 					->query();
 				if ($roms !== false) {
 					foreach ($roms as $rom) {
 						$rom['machine_id'] = $gameId;
-						$db
-							->insert('mame_machine_roms')
+						$db->insert('mame_machine_roms')
 							->cols($rom)
 							->lowPriority($config['db']['low_priority'])
 							->query();
@@ -215,5 +225,8 @@ foreach ($xml as $list) {
 	}
 	echo "done\n";
 }
-//echo `rm -rf /tmp/update;`;
-$db->query("update config set config.value='{$version}' where field='{$configKey}'");
+echo `rm -rf /tmp/update;`;
+file_put_contents($dataDir.'/json/mame/platforms.json', json_encode($platforms, getJsonOpts()));
+if (!in_array('--no-db', $_SERVER['argv'])) {
+    $db->query("update config set config.value='{$version}' where field='{$configKey}'");
+}
