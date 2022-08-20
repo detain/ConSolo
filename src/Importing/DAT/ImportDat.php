@@ -111,7 +111,7 @@ class ImportDat
                 'name' => $fullName,
                 'altNames' => []
             ];
-            if ($name != $fullname)
+            if ($name != $fullName)
                 $this->source['platforms'][$fullName]['altNames'][] = $name;
             $pos = strpos($name, ' - ');
             if ($pos !== false) {

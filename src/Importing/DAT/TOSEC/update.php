@@ -5,6 +5,17 @@
 
 require_once __DIR__.'/../../../bootstrap.php';
 
+if (in_array('-h', $_SERVER['argv'])) {
+    die("Syntax:
+    php ".$_SERVER['argv'][0]." <options>
+
+Options:
+    -h          this screen
+    -f          force update even if already latest version
+    --no-db     skip the db updates/inserts
+
+");
+}
 /**
 * @var \Workerman\MySQL\Connection
 */
@@ -18,6 +29,7 @@ if (count($row) == 0) {
 	$last = $row[0]['value'];
 }
 $force = in_array('-f', $_SERVER['argv']);
+$skipDb = in_array('--no-db', $_SERVER['argv']);
 $cmd = 'curl -s "https://www.tosecdev.org/downloads/category/22-datfiles"|grep pd-ctitle|sed s#"^.*<a href=\"\([^\"]*\)\">\([^>]*\)<.*$"#"\1 \2"#g';
 list($url, $version) = explode(' ', trim(`$cmd`));
 $version = str_replace('-','', $version);
@@ -34,6 +46,12 @@ echo `rm -rf {$dir};`;
 echo `7z x -o{$dir} dats.zip;`;
 unlink('dats.zip');
 foreach (glob($dir.'/TOSEC*') as $tosecdir) {
-	(new \Detain\ConSolo\Importing\DAT\ImportDat())->go(basename($tosecdir), $tosecdir.'/*', $dataDir);
+    $import = new \Detain\ConSolo\Importing\DAT\ImportDat();
+    $import
+        ->setReplacements([
+            ['/ - .*$/', '']])
+        ->setSkipDb($skipDb);
+	$import->go(basename($tosecdir), $tosecdir.'/*', $dataDir);
 }
-$db->query("update config set config.value='{$version}' where field='{$configKey}'");
+if ($skipDb === false)
+    $db->query("update config set config.value='{$version}' where field='{$configKey}'");

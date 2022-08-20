@@ -5,6 +5,17 @@
 
 require_once __DIR__.'/../../../bootstrap.php';
 
+if (in_array('-h', $_SERVER['argv'])) {
+    die("Syntax:
+    php ".$_SERVER['argv'][0]." <options>
+
+Options:
+    -h          this screen
+    -f          force update even if already latest version
+    --no-db     skip the db updates/inserts
+
+");
+}
 /**
 * @var \Workerman\MySQL\Connection
 */
@@ -18,6 +29,7 @@ if (count($row) == 0) {
 	$last = $row[0]['value'];
 }
 $force = in_array('-f', $_SERVER['argv']);
+$skipDb = in_array('--no-db', $_SERVER['argv']);
 $dataDir = '/storage/local/ConSolo/data';
 $type = 'Redump';
 $dir = $dataDir.'/dat/'.$type;
@@ -26,8 +38,14 @@ $cmd = 'curl -s "http://redump.org/downloads/" |sed -e s#"<tr>"#"\n<tr>"#g|grep 
 $urls = explode("\n", trim(`$cmd`));
 echo "Found ".count($urls)." DATs\n";
 $import = new \Detain\ConSolo\Importing\DAT\ImportDat();
-$import->deleteOld = false;
-$db->query("delete from dat_files where type='{$type}'");
+$import
+    ->setMultiRun(true)
+    ->setReplacements([
+        ['/^Arcade - /', '']])
+    ->setSkipDb($skipDb);
+//$import->deleteOld = true;
+if ($skipDb === false)
+    $db->query("delete from dat_files where type='{$type}'");
 foreach ($urls as $url) {
 	echo `wget -q "http://www.redump.org{$url}" -O dats.zip`;
 	echo `rm -rf {$dir};`;
@@ -35,4 +53,6 @@ foreach ($urls as $url) {
 	unlink('dats.zip');
 	$import->go($type, $glob, $dataDir);
 }
-//$db->query("update config set config.value='{$version}' where field='{$configKey}'");
+$import->writeSource();
+//if ($skipDb === false)
+    //$db->query("update config set config.value='{$version}' where field='{$configKey}'");

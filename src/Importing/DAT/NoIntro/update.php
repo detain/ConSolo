@@ -41,7 +41,7 @@ if (intval(str_replace('-','', $version)) <= intval(str_replace('-','', $last)) 
 $dataDir = '/storage/local/ConSolo/data';
 $type = 'No-Intro';
 $dir = $dataDir.'/dat/'.$type;
-$glob = $dir.'/*';
+$glob = $dir.'/*.dat';
 $client = new Client();
 $crawler = $client->request('GET', 'https://datomatic.no-intro.org/index.php?page=download&op=daily');
 $form = $crawler->selectButton('Prepare')->form();
