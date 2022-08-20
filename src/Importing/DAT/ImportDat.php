@@ -208,6 +208,6 @@ class ImportDat
 				echo "no games, skipping\n";
 			}
 		}
-        file_put_contents(__DIR__.'/../../../../emurelation/sources/'.strtolower(str_replace('-', '', $type))'.json', json_encode($source, getJsonOpts()));
+        file_put_contents(__DIR__.'/../../../../emurelation/sources/'.strtolower(str_replace('-', '', $type)).'.json', json_encode($source, getJsonOpts()));
 	}
 }
