@@ -5,11 +5,6 @@
 
 require_once __DIR__.'/../../../bootstrap.php';
 
-/**
-* @var \Workerman\MySQL\Connection
-*/
-global $db;
-
 if (in_array('-h', $_SERVER['argv'])) {
 	die("Syntax:
 	php ".$_SERVER['argv'][0]." <options>
@@ -22,6 +17,10 @@ Options:
 
 ");
 }
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db;
 $dataDir = '/storage/local/ConSolo/data';
 $configKey = 'mame';
 $row = $db->query("select * from config where field='{$configKey}'");

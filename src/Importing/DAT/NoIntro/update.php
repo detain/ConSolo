@@ -7,6 +7,17 @@ require_once __DIR__.'/../../../bootstrap.php';
 
 use Goutte\Client;
 
+if (in_array('-h', $_SERVER['argv'])) {
+    die("Syntax:
+    php ".$_SERVER['argv'][0]." <options>
+
+Options:
+    -h          this screen
+    -f          force update even if already latest version
+    --no-db     skip the db updates/inserts
+
+");
+}
 /**
 * @var \Workerman\MySQL\Connection
 */
@@ -20,6 +31,7 @@ if (count($row) == 0) {
 	$last = $row[0]['value'];
 }
 $force = in_array('-f', $_SERVER['argv']);
+$skipDb = in_array('--no-db', $_SERVER['argv']);
 // using wget to auto follow location headers
 $version = trim(`wget -q -O - "https://datomatic.no-intro.org/?page=download&op=daily" |grep "Version <b>"|cut -d">" -f2-|cut -d" " -f1`);
 echo "Last:    {$last}\nCurrent: {$version}\n";
@@ -41,5 +53,12 @@ echo `rm -rf {$dir};`;
 @mkdir($dir, 0775, true);
 echo `7z x -o{$dir} dats.zip;`;
 unlink('dats.zip');
-(new \Detain\ConSolo\Importing\DAT\ImportDat())->go($type, $glob, $dataDir);
-$db->query("update config set config.value='{$version}' where field='{$configKey}'");
+$import = new \Detain\ConSolo\Importing\DAT\ImportDat();
+$import
+    ->setReplacements([
+        ['/ \(.*$/', ''],
+        ['/^(Non-Redump|Source Code|Unofficial) - /', '']])
+    ->setSkipDb($skipDb)
+    ->go($type, $glob, $dataDir);
+if ($skipDb === false)
+    $db->query("update config set config.value='{$version}' where field='{$configKey}'");
