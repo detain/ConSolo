@@ -4,9 +4,63 @@ namespace Detain\ConSolo\Importing\DAT;
 class ImportDat
 {
 	public $deleteOld = true;
+    public $replacements = [];
+    public $skipDb = false;
 
 	public function __construct() {
 	}
+
+    public function setSkipDb(bool $skipDb) {
+        $this->skipDb = $skipDb;
+        return $this;
+    }
+
+    public function setReplacements(array $replacements) {
+        $this->replacements = $replacements;
+        return $this;
+    }
+
+    public function FlattenAttr(&$parent) {
+        if (isset($parent['attr'])) {
+            if (count($parent['attr']) == 2 && isset($parent['attr']['name']) && isset($parent['attr']['value'])) {
+                $parent[$parent['attr']['name']] = $parent['attr']['value'];
+                unset($parent['attr']);
+            } else {
+                foreach ($parent['attr'] as $attrKey => $attrValue) {
+                    $parent[$attrKey] = $attrValue;
+                }
+                unset($parent['attr']);
+            }
+        }
+    }
+
+    public function FlattenValues(&$parent) {
+        foreach ($parent as $key => $value) {
+            if (is_array($value) && count($value) == 1 && isset($value['value'])) {
+                $parent[$key] = $value['value'];
+            }
+        }
+    }
+
+    public function RunArray(&$data) {
+        if (is_array($data)) {
+            if (count($data) > 0) {
+                if (isset($data[0])) {
+                    foreach ($data as $dataIdx => $dataValue) {
+                        $this->RunArray($dataValue);
+                        $data[$dataIdx] = $dataValue;
+                    }
+                } else {
+                    $this->FlattenAttr($data);
+                    $this->FlattenValues($data);
+                    foreach ($data as $dataIdx => $dataValue) {
+                        $this->RunArray($dataValue);
+                        $data[$dataIdx] = $dataValue;
+                    }
+                }
+            }
+        }
+    }
 
 	public function go($type, $glob, $storageDir) {
 		/**
@@ -15,9 +69,12 @@ class ImportDat
 		global $db;
 		global $config;
 		echo 'Importing '.$type.' DATs..'.PHP_EOL;
-		if ($this->deleteOld == true) {
+		if ($this->skipDb === false && $this->deleteOld == true) {
 			$db->query("delete from dat_files where type='{$type}'");
 		}
+        $source = [
+            'platforms' => []
+        ];
 		foreach (glob($glob) as $xmlFile) {
 			$list = basename($xmlFile, '.dat');
 			echo "[{$list}] Reading..";
@@ -30,6 +87,22 @@ class ImportDat
 			echo "Writing JSON..";
 			@mkdir($storageDir.'/json/dat/'.$type);
 			file_put_contents($storageDir.'/json/dat/'.$type.'/'.$list.'.json', json_encode($array, getJsonOpts()));
+            $name = $fullName = $array['datafile']['header']['name'];
+            foreach ($this->replacements as $replacement) {
+                $name = preg_replace($replacement[0], $replacement[1], $name);
+            }
+            $source['platforms'][$fullName] = [
+                'id' => $fullName,
+                'name' => $fullName,
+                'altNames' => [$name]
+            ];
+            $pos = strpos($name, ' - ');
+            if ($pos !== false) {
+                $company = substr($name, 0, $pos);
+                $platformName = substr($name, $pos + 3);
+                $source['platforms'][$fullName]['altNames'][] = $company.' '.$platformName;
+                $source['platforms'][$fullName]['company'] = $company;
+            }
 			echo "DB Entries..";
 			if (isset($array['datafile']['game'])) {
 				$cols = $array['datafile']['header'];
@@ -52,16 +125,21 @@ class ImportDat
 					}
 				}
 				//echo 'dat_files:'.json_encode($cols, getJsonOpts()).PHP_EOL;
-				try {
-					$fileId = $db->insert('dat_files')->cols($cols)->lowPriority($config['db']['low_priority'])->query();
-				} catch (\PDOException $e) {
-					die('Caught PDO Exception!'.PHP_EOL
-					.'Values:'.var_export($cols, true).PHP_EOL
-					.'Message:'.$e->getMessage().PHP_EOL
-					.'Code:'.$e->getCode().PHP_EOL
-					.'File:'.$e->getFile().PHP_EOL
-					.'Line:'.$e->getLine().PHP_EOL);
-				}
+                if ($this->skipDb === false) {
+                    try {
+                        $fileId = $db->insert('dat_files')
+                            ->cols($cols)
+                            ->lowPriority($config['db']['low_priority'])
+                            ->query();
+                    } catch (\PDOException $e) {
+                        die('Caught PDO Exception!'.PHP_EOL
+                        .'Values:'.var_export($cols, true).PHP_EOL
+                        .'Message:'.$e->getMessage().PHP_EOL
+                        .'Code:'.$e->getCode().PHP_EOL
+                        .'File:'.$e->getFile().PHP_EOL
+                        .'Line:'.$e->getLine().PHP_EOL);
+                    }
+                }
 				$gameSections = ['rom','disk','release','sample','biosset'];
 				if (isset($array['datafile']['game']['name']))
 					$array['datafile']['game'] = [$array['datafile']['game']];
@@ -78,16 +156,21 @@ class ImportDat
 						unset($cols['manufacturer']);
 					}
 					//echo 'dat_games:'.json_encode($cols, getJsonOpts()).PHP_EOL;
-					try {
-						$gameId = $db->insert('dat_games')->cols($cols)->lowPriority($config['db']['low_priority'])->query();
-					} catch (\PDOException $e) {
-						die('Caught PDO Exception!'.PHP_EOL
-						.'Values:'.var_export($cols, true).PHP_EOL
-						.'Message:'.$e->getMessage().PHP_EOL
-						.'Code:'.$e->getCode().PHP_EOL
-						.'File:'.$e->getFile().PHP_EOL
-						.'Line:'.$e->getLine().PHP_EOL);
-					}
+                    if ($this->skipDb === false) {
+					    try {
+						    $gameId = $db->insert('dat_games')
+                                ->cols($cols)
+                                ->lowPriority($config['db']['low_priority'])
+                                ->query();
+					    } catch (\PDOException $e) {
+						    die('Caught PDO Exception!'.PHP_EOL
+						    .'Values:'.var_export($cols, true).PHP_EOL
+						    .'Message:'.$e->getMessage().PHP_EOL
+						    .'Code:'.$e->getCode().PHP_EOL
+						    .'File:'.$e->getFile().PHP_EOL
+						    .'Line:'.$e->getLine().PHP_EOL);
+					    }
+                    }
 					foreach ($gameSections as $section) {
 						if (isset($gameData[$section])) {
 							foreach ($gameData[$section] as $sectionIdx => $sectionData) {
@@ -101,16 +184,21 @@ class ImportDat
 								}
 								$cols['game'] = $gameId;
 								//echo 'dat_'.$section.'s:'.json_encode($cols, getJsonOpts()).PHP_EOL;
-								try {
-									$db->insert('dat_'.$section.'s')->cols($cols)->lowPriority($config['db']['low_priority'])->query();
-								} catch (\PDOException $e) {
-									die('Caught PDO Exception!'.PHP_EOL
-									.'Values:'.var_export($cols, true).PHP_EOL
-									.'Message:'.$e->getMessage().PHP_EOL
-									.'Code:'.$e->getCode().PHP_EOL
-									.'File:'.$e->getFile().PHP_EOL
-									.'Line:'.$e->getLine().PHP_EOL);
-								}
+                                if ($this->skipDb === false) {
+								    try {
+									    $db->insert('dat_'.$section.'s')
+                                            ->cols($cols)
+                                            ->lowPriority($config['db']['low_priority'])
+                                            ->query();
+								    } catch (\PDOException $e) {
+									    die('Caught PDO Exception!'.PHP_EOL
+									    .'Values:'.var_export($cols, true).PHP_EOL
+									    .'Message:'.$e->getMessage().PHP_EOL
+									    .'Code:'.$e->getCode().PHP_EOL
+									    .'File:'.$e->getFile().PHP_EOL
+									    .'Line:'.$e->getLine().PHP_EOL);
+								    }
+                                }
 							}
 						}
 					}
@@ -120,48 +208,6 @@ class ImportDat
 				echo "no games, skipping\n";
 			}
 		}
+        file_put_contents(__DIR__.'/../../../../emurelation/sources/'.strtolower(str_replace('-', '', $type))'.json', json_encode($source, getJsonOpts()));
 	}
-
-	public function FlattenAttr(&$parent) {
-		if (isset($parent['attr'])) {
-			if (count($parent['attr']) == 2 && isset($parent['attr']['name']) && isset($parent['attr']['value'])) {
-				$parent[$parent['attr']['name']] = $parent['attr']['value'];
-				unset($parent['attr']);
-			} else {
-				foreach ($parent['attr'] as $attrKey => $attrValue) {
-					$parent[$attrKey] = $attrValue;
-				}
-				unset($parent['attr']);
-			}
-		}
-	}
-
-	public function FlattenValues(&$parent) {
-		foreach ($parent as $key => $value) {
-			if (is_array($value) && count($value) == 1 && isset($value['value'])) {
-				$parent[$key] = $value['value'];
-			}
-		}
-	}
-
-	public function RunArray(&$data) {
-		if (is_array($data)) {
-			if (count($data) > 0) {
-				if (isset($data[0])) {
-					foreach ($data as $dataIdx => $dataValue) {
-						$this->RunArray($dataValue);
-						$data[$dataIdx] = $dataValue;
-					}
-				} else {
-					$this->FlattenAttr($data);
-					$this->FlattenValues($data);
-					foreach ($data as $dataIdx => $dataValue) {
-						$this->RunArray($dataValue);
-						$data[$dataIdx] = $dataValue;
-					}
-				}
-			}
-		}
-	}
-
 }

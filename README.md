@@ -15,7 +15,7 @@ Currently its a mass of scripts loosely tied together and development will be fo
 
 ### Dev Workspace
 
-- Main list of platforms should come from:
+- Main list of platforms should come from sources that supply the actual games/roms to ensure we have whats needed without going too overboard:
   - No-Intro
   - TOSEC
   - Redump
