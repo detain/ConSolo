@@ -19,7 +19,7 @@ function getJsonOpts() {
 
 function stripMameName($name) {
     if (!isset($GLOBALS['mameMediaTypes'])) {
-        $GLOBALS['mameMediaTypes'] = json_decode(file_get_contents(__DIR__.'/../../../Matching/mame_media_types.json'), true);
+        $GLOBALS['mameMediaTypes'] = json_decode(file_get_contents(__DIR__.'/Matching/mame_media_types.json'), true);
     }
     foreach ($GLOBALS['mameMediaTypes'] as $type) {
         $name = preg_replace('/\s*'.preg_quote($type, '/').'$/i', '', $name);
