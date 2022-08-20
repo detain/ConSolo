@@ -6,9 +6,21 @@ class ImportDat
 	public $deleteOld = true;
     public $replacements = [];
     public $skipDb = false;
+    public $source = [];
+    public $multiRun = false;
+    public $type;
 
 	public function __construct() {
 	}
+
+    public function writeSource() {
+        file_put_contents(__DIR__.'/../../../../emurelation/sources/'.strtolower(str_replace('-', '', $this->type)).'.json', json_encode($this->source, getJsonOpts()));
+    }
+
+    public function setMultiRun(bool $multiRun) {
+        $this->multiRun = $multiRun;
+        return $this;
+    }
 
     public function setSkipDb(bool $skipDb) {
         $this->skipDb = $skipDb;
@@ -68,13 +80,16 @@ class ImportDat
 		*/
 		global $db;
 		global $config;
+        $this->type = $type;
 		echo 'Importing '.$type.' DATs..'.PHP_EOL;
 		if ($this->skipDb === false && $this->deleteOld == true) {
 			$db->query("delete from dat_files where type='{$type}'");
 		}
-        $source = [
-            'platforms' => []
-        ];
+        if (count($this->source) == 0) {
+            $this->source = [
+                'platforms' => []
+            ];
+        }
 		foreach (glob($glob) as $xmlFile) {
 			$list = basename($xmlFile, '.dat');
 			echo "[{$list}] Reading..";
@@ -91,17 +106,20 @@ class ImportDat
             foreach ($this->replacements as $replacement) {
                 $name = preg_replace($replacement[0], $replacement[1], $name);
             }
-            $source['platforms'][$fullName] = [
+            $this->source['platforms'][$fullName] = [
                 'id' => $fullName,
                 'name' => $fullName,
-                'altNames' => [$name]
+                'altNames' => []
             ];
+            if ($name != $fullname)
+                $this->source['platforms'][$fullName]['altNames'][] = $name;
             $pos = strpos($name, ' - ');
             if ($pos !== false) {
                 $company = substr($name, 0, $pos);
                 $platformName = substr($name, $pos + 3);
-                $source['platforms'][$fullName]['altNames'][] = $company.' '.$platformName;
-                $source['platforms'][$fullName]['company'] = $company;
+                $this->source['platforms'][$fullName]['altNames'][] = $platformName;
+                $this->source['platforms'][$fullName]['altNames'][] = $company.' '.$platformName;
+                $this->source['platforms'][$fullName]['company'] = $company;
             }
 			echo "DB Entries..";
 			if (isset($array['datafile']['game'])) {
@@ -208,6 +226,8 @@ class ImportDat
 				echo "no games, skipping\n";
 			}
 		}
-        file_put_contents(__DIR__.'/../../../../emurelation/sources/'.strtolower(str_replace('-', '', $type)).'.json', json_encode($source, getJsonOpts()));
+        if (!$this->multiRun)
+            $this->writeSource();
+        return $this;
 	}
 }
