@@ -80,7 +80,7 @@ echo ' done!'.PHP_EOL;
 $xml = ['software', 'xml'];
 $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster', 'sharedfeat'];
 $platforms = [];
-$platforms[] = [
+$platforms['mame'] = [
     'id' => 'mame',
     'shortName' => 'mame',
     'name' => 'MAME',
@@ -111,7 +111,7 @@ foreach ($xml as $list) {
     echo '  Mapping '.$list.' Data to files...';
 	foreach ($array as $idx => $data) {
         if ($list == 'software') {
-            $platforms[] = [
+            $platforms[$data['name']] = [
                 'id' => $data['name'],
                 'shortName' => $data['name'],
                 'name' => $data['description'],
