@@ -45,12 +45,12 @@ echo `wget -q "https://www.tosecdev.org{$url}" -O dats.zip`;
 echo `rm -rf {$dir};`;
 echo `7z x -o{$dir} dats.zip;`;
 unlink('dats.zip');
+$import = new \Detain\ConSolo\Importing\DAT\ImportDat();
+$import
+    ->setReplacements([
+        ['/ - .*$/', '']])
+    ->setSkipDb($skipDb);
 foreach (glob($dir.'/TOSEC*') as $tosecdir) {
-    $import = new \Detain\ConSolo\Importing\DAT\ImportDat();
-    $import
-        ->setReplacements([
-            ['/ - .*$/', '']])
-        ->setSkipDb($skipDb);
 	$import->go(basename($tosecdir), $tosecdir.'/*', $dataDir);
 }
 if ($skipDb === false)
