@@ -42,9 +42,7 @@ Currently its a mass of scripts loosely tied together and development will be fo
 
 ##### TODO
 
-- Update updatedLast field in Sources list
 - Setup source exports for
-  - LaunchBox
   - ScreenScraper
   - TheGamesDB
   - Old-Computers
@@ -53,6 +51,7 @@ Currently its a mass of scripts loosely tied together and development will be fo
 - remove excess local platforms without at least 1 nointro/redump/tosec/mame match
 - Ensure utf8/foreign/etc characters are supported and getting through, such as " and '
 - Setup source exports for
+  - LaunchBox emulators
   - emuControlCenter
   - EmulationKing
   - EmuCR
