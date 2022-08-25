@@ -7,6 +7,17 @@ use Detain\ConSolo\Importing\API\ScreenScraper;
 
 require_once __DIR__.'/../../../bootstrap.php';
 
+if (in_array('-h', $_SERVER['argv'])) {
+    die("Syntax:
+    php ".$_SERVER['argv'][0]." <options>
+
+Options:
+    -h          this screen
+    -f          force update even if already latest version
+    --no-db     skip the db updates/inserts
+
+");
+}
 /**
 * @var \Workerman\MySQL\Connection
 */
@@ -28,7 +39,7 @@ if (file_exists($dataDir.'/json/screenscraper/queries.json')) {
 if (date('Ym') > $queriesRemaining['yearmonth']) {
 	$queriesRemaining['yearmonth'] = date('Ym');
 	foreach ($config['ips'] as $ip) {
-		$queriesRemaining[$ip] = 3000;
+		$queriesRemaining[$ip] = 40000;
 	}
 }
 if ($useCache == true && file_exists($dataDir.'/json/screenscraper/platforms.json')) {

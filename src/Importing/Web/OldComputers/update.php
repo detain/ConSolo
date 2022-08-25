@@ -9,6 +9,18 @@ use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
 require_once __DIR__.'/../../../bootstrap.php';
+
+if (in_array('-h', $_SERVER['argv'])) {
+    die("Syntax:
+    php ".$_SERVER['argv'][0]." <options>
+
+Options:
+    -h          this screen
+    -f          force update even if already latest version
+    --no-db     skip the db updates/inserts
+
+");
+}
 /**
 * @var \Workerman\MySQL\Connection
 */
