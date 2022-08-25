@@ -43,21 +43,24 @@ Currently its a mass of scripts loosely tied together and development will be fo
 ##### TODO
 
 - Update updatedLast field in Sources list
-- Ensure utf8/foreign/etc characters are supported and getting through, such as " and '
 - Setup source exports for
-  - emuControlCenter
-  - EmulationKing
   - LaunchBox
   - ScreenScraper
   - TheGamesDB
-  - EmuCR
-  - EmuTopia
-  - EmuParadise
   - Old-Computers
 - Update matches utilizing new source exports
 - Add local platforms for any unmatched nointro/redump/tosec/mame sources
 - remove excess local platforms without at least 1 nointro/redump/tosec/mame match
-
+- Ensure utf8/foreign/etc characters are supported and getting through, such as " and '
+- Setup source exports for
+  - emuControlCenter
+  - EmulationKing
+  - EmuCR
+  - EmuTopia
+  - EmuParadise
+  - HyperSpin
+  - RecalBox
+  - RetroPie
 
 
 ![Screenshot](http://i.is.cc/storage/1FidsZ47.png)

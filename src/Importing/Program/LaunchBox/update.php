@@ -6,7 +6,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = '/storage/local/ConSolo/data/json/launchbox';
+$dataDir = __DIR__.'/../../../../data/json/launchbox';
 $url = 'https://gamesdb.launchbox-app.com/Metadata.zip'; 
 $tablePrefix = 'launchbox_';
 $tableSuffix = 's';

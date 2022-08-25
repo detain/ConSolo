@@ -90,7 +90,7 @@ $force = in_array('-f', $_SERVER['argv']);
 $client = new Client();
 $sitePrefix = 'https://www.emucr.com/';
 $types = ['st' => 'type_id', 'c' => 'computer_id'];
-$dataDir = '/storage/local/ConSolo/data';
+$dataDir = __DIR__.'/../../../../data';
 echo 'Loading and scanning for archive pages..';
 $computerUrls = [];
 $crawler = $client->request('GET', $sitePrefix);

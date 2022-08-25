@@ -18,7 +18,7 @@ global $curl_config;
 $curl_config = [];
 $usePrivate = false;
 $useCache = true;
-$dataDir = '/storage/local/ConSolo/data';
+$dataDir = __DIR__.'/../../../../data';
 @mkdir($dataDir.'/json/screenscraper', 0775, true);
 if (file_exists($dataDir.'/json/screenscraper/queries.json')) {
 	$queriesRemaining = json_decode(file_Get_contents($dataDir.'/json/screenscraper/queries.json'), true);

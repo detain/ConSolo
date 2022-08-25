@@ -21,7 +21,7 @@ Options:
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = '/storage/local/ConSolo/data';
+$dataDir = __DIR__.'/../../../../data';
 $configKey = 'mame';
 $row = $db->query("select * from config where field='{$configKey}'");
 if (count($row) == 0) {

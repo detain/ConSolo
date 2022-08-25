@@ -105,7 +105,7 @@ global $queriesRemaining;
 global $dataDir;
 $usePrivate = false;
 $useCache = false;
-$dataDir = '/storage/local/ConSolo/data';
+$dataDir = __DIR__.'/../../../../data';
 $force = in_array('-f', $_SERVER['argv']);
 if (file_exists($dataDir.'/json/tgdb/queries.json')) {
 	$queriesRemaining = json_decode(file_Get_contents($dataDir.'/json/tgdb/queries.json'), true);
