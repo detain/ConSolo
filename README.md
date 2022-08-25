@@ -6,62 +6,6 @@ Scrape Emulator/Rom/Platform/etc Info from Multiple Sources (No-Intro, TOSEC, Re
 
 Currently its a mass of scripts loosely tied together and development will be focused on a clean interface. Several UI's are planned although too soon to tell if they'll ever get finished. A web-ui which works the same but incorperates browser-based emulators.
 
-### Dev Workspace
-
-- Main list of platforms should come from sources that supply the actual games/roms to ensure we have whats needed without going too overboard:
-  - No-Intro
-  - TOSEC
-  - Redump
-  - MAME
-- Types to match between sources:
-  - Companies
-  - Platforms
-  - Emulators
-  - Games
-- Sources list will define each source with (* required):
-  - id*
-  - name*
-  - type*
-  - provides[]*
-  - info
-  - updatedLast
-  - updateTrigger
-  - web<url, name>
-- each Source will have (* required):
-  - id*
-  - name*
-  - shortName (dirname)
-  - description
-  - company
-  - manufacturer
-  - developer
-  - altNames[]
-  - images<url,type>
-  - web<url, name>
-  - matches<source,id>
-
-##### TODO
-
-- Setup source exports for
-  - ScreenScraper
-  - TheGamesDB
-  - Old-Computers
-- Update matches utilizing new source exports
-- Add local platforms for any unmatched nointro/redump/tosec/mame sources
-- remove excess local platforms without at least 1 nointro/redump/tosec/mame match
-- Ensure utf8/foreign/etc characters are supported and getting through, such as " and '
-- Setup source exports for
-  - LaunchBox emulators
-  - emuControlCenter
-  - EmulationKing
-  - EmuCR
-  - EmuTopia
-  - EmuParadise
-  - HyperSpin
-  - RecalBox
-  - RetroPie
-
-
 ![Screenshot](http://i.is.cc/storage/1FidsZ47.png)
 
 #### Dev Links

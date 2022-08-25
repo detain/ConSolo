@@ -95,7 +95,7 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
                 ];
                 foreach (['Developer', 'Manufacturer'] as $field) {
                     if (isset($row[$field])) {
-                        $source['platforms'][$row['Name']][strtolower($field)] = $row[$field];
+                        $source['platforms'][$row['Name']][strtolower($field)] = trim($row[$field]);
                     }
                 }
             } elseif ($type == 'platformalternatename') {
