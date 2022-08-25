@@ -14,7 +14,11 @@ class ImportDat
 	}
 
     public function writeSource() {
-        file_put_contents(__DIR__.'/../../../../emurelation/sources/'.strtolower(str_replace('-', '', $this->type)).'.json', json_encode($this->source, getJsonOpts()));
+        $sourceId = strtolower(str_replace('-', '', $this->type));
+        $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
+        $sources[$sourceId]['updatedLast'] = time();
+        file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+        file_put_contents(__DIR__.'/../../../../emurelation/sources/'.$sourceId.'.json', json_encode($this->source, getJsonOpts()));
     }
 
     public function setMultiRun(bool $multiRun) {
@@ -161,66 +165,68 @@ class ImportDat
 				$gameSections = ['rom','disk','release','sample','biosset'];
 				if (isset($array['datafile']['game']['name']))
 					$array['datafile']['game'] = [$array['datafile']['game']];
-				echo count($array['datafile']['game'])." games..";
-				foreach ($array['datafile']['game'] as $gameIdx => $gameData) {
-					$cols = $gameData;
-					$cols['file'] = $fileId;
-					foreach ($gameSections as $section) {
-						unset($cols[$section]);
-						if (isset($gameData[$section]) && isset($gameData[$section]['name']))
-							$gameData[$section] = [$gameData[$section]];
-					}
-					if (isset($cols['manufacturer']) && is_array($cols['manufacturer']) && count($cols['manufacturer']) == 0) {
-						unset($cols['manufacturer']);
-					}
-					//echo 'dat_games:'.json_encode($cols, getJsonOpts()).PHP_EOL;
-                    if ($this->skipDb === false) {
-					    try {
-						    $gameId = $db->insert('dat_games')
-                                ->cols($cols)
-                                ->lowPriority($config['db']['low_priority'])
-                                ->query();
-					    } catch (\PDOException $e) {
-						    die('Caught PDO Exception!'.PHP_EOL
-						    .'Values:'.var_export($cols, true).PHP_EOL
-						    .'Message:'.$e->getMessage().PHP_EOL
-						    .'Code:'.$e->getCode().PHP_EOL
-						    .'File:'.$e->getFile().PHP_EOL
-						    .'Line:'.$e->getLine().PHP_EOL);
+                if ($this->skipDb === false) {
+				    echo count($array['datafile']['game'])." games..";
+				    foreach ($array['datafile']['game'] as $gameIdx => $gameData) {
+					    $cols = $gameData;
+					    $cols['file'] = $fileId;
+					    foreach ($gameSections as $section) {
+						    unset($cols[$section]);
+						    if (isset($gameData[$section]) && isset($gameData[$section]['name']))
+							    $gameData[$section] = [$gameData[$section]];
 					    }
-                    }
-					foreach ($gameSections as $section) {
-						if (isset($gameData[$section])) {
-							foreach ($gameData[$section] as $sectionIdx => $sectionData) {
-								$cols = $sectionData;
-								if ($section == 'rom') {
-									foreach (['crc','md5','sha1'] as $field) {
-										if (isset($cols[$field]) && !is_null($cols[$field])) {
-											$cols[$field] = strtolower($cols[$field]);
-										}
-									}
-								}
-								$cols['game'] = $gameId;
-								//echo 'dat_'.$section.'s:'.json_encode($cols, getJsonOpts()).PHP_EOL;
-                                if ($this->skipDb === false) {
-								    try {
-									    $db->insert('dat_'.$section.'s')
-                                            ->cols($cols)
-                                            ->lowPriority($config['db']['low_priority'])
-                                            ->query();
-								    } catch (\PDOException $e) {
-									    die('Caught PDO Exception!'.PHP_EOL
-									    .'Values:'.var_export($cols, true).PHP_EOL
-									    .'Message:'.$e->getMessage().PHP_EOL
-									    .'Code:'.$e->getCode().PHP_EOL
-									    .'File:'.$e->getFile().PHP_EOL
-									    .'Line:'.$e->getLine().PHP_EOL);
+					    if (isset($cols['manufacturer']) && is_array($cols['manufacturer']) && count($cols['manufacturer']) == 0) {
+						    unset($cols['manufacturer']);
+					    }
+					    //echo 'dat_games:'.json_encode($cols, getJsonOpts()).PHP_EOL;
+                        if ($this->skipDb === false) {
+					        try {
+						        $gameId = $db->insert('dat_games')
+                                    ->cols($cols)
+                                    ->lowPriority($config['db']['low_priority'])
+                                    ->query();
+					        } catch (\PDOException $e) {
+						        die('Caught PDO Exception!'.PHP_EOL
+						        .'Values:'.var_export($cols, true).PHP_EOL
+						        .'Message:'.$e->getMessage().PHP_EOL
+						        .'Code:'.$e->getCode().PHP_EOL
+						        .'File:'.$e->getFile().PHP_EOL
+						        .'Line:'.$e->getLine().PHP_EOL);
+					        }
+                        }
+					    foreach ($gameSections as $section) {
+						    if (isset($gameData[$section])) {
+							    foreach ($gameData[$section] as $sectionIdx => $sectionData) {
+								    $cols = $sectionData;
+								    if ($section == 'rom') {
+									    foreach (['crc','md5','sha1'] as $field) {
+										    if (isset($cols[$field]) && !is_null($cols[$field])) {
+											    $cols[$field] = strtolower($cols[$field]);
+										    }
+									    }
 								    }
-                                }
-							}
-						}
-					}
-				}
+								    $cols['game'] = $gameId;
+								    //echo 'dat_'.$section.'s:'.json_encode($cols, getJsonOpts()).PHP_EOL;
+                                    if ($this->skipDb === false) {
+								        try {
+									        $db->insert('dat_'.$section.'s')
+                                                ->cols($cols)
+                                                ->lowPriority($config['db']['low_priority'])
+                                                ->query();
+								        } catch (\PDOException $e) {
+									        die('Caught PDO Exception!'.PHP_EOL
+									        .'Values:'.var_export($cols, true).PHP_EOL
+									        .'Message:'.$e->getMessage().PHP_EOL
+									        .'Code:'.$e->getCode().PHP_EOL
+									        .'File:'.$e->getFile().PHP_EOL
+									        .'Line:'.$e->getLine().PHP_EOL);
+								        }
+                                    }
+							    }
+						    }
+					    }
+				    }
+                }
 				echo "done\n";
 			} else {
 				echo "no games, skipping\n";

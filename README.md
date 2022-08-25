@@ -43,6 +43,7 @@ Currently its a mass of scripts loosely tied together and development will be fo
 ##### TODO
 
 - Update updatedLast field in Sources list
+- Ensure utf8/foreign/etc characters are supported and getting through, such as " and '
 - Setup source exports for
   - emuControlCenter
   - EmulationKing

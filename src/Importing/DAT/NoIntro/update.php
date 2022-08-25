@@ -38,7 +38,7 @@ echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval(str_replace('-','', $version)) <= intval(str_replace('-','', $last)) && !$force) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
-$dataDir = '/storage/local/ConSolo/data';
+$dataDir = __DIR__.'/../../../../data';
 $type = 'No-Intro';
 $dir = $dataDir.'/dat/'.$type;
 $glob = $dir.'/*.dat';

@@ -30,7 +30,7 @@ if (count($row) == 0) {
 }
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
-$dataDir = '/storage/local/ConSolo/data';
+$dataDir = __DIR__.'/../../../../data';
 $type = 'Redump';
 $dir = $dataDir.'/dat/'.$type;
 $glob = $dir.'/*';

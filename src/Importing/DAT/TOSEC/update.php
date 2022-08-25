@@ -37,7 +37,7 @@ echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval($version) <= intval($last) && !$force) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
-$dataDir = '/storage/local/ConSolo/data';
+$dataDir = __DIR__.'/../../../../data';
 $type = 'TOSEC';
 $dir = $dataDir.'/dat/'.$type;
 $url = trim(`curl -s "https://www.tosecdev.org{$url}"|grep "<a class=\"btn btn-success"|cut -d\" -f8`);
