@@ -5,7 +5,7 @@ require_once __DIR__.'/../bootstrap.php';
 * @var \Workerman\MySQL\Connection
 */
 global $db, $mysqlLinkId;
-$sourceDir = '/storage/local/emurelation/sources';
+$sourceDir = __DIR__.'/../../../emurelation/sources';
 $allPlatforms = [];
 $allAlternates = [];
 

@@ -1,5 +1,5 @@
 <?php
-include '/storage/ConSolo/src/bootstrap.php';
+include __DIR__.'/../bootstrap.php';
 $matches = $db->query("select * from platform_matches where type in ('LaunchBox', 'TheGamesDB')");
 $fields = [
     'LaunchBox' => [

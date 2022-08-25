@@ -109,7 +109,7 @@ function tosec($type) {
 	return $platforms;
 }
 
-$dataDir = '/storage/local/ConSolo/json';
+$dataDir = __DIR__.'/../../json';
 $sources = [];
 $sources['LaunchBox'] = launchbox();
 $sources['TheGamesDB'] = thegamesdb();

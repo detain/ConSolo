@@ -52,7 +52,7 @@ foreach ($rows as $platform) {
 		}
 	}
 }
-$dataDir = '/storage/local/ConSolo/json';
+$dataDir = __DIR__.'/../../json';
 $silentSources = ['OldComputers'];
 foreach ($platform_manufacturers as $source => $manufacturers) {
 	foreach ($manufacturers as $manufacturer => $sourcePlatforms) {
