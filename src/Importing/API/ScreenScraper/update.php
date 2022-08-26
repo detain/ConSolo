@@ -15,6 +15,7 @@ Options:
     -h          this screen
     -f          force update even if already latest version
     --no-db     skip the db updates/inserts
+    --no-cache  disables use of the file cache
 
 ");
 }
@@ -27,8 +28,10 @@ global $queriesRemaining;
 global $dataDir;
 global $curl_config;
 $curl_config = [];
+$force = in_array('-f', $_SERVER['argv']);
+$skipDb = in_array('--no-db', $_SERVER['argv']);
 $usePrivate = false;
-$useCache = true;
+$useCache = !in_array('--no-cache', $_SERVER['argv']);;
 $dataDir = __DIR__.'/../../../../data';
 @mkdir($dataDir.'/json/screenscraper', 0775, true);
 if (file_exists($dataDir.'/json/screenscraper/queries.json')) {
@@ -36,8 +39,8 @@ if (file_exists($dataDir.'/json/screenscraper/queries.json')) {
 } else {
 	$queriesRemaining = ['yearmonth' => 0];
 }
-if (date('Ym') > $queriesRemaining['yearmonth']) {
-	$queriesRemaining['yearmonth'] = date('Ym');
+if (date('Ymd') > $queriesRemaining['yearmonth']) {
+	$queriesRemaining['yearmonthday'] = date('Ymd');
 	foreach ($config['ips'] as $ip) {
 		$queriesRemaining[$ip] = 40000;
 	}
@@ -53,69 +56,51 @@ if ($useCache == true && file_exists($dataDir.'/json/screenscraper/platforms.jso
 		//print_r($platforms);
 	}
 }
-echo "Mapping Platforms to db\n";
-$db->query('truncate ss_platforms');
-foreach ($platforms as $platform) {
-	$db->insert('ss_platforms')
-	->cols(['doc' => json_encode($platform, getJsonOpts())])
-	->query();
+$source = [
+    'platforms' => []
+];
+foreach ($platforms as $idx => $platform) {
+    $id = intval($platform['id']);
+    if (isset($platforms['noms']['noms_commun']) && trim($platforms['noms']['noms_commun']) != '') {
+        $altNames = explode(',', trim($platform['noms']['noms_commun']));
+    } else {
+        $altNames = [];
+    }
+    $name = false;
+    foreach (['nom_us', 'nom_eu', 'nom_jp'] as $field) {
+        if ($name === false && isset($platform['noms'][$field])) {
+            $name = $platform['noms'][$field];
+        } elseif (isset($platform['noms'][$field]) && !in_array($platform['noms'][$field], $altNames)) {
+            $altNames[] = $platform['noms'][$field];
+        }
+    }
+    $source['platforms'][$id] = [
+        'id' => $id,
+        'name' => $name,
+        'altNames' => $altNames
+    ];
+    if (isset($platform['compagnie'])) {
+        $source['platforms'][$id]['company'] = $platform['compagnie'];
+    }
+    foreach (['launchbox', 'retropie', 'recalbox'] as $field) {
+        if (isset($platform['noms']['nom_'.$field])) {
+            if (!isset($source['platforms'][$platform['id']]['matches'])) {
+                $source['platforms'][$id]['matches'] = [];
+            }
+            $source['platforms'][$id]['matches'][] = [$field, $platform['noms']['nom_'.$field]];
+        }
+    }
 }
-exit;
-foreach (['Genres', 'Developers', 'Publishers'] as $type) {
-	if ($useCache == true && file_exists($dataDir.'/json/screenscraper/'.$type.'.json')) {
-		$var = strtolower($type);
-		$$var = json_decode(file_get_contents($dataDir.'/json/screenscraper/'.$type.'.json'), true);
-	} else {
-		$json = apiGet($type.'?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']));
-		file_put_contents($dataDir.'/json/screenscraper/'.$type.'.json', json_encode($json, getJsonOpts()));
-		$lower = strtolower($type);
-		$db->query('delete from tgdb_'.$lower);
-		foreach ($json['data'][$lower] as $idx => $data) {
-			$db->insert('tgdb_'.$lower)->cols($data)->lowPriority($config['db']['low_priority'])->query();
-		}
-	}
-}
-$platformIds = array_keys($platforms['data']['platforms']);
-if ($useCache == true && file_exists($dataDir.'/json/screenscraper/PlatformImages.json')) {
-	$platformImages = json_decode(file_get_contents($dataDir.'/json/screenscraper/PlatformImages.json'), true);
-} else {
-	$platformImages = apiGet('Platforms/Images?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&platforms_id='.urlencode(implode(',',$platformIds)));
-	file_put_contents($dataDir.'/json/screenscraper/PlatformImages.json', json_encode($platformImages, getJsonOpts()));
-}
-$fields = ['players', 'publishers', 'genres', 'overview', 'last_updated', 'rating', 'platform', 'coop', 'youtube', 'os', 'processor', 'ram', 'hdd', 'video', 'sound', 'alternates'];
-$subfields = ['developers', 'genres', 'publishers', 'alternates'];
-$db->query('delete from tgdb_games');
-foreach ($subfields as $field)
-	$db->query('truncate tgdb_game_'.$field);
-foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {
-	$platformId = $platformData['id'];
-	echo 'Platform #'.$platformId.' '.$platformData['name'].' ';
-	if ($useCache == true && file_exists($dataDir.'/json/screenscraper/platform/'.$platformId.'.json')) {
-		$games = json_decode(file_get_contents($dataDir.'/json/screenscraper/platform/'.$platformId.'.json'), true);
-	} else {
-		$games = apiGet('Games/ByPlatformID?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&id='.$platformId.'&fields='.urlencode(implode(',',$fields)), 'games', false);
-		file_put_contents($dataDir.'/json/screenscraper/platform/'.$platformId.'.json', json_encode($games, getJsonOpts()));
-	}
-	echo 'Inserting DB Data..';
-	foreach ($games['data']['games'] as $idx => $game) {
-		$cols = $game;
-		foreach ($subfields as $field) {
-			unset($cols[$field]);
-		}
-		if (isset($cols['overview'])) {
-			$cols['overview'] = utf8_encode($cols['overview']);
-		}
-		$gameId = $db->insert('tgdb_games')->cols($cols)->lowPriority($config['db']['low_priority'])->query();
-		foreach ($subfields as $field) {
-			if (isset($game[$field])) {
-				foreach ($game[$field] as $fieldData) {
-					$db->insert('tgdb_game_'.$field)->cols([
-						'game' => $gameId,
-						($field == 'alternates' ? 'name' : substr($field, 0, -1)) => $fieldData
-					])->lowPriority($config['db']['low_priority'])->query();
-				}
-			}
-		}
-	}
-	echo ' done'.PHP_EOL;
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources['screenscraper']['updatedLast'] = time();
+file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../../emurelation/sources/screenscraper.json', json_encode($source, getJsonOpts()));
+if (!$skipDb) {
+    echo "Mapping Platforms to db\n";
+    $db->query('truncate ss_platforms');
+    foreach ($platforms as $platform) {
+	    $db->insert('ss_platforms')
+	    ->cols(['doc' => json_encode($platform, getJsonOpts())])
+	    ->query();
+    }
 }

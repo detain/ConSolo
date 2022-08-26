@@ -12,22 +12,22 @@ Currently its a mass of scripts loosely tied together and development will be fo
 
 - [FieldsLinker](http://consolo.is.cc/FieldsLinker/)
 - [linksMaker](http://consolo.is.cc/LinksMaker/)
-- [detain/emurelation: Emu⬅re➡lation is project with 1 simple purpose; to provide a mapping in JSON format of platforms accross different sources. There are several varied naming conventions used and many different programs and sites and this aims to allow you an easy way to convert or map the data from one type to another. It will eventually expand to include emulators, games, etc; but for now the initial focus is simply platform matching accross all sources.](https://github.com/detain/emurelation)
-- [detain/emurelator: Emu<re>lator maps+links your games, media, etc into into the names+layout needed by the target.](https://github.com/detain/emurelator)
+- [detain/emurelation](https://github.com/detain/emurelation): Emu⬅re➡lation is project with 1 simple purpose; to provide a mapping in JSON format of platforms accross different sources. There are several varied naming conventions used and many different programs and sites and this aims to allow you an easy way to convert or map the data from one type to another. It will eventually expand to include emulators, games, etc; but for now the initial focus is simply platform matching accross all sources.
+- [detain/emurelator](https://github.com/detain/emurelator): Emu<re>lator maps+links your games, media, etc into into the names+layout needed by the target.
 
 #### API Code to look at for other sources
 
-- [reactmay/videogames: Application powered by IGDB API](https://github.com/reactmay/videogames)
-- [n795113/IGDB-videogame: Play with IGDB API](https://github.com/n795113/IGDB-videogame)
-- [bryceandy/games-db: Video games aggregator using IGDB](https://github.com/bryceandy/games-db)
-- [emlycool/game-app: Consumed igdb game api v4](https://github.com/emlycool/game-app)
-- [Kris-Kuiper/IGDB-v4-API: Wrapper for IGDB API v4](https://github.com/Kris-Kuiper/IGDB-v4-API)
+- [reactmay/videogames](https://github.com/reactmay/videogames): Application powered by IGDB API
+- [n795113/IGDB-videogame](https://github.com/n795113/IGDB-videogame): Play with IGDB API
+- [bryceandy/games-db](https://github.com/bryceandy/games-db): Video games aggregator using IGDB
+- [emlycool/game-app](https://github.com/emlycool/game-app): Consumed igdb game api v4
+- [Kris-Kuiper/IGDB-v4-API](https://github.com/Kris-Kuiper/IGDB-v4-API): Wrapper for IGDB API v4
 - [Murfy-uk/igdb-API](https://github.com/Murfy-uk/igdb-API)
-- [isaacyeboah/video_game_aggregator: A Video Game Aggregator with IGDB Data](https://github.com/isaacyeboah/video_game_aggregator)
-- [nialltiernan/igdb-api-wrapper: PHP wrapper for the IGDB API v4](https://github.com/nialltiernan/igdb-api-wrapper)
-- [legionth/igdb-reactphp-client: Asynchrounous event-event driven implementation of the - [IGDB API](https://api.igdb.com/) on top of ReactPHP.](https://github.com/legionth/igdb-reactphp-client)
-- [s1njar/igdb: This PHP extension works as a wrapper for interface queries at the IGDB API. It contains a query builder where you can add search criteria.](https://github.com/s1njar/igdb)
-- [bachzz/IGDb_Internet-Games-Database: IMDb for games](https://github.com/bachzz/IGDb_Internet-Games-Database)
+- [isaacyeboah/video_game_aggregator](https://github.com/isaacyeboah/video_game_aggregator): A Video Game Aggregator with IGDB Data
+- [nialltiernan/igdb-api-wrapper](https://github.com/nialltiernan/igdb-api-wrapper): PHP wrapper for the IGDB API v4
+- [legionth/igdb-reactphp-client](https://github.com/legionth/igdb-reactphp-client): Asynchrounous event-event driven implementation of the - [IGDB API](https://api.igdb.com/) on top of ReactPHP.
+- [s1njar/igdb](https://github.com/s1njar/igdb): This PHP extension works as a wrapper for interface queries at the IGDB API. It contains a query builder where you can add search criteria.
+- [bachzz/IGDb_Internet-Games-Database](https://github.com/bachzz/IGDb_Internet-Games-Database): IMDb for games
 - [Requests – IGDB API docs](https://api-docs.igdb.com/#requests)
 - [API Documentation](https://www.mobygames.com/info/api)
 - [MobyGames | Tracy Poff](https://www.mobygames.com/user/sheet/userSheetId,82693/)
