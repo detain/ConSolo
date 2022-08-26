@@ -104,6 +104,7 @@ Options:
     -h          this screen
     -f          force update even if already latest version
     --no-db     skip the db updates/inserts
+    --no-cache  disables use of the file cache
 
 ");
 }
@@ -115,8 +116,9 @@ global $config;
 global $queriesRemaining;
 global $dataDir;
 $usePrivate = false;
-$useCache = false;
+$useCache = !in_array('--no-cache', $_SERVER['argv']);;
 $dataDir = __DIR__.'/../../../../data';
+$skipDb = in_array('--no-db', $_SERVER['argv']);
 $force = in_array('-f', $_SERVER['argv']);
 if (file_exists($dataDir.'/json/tgdb/queries.json')) {
 	$queriesRemaining = json_decode(file_Get_contents($dataDir.'/json/tgdb/queries.json'), true);
@@ -129,6 +131,49 @@ if (date('Ym') > $queriesRemaining['yearmonth']) {
 		$queriesRemaining[$ip] = 3000;
 	}
 }
+$source = [
+    'platforms' => []
+];
+if ($useCache == true && file_exists($dataDir.'/json/tgdb/Platforms.json')) {
+    $platforms = json_decode(file_get_contents($dataDir.'/json/tgdb/Platforms.json'), true);
+} else {
+    $fields = ['icon', 'console', 'controller', 'developer', 'manufacturer', 'media', 'cpu', 'memory', 'graphics', 'sound', 'maxcontrollers', 'display', 'overview', 'youtube'];
+    $platforms = apiGet('Platforms?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&fields='.urlencode(implode(',',$fields)));
+    file_put_contents($dataDir.'/json/tgdb/Platforms.json', json_encode($platforms, getJsonOpts()));
+    if (!$skipDb) {
+        $db->query('delete from tgdb_platforms');
+        //$db->query('truncate tgdb_platforms');
+    }
+    foreach ($platforms['data']['platforms'] as $idx => $data) {
+        $id = $data['id'];
+        $source['platforms'][$id] = [
+            'id' => $id,
+            'name' => $data['name'],
+            'altNames' => []
+        ];
+        if (isset($data['alias'])) {
+            $source['platforms'][$id]['shortName'] = $data['alias'];
+        }
+        foreach (['developer', 'manufacturer'] as $field) {
+            if (isset($data[$field])) {
+                $source['platforms'][$id][$field] = $data[$field];
+            }
+        }
+        if (!$skipDb) {
+            $db->insert('tgdb_platforms')
+                ->cols($data)
+                ->lowPriority($config['db']['low_priority'])
+                ->query();
+        }
+    }
+}
+$platformIds = array_keys($platforms['data']['platforms']);
+
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources['tgdb']['updatedLast'] = time();
+file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../../emurelation/sources/tgdb.json', json_encode($source, getJsonOpts()));
+
 foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 	if ($useCache == true && file_exists($dataDir.'/json/tgdb/'.$type.'.json')) {
 		$var = strtolower($type);
@@ -140,23 +185,13 @@ foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 		$db->query('delete from tgdb_'.$lower);
 		$db->query('truncate tgdb_'.$lower);
 		foreach ($json['data'][$lower] as $idx => $data) {
-			$db->insert('tgdb_'.$lower)->cols($data)->lowPriority($config['db']['low_priority'])->query();
+			$db->insert('tgdb_'.$lower)
+                ->cols($data)
+                ->lowPriority($config['db']['low_priority'])
+                ->query();
 		}
 	}
 }
-if ($useCache == true && file_exists($dataDir.'/json/tgdb/Platforms.json')) {
-	$platforms = json_decode(file_get_contents($dataDir.'/json/tgdb/Platforms.json'), true);
-} else {
-	$fields = ['icon', 'console', 'controller', 'developer', 'manufacturer', 'media', 'cpu', 'memory', 'graphics', 'sound', 'maxcontrollers', 'display', 'overview', 'youtube'];
-	$platforms = apiGet('Platforms?apikey='.($usePrivate == true ? $config['tgdb']['private_key'] : $config['tgdb']['public_key']).'&fields='.urlencode(implode(',',$fields)));
-	file_put_contents($dataDir.'/json/tgdb/Platforms.json', json_encode($platforms, getJsonOpts()));
-	$db->query('delete from tgdb_platforms');
-	//$db->query('truncate tgdb_platforms');
-	foreach ($platforms['data']['platforms'] as $idx => $data) {
-			$db->insert('tgdb_platforms')->cols($data)->lowPriority($config['db']['low_priority'])->query();
-	}
-}
-$platformIds = array_keys($platforms['data']['platforms']);
 if ($useCache == true && file_exists($dataDir.'/json/tgdb/PlatformImages.json')) {
 	$platformImages = json_decode(file_get_contents($dataDir.'/json/tgdb/PlatformImages.json'), true);
 } else {
@@ -191,10 +226,13 @@ foreach ($platforms['data']['platforms'] as $platformIdx => $platformData) {
 		foreach ($subfields as $field) {
 			if (isset($game[$field])) {
 				foreach ($game[$field] as $fieldData) {
-					$db->insert('tgdb_game_'.$field)->cols([
-						'game' => $gameId,
-						($field == 'alternates' ? 'name' : substr($field, 0, -1)) => $fieldData
-					])->lowPriority($config['db']['low_priority'])->query();
+					$db->insert('tgdb_game_'.$field)
+                        ->cols([
+						    'game' => $gameId,
+						    ($field == 'alternates' ? 'name' : substr($field, 0, -1)) => $fieldData
+					    ])
+                        ->lowPriority($config['db']['low_priority'])
+                        ->query();
 				}
 			}
 		}
