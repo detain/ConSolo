@@ -1,0 +1,84 @@
+<?php
+require_once __DIR__.'/../bootstrap.php';
+
+/**
+* @var \Workerman\MySQL\Connection
+*/
+global $db, $mysqlLinkId;
+$sourceDir = __DIR__.'/../../../emurelation/sources';
+echo 'Loading sources..';
+$sources = [];
+foreach (glob($sourceDir.'/*.json') as $fileName) {
+    $json = json_decode(file_get_contents($fileName), true);
+    $sourceId = basename($fileName, '.json');
+    $sources[$sourceId] = $json['platforms'];
+    foreach ($json['platforms'] as $platId => $platData) {
+        $names = [];
+        $nameSuffix = [];
+        $nameSuffix[] = $platData['name'];
+        if (isset($platData['shortName'])) {
+            $nameSuffix[] = $platData['shortName'];
+        }
+        if (isset($platData['altNames'])) {
+            foreach ($platData['altNames'] as $altName) {
+                $nameSuffix[] = $altName;
+            }
+        }
+        $company = null;
+        foreach (['', 'company', 'developer', 'manufacturer'] as $prefixField) {
+            if ($prefixField != '' && isset($platData[$prefixField]) && is_null($company)) {
+                $company = $platData[$prefixField];
+            }
+            foreach ($nameSuffix as $suffix) {
+                //print_r($nameSuffix);
+                //echo "platId {$platId} prefixField {$prefixField} : ".(isset($platData[$prefixField]) ? json_encode($platData[$prefixField])." - ".json_encode($suffix) : json_encode($suffix))."\n";
+                $name = $prefixField != '' && isset($platData[$prefixField]) ? $platData[$prefixField].' '.$suffix : $suffix;
+                if (!in_array($name, $names)) {
+                    $names[] = $name;
+                }
+            }
+        }
+        if (!isset($platData['company']) && !is_null($company)) {
+            $sources[$sourceId][$platId]['company'] = $company;
+        }
+        $sources[$sourceId][$platId]['names'] = $names;
+    }
+}
+echo 'done'.PHP_EOL;
+$source = [
+    'platforms' => []
+];
+$locals = [
+$sourceDir.'/../matches/local.json',
+$sourceDir.'/../platforms.json'
+];
+foreach ($locals as $fileName) {
+    $local = json_decode(file_get_contents($fileName), true);
+    foreach ($local as $platform => $platData) {
+        if (isset($platData['tosec'])) {
+            $platData['tosecpix'] = $platData['tosec'];
+            $platData['toseciso'] = $platData['tosec'];
+        }
+        if (!isset($source['platforms'][$platform])) {
+            $source['platforms'][$platform] = [
+                'id' => $platform,
+                'name' => $platform,
+                'matches' => []
+            ];
+        }
+        foreach ($platData as $linkSourceId => $linkPlatforms) {
+            foreach ($linkPlatforms as $linkPlatformId) {
+                foreach ($sources[$linkSourceId] as $sourcePlatId => $sourcePlatData) {
+                    if (in_array($linkPlatformId, $sourcePlatData['names'])) {
+                        echo "Found link '{$platform}' => {$linkSourceId} {$sourcePlatData['id']} ".(isset($sourcePlatData['company']) ? "'{$sourcePlatData['company']}' " : '')."'{$sourcePlatData['name']}'\n";
+                        if (!in_array([$linkSourceId, $sourcePlatId], $source['platforms'][$platform]['matches'])) {
+                            $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));

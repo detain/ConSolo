@@ -94,7 +94,7 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
                     'altNames' => []
                 ];
                 foreach (['Developer', 'Manufacturer'] as $field) {
-                    if (isset($row[$field])) {
+                    if (isset($row[$field]) && ((is_array($row[$field]) && count($row[$field]) > 0) || (!is_array($row[$field]) && trim($row[$field]) != ''))) {
                         $source['platforms'][$row['Name']][strtolower($field)] = trim($row[$field]);
                     }
                 }
