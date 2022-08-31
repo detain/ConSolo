@@ -49,9 +49,11 @@ $source = [
     'platforms' => []
 ];
 $locals = [
-$sourceDir.'/../matches/local.json',
-$sourceDir.'/../platforms.json'
+    $sourceDir.'/../matches/local.json',
+    $sourceDir.'/../platforms.json'
 ];
+$used = [];
+
 foreach ($locals as $fileName) {
     $local = json_decode(file_get_contents($fileName), true);
     foreach ($local as $platform => $platData) {
@@ -69,10 +71,15 @@ foreach ($locals as $fileName) {
         foreach ($platData as $linkSourceId => $linkPlatforms) {
             foreach ($linkPlatforms as $linkPlatformId) {
                 foreach ($sources[$linkSourceId] as $sourcePlatId => $sourcePlatData) {
+                    $unused[$linkSourceId][] = $sourcePlatId;
                     if (in_array($linkPlatformId, $sourcePlatData['names'])) {
                         echo "Found link '{$platform}' => {$linkSourceId} {$sourcePlatData['id']} ".(isset($sourcePlatData['company']) ? "'{$sourcePlatData['company']}' " : '')."'{$sourcePlatData['name']}'\n";
                         if (!in_array([$linkSourceId, $sourcePlatId], $source['platforms'][$platform]['matches'])) {
                             $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
+                            if (!isset($used[$linkSourceId])) {
+                                $used[$linkSourceId] = [];
+                            }
+                            $used[$linkSourceId][] = $sourcePlatId;
                         }
                     }
                 }
@@ -80,5 +87,25 @@ foreach ($locals as $fileName) {
 
         }
     }
+}
+$unused = [];
+$totals = [];
+echo "| Source | Used | Unused | Total | Used % |\n";
+echo "|-|-|-|-|-|\n";
+foreach ($sources as $sourceId => $sourceData) {
+    $unused[$sourceId] = [];
+    if (!isset($used[$sourceId])) {
+        $used[$sourceId] = [];
+    }
+    foreach ($sourceData as $platId => $platData) {
+        if (!in_array($platId, $used[$sourceId])) {
+            $unused[$sourceId][] = $platId;
+        }
+    }
+    $usedCount = count($used[$sourceId]);
+    $unusedCount = count($unused[$sourceId]);
+    $totalCount = $usedCount + $unusedCount;
+    $usedPct = round($usedCount / $totalCount * 100, 1);
+    echo "| {$sourceId} | {$usedCount} | {$unusedCount} | {$totalCount} | {$usedPct}% |\n";
 }
 file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
