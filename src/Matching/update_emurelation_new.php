@@ -9,8 +9,11 @@ $sourceDir = __DIR__.'/../../../emurelation/sources';
 echo 'Loading sources..';
 $sources = [];
 foreach (glob($sourceDir.'/*.json') as $fileName) {
-    $json = json_decode(file_get_contents($fileName), true);
     $sourceId = basename($fileName, '.json');
+    if ($sourceId == 'local') {
+        continue;
+    }
+    $json = json_decode(file_get_contents($fileName), true);
     $sources[$sourceId] = $json['platforms'];
     foreach ($json['platforms'] as $platId => $platData) {
         $names = [];
