@@ -18,6 +18,7 @@ Options:
     -h          this screen
     -f          force update even if already latest version
     --no-db     skip the db updates/inserts
+    --no-cache  disables use of the file cache
 
 ");
 }
@@ -33,7 +34,8 @@ if (count($row) == 0) {
 	$last = $row[0]['value'];
 }
 $force = in_array('-f', $_SERVER['argv']);
-$useCache = true;
+$skipDb = in_array('--no-db', $_SERVER['argv']);
+$useCache = !in_array('--no-cache', $_SERVER['argv']);;
 $client = new Client();
 $sitePrefix = 'https://www.old-computers.com/museum/';
 $types = ['st' => 'type_id', 'c' => 'id'];
@@ -53,11 +55,17 @@ echo ' done'.PHP_EOL;
 file_put_contents($dataDir.'/json/oldcomputers/urls.json', json_encode($computerUrls, getJsonOpts()));
 $computerUrls = json_decode(file_get_contents($dataDir.'/json/oldcomputers/urls.json'), true);
 echo 'Loading Computer URLs'.PHP_EOL;
-$db->query("truncate oldcomputers_emulator_platforms");
-$db->query("delete from oldcomputers_platforms");
-$db->query("delete from oldcomputers_emulators");
-$db->query("alter table oldcomputers_emulators auto_increment=1");
-$db->query("alter table oldcomputers_platforms auto_increment=1");
+if (!$skipDb) {
+    $db->query("truncate oldcomputers_emulator_platforms");
+    $db->query("delete from oldcomputers_platforms");
+    $db->query("delete from oldcomputers_emulators");
+    $db->query("alter table oldcomputers_emulators auto_increment=1");
+    $db->query("alter table oldcomputers_platforms auto_increment=1");
+}
+$source = [
+    'platforms' => [],
+    'emulators' => [],
+];
 $platforms = [];
 $total = count($computerUrls);
 $allEmulators = [];
@@ -107,11 +115,11 @@ foreach ($computerUrls as $idx => $url) {
 				$cols[$key] = str_replace('&amp;', '&', $node->html());
 		});
 		foreach ($cols['pages'] as $page => $url) {
-			if (in_array($page, ['emulators', 'connectors', 'hardware', 'adverts', 'photos', 'links'])) {
+			if (in_array($page, ['emulator', 'emulators', 'connectors', 'hardware', 'adverts', 'photos', 'links'])) {
 				$cols[$page] = [];
 				echo '	Loading and processing page '.$url.PHP_EOL;
 				$crawler = $client->request('GET', $sitePrefix.$url);
-				if ($page == 'emulators') {
+				if ($page == 'emulator' || $page == 'emulators') {
 					$crawler->filter('body table.petitnoir2 tr td table tr td a.petitnoir3')->each(function(Crawler $node, $i) use (&$cols) {
 						$cols['emulators'][] = [
 							'name' => trim($node->text()),
@@ -164,31 +172,68 @@ foreach ($computerUrls as $idx => $url) {
 		file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json', json_encode($cols, getJsonOpts()));
 	}
 	$platforms[$cols['id']] = $cols;
-	$db->insert('oc_platforms')
-		->cols(['doc' => json_encode($cols, getJsonOpts())])
-		->query();
+
+    $id = $cols['id'];
+    $source['platforms'][$id] = [
+        'id' => $id,
+        'name' => $cols['name'],
+    ];
+    if (isset($cols['company_name'])) {
+        $source['platforms'][$id]['company'] = $cols['company_name'];
+    }
+    if (isset($cols['emulators'])) {
+        foreach ($cols['emulators'] as $emulator) {
+            if (!isset($source['emulators'][$emulator['name']])) {
+                $source['emulators'][$emulator['name']] = [
+                    'id' => $emulator['name'],
+                    'name' => $emulator['name'],
+                    'description' => $emulator['description'],
+                    'consoles' => [],
+                    'web' => [],
+                ];
+                if (isset($emulator['url'])) {
+                    $source['emulators'][$emulator['name']]['web'][] = ['url' => $emulator['url'], 'name' => 'home'];
+                }
+                if (isset($emulator['platform'])) {
+                    $source['emulators'][$emulator['name']]['platform'] = $emulator['platform'];
+                }
+            }
+            $source['emulators'][$emulator['name']]['consoles'][] = $cols['id'];
+        }
+    }
+
+    if (!$skipDb) {
+	    $db->insert('oc_platforms')
+		    ->cols(['doc' => json_encode($cols, getJsonOpts())])
+		    ->query();
+    }
 }
-file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, getJsonOpts()));
-echo PHP_EOL.'done!'.PHP_EOL;
-//exit;
-echo 'Inserting Emulators into DB   ';
-foreach ($allEmulators as $name => $emulator) {
-	$emulator['host'] = implode(', ', $emulator['hosts']);
-	$platforms = $emulator['platforms'];
-	unset($emulator['platforms']);
-	unset($emulator['hosts']);
-	$emulatorId = $db->insert('oldcomputers_emulators')
-		->cols($emulator)
-		->lowPriority($config['db']['low_priority'])
-		->query();
-	foreach ($platforms as $platformId) {
-		$db->insert('oldcomputers_emulator_platforms')
-			->cols(['emulator' => $emulatorId, 'platform' => $platformId])
-			->lowPriority($config['db']['low_priority'])
-			->query();
-	}
-}
-echo 'done!'.PHP_EOL;
 file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, getJsonOpts()));
 file_put_contents($dataDir.'/json/oldcomputers/emulators.json', json_encode($allEmulators, getJsonOpts()));
-//echo PHP_EOL;
+
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources['oldcomputers']['updatedLast'] = time();
+file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../../emurelation/sources/oldcomputers.json', json_encode($source, getJsonOpts()));
+
+echo PHP_EOL.'done!'.PHP_EOL;
+if (!$skipDb) {
+    echo 'Inserting Emulators into DB   ';
+    foreach ($allEmulators as $name => $emulator) {
+	    $emulator['host'] = implode(', ', $emulator['hosts']);
+	    $platforms = $emulator['platforms'];
+	    unset($emulator['platforms']);
+	    unset($emulator['hosts']);
+	    $emulatorId = $db->insert('oldcomputers_emulators')
+		    ->cols($emulator)
+		    ->lowPriority($config['db']['low_priority'])
+		    ->query();
+	    foreach ($platforms as $platformId) {
+		    $db->insert('oldcomputers_emulator_platforms')
+			    ->cols(['emulator' => $emulatorId, 'platform' => $platformId])
+			    ->lowPriority($config['db']['low_priority'])
+			    ->query();
+	    }
+    }
+    echo 'done!'.PHP_EOL;
+}
