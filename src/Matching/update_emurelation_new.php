@@ -74,15 +74,26 @@ foreach ($locals as $fileName) {
         foreach ($platData as $linkSourceId => $linkPlatforms) {
             foreach ($linkPlatforms as $linkPlatformId) {
                 foreach ($sources[$linkSourceId] as $sourcePlatId => $sourcePlatData) {
-                    $unused[$linkSourceId][] = $sourcePlatId;
                     if (in_array($linkPlatformId, $sourcePlatData['names'])) {
-                        echo "Found link '{$platform}' => {$linkSourceId} {$sourcePlatData['id']} ".(isset($sourcePlatData['company']) ? "'{$sourcePlatData['company']}' " : '')."'{$sourcePlatData['name']}'\n";
+                        //echo "Found link '{$platform}' => {$linkSourceId} {$sourcePlatData['id']} ".(isset($sourcePlatData['company']) ? "'{$sourcePlatData['company']}' " : '')."'{$sourcePlatData['name']}'\n";
                         if (!in_array([$linkSourceId, $sourcePlatId], $source['platforms'][$platform]['matches'])) {
                             $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
                             if (!isset($used[$linkSourceId])) {
                                 $used[$linkSourceId] = [];
                             }
-                            $used[$linkSourceId][] = $sourcePlatId;
+                            if (!in_array($sourcePlatId, $used[$linkSourceId]))
+                                $used[$linkSourceId][] = $sourcePlatId;
+                        }
+                    }
+                    if (isset($sourcePlatData['matches'])) {
+                        foreach ($sourcePlatData['matches'] as $match) {
+                            list($matchSource, $matchPlatform) = $match;
+                            if (in_array($match, $source['platforms'][$platform]['matches'])) {
+                                if (!in_array($sourcePlatId, $used[$linkSourceId]))
+                                    $used[$linkSourceId][] = $sourcePlatId;
+                                $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
+                                echo "Found {$match[0]}:{$match[1]} - {$linkSourceId}:{$sourcePlatId}\n";
+                            }
                         }
                     }
                 }
