@@ -90,7 +90,7 @@ foreach ($locals as $fileName) {
 }
 $unused = [];
 $totals = [];
-echo "| Source | Used | Unused | Total | Used % |\n";
+echo "| Source | Mapped | Unmapped | Total | Mapped % |\n";
 echo "|-|-|-|-|-|\n";
 foreach ($sources as $sourceId => $sourceData) {
     $unused[$sourceId] = [];
