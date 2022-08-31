@@ -95,6 +95,7 @@ $unused = [];
 $totals = [];
 echo "| Source | Mapped | Unmapped | Total | Mapped % |\n";
 echo "|-|-|-|-|-|\n";
+ksort($sources);
 foreach ($sources as $sourceId => $sourceData) {
     $unused[$sourceId] = [];
     if (!isset($used[$sourceId])) {
