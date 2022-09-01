@@ -89,10 +89,11 @@ foreach ($locals as $fileName) {
                         foreach ($sourcePlatData['matches'] as $match) {
                             list($matchSource, $matchPlatform) = $match;
                             if (in_array($match, $source['platforms'][$platform]['matches'])) {
-                                if (!in_array($sourcePlatId, $used[$linkSourceId]))
+                                if (!in_array($sourcePlatId, $used[$linkSourceId])) {
                                     $used[$linkSourceId][] = $sourcePlatId;
-                                $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
-                                echo "Found {$match[0]}:{$match[1]} - {$linkSourceId}:{$sourcePlatId}\n";
+                                    $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
+                                    echo "Found {$match[0]}:{$match[1]} - {$linkSourceId}:{$sourcePlatId}\n";
+                                }
                             }
                         }
                     }
@@ -123,4 +124,5 @@ foreach ($sources as $sourceId => $sourceData) {
     $usedPct = round($usedCount / $totalCount * 100, 1);
     echo "| {$sourceId} | {$usedCount} | {$unusedCount} | {$totalCount} | {$usedPct}% |\n";
 }
+file_put_contents(__DIR__.'/../../../emurelation/unused.json', json_encode($unused, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
