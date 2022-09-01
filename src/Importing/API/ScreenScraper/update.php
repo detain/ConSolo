@@ -87,7 +87,13 @@ foreach ($platforms as $idx => $platform) {
             if (!isset($source['platforms'][$platform['id']]['matches'])) {
                 $source['platforms'][$id]['matches'] = [];
             }
-            $source['platforms'][$id]['matches'][] = [$field, $platform['noms']['nom_'.$field]];
+            if (!isset($source['platforms'][$platform['id']]['matches'][$field])) {
+                $source['platforms'][$id]['matches'][$field] = [];
+            }
+            $matches = explode(',', trim($platform['noms']['nom_'.$field]));
+            foreach ($matches as $matchPlatId) {
+                $source['platforms'][$id]['matches'][$field][] = $matchPlatId;
+            }
         }
     }
 }

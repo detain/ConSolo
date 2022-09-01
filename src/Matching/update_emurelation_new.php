@@ -77,8 +77,11 @@ foreach ($locals as $fileName) {
                     foreach ($sources[$linkSourceId] as $sourcePlatId => $sourcePlatData) {
                         if (in_array($linkPlatformId, $sourcePlatData['names'])) {
                             //echo "Found link '{$platform}' => {$linkSourceId} {$sourcePlatData['id']} ".(isset($sourcePlatData['company']) ? "'{$sourcePlatData['company']}' " : '')."'{$sourcePlatData['name']}'\n";
-                            if (!in_array([$linkSourceId, $sourcePlatId], $source['platforms'][$platform]['matches'])) {
-                                $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
+                            if (!isset($source['platforms'][$platform]['matches'][$linkSourceId])) {
+                                $source['platforms'][$platform]['matches'][$linkSourceId] = [];
+                            }
+                            if (!in_array($sourcePlatId, $source['platforms'][$platform]['matches'][$linkSourceId])) {
+                                $source['platforms'][$platform]['matches'][$linkSourceId][] = $sourcePlatId;
                                 if (!isset($used[$linkSourceId])) {
                                     $used[$linkSourceId] = [];
                                 }
@@ -92,8 +95,11 @@ foreach ($locals as $fileName) {
                                 if (in_array($match, $source['platforms'][$platform]['matches'])) {
                                     if (!in_array($sourcePlatId, $used[$linkSourceId])) {
                                         $used[$linkSourceId][] = $sourcePlatId;
-                                        $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
-                                        echo "Found {$match[0]}:{$match[1]} - {$linkSourceId}:{$sourcePlatId}\n";
+                                        if (!isset($source['platforms'][$platform]['matches'][$linkSourceId])) {
+                                            $source['platforms'][$platform]['matches'][$linkSourceId] = [];
+                                        }
+                                        $source['platforms'][$platform]['matches'][$linkSourceId][] = $sourcePlatId;
+                                        echo "Found {$matchSource}:{$matchPlatform} - {$linkSourceId}:{$sourcePlatId}\n";
                                     }
                                 }
                             }
@@ -107,11 +113,12 @@ foreach ($locals as $fileName) {
 foreach ($source['platforms'] as $localPlatId => $localData) {
     $allNames[$localPlatId] = [];
     $allNames[$localPlatId][] = $localData['name'];
-    foreach ($localData['matches'] as $matchData) {
-        list($matchSourceId, $matchPlatId) = $matchData;
-        foreach ($sources[$matchSourceId][$matchPlatId]['names'] as $name) {
-            if (!in_array($name, $allNames[$localPlatId])) {
-                $allNames[$localPlatId][] = $name;
+    foreach ($localData['matches'] as $matchSourceId => $matchData) {
+        foreach ($matchData as $matchPlatId) {
+            foreach ($sources[$matchSourceId][$matchPlatId]['names'] as $name) {
+                if (!in_array($name, $allNames[$localPlatId])) {
+                    $allNames[$localPlatId][] = $name;
+                }
             }
         }
     }
@@ -133,7 +140,10 @@ foreach ($sources as $sourceId => $sourceData) {
                 foreach ($allNames as $localPlatId => $localNames) {
                     if (in_array($name, $localNames)) {
                         $used[$sourceId][] = $platId;
-                        $source['platforms'][$localPlatId]['matches'][] = [$sourceId, $platId];
+                        if (!isset($source['platforms'][$localPlatId]['matches'][$sourceId])) {
+                            $source['platforms'][$localPlatId]['matches'][$sourceId] = [];
+                        }
+                        $source['platforms'][$localPlatId]['matches'][$sourceId][] = $platId;
                         echo "Found by Name local:{$localPlatId} - {$sourceId}:{$platId}\n";
                         break 2;
                     }
