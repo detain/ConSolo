@@ -128,9 +128,11 @@ foreach ($source['platforms'] as $localPlatId => $localData) {
 $unused = [];
 $totals = [];
 $table = [];
-$table[] = "| Source | Mapped | Unmapped | Total | Mapped % |";
-$table[] = "|-|-|-|-|-|";
+$table[] = "| Source | Type | Mapped | Unmapped | Total | Mapped % |";
+$table[] = "|-|-|-|-|-|-|";
 ksort($sources);
+$sourcesList = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
+
 foreach ($sources as $sourceId => $sourceData) {
     $unused[$sourceId] = [];
     if (!isset($used[$sourceId])) {
@@ -160,10 +162,13 @@ foreach ($sources as $sourceId => $sourceData) {
     $unusedCount = count($unused[$sourceId]);
     $totalCount = $usedCount + $unusedCount;
     $usedPct = round($usedCount / $totalCount * 100, 1);
-    $table[] = "| {$sourceId} | {$usedCount} | {$unusedCount} | {$totalCount} | {$usedPct}% |";
+    if (!isset($sourcesList[$sourceId])) {
+        echo "Cant find {$sourceId} in sources list\n";
+    }
+    $table[] = "| [{$sourcesList[$sourceId]['name']}](sources/{$sourceId}.json) | {$sourcesList[$sourceId]['type']} | {$usedCount} | {$unusedCount} | {$totalCount} | {$usedPct}% |";
 }
 $readme = file_get_contents(__DIR__.'/../../../emurelation/README.md');
-preg_match_all('/^### Platforms\n\n(?P<table>(^\|[^\n]+\|\n)+)\n/msuU', $readme, $matches);
+preg_match_all('/^### 🎮 Platforms\n\n(?P<table>(^\|[^\n]+\|\n)+)\n/msuU', $readme, $matches);
 $readme = str_replace($matches['table'][0], implode("\n", $table)."\n", $readme);
 file_put_contents(__DIR__.'/../../../emurelation/README.md', $readme);
 file_put_contents(__DIR__.'/../../../emurelation/unused.json', json_encode($unused, getJsonOpts()));
