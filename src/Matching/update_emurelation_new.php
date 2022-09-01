@@ -105,8 +105,9 @@ foreach ($locals as $fileName) {
 }
 $unused = [];
 $totals = [];
-echo "| Source | Mapped | Unmapped | Total | Mapped % |\n";
-echo "|-|-|-|-|-|\n";
+$table = [];
+$table[] = "| Source | Mapped | Unmapped | Total | Mapped % |";
+$table[] = "|-|-|-|-|-|";
 ksort($sources);
 foreach ($sources as $sourceId => $sourceData) {
     $unused[$sourceId] = [];
@@ -122,7 +123,11 @@ foreach ($sources as $sourceId => $sourceData) {
     $unusedCount = count($unused[$sourceId]);
     $totalCount = $usedCount + $unusedCount;
     $usedPct = round($usedCount / $totalCount * 100, 1);
-    echo "| {$sourceId} | {$usedCount} | {$unusedCount} | {$totalCount} | {$usedPct}% |\n";
+    $table[] = "| {$sourceId} | {$usedCount} | {$unusedCount} | {$totalCount} | {$usedPct}% |";
 }
+$readme = file_get_contents(__DIR__.'/../../../emurelation/README.md');
+preg_match_all('/^### Platforms\n\n(?P<table>(^\|[^\n]+\|\n)+)\n/msuU', $readme, $matches);
+$readme = str_replace($matches['table'][0], implode("\n", $table)."\n", $readme);
+file_put_contents(__DIR__.'/../../../emurelation/README.md', $readme);
 file_put_contents(__DIR__.'/../../../emurelation/unused.json', json_encode($unused, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
