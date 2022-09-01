@@ -48,7 +48,10 @@ echo `unzip -d "{$xmlDir}" -o {$zipFile};`;
 unlink($zipFile);
 $tables = [];
 $source = [
-    'platforms' => []
+    'platforms' => [],
+    'companies' => [],
+    'emulators' => [],
+    'games' => [],
 ];
 foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 	echo $name.PHP_EOL.'	reading..';
@@ -95,9 +98,23 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
                 ];
                 foreach (['Developer', 'Manufacturer'] as $field) {
                     if (isset($row[$field]) && ((is_array($row[$field]) && count($row[$field]) > 0) || (!is_array($row[$field]) && trim($row[$field]) != ''))) {
+                        if (!array_key_exists($row[$field], $source['companies'])) {
+                            $source['companies'][$row[$field]] = [
+                                'id' => $row[$field],
+                                'name' => $row[$field]
+                            ];
+                        }
                         $source['platforms'][$row['Name']][strtolower($field)] = trim($row[$field]);
                     }
                 }
+            } elseif ($type == 'emulator') {
+                $source['emulators'][$row['Name']] = [
+                    'id' => $row['Name'],
+                    'name' => $row['Name'],
+                    'platforms' => [],
+                ];
+            } elseif ($type == 'emulatorplatform') {
+                $source['emulators'][$row['Emulator']]['platforms'][]  = $row['Platform'];
             } elseif ($type == 'platformalternatename') {
                 $source['platforms'][$row['Name']]['altNames'][] = $row['Alternate'];
             }
