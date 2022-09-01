@@ -56,7 +56,7 @@ $locals = [
     $sourceDir.'/../platforms.json'
 ];
 $used = [];
-
+$allNames = [];
 foreach ($locals as $fileName) {
     $local = json_decode(file_get_contents($fileName), true);
     foreach ($local as $platform => $platData) {
@@ -73,33 +73,46 @@ foreach ($locals as $fileName) {
         }
         foreach ($platData as $linkSourceId => $linkPlatforms) {
             foreach ($linkPlatforms as $linkPlatformId) {
-                foreach ($sources[$linkSourceId] as $sourcePlatId => $sourcePlatData) {
-                    if (in_array($linkPlatformId, $sourcePlatData['names'])) {
-                        //echo "Found link '{$platform}' => {$linkSourceId} {$sourcePlatData['id']} ".(isset($sourcePlatData['company']) ? "'{$sourcePlatData['company']}' " : '')."'{$sourcePlatData['name']}'\n";
-                        if (!in_array([$linkSourceId, $sourcePlatId], $source['platforms'][$platform]['matches'])) {
-                            $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
-                            if (!isset($used[$linkSourceId])) {
-                                $used[$linkSourceId] = [];
-                            }
-                            if (!in_array($sourcePlatId, $used[$linkSourceId]))
-                                $used[$linkSourceId][] = $sourcePlatId;
-                        }
-                    }
-                    if (isset($sourcePlatData['matches'])) {
-                        foreach ($sourcePlatData['matches'] as $match) {
-                            list($matchSource, $matchPlatform) = $match;
-                            if (in_array($match, $source['platforms'][$platform]['matches'])) {
-                                if (!in_array($sourcePlatId, $used[$linkSourceId])) {
+                if (isset($sources[$linkSourceId])) {
+                    foreach ($sources[$linkSourceId] as $sourcePlatId => $sourcePlatData) {
+                        if (in_array($linkPlatformId, $sourcePlatData['names'])) {
+                            //echo "Found link '{$platform}' => {$linkSourceId} {$sourcePlatData['id']} ".(isset($sourcePlatData['company']) ? "'{$sourcePlatData['company']}' " : '')."'{$sourcePlatData['name']}'\n";
+                            if (!in_array([$linkSourceId, $sourcePlatId], $source['platforms'][$platform]['matches'])) {
+                                $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
+                                if (!isset($used[$linkSourceId])) {
+                                    $used[$linkSourceId] = [];
+                                }
+                                if (!in_array($sourcePlatId, $used[$linkSourceId]))
                                     $used[$linkSourceId][] = $sourcePlatId;
-                                    $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
-                                    echo "Found {$match[0]}:{$match[1]} - {$linkSourceId}:{$sourcePlatId}\n";
+                            }
+                        }
+                        if (isset($sourcePlatData['matches'])) {
+                            foreach ($sourcePlatData['matches'] as $match) {
+                                list($matchSource, $matchPlatform) = $match;
+                                if (in_array($match, $source['platforms'][$platform]['matches'])) {
+                                    if (!in_array($sourcePlatId, $used[$linkSourceId])) {
+                                        $used[$linkSourceId][] = $sourcePlatId;
+                                        $source['platforms'][$platform]['matches'][] = [$linkSourceId, $sourcePlatId];
+                                        echo "Found {$match[0]}:{$match[1]} - {$linkSourceId}:{$sourcePlatId}\n";
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-
+        }
+    }
+}
+foreach ($source['platforms'] as $localPlatId => $localData) {
+    $allNames[$localPlatId] = [];
+    $allNames[$localPlatId][] = $localData['name'];
+    foreach ($localData['matches'] as $matchData) {
+        list($matchSourceId, $matchPlatId) = $matchData;
+        foreach ($sources[$matchSourceId][$matchPlatId]['names'] as $name) {
+            if (!in_array($name, $allNames[$localPlatId])) {
+                $allNames[$localPlatId][] = $name;
+            }
         }
     }
 }
@@ -116,7 +129,19 @@ foreach ($sources as $sourceId => $sourceData) {
     }
     foreach ($sourceData as $platId => $platData) {
         if (!in_array($platId, $used[$sourceId])) {
-            $unused[$sourceId][] = $platId;
+            foreach ($platData['names'] as $name) {
+                foreach ($allNames as $localPlatId => $localNames) {
+                    if (in_array($name, $localNames)) {
+                        $used[$sourceId][] = $platId;
+                        $source['platforms'][$localPlatId]['matches'][] = [$sourceId, $platId];
+                        echo "Found by Name local:{$localPlatId} - {$sourceId}:{$platId}\n";
+                        break 2;
+                    }
+                }
+            }
+        }
+        if (!in_array($platId, $used[$sourceId])) {
+            $unused[$sourceId][$platId] = $platData['name'];
         }
     }
     $usedCount = count($used[$sourceId]);
