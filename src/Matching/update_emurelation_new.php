@@ -167,6 +167,9 @@ foreach ($sources as $sourceId => $sourceData) {
     }
     $table[] = "| [{$sourcesList[$sourceId]['name']}](sources/{$sourceId}.json) | {$sourcesList[$sourceId]['type']} | {$usedCount} | {$unusedCount} | {$totalCount} | {$usedPct}% |";
 }
+foreach ($unused as $key => $values) {
+    ksort($unused[$key]);
+}
 $readme = file_get_contents(__DIR__.'/../../../emurelation/README.md');
 preg_match_all('/^### 🎮 Platforms\n\n(?P<table>(^\|[^\n]+\|\n)+)\n/msuU', $readme, $matches);
 $readme = str_replace($matches['table'][0], implode("\n", $table)."\n", $readme);
