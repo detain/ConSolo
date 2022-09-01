@@ -125,7 +125,12 @@ foreach ($source['platforms'] as $localPlatId => $localData) {
         }
     }
 }
-$unused = [];
+$unmatched = [
+    'platforms' => [],
+    'emulators' => [],
+    'companies' => [],
+    'games' => []
+];
 $totals = [];
 $table = [];
 $table[] = "| Source | Type | Mapped | Unmapped | Total | Mapped % |";
@@ -134,7 +139,6 @@ ksort($sources);
 $sourcesList = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
 
 foreach ($sources as $sourceId => $sourceData) {
-    $unused[$sourceId] = [];
     if (!isset($used[$sourceId])) {
         $used[$sourceId] = [];
     }
@@ -155,24 +159,28 @@ foreach ($sources as $sourceId => $sourceData) {
             }
         }
         if (!in_array($platId, $used[$sourceId])) {
-            $unused[$sourceId][$platId] = $platData['name'];
+            if (!array_key_exists($sourceId, $unmatched['platforms'])) {
+                $unmatched['platforms'][$sourceId] = [];
+            }
+            $unmatched['platforms'][$sourceId][$platId] = $platData['name'];
         }
     }
     $usedCount = count($used[$sourceId]);
-    $unusedCount = count($unused[$sourceId]);
-    $totalCount = $usedCount + $unusedCount;
+    $unmatchedCount = isset($unmatched['platforms'][$sourceId]) ? count($unmatched['platforms'][$sourceId]) : 0;
+    $totalCount = $usedCount + $unmatchedCount;
     $usedPct = round($usedCount / $totalCount * 100, 1);
     if (!isset($sourcesList[$sourceId])) {
         echo "Cant find {$sourceId} in sources list\n";
     }
-    $table[] = "| [{$sourcesList[$sourceId]['name']}](sources/{$sourceId}.json) | {$sourcesList[$sourceId]['type']} | {$usedCount} | {$unusedCount} | {$totalCount} | {$usedPct}% |";
+    $table[] = "| [{$sourcesList[$sourceId]['name']}](sources/{$sourceId}.json) | {$sourcesList[$sourceId]['type']} | {$usedCount} | {$unmatchedCount} | {$totalCount} | {$usedPct}% |";
 }
-foreach ($unused as $key => $values) {
-    ksort($unused[$key]);
+foreach ($unmatched['platforms'] as $key => $values) {
+    ksort($values);
+    $unmatched['platforms'][$key] = $values;
 }
 $readme = file_get_contents(__DIR__.'/../../../emurelation/README.md');
 preg_match_all('/^### 🎮 Platforms\n\n(?P<table>(^\|[^\n]+\|\n)+)\n/msuU', $readme, $matches);
 $readme = str_replace($matches['table'][0], implode("\n", $table)."\n", $readme);
 file_put_contents(__DIR__.'/../../../emurelation/README.md', $readme);
-file_put_contents(__DIR__.'/../../../emurelation/unused.json', json_encode($unused, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../emurelation/unmatched.json', json_encode($unmatched, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../emurelation/local.json', json_encode($source, getJsonOpts()));
