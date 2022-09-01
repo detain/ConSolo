@@ -7,8 +7,15 @@ require_once __DIR__.'/emurelation.inc.php';
 * @var \Workerman\MySQL\Connection
 */
 global $db, $mysqlLinkId;
+$sourceDefinitions = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
 $sources = loadSources();
 list($sourceId, $source) = loadSource(__DIR__.'/../../../emurelation/local.json');
+$unmatched = [
+    'platforms' => [],
+    'emulators' => [],
+    'companies' => [],
+    'games' => []
+];
 $used = [];
 $allNames = [];
 foreach ($source['platforms'] as $localPlatId => $localData) {
@@ -28,19 +35,11 @@ foreach ($source['platforms'] as $localPlatId => $localData) {
         }
     }
 }
-$unmatched = [
-    'platforms' => [],
-    'emulators' => [],
-    'companies' => [],
-    'games' => []
-];
 $totals = [];
 $table = [];
 $table[] = "| Source | Type | Mapped | Unmapped | Total | Mapped % |";
 $table[] = "|-|-|-|-|-|-|";
 ksort($sources);
-$sourceDefinitions = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
-
 foreach ($sources as $sourceId => $sourceData) {
     if (!isset($used[$sourceId])) {
         $used[$sourceId] = [];
