@@ -52,8 +52,8 @@ $source = [
     'platforms' => []
 ];
 $locals = [
-    $sourceDir.'/../matches/local.json',
-    $sourceDir.'/../platforms.json'
+    __DIR__.'/../../../emurelation/matches/local.json',
+    __DIR__.'/../../../emurelation/platforms.json'
 ];
 $used = [];
 $allNames = [];
