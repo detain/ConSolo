@@ -15,12 +15,33 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
 require_once __DIR__.'/../../../bootstrap.php';
+
+if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
+    die("Syntax:
+    php ".$_SERVER['argv'][0]." <options>
+
+Options:
+    -h, --help  this screen
+    -f          force update even if already latest version
+    -k          keep xml files, dont delete them
+    --no-db     skip the db updates/inserts
+    --no-cache  disables use of the file cache
+
+");
+}
 /**
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-
+$force = in_array('-f', $_SERVER['argv']);
+$skipDb = in_array('--no-db', $_SERVER['argv']);
+$useCache = !in_array('--no-cache', $_SERVER['argv']);;
 $converter = new CssSelectorConverter();
+$source = [
+    'platforms' => [],
+    'companies' => [],
+    'emulators' => []
+];
 //var_dump($converter->toXPath('.post-labels a[rel="tag"]'));
 $dir = 'https://emulationking.com';
 $dataDir = '/mnt/e/dev/ConSolo/data/json/emulationking';
@@ -143,3 +164,7 @@ echo "Writing Parsed Tree..";
 $manufacturers = json_decode(file_get_contents($dataDir.'/emulationking.json'), true);
 file_put_contents($dataDir.'/emulationking.json', json_encode($manufacturers, getJsonOpts()));
 echo "done\n";
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources['emulationking']['updatedLast'] = time();
+file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../../emurelation/sources/emulationking.json', json_encode($source, getJsonOpts()));
