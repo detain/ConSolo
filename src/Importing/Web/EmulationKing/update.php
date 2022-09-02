@@ -53,37 +53,52 @@ $html = getcurlpage($url);
 $crawler = new Crawler($html);
 $rows = $crawler->filter('.site-main > div.row');
 for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
-    $manufacturer = [
+    $company = [
+        'id' => '',
         'url' => $rows->eq($idx)->filter('h2 a')->attr('href'),
         'name' => $rows->eq($idx)->filter('h2 a')->text(),
         'description' => '',
         'platforms' => [],
+    ];
+    $company['id'] = basename($company['url']);
+    $source['companies'][$company['id']] = [
+        'id' => $company['id'],
+        'name' => $company['name'],
+        'shortName' => $company['id']
     ];
     $idx++;
     $platformRows = $rows->eq($idx)->filter('div > a.console_icons');
     for ($idxPlat = 0, $maxPlat = $platformRows->count(); $idxPlat < $maxPlat; $idxPlat++) {
         preg_match('/^(?P<platform>.*) \(Rel (?P<year>[0-9][0-9][0-9][0-9])\)/', $platformRows->eq($idxPlat)->text(), $matches);
         $platform = [
+            'id' => '',
             'url' => $platformRows->eq($idxPlat)->attr('href'),
             'name' => $matches[1],
             'year' => $matches[2],
             'sections' => [],
-       ];
-        $manufacturer['platforms'][] = $platform;
+        ];
+        $platform['id'] = basename($platform['url']);
+        $company['platforms'][] = $platform;
+        $source['platforms'][$platform['id']] = [
+            'id' => $platform['id'],
+            'name' => $platform['name'],
+            'shortName' => $platform['id'],
+            'company' => $company['id']
+        ];
         echo "Added Platform {$platform['name']}\n";
     }
-    $companies[] = $manufacturer;
-    echo "Added Manufacturer {$manufacturer['name']}\n";
+    $companies[] = $company;
+    echo "Added Manufacturer {$company['name']}\n";
 }
-foreach ($companies as $idxMan => $manufacturer) {
+foreach ($companies as $idxMan => $company) {
     sleep(1);
-    echo "Loading {$manufacturer['url']}\n";
-    $html = getcurlpage($manufacturer['url']);
+    echo "Loading {$company['url']}\n";
+    $html = getcurlpage($company['url']);
     $crawler = new Crawler($html);
     $companies[$idxMan]['description'] = trim($crawler->filter('.entry-content')->html());
 }
-foreach ($companies as $idxMan => $manufacturer) {
-    foreach ($manufacturer['platforms'] as $idxPlat => $platform) {
+foreach ($companies as $idxMan => $company) {
+    foreach ($company['platforms'] as $idxPlat => $platform) {
         sleep(1);
         echo "Loading {$platform['url']}\n";
         $html = getcurlpage($platform['url']);
@@ -133,10 +148,13 @@ foreach ($companies as $idxMan => $manufacturer) {
                 $items = $rows->eq($idxRow)->filter('.border');
                 for ($idxItem = 0, $maxItem = $items->count(); $idxItem < $maxItem; $idxItem++) {
                     $row = [
+                        'id' => '',
                         'url' => $items->eq($idxItem)->filter('.blog-reel-post')->attr('href'),
+                        'name' => $items->eq($idxItem)->filter('.emulator-description p a')->text(),
                         'body_html' => $items->eq($idxItem)->filter('.emulator-description')->html(),
                         'body_text' => $items->eq($idxItem)->filter('.emulator-description')->text(),
                     ];
+                    $row['id'] = basename($row['url']);
                     if ($items->eq($idxItem)->filter('.emulator-image img')->count() > 0)
                         $row['logo'] = $items->eq($idxItem)->filter('.emulator-image img')->attr('src');
                     $oses = $items->eq($idxItem)->filter('.emulator-supported-osw-100 i');
@@ -147,12 +165,23 @@ foreach ($companies as $idxMan => $manufacturer) {
                             $row['runs'][] = str_replace('emu-icon-', '', $os);
                         }
                     }
+                    if ($seoSection == 'emulators') {
+                        if (!array_key_exists($row['id'], $source['emulators'])) {
+                            $source['emulators'][$row['id']] = [
+                                'id' => $row['id'],
+                                'name' => $row['name'],
+                                'shortName' => $row['id'],
+                                'platforms' => []
+                            ];
+                        }
+                        $source['emulators'][$row['id']]['platforms'][] = $platform['id'];
+                    }
                     echo "      Adding {$section}: {$row['url']}\n";
                     $platform[$seoSection][] = $row;
                 }
             }
         }
-        $manufacturer['platforms'][$idxPlat] = $platform;
+        $company['platforms'][$idxPlat] = $platform;
         $companies[$idxMan]['platforms'][$idxPlat] = $platform;
     }
 }
