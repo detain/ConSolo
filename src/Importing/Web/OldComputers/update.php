@@ -64,6 +64,7 @@ if (!$skipDb) {
 }
 $source = [
     'platforms' => [],
+    'companies' => [],
     'emulators' => [],
 ];
 $platforms = [];
@@ -171,8 +172,19 @@ foreach ($computerUrls as $idx => $url) {
 		}
 		file_put_contents($dataDir.'/json/oldcomputers/platforms/'.$cols['id'].'.json', json_encode($cols, getJsonOpts()));
 	}
+    if (!array_key_exists($cols['company_name'], $source['companies'])) {
+        $source['companies'][$cols['company_name']] = [
+            'id' => $cols['company_name'],
+            'name' => $cols['company_name']
+        ];
+    }
+    if (isset($cols['manufacturer']) && !array_key_exists($cols['manufacturer'], $source['companies'])) {
+        $source['companies'][$cols['manufacturer']] = [
+            'id' => $cols['manufacturer'],
+            'name' => $cols['manufacturer']
+        ];
+    }
 	$platforms[$cols['id']] = $cols;
-
     $id = $cols['id'];
     $source['platforms'][$id] = [
         'id' => $id,
@@ -187,27 +199,26 @@ foreach ($computerUrls as $idx => $url) {
                 $source['emulators'][$emulator['name']] = [
                     'id' => $emulator['name'],
                     'name' => $emulator['name'],
-                    'description' => $emulator['description'],
-                    'consoles' => [],
+                    'platforms' => [],
                     'web' => [],
                 ];
                 if (isset($emulator['url'])) {
                     $source['emulators'][$emulator['name']]['web'][] = ['url' => $emulator['url'], 'name' => 'home'];
                 }
-                if (isset($emulator['platform'])) {
-                    $source['emulators'][$emulator['name']]['platform'] = $emulator['platform'];
-                }
             }
-            $source['emulators'][$emulator['name']]['consoles'][] = $cols['id'];
+            $source['emulators'][$emulator['name']]['platforms'][] = $cols['id'];
         }
     }
-
     if (!$skipDb) {
 	    $db->insert('oc_platforms')
 		    ->cols(['doc' => json_encode($cols, getJsonOpts())])
 		    ->query();
     }
 }
+ksort($source['platforms']);
+ksort($source['companies']);
+ksort($source['emulators']);
+$allEmulators = $source['emulators'];
 file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, getJsonOpts()));
 file_put_contents($dataDir.'/json/oldcomputers/emulators.json', json_encode($allEmulators, getJsonOpts()));
 

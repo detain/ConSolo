@@ -23,14 +23,22 @@ foreach ($source['platforms'] as $localPlatId => $localData) {
     $allNames[$localPlatId][] = strtolower($localData['name']);
     foreach ($localData['matches'] as $sourceId => $sourceList) {
         foreach ($sourceList as $sourcePlatId) {
-            if (!isset($used[$sourceId])) {
-                $used[$sourceId] = [];
-            }
-            $used[$sourceId][] = $sourcePlatId;
-            foreach ($sources[$sourceId][$sourcePlatId]['names'] as $name) {
-                if (!in_array(strtolower($name), $allNames[$localPlatId])) {
-                    $allNames[$localPlatId][] = strtolower($name);
+            if (isset($sources[$sourceId][$sourcePlatId])) {
+                if (!isset($used[$sourceId])) {
+                    $used[$sourceId] = [];
                 }
+                $used[$sourceId][] = $sourcePlatId;
+                foreach ($sources[$sourceId][$sourcePlatId]['names'] as $name) {
+                    if (!in_array(strtolower($name), $allNames[$localPlatId])) {
+                        $allNames[$localPlatId][] = strtolower($name);
+                    }
+                }
+            } else {
+                // remove nonexistant match
+                echo "Local {$localPlatId} matched {$sourceId} - {$sourcePlatId} but does not exist\n";
+                array_filter($source['platforms'][$localPlatId]['matches'][$sourceId], function($var) use ($sourcePlatId) {
+                   return $var != $sourcePlatId;
+                });
             }
         }
     }
