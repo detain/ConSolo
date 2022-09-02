@@ -18,6 +18,12 @@ $data = [
     'countries' => [],
     'languages' => [],
 ];
+$source = [
+    'platforms' => [],
+    'companies' => [],
+    'emulators' => [],
+    'games' => [],
+];
 gitSetup('emuDownloadCenter');
 echo "Loading Language/Countriy Data..\n";
 foreach (($ini = loadIni('emuDownloadCenter/edc_conversion_language.ini'))['COUNTRY'] as $id => $value)
@@ -129,3 +135,19 @@ echo "Cleaning up repos..\n";
 foreach ($repos as $repo)
     echo `rm -rf {$repo};`;
 
+/*
+        "n64": {
+            "id": "n64",
+            "name": "Nintendo 64",
+            "manufacturer": "Nintendo",
+            "emulators": [
+                1964,
+                "apollo",
+        "3dnes": {
+            "id": "3dnes",
+            "name": "3DNes",
+*/
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources['emucontrolcenter']['updatedLast'] = time();
+file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../../emurelation/sources/emucontrolcenter.json', json_encode($source, getJsonOpts()));
