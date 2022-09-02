@@ -44,7 +44,7 @@ function loadSources() {
     $sources = [];
     foreach (glob(__DIR__.'/../../../emurelation/sources/*.json') as $fileName) {
         list($sourceId, $source) = loadSource($fileName);
-        $sources[$sourceId] = $source['platforms'];
+        $sources[$sourceId] = $source;
     }
     echo 'done'.PHP_EOL;
     return $sources;

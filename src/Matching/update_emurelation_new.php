@@ -23,12 +23,12 @@ foreach ($source['platforms'] as $localPlatId => $localData) {
     $allNames[$localPlatId][] = strtolower($localData['name']);
     foreach ($localData['matches'] as $sourceId => $sourceList) {
         foreach ($sourceList as $sourcePlatId) {
-            if (isset($sources[$sourceId][$sourcePlatId])) {
+            if (isset($sources[$sourceId]['platforms'][$sourcePlatId])) {
                 if (!isset($used[$sourceId])) {
                     $used[$sourceId] = [];
                 }
                 $used[$sourceId][] = $sourcePlatId;
-                foreach ($sources[$sourceId][$sourcePlatId]['names'] as $name) {
+                foreach ($sources[$sourceId]['platforms'][$sourcePlatId]['names'] as $name) {
                     if (!in_array(strtolower($name), $allNames[$localPlatId])) {
                         $allNames[$localPlatId][] = strtolower($name);
                     }
@@ -47,12 +47,31 @@ $totals = [];
 $table = [];
 $table[] = "| Source | Type | Mapped | Unmapped | Total | Mapped % |";
 $table[] = "|-|-|-|-|-|-|";
-ksort($sources);
+$tables = [
+    'platforms' => $table,
+    'emulators' => $table,
+    'companies' => $table,
+    'games' => $table,
+];
+foreach ($tables as $idx => $table) {
+    $count = count($source[$idx]);
+    if ($count > 0) {
+        $tables[$idx][] = "| [local](local.json) | Local | - | - | {$count} | - |";
+    }
+}
 foreach ($sources as $sourceId => $sourceData) {
     if (!isset($used[$sourceId])) {
         $used[$sourceId] = [];
     }
-    foreach ($sourceData as $platId => $platData) {
+    foreach (['emulators', 'companies', 'games'] as $idx) {
+        if (isset($sources[$sourceId][$idx])) {
+            $count = count($sources[$sourceId][$idx]);
+            if ($count > 0) {
+                $tables[$idx][] = "| [{$sourceDefinitions[$sourceId]['name']}](sources/{$sourceId}.json) | {$sourceDefinitions[$sourceId]['type']} | 0 | {$count} | {$count} | 0% |";
+            }
+        }
+    }
+    foreach ($sourceData['platforms'] as $platId => $platData) {
         if (!in_array($platId, $used[$sourceId])) {
             foreach ($platData['names'] as $name) {
                 foreach ($allNames as $localPlatId => $localNames) {
@@ -82,16 +101,21 @@ foreach ($sources as $sourceId => $sourceData) {
     if (!isset($sourceDefinitions[$sourceId])) {
         echo "Cant find {$sourceId} in sources list\n";
     }
-    $table[] = "| [{$sourceDefinitions[$sourceId]['name']}](sources/{$sourceId}.json) | {$sourceDefinitions[$sourceId]['type']} | {$usedCount} | {$unmatchedCount} | {$totalCount} | {$usedPct}% |";
+    $tables['platforms'][] = "| [{$sourceDefinitions[$sourceId]['name']}](sources/{$sourceId}.json) | {$sourceDefinitions[$sourceId]['type']} | {$usedCount} | {$unmatchedCount} | {$totalCount} | {$usedPct}% |";
 }
 foreach ($unmatched['platforms'] as $key => $values) {
     ksort($values);
     $unmatched['platforms'][$key] = $values;
 }
 $readme = file_get_contents(__DIR__.'/../../../emurelation/README.md');
-preg_match_all('/^### 🎮 Platforms\n\n(?P<table>(^\|[^\n]+\|\n)+)\n/msuU', $readme, $matches);
-$readme = str_replace($matches['table'][0], implode("\n", $table)."\n", $readme);
-file_put_contents(__DIR__.'/../../../emurelation/README.md', $readme);
+if (preg_match_all('/^### .{1,2} (?P<type>\S+)(\n\s*)+(?P<table>(^\|[^\n]+\|\n)+)\n/muU', $readme, $matches)) {
+    foreach ($matches['type'] as $idx => $type) {
+        $table = implode("\n", $tables[strtolower($type)]);
+        $readme = str_replace("{$type}\n\n{$matches['table'][$idx]}\n", "{$type}\n\n{$table}\n\n", $readme);
+    }
+    file_put_contents(__DIR__.'/../../../emurelation/README.md', $readme);
+}
 file_put_contents(__DIR__.'/../../../emurelation/unmatched.json', json_encode($unmatched, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/local.json', json_encode($source, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../emurelation/souces_all.json', json_encode($sources, getJsonOpts()));
 
