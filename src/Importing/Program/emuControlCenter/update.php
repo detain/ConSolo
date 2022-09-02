@@ -21,8 +21,7 @@ $data = [
 $source = [
     'platforms' => [],
     'companies' => [],
-    'emulators' => [],
-    'games' => [],
+    'emulators' => []
 ];
 gitSetup('emuDownloadCenter');
 echo "Loading Language/Countriy Data..\n";
@@ -135,18 +134,33 @@ echo "Cleaning up repos..\n";
 foreach ($repos as $repo)
     echo `rm -rf {$repo};`;
 
-/*
-        "n64": {
-            "id": "n64",
-            "name": "Nintendo 64",
-            "manufacturer": "Nintendo",
-            "emulators": [
-                1964,
-                "apollo",
-        "3dnes": {
-            "id": "3dnes",
-            "name": "3DNes",
-*/
+foreach ($data['emulators'] as $idx => $emuData) {
+    $source['emulators'][$emuData['id']] = [
+        'id' => $emuData['id'],
+        'name' => $emuData['name'],
+        'shortName' => $emuData['id'],
+        'platforms' => []
+    ];
+}
+foreach ($data['platforms'] as $idx => $platData) {
+    $source['platforms'][$platData['id']] = [
+        'id' => $platData['id'],
+        'name' => $platData['name'],
+        'shortName' => $platData['id'],
+    ];
+    if (isset($platData['manufacturer'])) {
+        $source['platforms'][$platData['id']]['manufacturer'] = $platData['manufacturer'];
+        $source['companies'][$platData['manufacturer']] = [
+            'id' => $platData['manufacturer'],
+            'name' => $platData['manufacturer']
+        ];
+    }
+    if (isset($platData['emulators'])) {
+        foreach ($platData['emulators'] as $emulator) {
+            $source['emulators'][$emulator]['platforms'][] = $platData['id'];
+        }
+    }
+}
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
 $sources['emucontrolcenter']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
