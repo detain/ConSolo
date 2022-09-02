@@ -36,25 +36,22 @@ global $db;
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);;
-$converter = new CssSelectorConverter();
+$url = 'https://emulationking.com/';
+$companies = [];
+$platforms = [];
+$emulators = [];
 $source = [
     'platforms' => [],
     'companies' => [],
     'emulators' => []
 ];
-//var_dump($converter->toXPath('.post-labels a[rel="tag"]'));
-$dir = 'https://emulationking.com';
-$dataDir = '/mnt/e/dev/ConSolo/data/json/emulationking';
-if (!file_Exists($dataDir)) {
-	mkdir($dataDir, 0777, true);
+if (!file_Exists(__DIR__.'/../../../../data/json/emulationking')) {
+	mkdir(__DIR__.'/../../../../data/json/emulationking', 0777, true);
 }
-
-$html = getcurlpage($dir.'/');
+$converter = new CssSelectorConverter();
+$html = getcurlpage($url);
 $crawler = new Crawler($html);
 $rows = $crawler->filter('.site-main > div.row');
-$manufacturers = [];
-$platforms = [];
-$emulators = [];
 for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
     $manufacturer = [
         'url' => $rows->eq($idx)->filter('h2 a')->attr('href'),
@@ -75,17 +72,17 @@ for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
         $manufacturer['platforms'][] = $platform;
         echo "Added Platform {$platform['name']}\n";
     }
-    $manufacturers[] = $manufacturer;
+    $companies[] = $manufacturer;
     echo "Added Manufacturer {$manufacturer['name']}\n";
 }
-foreach ($manufacturers as $idxMan => $manufacturer) {
+foreach ($companies as $idxMan => $manufacturer) {
     sleep(1);
     echo "Loading {$manufacturer['url']}\n";
     $html = getcurlpage($manufacturer['url']);
     $crawler = new Crawler($html);
-    $manufacturers[$idxMan]['description'] = trim($crawler->filter('.entry-content')->html());
+    $companies[$idxMan]['description'] = trim($crawler->filter('.entry-content')->html());
 }
-foreach ($manufacturers as $idxMan => $manufacturer) {
+foreach ($companies as $idxMan => $manufacturer) {
     foreach ($manufacturer['platforms'] as $idxPlat => $platform) {
         sleep(1);
         echo "Loading {$platform['url']}\n";
@@ -156,13 +153,13 @@ foreach ($manufacturers as $idxMan => $manufacturer) {
             }
         }
         $manufacturer['platforms'][$idxPlat] = $platform;
-        $manufacturers[$idxMan]['platforms'][$idxPlat] = $platform;
+        $companies[$idxMan]['platforms'][$idxPlat] = $platform;
     }
 }
 
 echo "Writing Parsed Tree..";
-$manufacturers = json_decode(file_get_contents($dataDir.'/emulationking.json'), true);
-file_put_contents($dataDir.'/emulationking.json', json_encode($manufacturers, getJsonOpts()));
+$companies = json_decode(file_get_contents(__DIR__.'/../../../../data/json/emulationking/emulationking.json'), true);
+file_put_contents(__DIR__.'/../../../../data/json/emulationking/emulationking.json', json_encode($companies, getJsonOpts()));
 echo "done\n";
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
 $sources['emulationking']['updatedLast'] = time();
