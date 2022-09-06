@@ -1,6 +1,6 @@
 <?php
 
-function loadSource($fileName) {
+function loadSource($fileName, $skipNames = false) {
     $sourceId = basename($fileName, '.json');
     $source = json_decode(file_get_contents($fileName), true);
     foreach (['platforms', 'companies', 'emulators', 'games'] as $type) {
@@ -36,7 +36,7 @@ function loadSource($fileName) {
                         $source[$type][$id]['company'] = $company;
                     }
                 }
-                if ($sourceId != 'local') {
+                if (!$skipNames) {
                     $source[$type][$id]['names'] = $names;
                 }
             }
