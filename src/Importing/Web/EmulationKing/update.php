@@ -185,10 +185,9 @@ foreach ($companies as $idxMan => $company) {
         $companies[$idxMan]['platforms'][$idxPlat] = $platform;
     }
 }
-
 echo "Writing Parsed Tree..";
-$companies = json_decode(file_get_contents(__DIR__.'/../../../../data/json/emulationking/emulationking.json'), true);
 file_put_contents(__DIR__.'/../../../../data/json/emulationking/emulationking.json', json_encode($companies, getJsonOpts()));
+$companies = json_decode(file_get_contents(__DIR__.'/../../../../data/json/emulationking/emulationking.json'), true);
 echo "done\n";
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
 $sources['emulationking']['updatedLast'] = time();
