@@ -63,7 +63,7 @@ $crawler->filter('li.archivedate a')->each(function ($node) use (&$computerUrls)
 });
 echo ' done'.PHP_EOL;
 echo 'Found '.count($computerUrls).' Archive Pages'.PHP_EOL;
-sort($computerUrls);
+rsort($computerUrls);
 file_put_contents($dataDir.'/urls.json', json_encode($computerUrls, getJsonOpts()));
 echo 'Loading Computer URLs'.PHP_EOL;
 $computerUrls = json_decode(file_get_contents($dataDir.'/urls.json'), true);

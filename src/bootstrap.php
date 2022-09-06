@@ -495,19 +495,20 @@ function camelSnake($input) {
 }
 
 function gitClone($repo) {
-    $repoPrefix = 'https://github.com/PhoenixInteractiveNL/';
-    $return = passthru("git clone --recursive {$repoPrefix}{$repo} {$repo}");
+    $base = basename($repo, '.git');
+    $return = passthru("git clone --recursive {$repo} {$base}");
     return $return == 0;
 }
 
 function gitUpdate($repo) {
-    $repoPrefix = 'https://github.com/PhoenixInteractiveNL/';
-    $return = passthru("cd {$repo} && git pull --all");
+    $base = basename($repo, '.git');
+    $return = passthru("cd {$base} && git pull --all");
     return $return == 0;
 }
 
 function gitSetup($repo) {
-    return file_exists($repo) ? gitUpdate($repo) : gitClone($repo);
+    $base = basename($repo, '.git');
+    return file_exists($base) ? gitUpdate($repo) : gitClone($repo);
 }
 
 global $db, $mysqlLinkId;

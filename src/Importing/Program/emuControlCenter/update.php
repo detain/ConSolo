@@ -23,7 +23,7 @@ $source = [
     'companies' => [],
     'emulators' => []
 ];
-gitSetup('emuDownloadCenter');
+gitSetup('https://github.com/PhoenixInteractiveNL/emuDownloadCenter');
 echo "Loading Language/Countriy Data..\n";
 foreach (($ini = loadIni('emuDownloadCenter/edc_conversion_language.ini'))['COUNTRY'] as $id => $value)
     $data['countries'][$id] = $value;
@@ -35,8 +35,8 @@ foreach (($ini = loadIni('emuDownloadCenter/ecc_platform_id.ini'))['ECCID'] as $
 echo "Loading Platform Categories..\n";
 foreach (($ini = loadIni('emuDownloadCenter/ecc_platform_categories.ini'))['ECCID'] as $id => $value)
     $data['platforms'][$id]['category'] = $value;
-gitSetup('emuDownloadCenter.wiki');
-gitSetup('emuControlCenter');
+gitSetup('https://github.com/PhoenixInteractiveNL/emuDownloadCenter.wiki');
+gitSetup('https://github.com/PhoenixInteractiveNL/emuControlCenter');
 echo "Loading Platforms...\n";
 foreach ($data['platforms'] as $id => $platform) {
     echo "  Platform {$id}....";
