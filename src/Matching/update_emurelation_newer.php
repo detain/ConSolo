@@ -175,5 +175,5 @@ if (preg_match_all('/^### .{1,2} (?P<type>\S+)(\n\s*)+(?P<table>(^\|[^\n]+\|\n)+
 }
 file_put_contents(__DIR__.'/../../../emurelation/unmatched.json', json_encode($unmatched, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/local.json', json_encode($source, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../emurelation/souces_all.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../emurelation/sources_all.json', json_encode($sources, getJsonOpts()));
 

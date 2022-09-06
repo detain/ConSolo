@@ -9,28 +9,31 @@ require_once __DIR__.'/emurelation.inc.php';
 global $db, $mysqlLinkId;
 $sourceDefinitions = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
 $sources = loadSources();
-list($sourceId, $source) = loadSource(__DIR__.'/../../../emurelation/local.json');
-$unmatched = [
-    'platforms' => [],
-    'emulators' => [],
-    'companies' => [],
-    'games' => []
-];
+$sourceId = 'local';
+$source = $sources[$sourceId];
+//list($sourceId, $source) = loadSource(__DIR__.'/../../../emurelation/sources/local.json');
+$types = ['platforms', 'emulators', 'companies', 'games'];
+$unmatched = [];
 $used = [];
 $allNames = [];
+foreach ($types as $type) {
+    $unmatched[$type] = [];
+    $used[$type] = [];
+    $allNames[$type] = [];
+}
 foreach ($source['platforms'] as $localPlatId => $localData) {
-    $allNames[$localPlatId] = [];
-    $allNames[$localPlatId][] = strtolower($localData['name']);
+    $allNames['platforms'][$localPlatId] = [];
+    $allNames['platforms'][$localPlatId][] = strtolower($localData['name']);
     foreach ($localData['matches'] as $sourceId => $sourceList) {
         foreach ($sourceList as $sourcePlatId) {
             if (isset($sources[$sourceId]['platforms'][$sourcePlatId])) {
-                if (!isset($used[$sourceId])) {
-                    $used[$sourceId] = [];
+                if (!isset($used['platforms'][$sourceId])) {
+                    $used['platforms'][$sourceId] = [];
                 }
-                $used[$sourceId][] = $sourcePlatId;
+                $used['platforms'][$sourceId][] = $sourcePlatId;
                 foreach ($sources[$sourceId]['platforms'][$sourcePlatId]['names'] as $name) {
-                    if (!in_array(strtolower($name), $allNames[$localPlatId])) {
-                        $allNames[$localPlatId][] = strtolower($name);
+                    if (!in_array(strtolower($name), $allNames['platforms'][$localPlatId])) {
+                        $allNames['platforms'][$localPlatId][] = strtolower($name);
                     }
                 }
             } else {
@@ -60,8 +63,11 @@ foreach ($tables as $idx => $table) {
     }
 }
 foreach ($sources as $sourceId => $sourceData) {
-    if (!isset($used[$sourceId])) {
-        $used[$sourceId] = [];
+    if ($sourceId == 'local') {
+        continue;
+    }
+    if (!isset($used['platforms'][$sourceId])) {
+        $used['platforms'][$sourceId] = [];
     }
     foreach (['emulators', 'companies', 'games'] as $idx) {
         if (isset($sources[$sourceId][$idx])) {
@@ -72,11 +78,11 @@ foreach ($sources as $sourceId => $sourceData) {
         }
     }
     foreach ($sourceData['platforms'] as $platId => $platData) {
-        if (!in_array($platId, $used[$sourceId])) {
+        if (!in_array($platId, $used['platforms'][$sourceId])) {
             foreach ($platData['names'] as $name) {
-                foreach ($allNames as $localPlatId => $localNames) {
+                foreach ($allNames['platforms'] as $localPlatId => $localNames) {
                     if (in_array(strtolower($name), $localNames)) {
-                        $used[$sourceId][] = $platId;
+                        $used['platforms'][$sourceId][] = $platId;
                         if (!isset($source['platforms'][$localPlatId]['matches'][$sourceId])) {
                             $source['platforms'][$localPlatId]['matches'][$sourceId] = [];
                         }
@@ -87,14 +93,14 @@ foreach ($sources as $sourceId => $sourceData) {
                 }
             }
         }
-        if (!in_array($platId, $used[$sourceId])) {
+        if (!in_array($platId, $used['platforms'][$sourceId])) {
             if (!array_key_exists($sourceId, $unmatched['platforms'])) {
                 $unmatched['platforms'][$sourceId] = [];
             }
             $unmatched['platforms'][$sourceId][$platId] = $platData['name'];
         }
     }
-    $usedCount = count($used[$sourceId]);
+    $usedCount = count($used['platforms'][$sourceId]);
     $unmatchedCount = isset($unmatched['platforms'][$sourceId]) ? count($unmatched['platforms'][$sourceId]) : 0;
     $totalCount = $usedCount + $unmatchedCount;
     $usedPct = round($usedCount / $totalCount * 100, 1);
@@ -115,7 +121,8 @@ if (preg_match_all('/^### .{1,2} (?P<type>\S+)(\n\s*)+(?P<table>(^\|[^\n]+\|\n)+
     }
     file_put_contents(__DIR__.'/../../../emurelation/README.md', $readme);
 }
+
 file_put_contents(__DIR__.'/../../../emurelation/unmatched.json', json_encode($unmatched, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../emurelation/local.json', json_encode($source, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources_all.json', json_encode($sources, getJsonOpts()));
 
