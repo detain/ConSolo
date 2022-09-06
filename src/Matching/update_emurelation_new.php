@@ -12,54 +12,50 @@ $sources = loadSources();
 $sourceId = 'local';
 $source = $sources[$sourceId];
 //list($sourceId, $source) = loadSource(__DIR__.'/../../../emurelation/sources/local.json');
+$table = [
+    "| Source | Type | Mapped | Unmapped | Total | Mapped % |",
+    "|-|-|-|-|-|-|"
+];
 $types = ['platforms', 'emulators', 'companies', 'games'];
 $unmatched = [];
 $used = [];
 $allNames = [];
+$totals = [];
+$tables = [];
 foreach ($types as $type) {
+    $tables[$type] = $table;
     $unmatched[$type] = [];
     $used[$type] = [];
     $allNames[$type] = [];
 }
-foreach ($source['platforms'] as $localPlatId => $localData) {
-    $allNames['platforms'][$localPlatId] = [];
-    $allNames['platforms'][$localPlatId][] = strtolower($localData['name']);
-    foreach ($localData['matches'] as $sourceId => $sourceList) {
-        foreach ($sourceList as $sourcePlatId) {
-            if (isset($sources[$sourceId]['platforms'][$sourcePlatId])) {
-                if (!isset($used['platforms'][$sourceId])) {
-                    $used['platforms'][$sourceId] = [];
+foreach ($source['platforms'] as $localTypeId => $localData) {
+    $allNames['platforms'][$localTypeId] = [];
+    $allNames['platforms'][$localTypeId][] = strtolower($localData['name']);
+    foreach ($localData['matches'] as $matchSourceId => $matchTargets) {
+        foreach ($matchTargets as $matchTargetId) {
+            if (isset($sources[$matchSourceId]['platforms'][$matchTargetId])) { // it finds the match in the targeted source
+                if (!isset($used['platforms'][$matchSourceId])) {
+                    $used['platforms'][$matchSourceId] = [];
                 }
-                $used['platforms'][$sourceId][] = $sourcePlatId;
-                foreach ($sources[$sourceId]['platforms'][$sourcePlatId]['names'] as $name) {
-                    if (!in_array(strtolower($name), $allNames['platforms'][$localPlatId])) {
-                        $allNames['platforms'][$localPlatId][] = strtolower($name);
+                $used['platforms'][$matchSourceId][] = $matchTargetId;
+                foreach ($sources[$matchSourceId]['platforms'][$matchTargetId]['names'] as $name) {
+                    if (!in_array(strtolower($name), $allNames['platforms'][$localTypeId])) {
+                        $allNames['platforms'][$localTypeId][] = strtolower($name);
                     }
                 }
-            } else {
-                // remove nonexistant match
-                echo "Local {$localPlatId} matched {$sourceId} - {$sourcePlatId} but does not exist\n";
-                array_filter($source['platforms'][$localPlatId]['matches'][$sourceId], function($var) use ($sourcePlatId) {
-                   return $var != $sourcePlatId;
+            } else { // remove nonexistant matches
+                echo "Local {$localTypeId} matched {$matchSourceId} - {$matchTargetId} but does not exist; removing!\n";
+                array_filter($source['platforms'][$localTypeId]['matches'][$matchSourceId], function($var) use ($matchTargetId) {
+                   return $var != $matchTargetId;
                 });
             }
         }
     }
 }
-$totals = [];
-$table = [];
-$table[] = "| Source | Type | Mapped | Unmapped | Total | Mapped % |";
-$table[] = "|-|-|-|-|-|-|";
-$tables = [
-    'platforms' => $table,
-    'emulators' => $table,
-    'companies' => $table,
-    'games' => $table,
-];
-foreach ($tables as $idx => $table) {
-    $count = count($source[$idx]);
+foreach ($types as $type) { // get local counts
+    $count = count($source[$type]);
     if ($count > 0) {
-        $tables[$idx][] = "| [local](local.json) | Local | - | - | {$count} | - |";
+        $tables[$type][] = "| [local](local.json) | Local | - | - | {$count} | - |";
     }
 }
 foreach ($sources as $sourceId => $sourceData) {
@@ -80,14 +76,14 @@ foreach ($sources as $sourceId => $sourceData) {
     foreach ($sourceData['platforms'] as $platId => $platData) {
         if (!in_array($platId, $used['platforms'][$sourceId])) {
             foreach ($platData['names'] as $name) {
-                foreach ($allNames['platforms'] as $localPlatId => $localNames) {
+                foreach ($allNames['platforms'] as $localTypeId => $localNames) {
                     if (in_array(strtolower($name), $localNames)) {
                         $used['platforms'][$sourceId][] = $platId;
-                        if (!isset($source['platforms'][$localPlatId]['matches'][$sourceId])) {
-                            $source['platforms'][$localPlatId]['matches'][$sourceId] = [];
+                        if (!isset($source['platforms'][$localTypeId]['matches'][$sourceId])) {
+                            $source['platforms'][$localTypeId]['matches'][$sourceId] = [];
                         }
-                        $source['platforms'][$localPlatId]['matches'][$sourceId][] = $platId;
-                        echo "Found by Name local:{$localPlatId} - {$sourceId}:{$platId}\n";
+                        $source['platforms'][$localTypeId]['matches'][$sourceId][] = $platId;
+                        echo "Found by Name local:{$localTypeId} - {$sourceId}:{$platId}\n";
                         break 2;
                     }
                 }
