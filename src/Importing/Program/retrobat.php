@@ -2,11 +2,23 @@
 
 require_once __DIR__.'/../../../bootstrap.php';
 
+if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
+    die("Syntax:
+    php ".$_SERVER['argv'][0]." <options>
+
+Options:
+    -h, --help  this screen
+    -f          force update even if already latest version
+    --no-db     skip the db updates/inserts
+    --no-cache  disables use of the file cache
+
+");
+}
 /**
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = __DIR__.'/../../../../data/json/retrobat';
+$dataDir = __DIR__.'/../../../data/json/retrobat';
 if (!file_exists($dataDir))
     mkdir($dataDir, 0777, true);
 $data = [
@@ -17,11 +29,9 @@ $source = [
     'platforms' => [],
     'emulators' => []
 ];
-gitSetup('emuDownloadCenter');
-
-//
-$xml = xml2array(file_get_contents('system/templates/emulationstation/es_systems_retrobat.cfg'));
-//echo `rm -rf retrobat`;
+gitSetup('https://github.com/kaylh/RetroBat');
+$xml = xml2array(file_get_contents('RetroBat/system/templates/emulationstation/es_systems_retrobat.cfg'));
+//echo `rm -rf RetroBat`;
 foreach ($xml['systemList']['system'] as $system) {
     $source['platforms'][$system['name']] = [
         'id' => $system['name'],
@@ -90,7 +100,7 @@ foreach ($xml['systemList']['system'] as $system) {
     $data['platforms'][$system['name']] = $system;
 }
 ksort($data['emulators']);
-file_put_contents($dataDir.'/esde.json', json_encode($data, getJsonOpts()));
+file_put_contents($dataDir.'/retrobat.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['retrobat']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
