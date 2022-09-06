@@ -3,37 +3,43 @@
 function loadSource($fileName) {
     $sourceId = basename($fileName, '.json');
     $source = json_decode(file_get_contents($fileName), true);
-    foreach ($source['platforms'] as $platId => $platData) {
-        $names = [];
-        $nameSuffix = [];
-        $nameSuffix[] = $platData['name'];
-        if (isset($platData['shortName'])) {
-            $nameSuffix[] = $platData['shortName'];
-        }
-        if (isset($platData['altNames'])) {
-            foreach ($platData['altNames'] as $altName) {
-                $nameSuffix[] = $altName;
-            }
-        }
-        $company = null;
-        foreach (['', 'company', 'developer', 'manufacturer'] as $prefixField) {
-            if ($prefixField != '' && isset($platData[$prefixField]) && is_null($company)) {
-                $company = $platData[$prefixField];
-            }
-            foreach ($nameSuffix as $suffix) {
-                //print_r($nameSuffix);
-                //echo "platId {$platId} prefixField {$prefixField} : ".(isset($platData[$prefixField]) ? json_encode($platData[$prefixField])." - ".json_encode($suffix) : json_encode($suffix))."\n";
-                $name = strtolower($prefixField != '' && isset($platData[$prefixField]) ? $platData[$prefixField].' '.$suffix : $suffix);
-                if (!in_array($name, $names)) {
-                    $names[] = $name;
+    foreach (['platforms', 'companies', 'emulators', 'games'] as $type) {
+        if (isset($source[$type])) {
+            foreach ($source[$type] as $id => $data) {
+                $names = [];
+                $nameSuffix = [];
+                $nameSuffix[] = $data['name'];
+                if (isset($data['shortName'])) {
+                    $nameSuffix[] = $data['shortName'];
+                }
+                if (isset($data['altNames'])) {
+                    foreach ($data['altNames'] as $altName) {
+                        $nameSuffix[] = $altName;
+                    }
+                }
+                if ($type == 'platforms') {
+                    $company = null;
+                    foreach (['', 'company', 'developer', 'manufacturer'] as $prefixField) {
+                        if ($prefixField != '' && isset($data[$prefixField]) && is_null($company)) {
+                            $company = $data[$prefixField];
+                        }
+                        foreach ($nameSuffix as $suffix) {
+                            //print_r($nameSuffix);
+                            //echo "platId {$platId} prefixField {$prefixField} : ".(isset($data[$prefixField]) ? json_encode($data[$prefixField])." - ".json_encode($suffix) : json_encode($suffix))."\n";
+                            $name = strtolower($prefixField != '' && isset($data[$prefixField]) ? $data[$prefixField].' '.$suffix : $suffix);
+                            if (!in_array($name, $names)) {
+                                $names[] = $name;
+                            }
+                        }
+                    }
+                    if (!isset($data['company']) && !is_null($company)) {
+                        $source[$type][$id]['company'] = $company;
+                    }
+                }
+                if ($sourceId != 'local') {
+                    $source[$type][$id]['names'] = $names;
                 }
             }
-        }
-        if (!isset($platData['company']) && !is_null($company)) {
-            $source['platforms'][$platId]['company'] = $company;
-        }
-        if ($sourceId != 'local') {
-            $source['platforms'][$platId]['names'] = $names;
         }
     }
     return [$sourceId, $source];
