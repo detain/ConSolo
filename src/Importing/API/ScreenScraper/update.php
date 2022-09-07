@@ -57,7 +57,26 @@ if ($useCache == true && file_exists($dataDir.'/json/screenscraper/platforms.jso
 	}
 }
 $source = [
-    'platforms' => []
+    'companies' => [],
+    'platforms' => [],
+    'emulators' => [
+        'launchbox' => [
+            'id' => 'launchbox',
+            'name' => 'LaunchBox',
+            'platforms' => [],
+        ],
+        'retropie' => [
+            'id' => 'retropie',
+            'name' => 'RetroPie',
+            'platforms' => [],
+        ],
+        'recalbox' => [
+            'id' => 'recalbox',
+            'name' => 'RecalBox',
+            'platforms' => [],
+        ]
+    ],
+    'games' => []
 ];
 foreach ($platforms as $idx => $platform) {
     $id = intval($platform['id']);
@@ -81,9 +100,14 @@ foreach ($platforms as $idx => $platform) {
     ];
     if (isset($platform['compagnie'])) {
         $source['platforms'][$id]['company'] = $platform['compagnie'];
+        $source['companies'][$platform['compagnie']] = [
+            'id' => $platform['compagnie'],
+            'name' => $platform['compagnie'],
+        ];
     }
     foreach (['launchbox', 'retropie', 'recalbox'] as $field) {
         if (isset($platform['noms']['nom_'.$field])) {
+            $source['emulators'][$field]['platforms'][] = $id;
             if (!isset($source['platforms'][$platform['id']]['matches'])) {
                 $source['platforms'][$id]['matches'] = [];
             }
