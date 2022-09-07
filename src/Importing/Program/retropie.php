@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -30,77 +30,73 @@ $source = [
     'emulators' => []
 ];
 gitSetup('https://github.com/RetroPie/RetroPie-Setup');
-// RetroPie-Setup/scriptmodules/{emulators/,libretrocores/lr-}p*.sh
-//$xml = xml2array(file_get_contents('retropie/system/templates/emulationstation/es_systems_retropie.cfg'));
-//echo `rm -rf retropie`;
-foreach ($xml['systemList']['system'] as $system) {
-    $source['platforms'][$system['name']] = [
-        'id' => $system['name'],
-        'shortName' => $system['name'],
-        'name' => $system['fullname'],
-        'altNames' => []
-    ];
-    unset($system['path']);
-    unset($system['platform']);
-    unset($system['theme']);
-    $system['emulators'] = [];
-    //echo json_encode($system, getJsonOpts())."\n";
-    if (is_array($system['command'])) {
-        for ($x = 0; isset($system['command'][$x]); $x++) {
-            if (strpos($system['command'][$x], 'EMULATOR_RETROARCH') !== false) {
-                $label = 'RetroArch'.(isset($system['command'][$x.'_attr']) ? ' ('.$system['command'][$x.'_attr']['label'].')' : '');
-            } elseif (isset($system['command'][$x.'_attr'])) {
-                $label = $system['command'][$x.'_attr']['label'];
-            } else {
-                continue;
-            }
-            if (preg_match('/ \(Standalone\)/', $label, $matches)) {
-                $label = str_replace(' (Standalone)', '', $label);
-            }
-            $data['emulators'][$label] = $system['command'][$x];
-            $system['emulators'][$label] = $system['command'][$x];
-            if (!isset($source['emulators'][$label])) {
-                $source['emulators'][$label] = [
-                    'id' => $label,
-                    'name' => $label,
-                    'platforms' => []
-                ];
-            }
-            $source['emulators'][$label]['platforms'][] = $system['name'];
-        }
-    } else {
-        if (strpos($system['command'], 'EMULATOR_RETROARCH') !== false || isset($system['command_attr'])) {
-            if (strpos($system['command'], 'EMULATOR_RETROARCH') !== false) {
-                if (isset($system['command_attr'])) {
-                    $label = 'RetroArch ('.$system['command_attr']['label'].')';
-                    unset($system['command_attr']);
-                } else {
-                    $label = 'RetroArch';
-                }
-                $system['emulators'][$label] = $system['command'];
-            } elseif (isset($system['command_attr'])) {
-                $label = $system['command_attr']['label'];
-                if (preg_match('/ \(Standalone\)/', $label, $matches)) {
-                    $label = str_replace(' (Standalone)', '', $label);
-                }
-            }
-            $data['emulators'][$label] = $system['command'];
-            $system['emulators'][$label] = $system['command'];
-            unset($system['command_attr']);
-            if (!isset($source['emulators'][$label])) {
-                $source['emulators'][$label] = [
-                    'id' => $label,
-                    'name' => $label,
-                    'platforms' => []
-                ];
-            }
-            $source['emulators'][$label]['platforms'][] = $system['name'];
-        }
+// RetroPie-Setup/platforms.cfg
+$lines = loadIni('RetroPie-Setup/platforms.cfg');
+foreach ($lines as $key => $value) {
+    list($id, $field) = explode('_', $key);
+    if ($field == 'fullname') {
+        $field = 'name';
+    } elseif ($field == 'exts') {
+        $value = explode(' ', $value);
+    } elseif ($field == 'platform' && $value != $id) {
+        $source['platforms'][$value]['altNames'][] = $id;
+        unset($source['platforms'][$id]);
+    } elseif ($field == 'theme') {
+        continue;
     }
-    unset($system['command']);
-    $data['platforms'][$system['name']] = $system;
+    if (!array_key_exists($id, $data['platforms'])) {
+        $data['platforms'][$id] = [
+            'id' => $id,
+            $field => $value
+        ];
+        $source['platforms'][$id] = [
+            'id' => $id,
+            'shortName' => $id,
+            'name' => $id,
+            'altNames' => [],
+        ];
+    }
+    $source['platforms'][$id][$field] = $value;
 }
-ksort($data['emulators']);
+foreach (['emulators', 'libretrocores'] as $section) {
+    foreach (glob('RetroPie-Setup/scriptmodules/'.$section.'/*.sh') as $fileName) {
+        $file = file_get_contents($fileName);
+        $data = [];
+        $data['platforms'] = [];
+        preg_match_all('/(^rp_module_(?P<field>[a-z_]*)="(?P<value>.*)"$)+\n/msUu', $file, $matches);
+        foreach ($matches['field'] as $idx => $key) {
+            $value = $matches['value'][$idx];
+            $data[$key] = $value;
+        }
+        preg_match_all('/(^\s*addSystem "(?P<platform>.*)"$)+\n/msUu', $file, $matches);
+        foreach ($matches['platform'] as $idx => $platform) {
+            echo "[{$data['id']}] Adding platform {$platform}\n";
+            if ($platform == '$system') {
+                echo "\$system plat!\n";
+                if (preg_match('/for system in (.*); do/', $file, $systemMatches)) {
+                    echo "[{$data['id']}] found system matches:".$systemMatches[1]."\n";
+                    $platforms = explode(' ', trim(str_replace('"', '', $systemMatches[1])));
+                    foreach ($platforms as $systemPlatform) {
+                        echo "[{$data['id']}] Adding system platform {$systemPlatform}\n";
+                        $data['platforms'][] = $systemPlatform;
+                    }
+                }
+            } elseif ($platform == '$sys' && $data['id'] == 'lr-flycast') {
+                $data['platforms'] = ['dreamcast', 'arcade'];
+            } else {
+                $data['platforms'][] = $platform;
+            }
+        }
+        $source['emulators'][$data['id']] = [
+            'id' => $data['id'],
+            'shortName' => $data['id'],
+            'name' => $data['desc'],
+            'platforms' => $data['platforms'],
+            'altNames' => []
+        ];
+    }
+}
+echo `rm -rf RetroPie-Setup`;
 file_put_contents($dataDir.'/retropie.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['retropie']['updatedLast'] = time();

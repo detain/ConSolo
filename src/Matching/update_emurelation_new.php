@@ -147,6 +147,7 @@ foreach ($listTypes as $listType) {
 $readme = file_get_contents(__DIR__.'/../../../emurelation/README.md');
 if (preg_match_all('/^### .{1,2} (?P<type>\S+)(\n\s*)+(?P<table>(^\|[^\n]+\|\n)+)\n/muU', $readme, $matches)) {
     foreach ($matches['type'] as $idx => $listType) {
+        echo "Updating {$listType} section in README.md\n";
         $table = implode("\n", $tables[strtolower($listType)]);
         $readme = str_replace("{$listType}\n\n{$matches['table'][$idx]}\n", "{$listType}\n\n{$table}\n\n", $readme);
     }
@@ -157,9 +158,9 @@ foreach ($listTypes as $listType) {
         unset($source[$listType][$targetId]['names']);
     }
 }
-file_put_contents(__DIR__.'/../../../emurelation/used.json', json_encode($used, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../emurelation/all_names.json', json_encode($allNames, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/unmatched.json', json_encode($unmatched, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../emurelation/sources_all.json', json_encode($sources, getJsonOpts()));
+//file_put_contents(__DIR__.'/../../../emurelation/used.json', json_encode($used, getJsonOpts()));
+//file_put_contents(__DIR__.'/../../../emurelation/all_names.json', json_encode($allNames, getJsonOpts()));
+//file_put_contents(__DIR__.'/../../../emurelation/sources_all.json', json_encode($sources, getJsonOpts()));
 

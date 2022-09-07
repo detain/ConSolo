@@ -8,7 +8,9 @@ function loadSource($fileName, $skipNames = false) {
             foreach ($source[$type] as $id => $data) {
                 $names = [];
                 $nameSuffix = [];
-                $nameSuffix[] = $data['name'];
+                if (isset($data['name'])) {
+                    $nameSuffix[] = $data['name'];
+                }
                 if (isset($data['shortName'])) {
                     $nameSuffix[] = $data['shortName'];
                 }
