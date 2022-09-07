@@ -8,6 +8,7 @@ require_once __DIR__.'/emurelation.inc.php';
 */
 global $db, $mysqlLinkId;
 $sourceDefinitions = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
+$sourceIds = array_keys($sourceDefinitions);
 $sources = loadSources();
 $sourceId = 'local';
 $source = $sources[$sourceId];
@@ -16,120 +17,149 @@ $table = [
     "| Source | Type | Mapped | Unmapped | Total | Mapped % |",
     "|-|-|-|-|-|-|"
 ];
-$types = ['platforms', 'emulators', 'companies', 'games'];
+$listTypes = ['platforms', 'emulators', 'companies', 'games'];
 $unmatched = [];
 $used = [];
 $allNames = [];
 $totals = [];
 $tables = [];
-foreach ($types as $type) {
-    $tables[$type] = $table;
-    $unmatched[$type] = [];
-    $used[$type] = [];
-    $allNames[$type] = [];
-    foreach ($sources as $sourceId => $sourceData) {
-        $unused[$type][$sourceId] = [];
-        $used[$type][$sourceId] = [];
-        $allNames[$type][$sourceId] = [];
+foreach ($listTypes as $listType) {
+    $tables[$listType] = $table;
+    $unmatched[$listType] = [];
+    $used[$listType] = [];
+    $allNames[$listType] = [];
+    foreach ($sourceIds as $sourceId) {
+        $unused[$listType][$sourceId] = [];
+        $used[$listType][$sourceId] = [];
+        //$allNames[$listType][$sourceId] = [];
     }
 }
-foreach ($types as $type) {
-    foreach ($source[$type] as $localTypeId => $localData) {
-        if (!array_key_exists($localTypeId, $allNames[$type])) {
-            $allNames[$type][$localTypeId] = [];
+foreach ($listTypes as $listType) {
+    foreach ($source[$listType] as $localTypeId => $localData) {
+        if (!array_key_exists($localTypeId, $allNames[$listType])) {
+            $allNames[$listType][$localTypeId] = [];
         }
-        if (!in_array(strtolower($localData['name']), $allNames[$type][$localTypeId])) {
-            $allNames[$type][$localTypeId][] = strtolower($localData['name']);
+        if (isset($localData['shortName']) && !in_array(strtolower($localData['shortName']), $allNames[$listType][$localTypeId])) {
+            $allNames[$listType][$localTypeId][] = strtolower($localData['shortName']);
+        }
+        if (!in_array(strtolower($localData['name']), $allNames[$listType][$localTypeId])) {
+            $allNames[$listType][$localTypeId][] = strtolower($localData['name']);
+        }
+        if (isset($localData['altNames'])) {
+            foreach ($localData['altNames'] as $name) {
+                if (!in_array(strtolower($name), $allNames[$listType][$localTypeId])) {
+                    $allNames[$listType][$localTypeId][] = strtolower($name);
+                }
+            }
         }
         foreach ($localData['matches'] as $matchSourceId => $matchTargets) {
             foreach ($matchTargets as $matchTargetId) {
-                if (isset($sources[$matchSourceId][$type][$matchTargetId])) { // it finds the match in the targeted source
-                    if (!isset($used[$type][$matchSourceId])) {
-                        $used[$type][$matchSourceId] = [];
+                if (isset($sources[$matchSourceId][$listType][$matchTargetId])) { // it finds the match in the targeted source
+                    if (!isset($used[$listType][$matchSourceId])) {
+                        $used[$listType][$matchSourceId] = [];
                     }
-                    $used[$type][$matchSourceId][] = $matchTargetId;
-                    foreach ($sources[$matchSourceId][$type][$matchTargetId]['names'] as $name) {
-                        if (!in_array(strtolower($name), $allNames[$type][$localTypeId])) {
-                            $allNames[$type][$localTypeId][] = strtolower($name);
+                    $used[$listType][$matchSourceId][] = $matchTargetId;
+                    foreach ($sources[$matchSourceId][$listType][$matchTargetId]['names'] as $name) {
+                        if (!in_array(strtolower($name), $allNames[$listType][$localTypeId])) {
+                            echo "Adding Allnames[{$listType}][{$localTypeId}]  didnt have ".strtolower($name)."\n";
+                            $allNames[$listType][$localTypeId][] = strtolower($name);
                         }
                     }
                 } else { // remove nonexistant matches
                     echo "Local {$localTypeId} matched {$matchSourceId} - {$matchTargetId} but does not exist; removing!\n";
-                    array_filter($source[$type][$localTypeId]['matches'][$matchSourceId], function($var) use ($matchTargetId) {
-                       return $var != $matchTargetId;
+                    array_filter($source[$listType][$localTypeId]['matches'][$matchSourceId], function($var) use ($matchTargetId) {
+                        $return = $var != $matchTargetId;
+                        echo "Local {$localTypeId} matched {$var} != {$matchTargetId} returned ".var_export($return,true).", removing\n";
+                        return $var != $matchTargetId;
                     });
                 }
             }
         }
     }
-    $count = count($source[$type]);
+    $count = count($source[$listType]);
     if ($count > 0) {
-        $tables[$type][] = "| [local](sources/local.json) | Local | {$count} | 0 | {$count} | 100% |";
+        $tables[$listType][] = "| [local](sources/local.json) | Local | {$count} | 0 | {$count} | 100% |";
     }
 }
-foreach ($types as $type) {
+foreach ($listTypes as $listType) {
     foreach ($sources as $sourceId => $sourceData) {
-        if (!isset($used[$type][$sourceId])) {
-            $used[$type][$sourceId] = [];
+        if (!isset($used[$listType][$sourceId])) {
+            $used[$listType][$sourceId] = [];
         }
-        if (isset($sourceData[$type])) {
-            foreach ($sourceData[$type] as $targetId => $targetData) {
-                if (!in_array($targetId, $used[$type][$sourceId])) {
-                    if (isset($targetData['names'])) {
-                        foreach ($targetData['names'] as $name) {
-                            foreach ($allNames[$type] as $localTypeId => $localNames) {
-                                if (in_array(strtolower($name), $localNames)) {
-                                    $used[$type][$sourceId][] = $targetId;
-                                    if ($sourceId != 'local') {
-                                        if (!isset($source[$type][$localTypeId]['matches'][$sourceId])) {
-                                            $source[$type][$localTypeId]['matches'][$sourceId] = [];
-                                        }
-                                        $source[$type][$localTypeId]['matches'][$sourceId][] = $targetId;
+        if (isset($sources[$sourceId][$listType])) {
+            foreach ($sources[$sourceId][$listType] as $targetId => $targetData) {
+                if (!in_array($targetId, $used[$listType][$sourceId])) {
+                    if (!isset($sources[$sourceId][$listType][$targetId]['names'])) {
+                        $sources[$sourceId][$listType][$targetId]['names'] = [];
+                    }
+                    if (isset($sources[$sourceId][$listType][$targetId]['name']) && !in_array(strtolower($sources[$sourceId][$listType][$targetId]['name']), $sources[$sourceId][$listType][$targetId]['names'])) {
+                        $sources[$sourceId][$listType][$targetId]['names'][] = strtolower($sources[$sourceId][$listType][$targetId]['name']);
+                    }
+                    if (isset($sources[$sourceId][$listType][$targetId]['shortName']) && !in_array(strtolower($sources[$sourceId][$listType][$targetId]['shortName']), $sources[$sourceId][$listType][$targetId]['names'])) {
+                        $sources[$sourceId][$listType][$targetId]['names'][] = strtolower($sources[$sourceId][$listType][$targetId]['shortName']);
+                    }
+                    if (isset($sources[$sourceId][$listType][$targetId]['altNames'])) {
+                        foreach ($sources[$sourceId][$listType][$targetId]['altNames'] as $name) {
+                            if (!in_array(strtolower($name), $sources[$sourceId][$listType][$targetId]['names'])) {
+                                $sources[$sourceId][$listType][$targetId]['names'][] = strtolower($name);
+                            }
+                        }
+                    }
+                    foreach ($sources[$sourceId][$listType][$targetId]['names'] as $name) {
+                        foreach ($allNames[$listType] as $localTypeId => $localNames) {
+                            if (in_array(strtolower($name), $localNames)) {
+                                $used[$listType][$sourceId][] = $targetId;
+                                if ($sourceId != 'local') {
+                                    if (!isset($source[$listType][$localTypeId]['matches'][$sourceId])) {
+                                        $source[$listType][$localTypeId]['matches'][$sourceId] = [];
                                     }
-                                    echo "Found by Name local:{$localTypeId} - {$sourceId}:{$targetId}\n";
-                                    break 2;
+                                    $source[$listType][$localTypeId]['matches'][$sourceId][] = $targetId;
                                 }
+                                echo "Found by Name local:{$localTypeId} - {$sourceId}:{$targetId}\n";
+                                break 2;
                             }
                         }
                     }
                 }
-                if (!in_array($targetId, $used[$type][$sourceId])) {
-                    if (!array_key_exists($sourceId, $unmatched[$type])) {
-                        $unmatched[$type][$sourceId] = [];
+                if (!in_array($targetId, $used[$listType][$sourceId])) {
+                    if (!array_key_exists($sourceId, $unmatched[$listType])) {
+                        $unmatched[$listType][$sourceId] = [];
                     }
-                    $unmatched[$type][$sourceId][$targetId] = $targetData['name'];
+                    $unmatched[$listType][$sourceId][$targetId] = $targetData['name'];
                 }
             }
-            $usedCount = count($used[$type][$sourceId]);
-            $unmatchedCount = isset($unmatched[$type][$sourceId]) ? count($unmatched[$type][$sourceId]) : 0;
+            $usedCount = count($used[$listType][$sourceId]);
+            $unmatchedCount = isset($unmatched[$listType][$sourceId]) ? count($unmatched[$listType][$sourceId]) : 0;
             $totalCount = $usedCount + $unmatchedCount;
             $usedPct = $totalCount > 0 ? round($usedCount / $totalCount * 100, 1) : 0;
             if (!isset($sourceDefinitions[$sourceId])) {
                 echo "Cant find {$sourceId} in sources list\n";
             }
-            $tables[$type][] = "| [{$sourceDefinitions[$sourceId]['name']}](sources/{$sourceId}.json) | {$sourceDefinitions[$sourceId]['type']} | {$usedCount} | {$unmatchedCount} | {$totalCount} | {$usedPct}% |";
+            $tables[$listType][] = "| [{$sourceDefinitions[$sourceId]['name']}](sources/{$sourceId}.json) | {$sourceDefinitions[$sourceId]['type']} | {$usedCount} | {$unmatchedCount} | {$totalCount} | {$usedPct}% |";
         }
     }
 }
-foreach ($types as $type) {
-    foreach ($unmatched[$type] as $key => $values) {
+foreach ($listTypes as $listType) {
+    foreach ($unmatched[$listType] as $key => $values) {
         ksort($values);
-        $unmatched[$type][$key] = $values;
+        $unmatched[$listType][$key] = $values;
     }
 }
 $readme = file_get_contents(__DIR__.'/../../../emurelation/README.md');
 if (preg_match_all('/^### .{1,2} (?P<type>\S+)(\n\s*)+(?P<table>(^\|[^\n]+\|\n)+)\n/muU', $readme, $matches)) {
-    foreach ($matches['type'] as $idx => $type) {
-        $table = implode("\n", $tables[strtolower($type)]);
-        $readme = str_replace("{$type}\n\n{$matches['table'][$idx]}\n", "{$type}\n\n{$table}\n\n", $readme);
+    foreach ($matches['type'] as $idx => $listType) {
+        $table = implode("\n", $tables[strtolower($listType)]);
+        $readme = str_replace("{$listType}\n\n{$matches['table'][$idx]}\n", "{$listType}\n\n{$table}\n\n", $readme);
     }
     file_put_contents(__DIR__.'/../../../emurelation/README.md', $readme);
 }
-foreach ($source as $typeId => $typeData) {
-    foreach ($typeData as $targetId => $targetData) {
-        unset($source[$typeId][$targetId]['names']);
+foreach ($listTypes as $listType) {
+    foreach ($source[$listType] as $targetId => $targetData) {
+        unset($source[$listType][$targetId]['names']);
     }
 }
+file_put_contents(__DIR__.'/../../../emurelation/used.json', json_encode($used, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../emurelation/all_names.json', json_encode($allNames, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/unmatched.json', json_encode($unmatched, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources_all.json', json_encode($sources, getJsonOpts()));
