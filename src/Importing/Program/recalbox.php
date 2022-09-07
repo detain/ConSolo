@@ -40,23 +40,29 @@ foreach (glob('recalbox/package/recalbox-romfs2/systems/*/system.ini') as $fileN
     $id = $ini['system']['name'];
     if (isset($ini['system']['doc.link.en']))
         $wikiLinks[] = $ini['system']['doc.link.en'];
-    echo "Adding Platform {$id}\n";
+    echo "  Adding Platform {$id}\n";
     $source['platforms'][$id] = [
         'id' => $id,
         'shortName' => $id,
         'name' => $ini['system']['fullname'],
         'matches' => [],
     ];
-    if (isset($ini['system']['screenscraper.id']))
-        $source['platforms'][$id]['matches'] = [ ['screenscraper', isset($ini['system']['screenscraper.id'])] ];
+    if (isset($ini['system']['screenscraper.id'])) {
+        $source['platforms'][$id]['matches'] = [
+            'screenscraper' => [
+                $ini['system']['screenscraper.id']
+            ]
+        ];
+    }
     if (isset($ini['properties']['manufacturer'])) {
         $source['platforms'][$id]['manufacturer'] = $ini['properties']['manufacturer'];
-        if (!array_key_exists($ini['properties']['manufacturer'], $source['companies']))
-        echo "Adding Company {$id}\n";
-        $source['companies'][$ini['properties']['manufacturer']] = [
-            'id' => $source['companies'],
-            'name' => $source['companies'],
-        ];
+        if (!array_key_exists($ini['properties']['manufacturer'], $source['companies'])) {
+            echo "      Adding Company {$id}\n";
+            $source['companies'][$ini['properties']['manufacturer']] = [
+                'id' => $ini['properties']['manufacturer'],
+                'name' => $ini['properties']['manufacturer'],
+            ];
+        }
     }
     for ($x = 0; isset($ini['core.'.$x]); $x++) {
         $emuData = $ini['core.'.$x];
@@ -67,26 +73,23 @@ foreach (glob('recalbox/package/recalbox-romfs2/systems/*/system.ini') as $fileN
             $emuName .= ' '.$emuData['core'];
         }
         $emuName = ucwords($emuName);
-        echo "Adding Emulator {$emuId}\n";
         if (!array_key_exists($emuId, $source['emulators'])) {
+            echo "      Adding Emulator {$emuId}\n";
             $source['emulators'][$emuId] = [
                 'id' => $emuId,
                 'name' => $emuName,
                 'platforms' => [],
             ];
         }
+        echo "          Adding Platform {$id} to Emulator {$emuId}\n";
         $source['emulators'][$emuId]['platforms'][] = $id;
     }
 }
-if ($keepRepo === true) {
+if (!$keepRepo) {
     echo "Removing recalbox\n";
-    echo `rm -rvf recalbox`;
+    echo `rm -rf recalbox`;
     echo "done\n";
 }
-// $urls = explode("\n", trim(`grep doc.link.en recalbox-x86_64/package/recalbox-romfs2/systems/*/system.ini|sed s#"^.*/emulators/"#""#g|cut -d\" -f1|sort|uniq`));
-/* foreach ($urls as $url) {
-
-} */
 echo "Writing sources/recalbox.json\n";
 file_put_contents(__DIR__.'/../../../../emurelation/sources/recalbox.json', json_encode($source, getJsonOpts()));
 echo "Reading sources.json\n";
