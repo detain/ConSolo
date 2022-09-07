@@ -9,9 +9,9 @@ require_once __DIR__.'/emurelation.inc.php';
 global $db, $mysqlLinkId;
 $sourceDefinitions = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
 $sources = loadSources();
-//$sourceId = 'local';
-//$source = $sources[$sourceId];
-list($sourceId, $source) = loadSource(__DIR__.'/../../../emurelation/sources/local.json', true);
+$sourceId = 'local';
+$source = $sources[$sourceId];
+//list($sourceId, $source) = loadSource(__DIR__.'/../../../emurelation/sources/local.json', true);
 $table = [
     "| Source | Type | Mapped | Unmapped | Total | Mapped % |",
     "|-|-|-|-|-|-|"
@@ -69,9 +69,6 @@ foreach ($types as $type) {
 }
 foreach ($types as $type) {
     foreach ($sources as $sourceId => $sourceData) {
-        if ($sourceId == 'local') {
-            //continue;
-        }
         if (!isset($used[$type][$sourceId])) {
             $used[$type][$sourceId] = [];
         }
@@ -128,7 +125,11 @@ if (preg_match_all('/^### .{1,2} (?P<type>\S+)(\n\s*)+(?P<table>(^\|[^\n]+\|\n)+
     }
     file_put_contents(__DIR__.'/../../../emurelation/README.md', $readme);
 }
-
+foreach ($source as $typeId => $typeData) {
+    foreach ($typeData as $targetId => $targetData) {
+        unset($source[$typeId][$targetId]['names']);
+    }
+}
 file_put_contents(__DIR__.'/../../../emurelation/unmatched.json', json_encode($unmatched, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources_all.json', json_encode($sources, getJsonOpts()));
