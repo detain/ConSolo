@@ -76,13 +76,12 @@ foreach ($listTypes as $listType) {
             }
         }
     }
-    $count = count($source[$listType]);
-    if ($count > 0) {
-        $tables[$listType][] = "| [local](sources/local.json) | Local | {$count} | 0 | {$count} | 100% |";
-    }
 }
 foreach ($listTypes as $listType) {
-    foreach ($sources as $sourceId => $sourceData) {
+    foreach ($sourceIds as $sourceId) {
+        if (!isset($sources[$sourceId])) {
+            continue;
+        }
         if (!isset($used[$listType][$sourceId])) {
             $used[$listType][$sourceId] = [];
         }
