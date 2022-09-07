@@ -76,11 +76,15 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 				if (is_array($value)) {
 					if (count($value) == 0) {
 						$value = '';
-						$data[$idx][$key] = $value;
-					} else
+					} else {
 						echo "Type {$type} Key {$key} Value:".var_export($value,true).PHP_EOL;
-				}
-				$data[$idx][$key] = utf8_encode($value);
+                    }
+				} else {
+                    $value = trim($value);
+                    //$value = utf8_encode($value);
+                }
+                $row[$key] = $value;
+				$data[$idx][$key] = $value;
 				if (strlen($value) > $tables[$type][$key]['length'])
 					$tables[$type][$key]['length'] = strlen($value);
 				if ($tables[$type][$key]['bool'] == true && !in_array($value, ['false', 'true']))
@@ -98,10 +102,10 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
                 ];
                 foreach (['Developer', 'Manufacturer'] as $field) {
                     if (isset($row[$field]) && ((is_array($row[$field]) && count($row[$field]) > 0) || (!is_array($row[$field]) && trim($row[$field]) != ''))) {
-                        if (!array_key_exists($row[$field], $source['companies'])) {
-                            $source['companies'][$row[$field]] = [
-                                'id' => $row[$field],
-                                'name' => $row[$field]
+                        if (!array_key_exists(trim($row[$field]), $source['companies'])) {
+                            $source['companies'][trim($row[$field])] = [
+                                'id' => trim($row[$field]),
+                                'name' => trim($row[$field])
                             ];
                         }
                         $source['platforms'][$row['Name']][strtolower($field)] = trim($row[$field]);
