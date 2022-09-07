@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -8,6 +8,7 @@ if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
 
 Options:
     -h, --help  this screen
+    -k          keep repo
     -f          force update even if already latest version
     --no-db     skip the db updates/inserts
     --no-cache  disables use of the file cache
@@ -18,93 +19,82 @@ Options:
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = __DIR__.'/../../../data/json/recalbox';
-if (!file_exists($dataDir))
-    mkdir($dataDir, 0777, true);
+$keepRepo = in_array('-k', $_SERVER['argv']);
+if (!file_exists(__DIR__.'/../../../data/json/recalbox'))
+    mkdir(__DIR__.'/../../../data/json/recalbox', 0777, true);
 $data = [
     'emulators' => [],
     'platforms' => [],
+    'companies' => [],
 ];
 $source = [
     'platforms' => [],
-    'emulators' => []
+    'emulators' => [],
+    'companies' => [],
 ];
-gitSetup('https://gitlab.com/recalbox/recalbox');
-// package/recalbox-romfs2/systems/*/system.ini
-// projects/frontend/es-app/src/systems/PlatformId.cpp
-// board/recalbox/fsoverlay/recalbox/share_init/system/.emulationstation/es_bios.xml
-$xml = xml2array(file_get_contents('recalbox/system/templates/emulationstation/es_systems_recalbox.cfg'));
-//echo `rm -rf recalbox`;
-foreach ($xml['systemList']['system'] as $system) {
-    $source['platforms'][$system['name']] = [
-        'id' => $system['name'],
-        'shortName' => $system['name'],
-        'name' => $system['fullname'],
-        'altNames' => []
+gitSetup('https://gitlab.com/recalbox/recalbox', false);
+$wikiLinks = [];
+foreach (glob('recalbox/package/recalbox-romfs2/systems/*/system.ini') as $fileName) {
+    echo "Loading ini {$fileName}\n";
+    $ini = loadIni($fileName);
+    $id = $ini['system']['name'];
+    if (isset($ini['system']['doc.link.en']))
+        $wikiLinks[] = $ini['system']['doc.link.en'];
+    echo "Adding Platform {$id}\n";
+    $source['platforms'][$id] = [
+        'id' => $id,
+        'shortName' => $id,
+        'name' => $ini['system']['fullname'],
+        'matches' => [],
     ];
-    unset($system['path']);
-    unset($system['platform']);
-    unset($system['theme']);
-    $system['emulators'] = [];
-    //echo json_encode($system, getJsonOpts())."\n";
-    if (is_array($system['command'])) {
-        for ($x = 0; isset($system['command'][$x]); $x++) {
-            if (strpos($system['command'][$x], 'EMULATOR_RETROARCH') !== false) {
-                $label = 'RetroArch'.(isset($system['command'][$x.'_attr']) ? ' ('.$system['command'][$x.'_attr']['label'].')' : '');
-            } elseif (isset($system['command'][$x.'_attr'])) {
-                $label = $system['command'][$x.'_attr']['label'];
-            } else {
-                continue;
-            }
-            if (preg_match('/ \(Standalone\)/', $label, $matches)) {
-                $label = str_replace(' (Standalone)', '', $label);
-            }
-            $data['emulators'][$label] = $system['command'][$x];
-            $system['emulators'][$label] = $system['command'][$x];
-            if (!isset($source['emulators'][$label])) {
-                $source['emulators'][$label] = [
-                    'id' => $label,
-                    'name' => $label,
-                    'platforms' => []
-                ];
-            }
-            $source['emulators'][$label]['platforms'][] = $system['name'];
-        }
-    } else {
-        if (strpos($system['command'], 'EMULATOR_RETROARCH') !== false || isset($system['command_attr'])) {
-            if (strpos($system['command'], 'EMULATOR_RETROARCH') !== false) {
-                if (isset($system['command_attr'])) {
-                    $label = 'RetroArch ('.$system['command_attr']['label'].')';
-                    unset($system['command_attr']);
-                } else {
-                    $label = 'RetroArch';
-                }
-                $system['emulators'][$label] = $system['command'];
-            } elseif (isset($system['command_attr'])) {
-                $label = $system['command_attr']['label'];
-                if (preg_match('/ \(Standalone\)/', $label, $matches)) {
-                    $label = str_replace(' (Standalone)', '', $label);
-                }
-            }
-            $data['emulators'][$label] = $system['command'];
-            $system['emulators'][$label] = $system['command'];
-            unset($system['command_attr']);
-            if (!isset($source['emulators'][$label])) {
-                $source['emulators'][$label] = [
-                    'id' => $label,
-                    'name' => $label,
-                    'platforms' => []
-                ];
-            }
-            $source['emulators'][$label]['platforms'][] = $system['name'];
-        }
+    if (isset($ini['system']['screenscraper.id']))
+        $source['platforms'][$id]['matches'] = [ ['screenscraper', isset($ini['system']['screenscraper.id'])] ];
+    if (isset($ini['properties']['manufacturer'])) {
+        $source['platforms'][$id]['manufacturer'] = $ini['properties']['manufacturer'];
+        if (!array_key_exists($ini['properties']['manufacturer'], $source['companies']))
+        echo "Adding Company {$id}\n";
+        $source['companies'][$ini['properties']['manufacturer']] = [
+            'id' => $source['companies'],
+            'name' => $source['companies'],
+        ];
     }
-    unset($system['command']);
-    $data['platforms'][$system['name']] = $system;
+    for ($x = 0; isset($ini['core.'.$x]); $x++) {
+        $emuData = $ini['core.'.$x];
+        $emuId = $emuData['emulator'];
+        $emuName = $emuData['emulator'];
+        if (isset($emuData['core']) && $emuData['core'] != $emuData['emulator']) {
+            $emuId .= '_'.$emuData['core'];
+            $emuName .= ' '.$emuData['core'];
+        }
+        $emuName = ucwords($emuName);
+        echo "Adding Emulator {$emuId}\n";
+        if (!array_key_exists($emuId, $source['emulators'])) {
+            $source['emulators'][$emuId] = [
+                'id' => $emuId,
+                'name' => $emuName,
+                'platforms' => [],
+            ];
+        }
+        $source['emulators'][$emuId]['platforms'][] = $id;
+    }
 }
-ksort($data['emulators']);
-file_put_contents($dataDir.'/recalbox.json', json_encode($data, getJsonOpts()));
+if ($keepRepo === true) {
+    echo "Removing recalbox\n";
+    echo `rm -rvf recalbox`;
+    echo "done\n";
+}
+// $urls = explode("\n", trim(`grep doc.link.en recalbox-x86_64/package/recalbox-romfs2/systems/*/system.ini|sed s#"^.*/emulators/"#""#g|cut -d\" -f1|sort|uniq`));
+/* foreach ($urls as $url) {
+
+} */
+echo "Writing sources/recalbox.json\n";
+file_put_contents(__DIR__.'/../../../../emurelation/sources/recalbox.json', json_encode($source, getJsonOpts()));
+echo "Reading sources.json\n";
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['recalbox']['updatedLast'] = time();
+echo "Writing sources.json\n";
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../emurelation/sources/recalbox.json', json_encode($source, getJsonOpts()));
+echo "Writing recalbox.json\n";
+$data = $source;
+file_put_contents(__DIR__.'/../../../data/json/recalbox/recalbox.json', json_encode($data, getJsonOpts()));
+echo "done\n";

@@ -494,21 +494,22 @@ function camelSnake($input) {
     return implode('_', $ret);
 }
 
-function gitClone($repo) {
+function gitClone($repo, $recursive = true) {
     $base = basename($repo, '.git');
-    $return = passthru("git clone --recursive {$repo} {$base}");
+
+    $return = passthru("git clone ".($recursive === true ? "--recursive " : "")."{$repo} {$base}");
     return $return == 0;
 }
 
-function gitUpdate($repo) {
+function gitUpdate($repo, $recursive = true) {
     $base = basename($repo, '.git');
     $return = passthru("cd {$base} && git pull --all");
     return $return == 0;
 }
 
-function gitSetup($repo) {
+function gitSetup($repo, $recursive = true) {
     $base = basename($repo, '.git');
-    return file_exists($base) ? gitUpdate($repo) : gitClone($repo);
+    return file_exists($base) ? gitUpdate($repo, $recursive) : gitClone($repo, $recursive);
 }
 
 global $db, $mysqlLinkId;
