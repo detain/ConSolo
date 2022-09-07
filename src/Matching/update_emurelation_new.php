@@ -64,7 +64,7 @@ foreach ($types as $type) {
     }
     $count = count($source[$type]);
     if ($count > 0) {
-        $tables[$type][] = "| [local](local.json) | Local | {$count} | 0 | {$count} | 100% |";
+        $tables[$type][] = "| [local](sources/local.json) | Local | {$count} | 0 | {$count} | 100% |";
     }
 }
 foreach ($types as $type) {
