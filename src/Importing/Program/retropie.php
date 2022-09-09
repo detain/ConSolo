@@ -18,9 +18,8 @@ Options:
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = __DIR__.'/../../../data/json/retropie';
-if (!file_exists($dataDir))
-    mkdir($dataDir, 0777, true);
+if (!file_exists(__DIR__.'/../../../data/json/retropie'))
+    mkdir(__DIR__.'/../../../data/json/retropie', 0777, true);
 $data = [
     'emulators' => [],
     'platforms' => [],
@@ -61,43 +60,47 @@ foreach ($lines as $key => $value) {
 foreach (['emulators', 'libretrocores'] as $section) {
     foreach (glob('RetroPie-Setup/scriptmodules/'.$section.'/*.sh') as $fileName) {
         $file = file_get_contents($fileName);
-        $data = [];
-        $data['platforms'] = [];
+        $emulator = [];
+        $emulator['platforms'] = [];
         preg_match_all('/(^rp_module_(?P<field>[a-z_]*)="(?P<value>.*)"$)+\n/msUu', $file, $matches);
         foreach ($matches['field'] as $idx => $key) {
             $value = $matches['value'][$idx];
-            $data[$key] = $value;
+            $emulator[$key] = $value;
         }
         preg_match_all('/(^\s*addSystem "(?P<platform>.*)"$)+\n/msUu', $file, $matches);
         foreach ($matches['platform'] as $idx => $platform) {
-            echo "[{$data['id']}] Adding platform {$platform}\n";
+            echo "[{$emulator['id']}] Adding platform {$platform}\n";
             if ($platform == '$system') {
                 echo "\$system plat!\n";
                 if (preg_match('/for system in (.*); do/', $file, $systemMatches)) {
-                    echo "[{$data['id']}] found system matches:".$systemMatches[1]."\n";
+                    echo "[{$emulator['id']}] found system matches:".$systemMatches[1]."\n";
                     $platforms = explode(' ', trim(str_replace('"', '', $systemMatches[1])));
                     foreach ($platforms as $systemPlatform) {
-                        echo "[{$data['id']}] Adding system platform {$systemPlatform}\n";
-                        $data['platforms'][] = $systemPlatform;
+                        echo "[{$emulator['id']}] Adding system platform {$systemPlatform}\n";
+                        $emulator['platforms'][] = $systemPlatform;
                     }
                 }
-            } elseif ($platform == '$sys' && $data['id'] == 'lr-flycast') {
-                $data['platforms'] = ['dreamcast', 'arcade'];
+            } elseif ($platform == '$sys' && $emulator['id'] == 'lr-flycast') {
+                $emulator['platforms'] = ['dreamcast', 'arcade'];
             } else {
-                $data['platforms'][] = $platform;
+                $emulator['platforms'][] = $platform;
             }
         }
-        $source['emulators'][$data['id']] = [
-            'id' => $data['id'],
-            'shortName' => $data['id'],
-            'name' => $data['desc'],
-            'platforms' => $data['platforms'],
+        $data['emulators'][$emulator['id']] = $emulator;
+        $source['emulators'][$emulator['id']] = [
+            'id' => $emulator['id'],
+            'shortName' => $emulator['id'],
+            'name' => $emulator['desc'],
+            'platforms' => $emulator['platforms'],
             'altNames' => []
         ];
+        if ($section == 'libretrocores') {
+            $source['emulators'][$emulator['id']]['altNames'][] = str_replace('-', '_', substr($emulator['id'], 3)).'_libretro';
+        }
     }
 }
 echo `rm -rf RetroPie-Setup`;
-file_put_contents($dataDir.'/retropie.json', json_encode($data, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../data/json/retropie/retropie.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['retropie']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));

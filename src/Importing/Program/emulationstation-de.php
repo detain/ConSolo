@@ -47,7 +47,9 @@ foreach ($xml['systemList']['system'] as $system) {
     //echo json_encode($system, getJsonOpts())."\n";
     if (is_array($system['command'])) {
         for ($x = 0; isset($system['command'][$x]); $x++) {
+            $retroarch = false;
             if (strpos($system['command'][$x], 'EMULATOR_RETROARCH') !== false) {
+                $retroarch = true;
                 $label = 'RetroArch'.(isset($system['command'][$x.'_attr']) ? ' ('.$system['command'][$x.'_attr']['label'].')' : '');
             } elseif (isset($system['command'][$x.'_attr'])) {
                 $label = $system['command'][$x.'_attr']['label'];
@@ -63,14 +65,20 @@ foreach ($xml['systemList']['system'] as $system) {
                 $source['emulators'][$label] = [
                     'id' => $label,
                     'name' => $label,
-                    'platforms' => []
+                    'platforms' => [],
+                    'altNames' => []
                 ];
             }
             $source['emulators'][$label]['platforms'][] = $system['name'];
+            if ($retroarch === true && !in_array(preg_replace('/^.*\\\\(.*)\.dll.*$/', '$1', $system['command'][$x]), $source['emulators'][$label]['altNames'])) {
+                $source['emulators'][$label]['altNames'][] = preg_replace('/^.*\\\\(.*)\.dll.*$/', '$1', $system['command'][$x]);
+            }
         }
     } else {
         if (strpos($system['command'], 'EMULATOR_RETROARCH') !== false || isset($system['command_attr'])) {
+            $retroarch = false;
             if (strpos($system['command'], 'EMULATOR_RETROARCH') !== false) {
+                $retroarch = true;
                 if (isset($system['command_attr'])) {
                     $label = 'RetroArch ('.$system['command_attr']['label'].')';
                     unset($system['command_attr']);
@@ -91,10 +99,14 @@ foreach ($xml['systemList']['system'] as $system) {
                 $source['emulators'][$label] = [
                     'id' => $label,
                     'name' => $label,
-                    'platforms' => []
+                    'platforms' => [],
+                    'altNames' => []
                 ];
             }
             $source['emulators'][$label]['platforms'][] = $system['name'];
+            if ($retroarch === true && !in_array(preg_replace('/^.*\\\\(.*)\.dll.*$/', '$1', $system['command']), $source['emulators'][$label]['altNames'])) {
+                $source['emulators'][$label]['altNames'][] = preg_replace('/^.*\\\\(.*)\.dll.*$/', '$1', $system['command']);
+            }
         }
     }
     unset($system['command']);

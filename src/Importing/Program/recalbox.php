@@ -79,7 +79,11 @@ foreach (glob('recalbox/package/recalbox-romfs2/systems/*/system.ini') as $fileN
                 'id' => $emuId,
                 'name' => $emuName,
                 'platforms' => [],
+                'altNames' => [],
             ];
+        }
+        if ($emuData['emulator'] == 'libretro' && !in_array($emuData['core'].'_libretro', $source['emulators'][$emuId]['altNames'])) {
+            $source['emulators'][$emuId]['altNames'][] = $emuData['core'].'_libretro';
         }
         echo "          Adding Platform {$id} to Emulator {$emuId}\n";
         $source['emulators'][$emuId]['platforms'][] = $id;
