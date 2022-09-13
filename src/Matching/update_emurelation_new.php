@@ -158,6 +158,15 @@ foreach ($listTypes as $listType) {
         unset($source[$listType][$targetId]['names']);
     }
 }
+/*
+@mkdir(__DIR__.'/../../../emurelation/unmatched', 0777, true);
+foreach ($listTypes as $listType) {
+    @mkdir(__DIR__.'/../../../emurelation/unmatched/'.$listType, 0777, true);
+    foreach ($unmatched[$listType] as $sourceId => $sourceData) {
+        file_put_contents(__DIR__.'/../../../emurelation/unmatched/'.$listType.'/'.$sourceId.'.json', json_encode($sourceData, getJsonOpts()));
+    }
+}
+*/
 file_put_contents(__DIR__.'/../../../emurelation/unmatched.json', json_encode($unmatched, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
 //file_put_contents(__DIR__.'/../../../emurelation/used.json', json_encode($used, getJsonOpts()));

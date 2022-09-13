@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -29,8 +29,9 @@ $source = [
     'platforms' => [],
     'emulators' => []
 ];
-gitSetup('https://github.com/kaylh/RetroBat');
-$xml = xml2array(file_get_contents('RetroBat/system/templates/emulationstation/es_systems_retrobat.cfg'));
+//gitSetup('https://github.com/kaylh/RetroBat');
+//$xml = xml2array(file_get_contents('RetroBat/system/templates/emulationstation/es_systems_retrobat.cfg'));
+$xml = xml2array(file_get_contents('es_systems_retrobat.cfg'));
 //echo `rm -rf RetroBat`;
 foreach ($xml['systemList']['system'] as $system) {
     $source['platforms'][$system['name']] = [
