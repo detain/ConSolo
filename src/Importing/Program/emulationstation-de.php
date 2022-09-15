@@ -198,7 +198,7 @@ foreach ($xml['systemList']['system'] as $system) {
     $data['platforms'][$system['name']] = $system;
 }
 ksort($data['emulators']);
-file_put_contents($dataDir.'/esde.json', json_encode($data, getJsonOpts()));
+file_put_contents($dataDir.'/emulationstation-de.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['emulationstation-de']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
