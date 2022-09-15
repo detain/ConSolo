@@ -3,7 +3,7 @@
 * MAME XML Data Scanner
 */
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
 	die("Syntax:
@@ -21,7 +21,7 @@ Options:
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = __DIR__.'/../../../../data';
+$dataDir = __DIR__.'/../../../data';
 $configKey = 'mame';
 $row = $db->query("select * from config where field='{$configKey}'");
 if (count($row) == 0) {
@@ -228,10 +228,10 @@ foreach ($xml as $list) {
 }
 echo `rm -rf /tmp/update;`;
 file_put_contents($dataDir.'/json/mame/platforms.json', json_encode($mame['platforms'], getJsonOpts()));
-$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['mame']['updatedLast'] = time();
-file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../../emurelation/sources/mame.json', json_encode($mame, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources/mame.json', json_encode($mame, getJsonOpts()));
 if (!in_array('--no-db', $_SERVER['argv'])) {
     $db->query("update config set config.value='{$version}' where field='{$configKey}'");
 }
