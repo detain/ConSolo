@@ -60,10 +60,33 @@ foreach ($listTypes as $listType) {
                     if (!isset($used[$listType][$matchSourceId])) {
                         $used[$listType][$matchSourceId] = [];
                     }
-                    $used[$listType][$matchSourceId][] = $matchTargetId;
+                    if (!in_array($matchTargetId, $used[$listType][$matchSourceId])) {
+                        $used[$listType][$matchSourceId][] = $matchTargetId;
+                    }
+                    if (isset($sources[$matchSourceId][$listType][$matchTargetId]['matches'])) {
+                        foreach ($sources[$matchSourceId][$listType][$matchTargetId]['matches'] as $subMatchSourceId => $subMatchTargets) {
+                            foreach ($subMatchTargets as $subMatchTargetId) {
+                                if (isset($sources[$subMatchSourceId][$listType][$subMatchTargetId])) { // it finds the match in the targeted source
+                                    if (!isset($used[$listType][$subMatchSourceId])) {
+                                        $used[$listType][$subMatchSourceId] = [];
+                                    }
+                                    if (!in_array($subMatchTargetId, $used[$listType][$subMatchSourceId])) {
+                                        $used[$listType][$subMatchSourceId][] = $subMatchTargetId;
+                                    }
+                                    if (!isset($source[$listType][$localTypeId]['matches'][$subMatchSourceId])) {
+                                        $source[$listType][$localTypeId]['matches'][$subMatchSourceId] = [];
+                                    }
+                                    if (!in_array($subMatchTargetId, $source[$listType][$localTypeId]['matches'][$subMatchSourceId])) {
+                                        echo "Adding match type {$listType} {$localTypeId} source {$subMatchSourceId} {$subMatchTargetId}\n";
+                                        $source[$listType][$localTypeId]['matches'][$subMatchSourceId][] = $subMatchTargetId;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     foreach ($sources[$matchSourceId][$listType][$matchTargetId]['names'] as $name) {
                         if (!in_array(strtolower($name), $allNames[$listType][$localTypeId])) {
-                            echo "Adding Allnames[{$listType}][{$localTypeId}]  didnt have ".strtolower($name)."\n";
+                            //echo "Adding Allnames[{$listType}][{$localTypeId}]  didnt have ".strtolower($name)."\n";
                             $allNames[$listType][$localTypeId][] = strtolower($name);
                         }
                     }
@@ -116,7 +139,7 @@ foreach ($listTypes as $listType) {
                                     }
                                     $source[$listType][$localTypeId]['matches'][$sourceId][] = $targetId;
                                 }
-                                echo "Found by Name local:{$localTypeId} - {$sourceId}:{$targetId}\n";
+                                //echo "Found by Name local:{$localTypeId} - {$sourceId}:{$targetId}\n";
                                 break 2;
                             }
                         }

@@ -104,8 +104,12 @@ foreach ($systemLists as $idx => $system) {
             'id' => $id
         ];
         if (isset($source['platforms'][$arrmId])) {
-            $source['platforms'][$arrmId]['matches'][] = [$system, $id];
-            $data['platforms'][$arrmId]['matches'][] = [$system, $id];
+            if (!isset($source['platforms'][$arrmId]['matches'][$system])) {
+                $data['platforms'][$arrmId]['matches'][$system] = [];
+                $source['platforms'][$arrmId]['matches'][$system] = [];
+            }
+            $data['platforms'][$arrmId]['matches'][$system][] = $id;
+            $source['platforms'][$arrmId]['matches'][$system][] = $id;
         } else {
             //echo "Not found {$arrmId}\n";
         }
