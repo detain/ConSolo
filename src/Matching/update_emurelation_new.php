@@ -52,6 +52,8 @@ foreach ($listTypes as $listType) {
                 }
             }
         }
+        if (!isset($localData['matches']))
+            $localData['matches'] = [];
         foreach ($localData['matches'] as $matchSourceId => $matchTargets) {
             foreach ($matchTargets as $matchTargetId) {
                 if (isset($sources[$matchSourceId][$listType][$matchTargetId])) { // it finds the match in the targeted source
@@ -120,7 +122,7 @@ foreach ($listTypes as $listType) {
                         }
                     }
                 }
-                if (!in_array($targetId, $used[$listType][$sourceId])) {
+                if (!in_array($targetId, $used[$listType][$sourceId]) && isset($targetData['name'])) {
                     if (!array_key_exists($sourceId, $unmatched[$listType])) {
                         $unmatched[$listType][$sourceId] = [];
                     }
@@ -158,15 +160,15 @@ foreach ($listTypes as $listType) {
         unset($source[$listType][$targetId]['names']);
     }
 }
-/*
+
 @mkdir(__DIR__.'/../../../emurelation/unmatched', 0777, true);
 foreach ($listTypes as $listType) {
+    file_put_contents(__DIR__.'/../../../emurelation/unmatched/'.$listType.'.json', json_encode($unmatched[$listType], getJsonOpts()));
     @mkdir(__DIR__.'/../../../emurelation/unmatched/'.$listType, 0777, true);
     foreach ($unmatched[$listType] as $sourceId => $sourceData) {
         file_put_contents(__DIR__.'/../../../emurelation/unmatched/'.$listType.'/'.$sourceId.'.json', json_encode($sourceData, getJsonOpts()));
     }
 }
-*/
 file_put_contents(__DIR__.'/../../../emurelation/unmatched.json', json_encode($unmatched, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../emurelation/sources/local.json', json_encode($source, getJsonOpts()));
 //file_put_contents(__DIR__.'/../../../emurelation/used.json', json_encode($used, getJsonOpts()));

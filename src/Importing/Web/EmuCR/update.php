@@ -25,7 +25,7 @@ Options:
 global $db;
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
-$useCache = !in_array('--no-cache', $_SERVER['argv']);;
+$useCache = !in_array('--no-cache', $_SERVER['argv']);
 $dataDir = __DIR__.'/../../../../data/json/emucr';
 $sitePrefix = 'https://www.emucr.com/';
 $dir = '/mnt/e/dev/ConSolo/mirror/emucr/www.emucr.com';
