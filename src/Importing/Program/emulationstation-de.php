@@ -19,7 +19,7 @@ Options:
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = __DIR__.'/../../../data/json/emulationstation-de';
+$dataDir = __DIR__.'/../../../data/json';
 if (!file_exists($dataDir))
     mkdir($dataDir, 0777, true);
 $force = in_array('-f', $_SERVER['argv']);
@@ -27,8 +27,8 @@ $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);
 $keep = in_array('-k', $_SERVER['argv']);
 $data = [
-    'emulators' => [],
     'platforms' => [],
+    'emulators' => [],
 ];
 $source = [
     'platforms' => [],
@@ -68,18 +68,18 @@ foreach ($xml['ruleList']['emulator'] as $emu) {
                     //echo "Got here with {$entry} for {$name}\n";
                     if (!array_key_exists($name, $emuBins)) {
                         $emuBins[$name] = [
-                            'dirs' => [],
-                            'bins' => [],
+                            'dir' => [],
+                            'bin' => [],
                         ];
                     }
                     $bin = basename(str_replace('\\', '/', $entry));
-                    if (!in_array($bin, $emuBins[$name]['bins'])) {
-                        $emuBins[$name]['bins'][] = $bin;
+                    if (!in_array($bin, $emuBins[$name]['bin'])) {
+                        $emuBins[$name]['bin'][] = $bin;
                     }
                     if ($rule['attr']['type'] != 'systempath') {
                         $dir = explode('\\', $entry)[0];
-                        if (!in_array($dir, $emuBins[$name]['dirs'])) {
-                            $emuBins[$name]['dirs'][] = $dir;
+                        if (!in_array($dir, $emuBins[$name]['dir'])) {
+                            $emuBins[$name]['dir'][] = $dir;
                         }
                     }
                 }
@@ -95,20 +95,25 @@ if (!$keep) {
     echo `rm -rf emulationstation-de`;
 }
 foreach ($xml['systemList']['system'] as $system) {
-    $source['platforms'][$system['name']] = [
-        'id' => $system['name'],
-        'shortName' => $system['name'],
-        'name' => $system['fullname'],
+    $system['id'] = $system['name'];
+    $system['shortName'] = $system['id'];
+    $system['name'] = $system['fullname'];
+    $system['ext'] = trim($system['extension']) != '' ? explode(' ', trim($system['extension'])) : [];
+    $source['platforms'][$system['id']] = [
+        'id' => $system['id'],
+        'shortName' => $system['id'],
+        'name' => $system['name'],
         'altNames' => []
     ];
-    if ($system['platform'] != $system['name']) {
+    if ($system['platform'] != $system['id']) {
         $system['parent'] = $system['platform'];
         if (strpos($system['parent'], ', ') !== false) {
             $system['parent'] = explode(', ', $system['parent'])[1];
         }
-        $source['platforms'][$system['name']]['parent'] = $system['parent'];
+        $source['platforms'][$system['id']]['parent'] = $system['parent'];
     }
-
+    unset($system['extension']);
+    unset($system['fullname']);
     unset($system['path']);
     unset($system['platform']);
     unset($system['theme']);
@@ -136,7 +141,7 @@ foreach ($xml['systemList']['system'] as $system) {
                     $label = str_replace(' (Standalone)', '', $label);
                 }
             } else {
-                //echo "Skipping {$system['name']} ".json_encode($system['command'][$x])."\n";
+                //echo "Skipping {$system['id']} ".json_encode($system['command'][$x])."\n";
                 //continue;
             }
             if (preg_match('/%EMULATOR_(?P<emulator>[^%]+)%/', $system['command'][$x], $matches)) {
@@ -147,7 +152,7 @@ foreach ($xml['systemList']['system'] as $system) {
             }
             if ($label) {
                 if (strpos($label, 'ES-DE') !== false) {
-                    //echo "Skipping {$system['name']} {$label} ".json_encode($system['command'][$x])."\n";
+                    //echo "Skipping {$system['id']} {$label} ".json_encode($system['command'][$x])."\n";
                     continue;
                 }
                 if (!array_key_exists($label, $data['emulators'])) {
@@ -155,18 +160,18 @@ foreach ($xml['systemList']['system'] as $system) {
                         'id' => $label,
                         'name' => $label,
                         'platforms' => [],
-                        'dirs' => [],
-                        'bins' => [],
-                        'cmds' => [],
+                        'dir' => [],
+                        'bin' => [],
+                        'cmd' => [],
                     ];
                 }
-                if (!in_array($system['command'][$x], $data['emulators'][$label]['cmds'])) {
-                    $data['emulators'][$label]['cmds'][] = $system['command'][$x];
+                if (!in_array($system['command'][$x], $data['emulators'][$label]['cmd'])) {
+                    $data['emulators'][$label]['cmd'][] = $system['command'][$x];
                 }
-                if (!in_array($system['name'], $data['emulators'][$label]['platforms'])) {
-                    $data['emulators'][$label]['platforms'][] = $system['name'];
+                if (!in_array($system['id'], $data['emulators'][$label]['platforms'])) {
+                    $data['emulators'][$label]['platforms'][] = $system['id'];
                 }
-                foreach (['dirs', 'bins'] as $field) {
+                foreach (['dir', 'bin'] as $field) {
                     foreach ($emuBins[$matches['emulator']][$field] as $value) {
                         if (!in_array($value, $data['emulators'][$label][$field])) {
                             $data['emulators'][$label][$field][] = $value;
@@ -182,12 +187,12 @@ foreach ($xml['systemList']['system'] as $system) {
                         'altNames' => []
                     ];
                 }
-                $source['emulators'][$label]['platforms'][] = $system['name'];
+                $source['emulators'][$label]['platforms'][] = $system['id'];
                 if ($retroarch === true && !in_array(preg_replace('/^.*\\\\(.*)\.dll.*$/', '$1', $system['command'][$x]), $source['emulators'][$label]['altNames'])) {
                     $source['emulators'][$label]['altNames'][] = preg_replace('/^.*\\\\(.*)\.dll.*$/', '$1', $system['command'][$x]);
                 }
             } else {
-                //echo "Got here with {$system['name']} and no emulators\n";
+                //echo "Got here with {$system['id']} and no emulators\n";
                 if ($system['command'][$x] != 'PLACEHOLDER %ROM%') {
                     $system['cmd'] = $system['command'][$x];
                 }
@@ -195,7 +200,7 @@ foreach ($xml['systemList']['system'] as $system) {
         }
     }
     unset($system['command']);
-    $data['platforms'][$system['name']] = $system;
+    $data['platforms'][$system['id']] = $system;
 }
 ksort($data['emulators']);
 file_put_contents($dataDir.'/emulationstation-de.json', json_encode($data, getJsonOpts()));
