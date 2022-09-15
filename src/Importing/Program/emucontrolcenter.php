@@ -6,7 +6,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = __DIR__.'/../../../../data/json/emucontrolcenter';
+$dataDir = __DIR__.'/../../../../data/json';
 if (!file_exists($dataDir))
     mkdir($dataDir, 0777, true);
 // emuControlCenter emuControlCenter.wiki emuDownloadCenter emuDownloadCenter.wiki ecc-datfiles ecc-toolsused ecc-updates
@@ -121,6 +121,7 @@ echo "Loading misc Images..\n";
 $data['misc_images'] = glob('emuDownloadCenter.wiki/images_misc/*');
 echo "Writing JSON...\n";
 file_put_contents($dataDir.'/emucontrolcenter.json', json_encode($data, getJsonOpts()));
+/*
 foreach ($data as $key => $value) {
     file_put_contents($dataDir.'/'.$key.'.json', json_encode($value, getJsonOpts()));
     if (in_array($key, ['emulators', 'platforms']))
@@ -130,6 +131,7 @@ foreach ($data as $key => $value) {
                 file_put_contents($dataDir.'/'.$key.'/'.$subKey.'.json', json_encode($subValue, getJsonOpts()));
         }
 }
+*/
 echo "Cleaning up repos..\n";
 foreach ($repos as $repo)
     echo `rm -rf {$repo};`;
