@@ -6,7 +6,7 @@ require_once __DIR__.'/../../../bootstrap.php';
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = __DIR__.'/../../../../data/json';
+$dataDir = __DIR__.'/../../../data/json';
 if (!file_exists($dataDir))
     mkdir($dataDir, 0777, true);
 // emuControlCenter emuControlCenter.wiki emuDownloadCenter emuDownloadCenter.wiki ecc-datfiles ecc-toolsused ecc-updates
@@ -163,7 +163,7 @@ foreach ($data['platforms'] as $idx => $platData) {
         }
     }
 }
-$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['emucontrolcenter']['updatedLast'] = time();
-file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../../emurelation/sources/emucontrolcenter.json', json_encode($source, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources/emucontrolcenter.json', json_encode($source, getJsonOpts()));

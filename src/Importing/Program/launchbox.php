@@ -18,7 +18,7 @@ Options:
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = __DIR__.'/../../../../data';
+$dataDir = __DIR__.'/../../../data';
 $jsonDir = $dataDir.'/json/launchbox';
 $xmlDir = $dataDir.'/xml/launchbox';
 $url = 'https://gamesdb.launchbox-app.com/Metadata.zip';
@@ -180,7 +180,7 @@ if (!$keepXml) {
 if (!$skipDb) {
     $db->query("update config set config.value='{$modified}' where field='{$configKey}'");
 }
-$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['launchbox']['updatedLast'] = time();
-file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../../emurelation/sources/launchbox.json', json_encode($source, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources/launchbox.json', json_encode($source, getJsonOpts()));
