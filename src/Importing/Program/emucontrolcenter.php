@@ -112,7 +112,19 @@ foreach ($data['emulators'] as $id => $emulator) {
     }
     echo ' (downloads)';
     $emulator['downloads'] = loadIni('emuDownloadCenter/hooks/'.$id.'/emulator_downloads.ini');
+    $emulator['platforms'] = trim($emulator['platform']) == '' ? [] : explode(',',  $emulator['platform']);
+    unset($emulator['platform']);
     unset($emulator['downloads']['INFO']);
+    $emulator['bin'] = [$emulator['downloads'][array_keys($emulator['downloads'])[0]]['EMU_ExecutableFile']];
+    $emulator['cmd'] = ['%BIN% '.$emulator['frontend']['global']['CFG_param']];
+    if (trim($emulator['website']) != '') {
+        $emulator['web'] = [trim($emulator['website']) => 'home'];
+    }
+    if (isset($emulator['notes'])) {
+        $emulator['description'] = $emulator['notes'];
+        unset($emulator['notes']);
+    }
+    unset($emulator['website']);
     unset($emulator['frontend']['INFO']);
     $data['emulators'][$id] = $emulator;
     echo "\n";

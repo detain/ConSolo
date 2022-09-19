@@ -45,8 +45,8 @@ $source = [
     'companies' => [],
     'emulators' => []
 ];
-if (!file_Exists(__DIR__.'/../../../../data/json/emulationking')) {
-	mkdir(__DIR__.'/../../../../data/json/emulationking', 0777, true);
+if (!file_Exists(__DIR__.'/../../../../data/json')) {
+	mkdir(__DIR__.'/../../../../data/json', 0777, true);
 }
 $converter = new CssSelectorConverter();
 $html = getcurlpage($url);
@@ -186,8 +186,8 @@ foreach ($companies as $idxMan => $company) {
     }
 }
 echo "Writing Parsed Tree..";
-file_put_contents(__DIR__.'/../../../../data/json/emulationking/emulationking.json', json_encode($companies, getJsonOpts()));
-$companies = json_decode(file_get_contents(__DIR__.'/../../../../data/json/emulationking/emulationking.json'), true);
+file_put_contents(__DIR__.'/../../../../data/json/emulationking.json', json_encode($companies, getJsonOpts()));
+$companies = json_decode(file_get_contents(__DIR__.'/../../../../data/json/emulationking.json'), true);
 echo "done\n";
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
 $sources['emulationking']['updatedLast'] = time();

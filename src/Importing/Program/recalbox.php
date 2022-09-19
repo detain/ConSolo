@@ -20,8 +20,8 @@ Options:
 */
 global $db;
 $keepRepo = in_array('-k', $_SERVER['argv']);
-if (!file_exists(__DIR__.'/../../../data/json/recalbox'))
-    mkdir(__DIR__.'/../../../data/json/recalbox', 0777, true);
+if (!file_exists(__DIR__.'/../../../data/json'))
+    mkdir(__DIR__.'/../../../data/json', 0777, true);
 $data = [
     'emulators' => [],
     'platforms' => [],
@@ -103,5 +103,5 @@ echo "Writing sources.json\n";
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
 echo "Writing recalbox.json\n";
 $data = $source;
-file_put_contents(__DIR__.'/../../../data/json/recalbox/recalbox.json', json_encode($data, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../data/json/recalbox.json', json_encode($data, getJsonOpts()));
 echo "done\n";

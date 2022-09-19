@@ -18,8 +18,8 @@ Options:
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-if (!file_exists(__DIR__.'/../../../data/json/retropie'))
-    mkdir(__DIR__.'/../../../data/json/retropie', 0777, true);
+if (!file_exists(__DIR__.'/../../../data/json'))
+    mkdir(__DIR__.'/../../../data/json', 0777, true);
 $data = [
     'emulators' => [],
     'platforms' => [],
@@ -100,7 +100,7 @@ foreach (['emulators', 'libretrocores'] as $section) {
     }
 }
 echo `rm -rf RetroPie-Setup`;
-file_put_contents(__DIR__.'/../../../data/json/retropie/retropie.json', json_encode($data, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../data/json/retropie.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['retropie']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
