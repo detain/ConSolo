@@ -46,7 +46,7 @@ echo `rm -rf {$dir};`;
 echo `7z x -o{$dir} dats.zip;`;
 unlink('dats.zip');
 foreach (glob($dir.'/TOSEC*') as $tosecdir) {
-    $import = new \Detain\ConSolo\Importing\DAT\ImportDat();
+    $import = new \Detain\ConSolo\Importing\ImportDat();
     $import
         ->setReplacements([
             ['/ - .*$/', '']])

@@ -53,7 +53,7 @@ echo `rm -rf {$dir};`;
 @mkdir($dir, 0775, true);
 echo `7z x -o{$dir} dats.zip;`;
 unlink('dats.zip');
-$import = new \Detain\ConSolo\Importing\DAT\ImportDat();
+$import = new \Detain\ConSolo\Importing\ImportDat();
 $import
     ->setReplacements([
         ['/ \(.*$/', ''],
