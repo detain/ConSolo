@@ -3,7 +3,7 @@
 * grabs latest nointro data and updates db
 */
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -30,7 +30,7 @@ if (count($row) == 0) {
 }
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
-$dataDir = __DIR__.'/../../../../data';
+$dataDir = __DIR__.'/../../../data';
 $type = 'Redump';
 $dir = $dataDir.'/dat/'.$type;
 $glob = $dir.'/*';

@@ -3,7 +3,7 @@
 * grabs latest nointro data and updates db
 */
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 use Goutte\Client;
 
@@ -38,7 +38,7 @@ echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval(str_replace('-','', $version)) <= intval(str_replace('-','', $last)) && !$force) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
-$dataDir = __DIR__.'/../../../../data';
+$dataDir = __DIR__.'/../../../data';
 $type = 'No-Intro';
 $dir = $dataDir.'/dat/'.$type;
 $glob = $dir.'/*.dat';

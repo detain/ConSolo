@@ -3,7 +3,7 @@
 * grabs latest tosec data and updates db
 */
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -37,7 +37,7 @@ echo "Last:    {$last}\nCurrent: {$version}\n";
 if (intval($version) <= intval($last) && !$force) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
-$dataDir = __DIR__.'/../../../../data';
+$dataDir = __DIR__.'/../../../data';
 $type = 'TOSEC';
 $dir = $dataDir.'/dat/'.$type;
 $url = trim(`curl -s "https://www.tosecdev.org{$url}"|grep "<a class=\"btn btn-success"|cut -d\" -f8`);
