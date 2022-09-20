@@ -2,27 +2,102 @@
 
 require_once __DIR__.'/../../bootstrap.php';
 
+if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
+    die("Syntax:
+    php ".$_SERVER['argv'][0]." <options>
+
+Options:
+    -h, --help      this screen
+    -f, --force     force update even if already latest version
+    -a, --all       download all related repos
+    -k, --keep      keep the repos
+    --no-db         skip the db updates/inserts
+    --no-cache      disables use of the file cache
+
+");
+}
 /**
 * @var \Workerman\MySQL\Connection
 */
 global $db;
-$dataDir = __DIR__.'/../../../data/json';
-if (!file_exists($dataDir))
-    mkdir($dataDir, 0777, true);
-// emuControlCenter emuControlCenter.wiki emuDownloadCenter emuDownloadCenter.wiki ecc-datfiles ecc-toolsused ecc-updates
-// edc-repo0001 edc-repo0002 edc-repo0003 edc-repo0004 edc-repo0005 edc-repo0006 edc-repo0007 edc-repo0008 edc-repo0009
+$force = in_array('-f', $_SERVER['argv']) || in_array('--force', $_SERVER['argv']);
+$keep = in_array('-k', $_SERVER['argv']) || in_array('--keep', $_SERVER['argv']);
+$allRepos = in_array('-a', $_SERVER['argv']) || in_array('--all', $_SERVER['argv']);
+$skipDb = in_array('--no-db', $_SERVER['argv']);
+$useCache = !in_array('--no-cache', $_SERVER['argv']);
 $repos = ['emuDownloadCenter', 'emuDownloadCenter.wiki', 'emuControlCenter'];
 $data = [
-    'emulators' => [],
     'platforms' => [],
+    'companies' => [],
+    'emulators' => [],
+    'games' => [],
     'countries' => [],
     'languages' => [],
 ];
 $source = [
     'platforms' => [],
     'companies' => [],
-    'emulators' => []
+    'emulators' => [],
+    'games' => [],
 ];
+$gameFields = ['name', 'extension', 'crc32', 'running', 'bugs', 'trainer', 'intro', 'usermod', 'freeware', 'multiplayer', 'netplay',
+    'year', 'usk', 'category', 'languages', 'creator', 'hardware', 'doublettes', 'info', 'info_id', 'publisher', 'storage', 'filesize',
+    'programmer', 'musican', 'graphics', 'media_type', 'media_current', 'media_count', 'region', 'category_base', 'dump_type'];
+$gameBools = ['running', 'bugs', 'intro', 'usermod', 'freeware', 'netplay'];
+$gameInts = ['trainer', 'multiplayer', 'category', 'storage', 'media_type', 'dump_type', 'media_count', 'media_current', 'filesize', 'usk'];
+$allRepos = ['emuControlCenter', 'emuDownloadCenter', 'emuControlCenter.wiki', 'emuDownloadCenter.wiki', 'ecc-datfiles', 'ecc-toolsused', 'ecc-updates',
+    'edc-repo0001', 'edc-repo0002', 'edc-repo0003', 'edc-repo0004', 'edc-repo0005', 'edc-repo0006', 'edc-repo0007', 'edc-repo0008', 'edc-repo0009'];
+if ($allRepos) {
+    foreach ($allRepos as $repo) {
+        gitSetup('https://github.com/PhoenixInteractiveNL/'.$repo);
+    }
+}
+gitSetup('https://github.com/PhoenixInteractiveNL/ecc-datfiles');
+echo "Exctracting Game DAT Files\n";
+foreach (glob('ecc-datfiles/*.7z') as $fileName) {
+    echo `7z x -aoa -oecc-datfiles {$fileName};`;
+}
+echo "Loading Game DAT Files\n";
+foreach (glob('ecc-datfiles/*.eccDat') as $fileName) {
+    echo "  Loading and parsing {$fileName}...";
+    echo `iconv -f ISO-8859-14 -t UTF-8 "{$fileName}" -o "{$fileName}_new" || rm -fv "{$fileName}_new" && mv -fv "{$fileName}_new" "{$fileName}";`;
+    echo `dos2unix "{$fileName}";`;
+    if (!preg_match_all('/^(?P<eccident>[^;\s]*);(?P<name>[^;]*);(?P<extension>[^;]*);(?P<crc32>[^;]*);(?P<running>[^;]*);(?P<bugs>[^;]*);(?P<trainer>[^;]*);(?P<intro>[^;]*);(?P<usermod>[^;]*);(?P<freeware>[^;]*);(?P<multiplayer>[^;]*);(?P<netplay>[^;]*);(?P<year>[^;]*);(?P<usk>[^;]*);(?P<category>[^;]*);(?P<languages>[^;]*);(?P<creator>[^;]*);(?P<hardware>[^;]*);(?P<doublettes>[^;]*);(?P<info>[^;]*);(?P<info_id>[^;]*);(?P<publisher>[^;]*);(?P<storage>[^;]*);(?P<filesize>[^;]*);(?P<programmer>[^;]*);(?P<musican>[^;]*);(?P<graphics>[^;]*);(?P<media_type>[^;]*);(?P<media_current>[^;]*);(?P<media_count>[^;]*);(?P<region>[^;]*);(?P<category_base>[^;]*);(?P<dump_type>[^;]*);#$/mu', file_get_contents($fileName), $matches)) {
+        echo "Couldnt find matches in {$fileName}\n";
+    } else {
+        echo count($matches['eccident'])." matches found\n";
+        foreach ($matches['eccident'] as $idx => $platId) {
+            if ($platId == 'eccident') {
+                continue;
+            }
+            $gameId = $platId.'_'.$idx;
+            $game = [
+                'id' => $gameId,
+                'platform' => $platId,
+            ];
+            foreach ($gameFields as $field) {
+                if (isset($matches[$field][$idx]) && $matches[$field][$idx] != '') {
+                    $game[$field] = $matches[$field][$idx];
+                    if (in_array($field, $gameBools)) {
+                        $game[$field] = $game[$field] == "1";
+                    } elseif (in_array($field, $gameInts)) {
+                        $game[$field] = intval($game[$field]);
+                    }
+                }
+            }
+            if (isset($game['languages'])) {
+                $game['languages'] = explode('|', $game['languages']);
+            }
+            $data['games'][$gameId] = $game;
+            $source['games'][$gameId] = [
+                'id' => $gameId,
+                'name' => $game['name'],
+                'platform' => $game['platform']
+            ];
+        }
+    }
+    @unlink($fileName);
+}
 gitSetup('https://github.com/PhoenixInteractiveNL/emuDownloadCenter');
 echo "Loading Language/Countriy Data..\n";
 foreach (($ini = loadIni('emuDownloadCenter/edc_conversion_language.ini'))['COUNTRY'] as $id => $value)
@@ -132,22 +207,23 @@ foreach ($data['emulators'] as $id => $emulator) {
 echo "Loading misc Images..\n";
 $data['misc_images'] = glob('emuDownloadCenter.wiki/images_misc/*');
 echo "Writing JSON...\n";
-file_put_contents($dataDir.'/emucontrolcenter.json', json_encode($data, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../emulation-data/emucontrolcenter.json', json_encode($data, getJsonOpts()));
 /*
 foreach ($data as $key => $value) {
-    file_put_contents($dataDir.'/'.$key.'.json', json_encode($value, getJsonOpts()));
+    file_put_contents(__DIR__.'/../../../data/json/'.$key.'.json', json_encode($value, getJsonOpts()));
     if (in_array($key, ['emulators', 'platforms']))
         foreach ($value as $subKey => $subValue) {
-            if (!file_exists($dataDir.'/'.$key))
-                mkdir($dataDir.'/'.$key);
-                file_put_contents($dataDir.'/'.$key.'/'.$subKey.'.json', json_encode($subValue, getJsonOpts()));
+            if (!file_exists(__DIR__.'/../../../data/json/'.$key))
+                mkdir(__DIR__.'/../../../data/json/'.$key);
+                file_put_contents(__DIR__.'/../../../data/json/'.$key.'/'.$subKey.'.json', json_encode($subValue, getJsonOpts()));
         }
 }
 */
+/*
 echo "Cleaning up repos..\n";
 foreach ($repos as $repo)
     echo `rm -rf {$repo};`;
-
+*/
 foreach ($data['emulators'] as $idx => $emuData) {
     $source['emulators'][$emuData['id']] = [
         'id' => $emuData['id'],
@@ -168,6 +244,7 @@ foreach ($data['platforms'] as $idx => $platData) {
             'id' => $platData['manufacturer'],
             'name' => $platData['manufacturer']
         ];
+        $data['companies'][$platData['manufacturer']] = $source['companies'][$platData['manufacturer']];
     }
     if (isset($platData['emulators'])) {
         foreach ($platData['emulators'] as $emulator) {
