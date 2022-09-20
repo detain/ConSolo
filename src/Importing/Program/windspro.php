@@ -70,8 +70,8 @@ foreach ($json['emulators'] as $emulator) {
         'id' => $id,
         'name' => $id,
         'platforms' => $platIds,
-        'bin' => $emulator['executable'],
-        'dir' => $emulator['folder'],
+        'bin' => [$emulator['executable']],
+        'dir' => [$emulator['folder']],
         'ext' => trim($emulator['extensions']) != '' ? explode(')(', substr($emulator['extensions'], 1, strlen($emulator['extensions']) - 2)) : [],
     ];
     $source['emulators'][$id] = [

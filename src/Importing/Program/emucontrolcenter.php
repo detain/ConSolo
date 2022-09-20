@@ -118,7 +118,7 @@ foreach ($data['emulators'] as $id => $emulator) {
     $emulator['bin'] = [$emulator['downloads'][array_keys($emulator['downloads'])[0]]['EMU_ExecutableFile']];
     $emulator['cmd'] = ['%BIN% '.$emulator['frontend']['global']['CFG_param']];
     if (trim($emulator['website']) != '') {
-        $emulator['web'] = [trim($emulator['website']) => 'home'];
+        $emulator['web'] = [trim($emulator['website']) => strpos($emulator['website'], 'github.com') !== false ? 'repo' : 'home'];
     }
     if (isset($emulator['notes'])) {
         $emulator['description'] = $emulator['notes'];
@@ -162,7 +162,7 @@ foreach ($data['platforms'] as $idx => $platData) {
         'name' => $platData['name'],
         'shortName' => $platData['id'],
     ];
-    if (isset($platData['manufacturer'])) {
+    if (isset($platData['manufacturer']) && !in_array($platData['manufacturer'], ['-', '----------'])) {
         $source['platforms'][$platData['id']]['manufacturer'] = $platData['manufacturer'];
         $source['companies'][$platData['manufacturer']] = [
             'id' => $platData['manufacturer'],
