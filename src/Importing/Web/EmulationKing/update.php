@@ -14,7 +14,7 @@ use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -45,8 +45,8 @@ $source = [
     'companies' => [],
     'emulators' => []
 ];
-if (!file_Exists(__DIR__.'/../../../../data/json')) {
-	mkdir(__DIR__.'/../../../../data/json', 0777, true);
+if (!file_Exists(__DIR__.'/../../../data/json')) {
+	mkdir(__DIR__.'/../../../data/json', 0777, true);
 }
 $converter = new CssSelectorConverter();
 $html = getcurlpage($url);
@@ -186,10 +186,10 @@ foreach ($companies as $idxMan => $company) {
     }
 }
 echo "Writing Parsed Tree..";
-file_put_contents(__DIR__.'/../../../../data/json/emulationking.json', json_encode($companies, getJsonOpts()));
-$companies = json_decode(file_get_contents(__DIR__.'/../../../../data/json/emulationking.json'), true);
+file_put_contents(__DIR__.'/../../../data/json/emulationking.json', json_encode($companies, getJsonOpts()));
+$companies = json_decode(file_get_contents(__DIR__.'/../../../data/json/emulationking.json'), true);
 echo "done\n";
-$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['emulationking']['updatedLast'] = time();
-file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../../emurelation/sources/emulationking.json', json_encode($source, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources/emulationking.json', json_encode($source, getJsonOpts()));

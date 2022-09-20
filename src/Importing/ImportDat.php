@@ -15,10 +15,10 @@ class ImportDat
 
     public function writeSource() {
         $sourceId = strtolower(str_replace('-', '', $this->type));
-        $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
+        $sources = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
         $sources[$sourceId]['updatedLast'] = time();
-        file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-        file_put_contents(__DIR__.'/../../../../emurelation/sources/'.$sourceId.'.json', json_encode($this->source, getJsonOpts()));
+        file_put_contents(__DIR__.'/../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+        file_put_contents(__DIR__.'/../../../emurelation/sources/'.$sourceId.'.json', json_encode($this->source, getJsonOpts()));
     }
 
     public function setMultiRun(bool $multiRun) {

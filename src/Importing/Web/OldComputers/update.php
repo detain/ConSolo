@@ -8,7 +8,7 @@
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -39,7 +39,7 @@ $useCache = !in_array('--no-cache', $_SERVER['argv']);;
 $client = new Client();
 $sitePrefix = 'https://www.old-computers.com/museum/';
 $types = ['st' => 'type_id', 'c' => 'id'];
-$dataDir = __DIR__.'/../../../../data';
+$dataDir = __DIR__.'/../../../data';
 echo 'Discovering Computer URLs starting with ';
 $letters = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 $computerUrls = [];
@@ -222,10 +222,10 @@ $allEmulators = $source['emulators'];
 file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, getJsonOpts()));
 file_put_contents($dataDir.'/json/oldcomputers/emulators.json', json_encode($allEmulators, getJsonOpts()));
 
-$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['oldcomputers']['updatedLast'] = time();
-file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../../emurelation/sources/oldcomputers.json', json_encode($source, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources/oldcomputers.json', json_encode($source, getJsonOpts()));
 
 echo PHP_EOL.'done!'.PHP_EOL;
 if (!$skipDb) {

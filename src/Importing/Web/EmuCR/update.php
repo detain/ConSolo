@@ -5,7 +5,7 @@ use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -26,7 +26,7 @@ global $db;
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);
-$dataDir = __DIR__.'/../../../../data/json/emucr';
+$dataDir = __DIR__.'/../../../data/json/emucr';
 $sitePrefix = 'https://www.emucr.com/';
 $dir = '/mnt/e/dev/ConSolo/mirror/emucr/www.emucr.com';
 $types = ['st' => 'type_id', 'c' => 'computer_id'];
