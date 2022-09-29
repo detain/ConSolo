@@ -11,7 +11,11 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 	// The /{title} suffix is optional
 	$r->get('/articles/{id:\d+}[/{title}]', 'get_article_handler');
 	$r->get('[/]', ['\Detain\ConSolo\Models\Web', 'index']);
-		$r->get('/emulators[/]', ['\Detain\ConSolo\Models\Web', 'emulators']);
+        $r->get('/sources[/]', ['\Detain\ConSolo\Models\Web', 'sources']);
+        $r->get('/source/{id:\d+}[/]', ['\Detain\ConSolo\Models\Web', 'source']);
+        $r->get('/companies[/]', ['\Detain\ConSolo\Models\Web', 'companies']);
+        $r->get('/company/{id:\d+}[/]', ['\Detain\ConSolo\Models\Web', 'company']);
+        $r->get('/emulators[/]', ['\Detain\ConSolo\Models\Web', 'emulators']);
         $r->get('/emulator/{id:\d+}[/]', ['\Detain\ConSolo\Models\Web', 'emulator']);
 		$r->get('/platforms[/]', ['\Detain\ConSolo\Models\Web', 'platforms']);
 		$r->get('/platform/{id:\d+}[/]', ['\Detain\ConSolo\Models\Web', 'platform']);
@@ -38,6 +42,12 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 		$r->get('/tv/show/{show:\d+}/season/{season:\d+}/episode/{episode:\d+}[/]', ['\Detain\ConSolo\Models\Web', 'tv_episode']);
 	$r->addGroup('/api', function (FastRoute\RouteCollector $r) {
 		$r->get('[/]', ['\Detain\ConSolo\Models\Api', 'index']);
+        $r->get('/sources[/]', ['\Detain\ConSolo\Models\Api', 'sources']);
+        $r->get('/source/{id:\d+}[/]', ['\Detain\ConSolo\Models\Api', 'source']);
+        $r->get('/companies[/]', ['\Detain\ConSolo\Models\Api', 'companies']);
+        $r->get('/company/{id:\d+}[/]', ['\Detain\ConSolo\Models\Api', 'company']);
+        $r->get('/emulators[/]', ['\Detain\ConSolo\Models\Api', 'emulators']);
+        $r->get('/emulator/{id:\d+}[/]', ['\Detain\ConSolo\Models\Api', 'emulator']);
 		$r->get('/platforms[/]', ['\Detain\ConSolo\Models\Api', 'platforms']);
 		$r->get('/platform/{id:\d+}[/]', ['\Detain\ConSolo\Models\Api', 'platform']);
 		$r->get('/games[/]', ['\Detain\ConSolo\Models\Api', 'games']);

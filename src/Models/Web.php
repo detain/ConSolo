@@ -103,9 +103,9 @@ class Web extends Base {
 	}
 
 	public function emulators() {
-        $sources = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
-		echo $this->twig->render('movies.twig', [
-			'results' => $rows,
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
+		echo $this->twig->render('emulators.twig', [
+			'results' => $json,
 			'queryString' => $_SERVER['QUERY_STRING']
 		]);
 	}

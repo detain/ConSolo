@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<meta charset="UTF-8">
+	<title>{{ data.name }} - ConSolo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel='stylesheet' href='/lib/bootstrap/dist/css/bootstrap.min.css'>
+	<link rel='stylesheet' href='/lib/jquery-jsonview/dist/jquery.jsonview.css'>
+	<link rel='stylesheet' href='/lib/video.js/dist/video-js.min.css'>
+	<link rel='stylesheet' href='/lib/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css'>
+	<link rel='stylesheet' href='{{ app.request.basePath }}/css/movie.css'>
+</head>
+<body>
+	<!-- partial:index.partial.html -->
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">ConSolo</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+                    <li><a href="/sources">Sources</a></li>
+                    <li><a href="/companies">Companies</a></li>
+					<li><a href="/platforms">Platforms</a></li>
+					<li><a href="/emulators">Emulators</a></li>
+					<li><a href="/games">Games</a></li>
+				</ul>
+				<form class="navbar-form navbar-right">
+					<input type="text" class="form-control" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</nav>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12 main">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+	<!-- partial -->
+	<script src='/lib/jquery/dist/jquery.min.js'></script>
+	<script src='/lib/bootstrap/dist/js/bootstrap.min.js'></script>
+	<script src='/lib/jquery-jsonview/dist/jquery.jsonview.js'></script>
+	<script src='/lib/video.js/dist/video.min.js'></script>
+	<script src='/lib/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js'></script>
+	<script src='/lib/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js'></script>
+	<script src='{{ app.request.basePath }}/js/movie.js'></script>
+</body>
+</html>
