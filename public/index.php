@@ -11,7 +11,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 	// The /{title} suffix is optional
 	$r->get('/articles/{id:\d+}[/{title}]', 'get_article_handler');
 	$r->get('[/]', ['\Detain\ConSolo\Models\Web', 'index']);
-		$r->get('/emulation[/]', ['\Detain\ConSolo\Models\Web', 'emulation']);
+		$r->get('/emulators[/]', ['\Detain\ConSolo\Models\Web', 'emulators']);
+        $r->get('/emulator/{id:\d+}[/]', ['\Detain\ConSolo\Models\Web', 'emulator']);
 		$r->get('/platforms[/]', ['\Detain\ConSolo\Models\Web', 'platforms']);
 		$r->get('/platform/{id:\d+}[/]', ['\Detain\ConSolo\Models\Web', 'platform']);
 		$r->get('/games[/]', ['\Detain\ConSolo\Models\Web', 'games']);
@@ -87,7 +88,7 @@ global $db;
 * @var \Twig\Environment
 */
 global $twig;
-$class = new $className($db, $twig); 
+$class = new $className($db, $twig);
 if (sizeof($vars) > 0)
 	$class->$method($vars);
 else

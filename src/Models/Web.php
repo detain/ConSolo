@@ -5,8 +5,8 @@ namespace Detain\ConSolo\Models;
 class Web extends Base {
 
 	public function index() {
-		
-	}    
+
+	}
 
 	public function movies() {
 		$limit = 100;
@@ -14,9 +14,9 @@ class Web extends Base {
 		echo $this->twig->render('movies.twig', [
 			'results' => $rows,
 			'queryString' => $_SERVER['QUERY_STRING']
-		]);		
+		]);
 	}
-	
+
 	public function movie($vars) {
 		$response = [];
 		if (isset($vars['id'])) {
@@ -29,8 +29,8 @@ class Web extends Base {
 			'fileId' => $fileId,
 			'queryString' => $_SERVER['QUERY_STRING']
 		]);
-		
-	}    
+
+	}
 
 	public function genres() {
 		$limit = 100;
@@ -47,13 +47,13 @@ class Web extends Base {
 							'count' => 0,
 						];
 					$genres[$genre['name']]['count']++;
-				}    
+				}
 		}
 		echo $this->twig->render('genres.twig', [
 			'genres' => $genres,
 			'queryString' => $_SERVER['QUERY_STRING']
 		]);
-	}    
+	}
 
 	public function genre($vars) {
 		$limit = 100;
@@ -62,17 +62,17 @@ class Web extends Base {
 		echo $this->twig->render('movies.twig', [
 			'results' => $rows,
 			'queryString' => $_SERVER['QUERY_STRING']
-		]);        
-	}    
+		]);
+	}
 
 	public function collections() {
-		
-	}    
+
+	}
 
 	public function people() {
-		
+
 	}
-	
+
 	public function person($vars) {
 		$response = [];
 		if (isset($_REQUEST['id'])) {
@@ -85,8 +85,8 @@ class Web extends Base {
 		}
 		header('Content-type: application/json; charset=UTF-8');
 		echo json_encode($response, getJsonOpts());
-		
-	}    
+
+	}
 
 	public function tv() {
 		$response = [];
@@ -101,13 +101,12 @@ class Web extends Base {
 		header('Content-type: application/json; charset=UTF-8');
 		echo json_encode($response, getJsonOpts());
 	}
-	
-	public function emulation() {
-		$limit = 100;
-		$rows = $this->db->query("select tmdb_movie.id, title, poster_path, vote_average, overview, release_date from movies left join tmdb_movie on tmdb_movie.id=movies.tmdb_id left join files on file_id=files.id where host={$this->hostId} and title is not null order by title limit {$limit}");
+
+	public function emulators() {
+        $sources = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
 		echo $this->twig->render('movies.twig', [
 			'results' => $rows,
 			'queryString' => $_SERVER['QUERY_STRING']
-		]);		
-	}    
-}  
+		]);
+	}
+}

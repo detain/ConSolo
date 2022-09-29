@@ -9,7 +9,7 @@ global $db;
 * @var \Twig\Environment
 */
 global $twig;
-
+$sources = json_decode(file_get_contents(__DIR__.'/emurelation/sources.json'), true);
 echo $twig->render('index.twig', array(
 //    'client_id' => $_GET['client_id'],
 //    'response_type' => $_GET['response_type'],
