@@ -7,8 +7,8 @@ require_once __DIR__.'/emurelation.inc.php';
 * @var \Workerman\MySQL\Connection
 */
 global $db, $mysqlLinkId;
-$sourceData = json_decode(file_get_contents(__DIR__.'/../../data/json/emulationstation-de.json'), true);
-list($localSourceId, $localSource) = loadSource(__DIR__.'/../../../emurelation/sources/local.json', true);
+$sourceData = json_decode(file_get_contents(__DIR__.'/../../../emulation-data/emulationstation-de.json'), true);
+list($localSourceId, $localSource) = loadSourceId('local', true);
 $localPlatFromSource = [];
 foreach ($localSource['platforms'] as $localPlatId => $localPlatData) {
     if (isset($localPlatData['matches']) && isset($localPlatData['matches']['emulationstation-de'])) {

@@ -12,7 +12,7 @@ $sourceIds = array_keys($sourceDefinitions);
 $sources = loadSources();
 $sourceId = 'local';
 $source = $sources[$sourceId];
-//list($sourceId, $source) = loadSource(__DIR__.'/../../../emurelation/sources/local.json', true);
+//list($sourceId, $source) = loadSourceId('local', true);
 $table = [
     "| Source | Type | Mapped | Unmapped | Total | Mapped % |",
     "|-|-|-|-|-|-|"
