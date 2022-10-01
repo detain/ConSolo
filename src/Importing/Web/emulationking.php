@@ -34,22 +34,32 @@ Options:
 */
 global $db;
 $force = in_array('-f', $_SERVER['argv']);
+$keep = in_array('-k', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);;
 $url = 'https://emulationking.com/';
-$companies = [];
-$platforms = [];
-$emulators = [];
-$source = [
-    'platforms' => [],
+$data = [
     'companies' => [],
+    'platforms' => [],
     'emulators' => []
 ];
-if (!file_Exists(__DIR__.'/../../../data/json')) {
-	mkdir(__DIR__.'/../../../data/json', 0777, true);
-}
+$source = [
+    'companies' => [],
+    'platforms' => [],
+    'emulators' => []
+];
 $converter = new CssSelectorConverter();
-$html = getcurlpage($url);
+if ($useCache === true) {
+    @mkdir('cache');
+}
+if ($useCache === true && file_exists('cache/index.html')) {
+    $html = file_get_contents('cache/index.html');
+} else {
+    $html = getcurlpage($url);
+    if ($useCache === true) {
+        file_put_contents('cache/index.html', $html);
+    }
+}
 $crawler = new Crawler($html);
 $rows = $crawler->filter('.site-main > div.row');
 for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
@@ -58,6 +68,7 @@ for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
         'url' => $rows->eq($idx)->filter('h2 a')->attr('href'),
         'name' => $rows->eq($idx)->filter('h2 a')->text(),
         'description' => '',
+        'logo' => '',
         'platforms' => [],
     ];
     $company['id'] = basename($company['url']);
@@ -74,11 +85,12 @@ for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
             'id' => '',
             'url' => $platformRows->eq($idxPlat)->attr('href'),
             'name' => $matches[1],
+            'company' => $company['id'],
             'year' => $matches[2],
-            'sections' => [],
         ];
         $platform['id'] = basename($platform['url']);
-        $company['platforms'][] = $platform;
+        $data['platforms'][$platform['id']] = $platform;
+        $company['platforms'][] = $platform['id'];
         $source['platforms'][$platform['id']] = [
             'id' => $platform['id'],
             'name' => $platform['name'],
@@ -87,21 +99,37 @@ for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
         ];
         echo "Added Platform {$platform['name']}\n";
     }
-    $companies[] = $company;
+    $data['companies'][$company['id']] = $company;
     echo "Added Manufacturer {$company['name']}\n";
 }
-foreach ($companies as $idxMan => $company) {
-    sleep(1);
+foreach ($data['companies'] as $idxMan => $company) {
     echo "Loading {$company['url']}\n";
-    $html = getcurlpage($company['url']);
-    $crawler = new Crawler($html);
-    $companies[$idxMan]['description'] = trim($crawler->filter('.entry-content')->html());
-}
-foreach ($companies as $idxMan => $company) {
-    foreach ($company['platforms'] as $idxPlat => $platform) {
+    if ($useCache === true && file_exists('cache/'.$idxMan.'.html')) {
+        $html = file_get_contents('cache/'.$idxMan.'.html');
+    } else {
         sleep(1);
+        $html = getcurlpage($company['url']);
+        if ($useCache === true) {
+            file_put_contents('cache/'.$idxMan.'.html', $html);
+        }
+    }
+    $crawler = new Crawler($html);
+    $data['companies'][$idxMan]['description'] = trim(html_entity_decode(str_replace(['<br>'], ["\n"], preg_replace('/<\/?p>/', '', preg_replace('/^<p><img[^>]*>/', '', trim($crawler->filter('.entry-content')->html()))))));
+    $data['companies'][$idxMan]['logo'] = $crawler->filter('.entry-content img')->eq(0)->attr('src');
+}
+foreach ($data['companies'] as $idxMan => $company) {
+    foreach ($company['platforms'] as $idxPlat) {
+        $platform = $data['platforms'][$idxPlat];
         echo "Loading {$platform['url']}\n";
-        $html = getcurlpage($platform['url']);
+        if ($useCache === true && file_exists('cache/'.$idxPlat.'.html')) {
+            $html = file_get_contents('cache/'.$idxPlat.'.html');
+        } else {
+            sleep(1);
+            $html = getcurlpage($platform['url']);
+            if ($useCache === true) {
+                file_put_contents('cache/'.$idxPlat.'.html', $html);
+            }
+        }
         $crawler = new Crawler($html);
         //eval(\Psy\sh());
         $crawler->filter('.lbb-block-slot')->each(function (Crawler $crawler, $i) {
@@ -114,8 +142,8 @@ foreach ($companies as $idxMan => $company) {
             eval(\Psy\sh());
         }
         $platform['name'] = $rows->eq(0)->filter('.entry-title')->text();
-        $platform['image_cover'] = $rows->eq(1)->filter('div .game-cover .cover-image')->attr('src');
-        $platform['description'] = trim($rows->eq(1)->filter('div .entry-content')->html());
+        $platform['image'] = $rows->eq(1)->filter('div .game-cover .cover-image')->attr('src');
+        $platform['description'] = trim(html_entity_decode(str_replace(['<br>'], ["\n"], preg_replace('/<\/?(p|a)[^>]*>/', '', trim($rows->eq(1)->filter('div .entry-content')->html())))));
         if ($rows->eq(1)->filter('div .console-meta')->count() > 0) {
             $specRows = $rows->eq(1)->filter('div .console-meta')->children();
             for ($idxSpec = 1, $maxSpec = $specRows->count(); $idxSpec < $maxSpec; $idxSpec++) {
@@ -144,19 +172,18 @@ foreach ($companies as $idxMan => $company) {
                 }
                 echo "  Adding Section {$section} ({$seoSection})\n";
                 $platform[$seoSection] = [];
-                $platform['sections'][$seoSection] = $section;
                 $items = $rows->eq($idxRow)->filter('.border');
                 for ($idxItem = 0, $maxItem = $items->count(); $idxItem < $maxItem; $idxItem++) {
                     $row = [
                         'id' => '',
                         'url' => $items->eq($idxItem)->filter('.blog-reel-post')->attr('href'),
                         'name' => $items->eq($idxItem)->filter('.emulator-description p a')->text(),
-                        'body_html' => $items->eq($idxItem)->filter('.emulator-description')->html(),
-                        'body_text' => $items->eq($idxItem)->filter('.emulator-description')->text(),
+                        'description' => trim(html_entity_decode(str_replace(['<br>'], ["\n"], preg_replace('/<\/?(p|a)[^>]*>/', '', trim($items->eq($idxItem)->filter('.emulator-description')->html())))))
                     ];
                     $row['id'] = basename($row['url']);
                     if ($items->eq($idxItem)->filter('.emulator-image img')->count() > 0)
                         $row['logo'] = $items->eq($idxItem)->filter('.emulator-image img')->attr('src');
+                    $row['platforms'] = [];
                     $oses = $items->eq($idxItem)->filter('.emulator-supported-osw-100 i');
                     if ($oses->count() > 0) {
                         $row['runs'] = [];
@@ -165,8 +192,10 @@ foreach ($companies as $idxMan => $company) {
                             $row['runs'][] = str_replace('emu-icon-', '', $os);
                         }
                     }
+                    echo "      Adding {$section}: {$row['url']}\n";
                     if ($seoSection == 'emulators') {
                         if (!array_key_exists($row['id'], $source['emulators'])) {
+                            $data['emulators'][$row['id']] = $row;
                             $source['emulators'][$row['id']] = [
                                 'id' => $row['id'],
                                 'name' => $row['name'],
@@ -175,23 +204,28 @@ foreach ($companies as $idxMan => $company) {
                             ];
                         }
                         $source['emulators'][$row['id']]['platforms'][] = $platform['id'];
+                        $data['emulators'][$row['id']]['platforms'][] = $platform['id'];
+                        $platform[$seoSection][] = $row['id'];
+                    } else {
+                        $platform[$seoSection][] = $row;
                     }
-                    echo "      Adding {$section}: {$row['url']}\n";
-                    $platform[$seoSection][] = $row;
+
                 }
             }
         }
-        $company['platforms'][$idxPlat] = $platform;
-        $companies[$idxMan]['platforms'][$idxPlat] = $platform;
+        $data['platforms'][$idxPlat] = $platform;
     }
 }
 echo "Writing Parsed Tree..";
-file_put_contents(__DIR__.'/../../../data/json/emulationking.json', json_encode($companies, getJsonOpts()));
-$companies = json_decode(file_get_contents(__DIR__.'/../../../data/json/emulationking.json'), true);
-echo "done\n";
+file_put_contents(__DIR__.'/../../../../emulation-data/emulationking.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['emulationking']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
 foreach ($source as $type => $data) {
     file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/emulationking.json', json_encode($data, getJsonOpts()));
+}
+echo "done\n";
+if ($keep === false) {
+    echo "clearing cache\n";
+    echo `rm -rf cache`;
 }
