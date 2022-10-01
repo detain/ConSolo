@@ -57,7 +57,7 @@ function loadSourceId($sourceId, $skipNames = false) {
 
 function loadSource($fileName, $skipNames = false) {
     $sourceId = basename($fileName, '.json');
-    $type = basename(dirname($filename));
+    $type = basename(dirname($fileName));
     $source = [
         $type => json_decode(file_get_contents($fileName), true)
     ];
