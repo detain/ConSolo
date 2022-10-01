@@ -199,6 +199,8 @@ foreach ($data['emulators'] as $id => $emulator) {
     $emulator['bin'] = [$emulator['downloads'][array_keys($emulator['downloads'])[0]]['EMU_ExecutableFile']];
     $emulator['versions'] = [];
     foreach ($emulator['downloads'] as $version => $dl) {
+        if (isset($dl['FILE_ContentType']) && $dl['FILE_ContentType'] == 'Source')
+            continue;
         $emulator['versions'][$version] = [];
         foreach ($dl as $field => $value) {
             $field = strtolower(substr(str_replace('__', '_', preg_replace('/([A-Z]+)/', '_$1', str_replace('OS', 'Os', preg_replace('/^(FILE_Content|EMU_|INFO_)(.*)$/', '$2', $field)))), 1));
