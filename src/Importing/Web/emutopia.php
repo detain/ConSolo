@@ -27,128 +27,67 @@ $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);
 $dataDir = __DIR__.'/../../../data/json/emucr';
-$sitePrefix = 'https://www.emucr.com/';
-$dir = '/mnt/e/dev/ConSolo/mirror/emucr/www.emucr.com';
-$types = ['st' => 'type_id', 'c' => 'computer_id'];
-$computerUrls = [];
-$postUrls = [];
-$platforms = [];
-$allEmulators = [];
-if (!file_Exists($dataDir.'/archive')) {
-    mkdir($dataDir.'/archive', 0777, true);
-}
-if (!file_Exists($dataDir.'/posts')) {
-    mkdir($dataDir.'/posts', 0777, true);
-}
-if (!file_Exists($dataDir.'/platforms')) {
-    mkdir($dataDir.'/platforms', 0777, true);
-}
+$sitePrefix = 'https://emutopia.com';
 $converter = new CssSelectorConverter();
 $client = new Client();
-//var_dump($converter->toXPath('.post-labels a[rel="tag"]'));
-if (!$skipDb) {
-    $row = $db->query("select * from config where field='emucr'");
-    if (count($row) == 0) {
-        $last = 0;
-        $db->query("insert into config values ('emucr','0')");
-    } else {
-        $last = $row[0]['value'];
-    }
-}
-
-echo 'Loading and scanning for archive pages..';
-$crawler = $client->request('GET', $sitePrefix);
-$crawler->filter('li.archivedate a')->each(function ($node) use (&$computerUrls) {
-    $computerUrls[] = $node->attr('href');
-});
-echo ' done'.PHP_EOL;
-echo 'Found '.count($computerUrls).' Archive Pages'.PHP_EOL;
-rsort($computerUrls);
-file_put_contents($dataDir.'/urls.json', json_encode($computerUrls, getJsonOpts()));
-echo 'Loading Computer URLs'.PHP_EOL;
-$computerUrls = json_decode(file_get_contents($dataDir.'/urls.json'), true);
-$total = count($computerUrls);
-echo 'Found '.$total.' Systems'.PHP_EOL;
-echo 'Loading Archive Pages ';
-$todaysArchive = $sitePrefix.date('Y_m_d').'_archive.html';
-foreach ($computerUrls as $url) {
-    //echo "URL:{$url}\n";
-    echo '.';
-    $page = str_replace($sitePrefix, '', $url);
-    if ($useCache === true && $page != $todaysArchive && file_exists($dataDir.'/archive/'.$page.'.json')) {
-        $pageUrls = json_decode(file_get_contents($dataDir.'/archive/'.$page.'.json'), true);
-    } else {
-        $crawler = $client->request('GET', $url);
-        $pageUrls = [];
-        $crawler->filter('.blog-posts > a')->each(function ($node) use (&$pageUrls) {
-            $pageUrls[$node->attr('href')] = $node->attr('title');
-        });
-        file_put_contents($dataDir.'/archive/'.$page.'.json', json_encode($pageUrls, getJsonOpts()));
-    }
-    foreach ($pageUrls as $url => $title)
-        $postUrls[$url] = $title;
-}
-file_put_contents($dataDir.'/posts.json', json_encode($postUrls, getJsonOpts()));
-echo ' done'.PHP_EOL;
-$postUrls = json_decode(file_get_contents($dataDir.'/posts.json'), true);
-echo 'Found '.count($postUrls).' Post Pages'.PHP_EOL;
-$count = 0;
-foreach ($postUrls as $url => $title ) {
-    $count++;
-    /*preg_match('/(?P<seo>.*)-(?P<year>\d\d\d\d)(?P<month>\d\d)(?P<day>\d\d)\.html/u', basebane($url), $matches);
-    $seo = $matches['seo'];
-    $year = $matches['year'];
-    $month = $matches['month'];
-    $day = $matches['day'];*/
-    $baseUrl = str_replace([$sitePrefix, '/'], ['', '_'], $url);
-    if ($useCache === true && file_exists($dataDir.'/posts/'.$baseUrl.'.json')) {
-        echo "Reading file {$baseUrl}\n";
-        $cols = json_decode(file_get_contents($dataDir.'/posts/'.$baseUrl.'.json'), true);
-    } else{
-        try {
-            echo "Loading URL {$url} ";
-            $crawler = $client->request('GET', $url);
-            $title = $crawler->filter('title')->text();
-            $title = str_replace(" - EmuCR", '', $title);
-            $tags = $crawler->filter('.postMain .post-labels a[rel="tag"]')->each(function (Crawler $node, $i) {
-                return $node->text();
-            });
-            if ($title =='EmuCR' || in_array('WebLog', $tags)) {
-                echo "Skipping\n";
-                continue;
-            }
-            $nameVersion = $crawler->filter('.postMain .title h1 a')->text();
-            $datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
-            $body = $crawler->filter('.postMain .post-body p')->html();
-            $links = $crawler->filter('.postMain .post-body a[rel="nofollow"]')->each(function ($node, $i) { return [$node->attr('href'), $node->text()]; });
-            $data = [
-                'title' => $title,
-                'date' => $datePosted,
-                'nameVersion' => $nameVersion,
-                'url' => $url,
-                'seo' => $baseUrl,
-                'tags' => $tags,
-                'body' => $body,
-                'links' => $links,
+foreach (['emulators', 'other-files'] as $urlSuffix) {
+    echo "Loading and scanning for {$urlSuffix} pages..\n";
+    $crawler = $client->request('GET', $sitePrefix.'/index.php/'.$urlSuffix);
+    $typeCount = $crawler->filter('.categories-list .list .cat-name a')->count();
+    for ($idxType = 0; $idxType < $typeCount; $idxType++) {
+        $typeName = $crawler->filter('.categories-list .list .cat-name a')->eq($idxType)->text();
+        $typeId = preg_match('/^([0-9]+)-(.*)$/', basename($crawler->filter('.categories-list .list .cat-name a')->eq($idxType)->attr('href')), $matches);
+        $typeId = $matches[1];
+        $typeShort = $matches[2];
+        echo "Got Type {$typeName} ID {$typeId}\n";
+        $platCount = $crawler->filter('#subcat'.$typeId.' ul li a')->count();
+        for ($idxPlat = 0; $idxPlat < $platCount; $idxPlat++) {
+            $platUrl = $crawler->filter('#subcat'.$typeId.' ul li a')->eq($idxPlat)->attr('href');
+            $platName = $crawler->filter('#subcat'.$typeId.' ul li a')->eq($idxPlat)->text();
+            preg_match('/^([0-9]+)-(.*)$/', basename($platUrl), $matches);
+            $platId = $matches[1];
+            $platShort = $matches[2];
+            echo "Got Plat {$platName} ID {$platId} ({$platShort})\n";
+            $platCrawler = $client->request('GET', $sitePrefix.$platUrl.'?limit=100');
+            $emuName = $platCrawler->filter('.newstitle a')->text();
+            $emuUrl = $platCrawler->filter('.newstitle a')->attr('href');
+            preg_match('/^([0-9]+)-(.*)$/', basename($emuUrl), $matches);
+            $emuId = $matches[1];
+            $emuShort = $matches[2];
+            $emuCrawler = $client->request('GET', $sitePrefix.$emuUrl);
+            $emuCrawler = $emuCrawler->filter('#topic-article .forum-list tr td');
+            $emuCount = $emuCrawler->count();
+            $emuName = $emuCrawler->eq(1)->filter('h1')->text();
+            $emulator = [
+                'id' => $emuId,
+                'name' => $emuName,
+                'shortName' => $emuShort,
+                'url' => $sitePrefix.$emuUrl,
             ];
-            if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
-                $data['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
+            $linkCrawler = $emuCrawler->eq(1)->filter('div a.filter-link');
+            $linkCount = $linkCrawler->count();
+            $os = [];
+            for ($idxLink = 0; $idxLink < $linkCount; $idxLink++) {
+                $os[] = $linkCrawler->eq($idxLink)->text();
             }
-            $posts[] = $data;
-            file_put_contents($dataDir.'/posts/'.$baseUrl.'.json', json_encode($data, getJsonOpts()));
-            echo "done\n";
-            if ($count % 50 == 0) {
-                echo "Writing Posts..";
-                file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
-                echo "done\n";
+            if (count($os) > 0) {
+                $emulator['os'] = $os;
             }
-        } catch (\Exception $e) {
-            echo "Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
+            $emuField = false;
+            for ($idxEmu = 2; $idxEmu < $emuCount; $idxEmu++) {
+                if ($emuCrawler->eq($idxEmu)->filter('h2')->count() == 1) {
+                    $emuField = strtolower($emuCrawler->eq($idxEmu)->filter('h2')->text());
+                } elseif ($emuField == false) {
+                    echo "No emuField Set yet for ".$emuCrawler->eq($idxEmu)->html();
+                } else {
+                    $emulator[$emuField] = $emuCrawler->eq($idxEmu)->html();
+
+                    $emuField = false;
+                }
+            }
+
         }
     }
+
 }
-echo "Finished Processig Posts\n";
-echo "Writing Posts..";
-file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
-echo "done\n";
 

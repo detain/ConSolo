@@ -34,14 +34,16 @@ $computerUrls = [];
 $postUrls = [];
 $platforms = [];
 $allEmulators = [];
-if (!file_Exists($dataDir.'/archive')) {
-    mkdir($dataDir.'/archive', 0777, true);
-}
-if (!file_Exists($dataDir.'/posts')) {
-    mkdir($dataDir.'/posts', 0777, true);
-}
-if (!file_Exists($dataDir.'/platforms')) {
-    mkdir($dataDir.'/platforms', 0777, true);
+if ($useCache !== false) {
+    if (!file_Exists($dataDir.'/archive')) {
+        mkdir($dataDir.'/archive', 0777, true);
+    }
+    if (!file_Exists($dataDir.'/posts')) {
+        mkdir($dataDir.'/posts', 0777, true);
+    }
+    if (!file_Exists($dataDir.'/platforms')) {
+        mkdir($dataDir.'/platforms', 0777, true);
+    }
 }
 $converter = new CssSelectorConverter();
 $client = new Client();
@@ -64,9 +66,11 @@ $crawler->filter('li.archivedate a')->each(function ($node) use (&$computerUrls)
 echo ' done'.PHP_EOL;
 echo 'Found '.count($computerUrls).' Archive Pages'.PHP_EOL;
 rsort($computerUrls);
-file_put_contents($dataDir.'/urls.json', json_encode($computerUrls, getJsonOpts()));
-echo 'Loading Computer URLs'.PHP_EOL;
-$computerUrls = json_decode(file_get_contents($dataDir.'/urls.json'), true);
+if ($useCache !== false) {
+    file_put_contents($dataDir.'/urls.json', json_encode($computerUrls, getJsonOpts()));
+    echo 'Loading Computer URLs'.PHP_EOL;
+    $computerUrls = json_decode(file_get_contents($dataDir.'/urls.json'), true);
+}
 $total = count($computerUrls);
 echo 'Found '.$total.' Systems'.PHP_EOL;
 echo 'Loading Archive Pages ';
@@ -83,14 +87,18 @@ foreach ($computerUrls as $url) {
         $crawler->filter('.blog-posts > a')->each(function ($node) use (&$pageUrls) {
             $pageUrls[$node->attr('href')] = $node->attr('title');
         });
-        file_put_contents($dataDir.'/archive/'.$page.'.json', json_encode($pageUrls, getJsonOpts()));
+        if ($useCache !== false) {
+            file_put_contents($dataDir.'/archive/'.$page.'.json', json_encode($pageUrls, getJsonOpts()));
+        }
     }
     foreach ($pageUrls as $url => $title)
         $postUrls[$url] = $title;
 }
-file_put_contents($dataDir.'/posts.json', json_encode($postUrls, getJsonOpts()));
-echo ' done'.PHP_EOL;
-$postUrls = json_decode(file_get_contents($dataDir.'/posts.json'), true);
+if ($useCache !== false) {
+    file_put_contents($dataDir.'/posts.json', json_encode($postUrls, getJsonOpts()));
+    echo ' done'.PHP_EOL;
+    $postUrls = json_decode(file_get_contents($dataDir.'/posts.json'), true);
+}
 echo 'Found '.count($postUrls).' Post Pages'.PHP_EOL;
 $count = 0;
 foreach ($postUrls as $url => $title ) {
@@ -135,12 +143,14 @@ foreach ($postUrls as $url => $title ) {
                 $data['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
             }
             $posts[] = $data;
-            file_put_contents($dataDir.'/posts/'.$baseUrl.'.json', json_encode($data, getJsonOpts()));
-            echo "done\n";
-            if ($count % 50 == 0) {
-                echo "Writing Posts..";
-                file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
+            if ($useCache !== false) {
+                file_put_contents($dataDir.'/posts/'.$baseUrl.'.json', json_encode($data, getJsonOpts()));
                 echo "done\n";
+                if ($count % 50 == 0) {
+                    echo "Writing Posts..";
+                    file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
+                    echo "done\n";
+                }
             }
         } catch (\Exception $e) {
             echo "Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
@@ -148,7 +158,9 @@ foreach ($postUrls as $url => $title ) {
     }
 }
 echo "Finished Processig Posts\n";
-echo "Writing Posts..";
-file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
-echo "done\n";
+if ($useCache !== false) {
+    echo "Writing Posts..";
+    file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
+    echo "done\n";
+}
 
