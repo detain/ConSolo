@@ -102,11 +102,45 @@ class Web extends Base {
 		echo json_encode($response, getJsonOpts());
 	}
 
-	public function emulators() {
+    public function sources() {
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/sources.json'), true);
+        unset($json['']);
+        echo $this->twig->render('sources.twig', [
+            'results' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function emulators() {
         $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
-		echo $this->twig->render('emulators.twig', [
-			'results' => $json,
-			'queryString' => $_SERVER['QUERY_STRING']
-		]);
-	}
+        echo $this->twig->render('emulators.twig', [
+            'results' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function companies() {
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/companies/local.json'), true);
+        echo $this->twig->render('companies.twig', [
+            'results' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function platforms() {
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/platforms/local.json'), true);
+        echo $this->twig->render('platforms.twig', [
+            'results' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function games() {
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/games/local.json'), true);
+        echo $this->twig->render('games.twig', [
+            'results' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
 }
