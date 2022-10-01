@@ -124,7 +124,9 @@ foreach ($platforms as $idx => $platform) {
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
 $sources['screenscraper']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../../emurelation/sources/screenscraper.json', json_encode($source, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../../emurelation/'.$type.'/screenscraper.json', json_encode($data, getJsonOpts()));
+}
 if (!$skipDb) {
     echo "Mapping Platforms to db\n";
     $db->query('truncate ss_platforms');

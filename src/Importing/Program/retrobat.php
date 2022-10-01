@@ -105,4 +105,6 @@ file_put_contents($dataDir.'/retrobat.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['retrobat']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../emurelation/sources/retrobat.json', json_encode($source, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/retrobat.json', json_encode($data, getJsonOpts()));
+}

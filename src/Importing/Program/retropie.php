@@ -104,4 +104,6 @@ file_put_contents(__DIR__.'/../../../data/json/retropie.json', json_encode($data
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['retropie']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../emurelation/sources/retropie.json', json_encode($source, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/retropie.json', json_encode($data, getJsonOpts()));
+}

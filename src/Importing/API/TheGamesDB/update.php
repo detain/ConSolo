@@ -172,7 +172,9 @@ $platformIds = array_keys($platforms['data']['platforms']);
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
 $sources['tgdb']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../../emurelation/sources/tgdb.json', json_encode($source, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../../emurelation/'.$type.'/tgdb.json', json_encode($data, getJsonOpts()));
+}
 
 foreach (['Genres', 'Developers', 'Publishers'] as $type) {
 	if ($useCache == true && file_exists($dataDir.'/json/tgdb/'.$type.'.json')) {

@@ -95,7 +95,9 @@ if (!$keepRepo) {
     echo "done\n";
 }
 echo "Writing sources/recalbox.json\n";
-file_put_contents(__DIR__.'/../../../../emurelation/sources/recalbox.json', json_encode($source, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/recalbox.json', json_encode($data, getJsonOpts()));
+}
 echo "Reading sources.json\n";
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['recalbox']['updatedLast'] = time();

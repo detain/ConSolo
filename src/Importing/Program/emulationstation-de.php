@@ -207,4 +207,6 @@ file_put_contents($dataDir.'/emulationstation-de.json', json_encode($data, getJs
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['emulationstation-de']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../emurelation/sources/emulationstation-de.json', json_encode($source, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/emulationstation-de.json', json_encode($data, getJsonOpts()));
+}

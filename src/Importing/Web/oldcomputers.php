@@ -225,7 +225,9 @@ file_put_contents($dataDir.'/json/oldcomputers/emulators.json', json_encode($all
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['oldcomputers']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../emurelation/sources/oldcomputers.json', json_encode($source, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/oldcomputers.json', json_encode($data, getJsonOpts()));
+}
 
 echo PHP_EOL.'done!'.PHP_EOL;
 if (!$skipDb) {

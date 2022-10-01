@@ -22,10 +22,10 @@ Options:
 global $db;
 $force = in_array('-f', $_SERVER['argv']) || in_array('--force', $_SERVER['argv']);
 $keep = in_array('-k', $_SERVER['argv']) || in_array('--keep', $_SERVER['argv']);
-$allRepos = in_array('-a', $_SERVER['argv']) || in_array('--all', $_SERVER['argv']);
+$useAllRepos = in_array('-a', $_SERVER['argv']) || in_array('--all', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);
-$repos = ['emuDownloadCenter', 'emuDownloadCenter.wiki', 'emuControlCenter'];
+$repos = ['emuDownloadCenter', 'emuDownloadCenter.wiki', 'emuControlCenter', 'ecc-datfiles'];
 $data = [
     'platforms' => [],
     'companies' => [],
@@ -47,7 +47,7 @@ $gameBools = ['running', 'bugs', 'intro', 'usermod', 'freeware', 'netplay'];
 $gameInts = ['trainer', 'multiplayer', 'category', 'storage', 'media_type', 'dump_type', 'media_count', 'media_current', 'filesize', 'usk'];
 $allRepos = ['emuControlCenter', 'emuDownloadCenter', 'emuControlCenter.wiki', 'emuDownloadCenter.wiki', 'ecc-datfiles', 'ecc-toolsused', 'ecc-updates',
     'edc-repo0001', 'edc-repo0002', 'edc-repo0003', 'edc-repo0004', 'edc-repo0005', 'edc-repo0006', 'edc-repo0007', 'edc-repo0008', 'edc-repo0009'];
-if ($allRepos) {
+if ($useAllRepos === true) {
     foreach ($allRepos as $repo) {
         gitSetup('https://github.com/PhoenixInteractiveNL/'.$repo);
     }
@@ -175,8 +175,14 @@ foreach ($data['emulators'] as $id => $emulator) {
     echo ' (images)';
     $emulator['images'] = [];
     foreach (['png', 'jpg'] as $ext)
-        foreach (glob('emuDownloadCenter/hooks/'.$id.'/*.'.$ext) as $imagePath)
+        foreach (glob('emuDownloadCenter/hooks/'.$id.'/*.'.$ext) as $imagePath) {
             $emulator['images'][] = $imagePath;
+            if (basename($imagePath, '.'.$ext) == 'emulator_logo') {
+                $emulator['logo'] = $imagePath; // $id.'.'.$ext;
+            } elseif (basename($imagePath, '.'.$ext) == 'emulator_screen_01') {
+                $emulator['screenshot'] = $imagePath; // $id.'.'.$ext;
+            }
+        }
     foreach (glob('emuDownloadCenter.wiki/images_emulator/'.$id.'_*') as $imagePath)
         $emulator['images'][] = $imagePath;
     echo ' (frontend)';
@@ -191,6 +197,15 @@ foreach ($data['emulators'] as $id => $emulator) {
     unset($emulator['platform']);
     unset($emulator['downloads']['INFO']);
     $emulator['bin'] = [$emulator['downloads'][array_keys($emulator['downloads'])[0]]['EMU_ExecutableFile']];
+    $emulator['versions'] = [];
+    foreach ($emulator['downloads'] as $version => $dl) {
+        $emulator['versions'][$version] = [];
+        foreach ($dl as $field => $value) {
+            $field = strtolower(substr(str_replace('__', '_', preg_replace('/([A-Z]+)/', '_$1', str_replace('OS', 'Os', preg_replace('/^(FILE_Content|EMU_|INFO_)(.*)$/', '$2', $field)))), 1));
+            $emulator['versions'][$version][$field] = $value;
+        }
+    }
+    unset($emulator['downloads']);
     $emulator['cmd'] = ['%BIN% '.$emulator['frontend']['global']['CFG_param']];
     if (trim($emulator['website']) != '') {
         $emulator['web'] = [trim($emulator['website']) => strpos($emulator['website'], 'github.com') !== false ? 'repo' : 'home'];
@@ -207,7 +222,7 @@ foreach ($data['emulators'] as $id => $emulator) {
 echo "Loading misc Images..\n";
 $data['misc_images'] = glob('emuDownloadCenter.wiki/images_misc/*');
 echo "Writing JSON...\n";
-file_put_contents(__DIR__.'/../../../emulation-data/emucontrolcenter.json', json_encode($data, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emulation-data/emucontrolcenter.json', json_encode($data, getJsonOpts()));
 /*
 foreach ($data as $key => $value) {
     file_put_contents(__DIR__.'/../../../data/json/'.$key.'.json', json_encode($value, getJsonOpts()));
@@ -219,11 +234,18 @@ foreach ($data as $key => $value) {
         }
 }
 */
-/*
-echo "Cleaning up repos..\n";
-foreach ($repos as $repo)
-    echo `rm -rf {$repo};`;
-*/
+if ($keep !== true) {
+    echo "Cleaning up repos..\n";
+    if ($useAllRepos === true) {
+        foreach ($allRepos as $repo) {
+            echo `rm -rf {$repo};`;
+        }
+    } else {
+        foreach ($repos as $repo) {
+            echo `rm -rf {$repo};`;
+        }
+    }
+}
 foreach ($data['emulators'] as $idx => $emuData) {
     $source['emulators'][$emuData['id']] = [
         'id' => $emuData['id'],
@@ -231,6 +253,13 @@ foreach ($data['emulators'] as $idx => $emuData) {
         'shortName' => $emuData['id'],
         'platforms' => []
     ];
+    /*
+    foreach (['logo', 'screenshot'] as $field) {
+        if (isset($emuData[$field])) {
+            $source['emulators'][$emuData['id']][$field] = $emuData[$field];
+        }
+    }
+    */
 }
 foreach ($data['platforms'] as $idx => $platData) {
     $source['platforms'][$platData['id']] = [
@@ -255,4 +284,6 @@ foreach ($data['platforms'] as $idx => $platData) {
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['emucontrolcenter']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../emurelation/sources/emucontrolcenter.json', json_encode($source, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/emucontrolcenter.json', json_encode($data, getJsonOpts()));
+}
