@@ -143,4 +143,64 @@ class Web extends Base {
         ]);
     }
 
+    public function source($vars) {
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/sources.json'), true);
+        if (isset($vars['id'])) {
+            $id = $vars['id'];
+        }
+        $json = $json[$id];
+        echo $this->twig->render('source.twig', [
+            'data' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function emulator($vars) {
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
+        if (isset($vars['id'])) {
+            $id = $vars['id'];
+        }
+        $json = $json[$id];
+        echo $this->twig->render('emulator.twig', [
+            'data' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function company($vars) {
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/companies/local.json'), true);
+        if (isset($vars['id'])) {
+            $id = $vars['id'];
+        }
+        $json = $json[$id];
+        echo $this->twig->render('company.twig', [
+            'data' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function platform($vars) {
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/platforms/local.json'), true);
+        if (isset($vars['id'])) {
+            $id = $vars['id'];
+        }
+        $json = $json[$id];
+        echo $this->twig->render('platform.twig', [
+            'data' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function game($vars) {
+        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/games/local.json'), true);
+        if (isset($vars['id'])) {
+            $id = $vars['id'];
+        }
+        $json = $json[$id];
+        echo $this->twig->render('game.twig', [
+            'data' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
 }
