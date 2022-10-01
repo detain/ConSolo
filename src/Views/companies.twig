@@ -5,30 +5,12 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Description</th>
-            <th>Platforms</th>
-            <th>Links</th>
-            <th>Version</th>
-            <th>Last Updated</th>
         </tr>
     </thead>
     <tbody>
         {% for data in results %}
         <tr>
-            <td><a href="{{ app.request.basePath }}/emulator/{{ data.id }}">{{ data.name }}</a></td>
-            <td>{{ data.description }}</td>
-            <td>
-                {% for platform in data.platforms %}
-                <span class="badge badge-primary">{{ platform }}</span>
-                {% endfor %}
-            </td>
-            <td>
-                {% for url, text in data.links %}
-                <a href="{{ url }}">{{ text }}</a>
-                {% endfor %}
-            </td>
-            <td></td>
-            <td></td>
+            <td><a href="{{ app.request.basePath }}/company/{{ data.id }}">{{ data.name }}</a></td>
         </tr>
         {% endfor %}
     </tbody>

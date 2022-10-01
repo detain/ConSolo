@@ -27,11 +27,9 @@
         <th>Matches</a></td>
         <td>
             {% for source, values in data.matches %}
-            <span class="label label-primary">{{ source }}</span>
             {% for match in values %}
-            <span class="badge badge-info">{{ match }}</span>
+            <span class="label label-primary">{{ source }}</span> <span class="label label-info">{{ match }}</span><br>
             {% endfor %}
-            <br>
             {% endfor %}
         </td>
     </tr>

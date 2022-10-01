@@ -15,7 +15,7 @@
     <tbody>
         {% for data in results %}
         <tr>
-            <td><a href="{{ app.request.basePath }}/emulator/{{ data.id }}">{{ data.name }}</a></td>
+            <td><a href="{{ app.request.basePath }}/game/{{ data.id }}">{{ data.name }}</a></td>
             <td>{{ data.description }}</td>
             <td>
                 {% for platform in data.platforms %}
