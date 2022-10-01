@@ -8,54 +8,32 @@
         <td>{{ data.id }}</td>
     </tr>
     <tr>
-        <th>Short Name</a></td>
-        <td>{{ data.shortName }}</td>
-    </tr>
-    <tr>
         <th>Name</a></td>
         <td>{{ data.name }}</td>
     </tr>
     <tr>
-        <th>Platforms</a></td>
+        <th>Type</a></td>
+        <td>{{ data.type }}</td>
+    </tr>
+    <tr>
+        <th>Provides</a></td>
         <td>
-            {% for platform in data.platforms %}
-            <span class="badge badge-primary">{{ platform }}</span><br>
+            {% for type in data.provides %}
+            <span class="label label-primary">{{ type }}</span><br>
             {% endfor %}
         </td>
     </tr>
     <tr>
-        <th>Matches</a></td>
-        <td>
-            {% for source, values in data.matches %}
-            {% for match in values %}
-            <span class="label label-primary">{{ source }}</span> <span class="label label-info">{{ match }}</span><br>
-            {% endfor %}
-            {% endfor %}
-        </td>
+        <th>Description</a></td>
+        <td>{{ data.description }}</td>
     </tr>
     <tr>
-        <th>Author</a></td>
-        <td>{{ data.author }}</td>
+        <th>Updated Last</a></td>
+        <td>{{ data.updatedLast }}</td>
     </tr>
     <tr>
-        <th>License</a></td>
-        <td>{{ data.license }}</td>
-    </tr>
-    <tr>
-        <th>Binary</a></td>
-        <td>
-            {% for bin in data.bin %}
-            <span class="badge badge-primary">{{ bin }}</span><br>
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <th>Command Line</a></td>
-        <td>
-            {% for cmd in data.cmd %}
-            {{ cmd }}<br>
-            {% endfor %}
-        </td>
+        <th>Update Trigger</a></td>
+        <td>{{ data.updateTrigger }}</td>
     </tr>
     <tr>
         <th>Links</a></td>
@@ -64,10 +42,6 @@
             <a href="{{ url }}">{{ text }}</a><br>
             {% endfor %}
         </td>
-    </tr>
-    <tr>
-        <th>Description</a></td>
-        <td>{{ data.description }}</td>
     </tr>
 </tbody>
 </table>
