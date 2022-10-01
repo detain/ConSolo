@@ -16,10 +16,18 @@
         <td>{{ data.name }}</td>
     </tr>
     <tr>
-        <th>Platforms</a></td>
+        <th>Company</a></td>
+        <td>{{ data.company }}</td>
+    </tr>
+    <tr>
+        <th>Description</a></td>
+        <td>{{ data.description }}</td>
+    </tr>
+    <tr>
+        <th>Alternate Names</a></td>
         <td>
-            {% for platform in data.platforms %}
-            <span class="label label-primary">{{ platform }}</span><br>
+            {% for name in data.altNames %}
+            <span class="label label-primary">{{ name }}</span><br>
             {% endfor %}
         </td>
     </tr>
@@ -34,40 +42,12 @@
         </td>
     </tr>
     <tr>
-        <th>Author</a></td>
-        <td>{{ data.author }}</td>
-    </tr>
-    <tr>
-        <th>License</a></td>
-        <td>{{ data.license }}</td>
-    </tr>
-    <tr>
-        <th>Binary</a></td>
-        <td>
-            {% for bin in data.bin %}
-            <span class="label label-primary">{{ bin }}</span><br>
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <th>Command Line</a></td>
-        <td>
-            {% for cmd in data.cmd %}
-            {{ cmd }}<br>
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
         <th>Links</a></td>
         <td>
             {% for url, text in data.web %}
             <a href="{{ url }}">{{ text }}</a><br>
             {% endfor %}
         </td>
-    </tr>
-    <tr>
-        <th>Description</a></td>
-        <td>{{ data.description }}</td>
     </tr>
 </tbody>
 </table>
