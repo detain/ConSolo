@@ -23,7 +23,7 @@
                 {% endfor %}
             </td>
             <td>
-                {% for url, text in data.links %}
+                {% for url, text in data.web %}
                 <a href="{{ url }}">{{ text }}</a>
                 {% endfor %}
             </td>
@@ -35,7 +35,9 @@
 </table>
 <script>
 $(document).ready(function () {
-    $('#datatable').DataTable();
+    $('#datatable').DataTable({
+        paging: false
+    });
 });
 </script>
 {% endblock %}
