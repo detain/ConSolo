@@ -26,11 +26,18 @@ global $db;
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);
-$dataDir = __DIR__.'/../../../data/json';
+$dataDir = __DIR__.'/../../../../emulation-data';
 $sitePrefix = 'https://emutopia.com';
 $converter = new CssSelectorConverter();
 $client = new Client();
-$emulators = [];
+$data = [
+    'platforms' => [],
+    'emulators' => []
+];
+$source = [
+    'platforms' => [],
+    'emulators' => []
+];
 foreach (['emulators', 'other-files'] as $urlSuffix) {
     echo "Loading and scanning for {$urlSuffix} pages..\n";
     $crawler = $client->request('GET', $sitePrefix.'/index.php/'.$urlSuffix);
@@ -48,6 +55,24 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
             preg_match('/^([0-9]+)-(.*)$/', basename($platUrl), $matches);
             $platId = $matches[1];
             $platShort = $matches[2];
+            if (!isset($data['platforms'][$platId])) {
+                $data['platforms'][$platId] = [
+                    'id' => $platId,
+                    'name' => $platName,
+                    'shortName' => $platShort,
+                    'url' => $sitePrefix.$platUrl,
+                    'type' => $typeName,
+                    'emulators' => []
+                ];
+                $source['platforms'][$platId] = [
+                    'id' => $platId,
+                    'name' => $platName,
+                    'shortName' => $platShort,
+                    'url' => $sitePrefix.$platUrl,
+                    'type' => $typeName,
+                    'emulators' => []
+                ];
+            }
             echo "      Got Plat {$platName} ID {$platId} ({$platShort})\n";
             $platCrawler = $client->request('GET', $sitePrefix.$platUrl.'?limit=100');
             $platCrawler = $platCrawler->filter('.newstitle a');
@@ -64,14 +89,28 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                     $emuCrawler = $emuCrawler->filter('#topic-article .forum-list tr td');
                     $emuCount = $emuCrawler->count();
                     $emuName = $emuCrawler->eq(1)->filter('h1')->text();
-                    $emulator = [
-                        'id' => $emuId,
-                        'name' => $emuName,
-                        'shortName' => $emuShort,
-                        'url' => $sitePrefix.$emuUrl,
-                        'type' => $typeName,
-                        'platforms' => [$platName]
-                    ];
+                    if (!isset($data['emulators'][$emuId])) {
+                        $data['emulators'][$emuId] = [
+                            'id' => $emuId,
+                            'name' => $emuName,
+                            'shortName' => $emuShort,
+                            'url' => $sitePrefix.$emuUrl,
+                            'type' => $typeName,
+                            'platforms' => []
+                        ];
+                        $source['emulators'][$emuId] = [
+                            'id' => $emuId,
+                            'name' => $emuName,
+                            'shortName' => $emuShort,
+                            'url' => $sitePrefix.$emuUrl,
+                            'type' => $typeName,
+                            'platforms' => []
+                        ];
+                    }
+                    $data['platforms'][$platId]['emulators'][] = $emuId;
+                    $data['emulators'][$emuId]['platforms'][] = $platName;
+                    $source['platforms'][$platId]['emulators'][] = $emuId;
+                    $source['emulators'][$emuId]['platforms'][] = $platName;
                     $linkCrawler = $emuCrawler->eq(1)->filter('div a.filter-link');
                     $linkCount = $linkCrawler->count();
                     $os = [];
@@ -79,14 +118,23 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                         $os[] = $linkCrawler->eq($idxLink)->text();
                     }
                     if (count($os) > 0) {
-                        $emulator['os'] = $os;
+                        $data['emulators'][$emuId]['os'] = $os;
+                    }
+                    $tagCrawler = $emuCrawler->filter('.label.tag_list_item a');
+                    $tagCount = $tagCrawler->count();
+                    $tags = [];
+                    for ($idxTag = 0; $idxTag < $tagCount; $idxTag++) {
+                        $tags[] = $tagCrawler->eq($idxTag)->text();
+                    }
+                    if (count($tags) > 0) {
+                        $data['emulators'][$emuId]['tags'] = $tags;
                     }
                     $emuField = false;
                     for ($idxEmu = 2; $idxEmu < $emuCount; $idxEmu++) {
                         if ($emuCrawler->eq($idxEmu)->filter('h2')->count() == 1) {
-                            $emuField = strtolower($emuCrawler->eq($idxEmu)->filter('h2')->text());
+                            $emuField = strtolower(trim($emuCrawler->eq($idxEmu)->filter('h2')->text()));
                         } elseif ($emuField == false) {
-                            echo "              No emuField Set yet for ".$emuCrawler->eq($idxEmu)->html();
+                            echo "              No emuField Set yet for ".$emuCrawler->eq($idxEmu)->html()."\n";
                         } else {
                             if ($emuField == 'gallery') {
                                 $imageCrawler = $emuCrawler->eq($idxEmu)->filter('.image-wrapper a');
@@ -96,16 +144,7 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                                     $images[] = $sitePrefix.$imageCrawler->eq($idxImage)->attr('href');
                                 }
                                 if (count($images) > 0) {
-                                    $emulator['images'] = $images;
-                                }
-                                $tagCrawler = $emuCrawler->filter('#tag-list-'.$emuId.' .tag_list_item a');
-                                $tagCount = $tagCrawler->count();
-                                $tags = [];
-                                for ($idxTag = 0; $idxTag < $tagCount; $idxTag++) {
-                                    $tags[] = $tagCrawler->eq($idxTag)->text();
-                                }
-                                if (count($tags) > 0) {
-                                    $emulator['tags'] = $tags;
+                                    $data['emulators'][$emuId]['images'] = $images;
                                 }
                                 break;
                             } elseif ($emuField == 'links') {
@@ -113,10 +152,10 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                                 $linkCount = $linkCrawler->count();
                                 $links = [];
                                 for ($idxImage = 0; $idxImage < $linkCount; $idxImage++) {
-                                    $links[$sitePrefix.$linkCrawler->eq($idxImage)->attr('href')] = $sitePrefix.$linkCrawler->eq($idxImage)->text();
+                                    $links[$sitePrefix.$linkCrawler->eq($idxImage)->attr('href')] = $linkCrawler->eq($idxImage)->text();
                                 }
                                 if (count($links) > 0) {
-                                    $emulator['links'] = $links;
+                                    $data['emulators'][$emuId]['links'] = $links;
                                 }
 
                             } elseif ($emuField == 'downloads') {
@@ -124,21 +163,26 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                                 $downloadCount = $downloadCrawler->count();
                                 $downloads = [];
                                 for ($idxImage = 0; $idxImage < $downloadCount; $idxImage++) {
-                                    $downloads[$sitePrefix.$downloadCrawler->eq($idxImage)->attr('href')] = $sitePrefix.$downloadCrawler->eq($idxImage)->text();
+                                    $downloads[$sitePrefix.$downloadCrawler->eq($idxImage)->attr('href')] = $downloadCrawler->eq($idxImage)->text();
                                 }
                                 if (count($downloads) > 0) {
-                                    $emulator['downloads'] = $downloads;
+                                    $data['emulators'][$emuId]['downloads'] = $downloads;
                                 }
                             } else {
-                                $emulator[$emuField] = $emuCrawler->eq($idxEmu)->html();
+                                $data['emulators'][$emuId][$emuField] = trim($emuCrawler->eq($idxEmu)->html());
                             }
                             $emuField = false;
                         }
                     }
-                    $emulators[$emuId] = $emulator;
                 }
             }
         }
     }
 }
-file_put_contents($dataDir.'/emutopia.json', json_encode($emulators, getJsonOpts()));
+file_put_contents($dataDir.'/emutopia.json', json_encode($data, getJsonOpts()));
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
+$sources['emutopia']['updatedLast'] = time();
+file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/emutopia.json', json_encode($data, getJsonOpts()));
+}
