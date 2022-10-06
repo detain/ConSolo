@@ -79,8 +79,9 @@ foreach ($computerUrls as $url) {
     //echo "URL:{$url}\n";
     echo '.';
     $page = str_replace($sitePrefix, '', $url);
-    if ($useCache === true && $page != $todaysArchive && file_exists($dataDir.'/archive/'.$page.'.json')) {
-        $pageUrls = json_decode(file_get_contents($dataDir.'/archive/'.$page.'.json'), true);
+    $year = substr($page, 0, 4);
+    if ($useCache === true && $page != $todaysArchive && file_exists($dataDir.'/archive/'.$year.'/'.$page.'.json')) {
+        $pageUrls = json_decode(file_get_contents($dataDir.'/archive/'.$year.'/'.$page.'.json'), true);
     } else {
         $crawler = $client->request('GET', $url);
         $pageUrls = [];
@@ -88,16 +89,19 @@ foreach ($computerUrls as $url) {
             $pageUrls[$node->attr('href')] = $node->attr('title');
         });
         if ($useCache !== false) {
-            file_put_contents($dataDir.'/archive/'.$page.'.json', json_encode($pageUrls, getJsonOpts()));
+            if (!file_exists($dataDir.'/archive/'.$year)) {
+                mkdir($dataDir.'/archive/'.$year, 0777, true);
+            }
+            file_put_contents($dataDir.'/archive/'.$year.'/'.$page.'.json', json_encode($pageUrls, getJsonOpts()));
         }
     }
     foreach ($pageUrls as $url => $title)
         $postUrls[$url] = $title;
 }
 if ($useCache !== false) {
-    file_put_contents($dataDir.'/posts.json', json_encode($postUrls, getJsonOpts()));
+    file_put_contents($dataDir.'/postUrls.json', json_encode($postUrls, getJsonOpts()));
     echo ' done'.PHP_EOL;
-    $postUrls = json_decode(file_get_contents($dataDir.'/posts.json'), true);
+    $postUrls = json_decode(file_get_contents($dataDir.'/postUrls.json'), true);
 }
 echo 'Found '.count($postUrls).' Post Pages'.PHP_EOL;
 $count = 0;
@@ -109,52 +113,80 @@ foreach ($postUrls as $url => $title ) {
     $month = $matches['month'];
     $day = $matches['day'];*/
     $baseUrl = str_replace([$sitePrefix, '/'], ['', '_'], $url);
-    if ($useCache === true && file_exists($dataDir.'/posts/'.$baseUrl.'.json')) {
-        echo "Reading file {$baseUrl}\n";
-        $cols = json_decode(file_get_contents($dataDir.'/posts/'.$baseUrl.'.json'), true);
-    } else{
+    $yearMonth = substr($baseUrl, 0, 7);
+    if ($useCache === true && file_exists($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl)) {
+        echo "Reading html file {$baseUrl}  ";
+        $html = file_get_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl);
         try {
-            echo "Loading URL {$url} ";
-            $crawler = $client->request('GET', $url);
-            $title = $crawler->filter('title')->text();
-            $title = str_replace(" - EmuCR", '', $title);
-            $tags = $crawler->filter('.postMain .post-labels a[rel="tag"]')->each(function (Crawler $node, $i) {
-                return $node->text();
-            });
-            if ($title =='EmuCR' || in_array('WebLog', $tags)) {
-                echo "Skipping\n";
-                continue;
-            }
-            $nameVersion = $crawler->filter('.postMain .title h1 a')->text();
-            $datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
-            $body = $crawler->filter('.postMain .post-body p')->html();
-            $links = $crawler->filter('.postMain .post-body a[rel="nofollow"]')->each(function ($node, $i) { return [$node->attr('href'), $node->text()]; });
-            $data = [
-                'title' => $title,
-                'date' => $datePosted,
-                'nameVersion' => $nameVersion,
-                'url' => $url,
-                'seo' => $baseUrl,
-                'tags' => $tags,
-                'body' => $body,
-                'links' => $links,
-            ];
-            if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
-                $data['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
-            }
-            $posts[] = $data;
-            if ($useCache !== false) {
-                file_put_contents($dataDir.'/posts/'.$baseUrl.'.json', json_encode($data, getJsonOpts()));
-                echo "done\n";
-                if ($count % 50 == 0) {
-                    echo "Writing Posts..";
-                    file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
-                    echo "done\n";
-                }
-            }
+            $crawler = new Crawler($html);
         } catch (\Exception $e) {
             echo "Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
         }
+    //if ($useCache === true && file_exists($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl.'.json')) {
+        //echo "Reading file {$baseUrl}\n";
+        //$cols = json_decode(file_get_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl.'.json'), true);
+    } else{
+        try {
+            echo "Loading URL {$url}    ";
+            $crawler = $client->request('GET', $url);
+            if ($useCache !== false) {
+                if (!file_exists($dataDir.'/posts/'.$yearMonth)) {
+                    mkdir($dataDir.'/posts/'.$yearMonth, 0777, true);
+                }
+                file_put_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl, $crawler->outerHtml());
+            }
+        } catch (\Exception $e) {
+            echo "  Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
+        }
+    }
+    try {
+        $title = $crawler->filter('title')->text();
+        $title = str_replace(" - EmuCR", '', $title);
+        $tags = $crawler->filter('.postMain .post-labels a[rel="tag"]')->each(function (Crawler $node, $i) {
+            return $node->text();
+        });
+        if ($title =='EmuCR' || in_array('WebLog', $tags)) {
+            echo "  Skipping\n";
+            continue;
+        }
+        $nameVersion = $crawler->filter('.postMain .title h1 a')->text();
+        $datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
+        $body = $crawler->filter('.postMain .post-body p')->html();
+        $tempLinks = $crawler->filter('.postMain .post-body a[rel="nofollow"]')->each(function ($node, $i) { return [$node->attr('href') => $node->text()]; });
+        $links = [];
+        foreach ($tempLinks as $link) {
+            foreach ($link as $field => $value) {
+                $links[$field] = $value;
+            }
+        }
+        $data = [
+            'title' => $title,
+            'date' => $datePosted,
+            'nameVersion' => $nameVersion,
+            'url' => $url,
+            'seo' => $baseUrl,
+            'tags' => $tags,
+            'body' => $body,
+            'links' => $links,
+        ];
+        if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
+            $data['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
+        }
+        $posts[] = $data;
+        if ($useCache !== false) {
+            if (!file_exists($dataDir.'/posts/'.$yearMonth)) {
+                mkdir($dataDir.'/posts/'.$yearMonth, 0777, true);
+            }
+            file_put_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl.'.json', json_encode($data, getJsonOpts()));
+            echo "done\n";
+            if ($count % 50 == 0) {
+                echo "Writing Posts..";
+                file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
+                echo "  done\n";
+            }
+        }
+    } catch (\Exception $e) {
+        echo "  Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
     }
 }
 echo "Finished Processig Posts\n";
@@ -164,3 +196,12 @@ if ($useCache !== false) {
     echo "done\n";
 }
 
+exit;
+
+file_put_contents($dataDir.'/emutopia.json', json_encode($data, getJsonOpts()));
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
+$sources['emutopia']['updatedLast'] = time();
+file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+foreach ($source as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/emutopia.json', json_encode($data, getJsonOpts()));
+}

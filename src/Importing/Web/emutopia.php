@@ -44,8 +44,8 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
     $typeCount = $crawler->filter('.categories-list .list .cat-name a')->count();
     for ($idxType = 0; $idxType < $typeCount; $idxType++) {
         $typeName = $crawler->filter('.categories-list .list .cat-name a')->eq($idxType)->text();
-        $typeId = preg_match('/^([0-9]+)-(.*)$/', basename($crawler->filter('.categories-list .list .cat-name a')->eq($idxType)->attr('href')), $matches);
-        $typeId = $matches[1];
+        preg_match('/^([0-9]+)-(.*)$/', basename($crawler->filter('.categories-list .list .cat-name a')->eq($idxType)->attr('href')), $matches);
+        $typeId = intval($matches[1]);
         $typeShort = $matches[2];
         echo "  Got Type {$typeName} ID {$typeId}\n";
         $platCount = $crawler->filter('#subcat'.$typeId.' ul li a')->count();
@@ -53,7 +53,7 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
             $platUrl = $crawler->filter('#subcat'.$typeId.' ul li a')->eq($idxPlat)->attr('href');
             $platName = $crawler->filter('#subcat'.$typeId.' ul li a')->eq($idxPlat)->text();
             preg_match('/^([0-9]+)-(.*)$/', basename($platUrl), $matches);
-            $platId = $matches[1];
+            $platId = intval($matches[1]);
             $platShort = $matches[2];
             if (!isset($data['platforms'][$platId])) {
                 $data['platforms'][$platId] = [
@@ -82,7 +82,7 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                     $emuName = $platCrawler->eq($idxList)->text();
                     $emuUrl = $platCrawler->eq($idxList)->attr('href');
                     preg_match('/^([0-9]+)-(.*)$/', basename($emuUrl), $matches);
-                    $emuId = $matches[1];
+                    $emuId = intval($matches[1]);
                     $emuShort = $matches[2];
                     echo "          Got Emu {$emuName} ID {$emuId} ({$emuShort})\n";
                     $emuCrawler = $client->request('GET', $sitePrefix.$emuUrl);
@@ -108,9 +108,9 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                         ];
                     }
                     $data['platforms'][$platId]['emulators'][] = $emuId;
-                    $data['emulators'][$emuId]['platforms'][] = $platName;
+                    $data['emulators'][$emuId]['platforms'][] = $platId;
                     $source['platforms'][$platId]['emulators'][] = $emuId;
-                    $source['emulators'][$emuId]['platforms'][] = $platName;
+                    $source['emulators'][$emuId]['platforms'][] = $platId;
                     $linkCrawler = $emuCrawler->eq(1)->filter('div a.filter-link');
                     $linkCount = $linkCrawler->count();
                     $os = [];
