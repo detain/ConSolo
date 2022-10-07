@@ -71,6 +71,21 @@
     </tr>
 </tbody>
 </table>
+{% if matches|length > 0 %}
+<table class="table table-striped table-bordered" style="width:100%">
+<tbody>
+    {% for source, values in matches %}
+    {% for matchId, match in values %}
+    <tr>
+        <th>{{ source }}</th>
+        <th>{{ matchId }}</th>
+        <td><pre>{{ match }}</pre></td>
+    </tr>
+    {% endfor %}
+    {% endfor %}
+</tbody>
+</table>
+{% endif %}
 <script>
 $(document).ready(function () {
     $('#datatable').DataTable({

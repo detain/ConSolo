@@ -161,8 +161,37 @@ class Web extends Base {
             $id = $vars['id'];
         }
         $json = $json[$id];
+        global $cachedSources;
+        if (!isset($cachedSources)) {
+            $cachedSources = [];
+        }
+        $matches = [];
+        if (isset($json['matches'])) {
+            foreach ($json['matches'] as $matchSourceId => $matchIds) {
+                if (isset($cachedSources[$matchSourceId])) {
+                    $matchSource = $cachedSources[$matchSourceId];
+                } else {
+                    if (file_exists(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json')) {
+                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json'), true);
+                        $cachedSources[$matchSourceId] = $matchSource;
+                    } else {
+                        continue;
+                    }
+                }
+                if (!isset($matches[$matchSourceId])) {
+                    $matches[$matchSourceId] = [];
+                }
+                foreach ($matchIds as $matchId) {
+                    if (isset($matchSource['emulators'])) {
+                        $matches[$matchSourceId][$matchId] = json_encode($matchSource['emulators'][$matchId], JSON_PRETTY_PRINT |  JSON_UNESCAPED_UNICODE |  JSON_UNESCAPED_SLASHES);
+                    }
+                }
+            }
+
+        }
         echo $this->twig->render('emulator.twig', [
             'data' => $json,
+            'matches' => $matches,
             'queryString' => $_SERVER['QUERY_STRING']
         ]);
     }
@@ -173,8 +202,37 @@ class Web extends Base {
             $id = $vars['id'];
         }
         $json = $json[$id];
+        global $cachedSources;
+        if (!isset($cachedSources)) {
+            $cachedSources = [];
+        }
+        $matches = [];
+        if (isset($json['matches'])) {
+            foreach ($json['matches'] as $matchSourceId => $matchIds) {
+                if (isset($cachedSources[$matchSourceId])) {
+                    $matchSource = $cachedSources[$matchSourceId];
+                } else {
+                    if (file_exists(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json')) {
+                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json'), true);
+                        $cachedSources[$matchSourceId] = $matchSource;
+                    } else {
+                        continue;
+                    }
+                }
+                if (!isset($matches[$matchSourceId])) {
+                    $matches[$matchSourceId] = [];
+                }
+                foreach ($matchIds as $matchId) {
+                    if (isset($matchSource['companies']) && isset($matchSource['companies'][$matchId])) {
+                        $matches[$matchSourceId][$matchId] = json_encode($matchSource['companies'][$matchId], JSON_PRETTY_PRINT |  JSON_UNESCAPED_UNICODE |  JSON_UNESCAPED_SLASHES);
+                    }
+                }
+            }
+
+        }
         echo $this->twig->render('company.twig', [
             'data' => $json,
+            'matches' => $matches,
             'queryString' => $_SERVER['QUERY_STRING']
         ]);
     }
@@ -185,8 +243,37 @@ class Web extends Base {
             $id = $vars['id'];
         }
         $json = $json[$id];
+        global $cachedSources;
+        if (!isset($cachedSources)) {
+            $cachedSources = [];
+        }
+        $matches = [];
+        if (isset($json['matches'])) {
+            foreach ($json['matches'] as $matchSourceId => $matchIds) {
+                if (isset($cachedSources[$matchSourceId])) {
+                    $matchSource = $cachedSources[$matchSourceId];
+                } else {
+                    if (file_exists(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json')) {
+                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json'), true);
+                        $cachedSources[$matchSourceId] = $matchSource;
+                    } else {
+                        continue;
+                    }
+                }
+                if (!isset($matches[$matchSourceId])) {
+                    $matches[$matchSourceId] = [];
+                }
+                foreach ($matchIds as $matchId) {
+                    if (isset($matchSource['platforms'])) {
+                        $matches[$matchSourceId][$matchId] = json_encode($matchSource['platforms'][$matchId], JSON_PRETTY_PRINT |  JSON_UNESCAPED_UNICODE |  JSON_UNESCAPED_SLASHES);
+                    }
+                }
+            }
+
+        }
         echo $this->twig->render('platform.twig', [
             'data' => $json,
+            'matches' => $matches,
             'queryString' => $_SERVER['QUERY_STRING']
         ]);
     }
@@ -197,8 +284,37 @@ class Web extends Base {
             $id = $vars['id'];
         }
         $json = $json[$id];
+        global $cachedSources;
+        if (!isset($cachedSources)) {
+            $cachedSources = [];
+        }
+        $matches = [];
+        if (isset($json['matches'])) {
+            foreach ($json['matches'] as $matchSourceId => $matchIds) {
+                if (isset($cachedSources[$matchSourceId])) {
+                    $matchSource = $cachedSources[$matchSourceId];
+                } else {
+                    if (file_exists(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json')) {
+                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json'), true);
+                        $cachedSources[$matchSourceId] = $matchSource;
+                    } else {
+                        continue;
+                    }
+                }
+                if (!isset($matches[$matchSourceId])) {
+                    $matches[$matchSourceId] = [];
+                }
+                foreach ($matchIds as $matchId) {
+                    if (isset($matchSource['games'])) {
+                        $matches[$matchSourceId][$matchId] = json_encode($matchSource['games'][$matchId], JSON_PRETTY_PRINT |  JSON_UNESCAPED_UNICODE |  JSON_UNESCAPED_SLASHES);
+                    }
+                }
+            }
+
+        }
         echo $this->twig->render('game.twig', [
             'data' => $json,
+            'matches' => $matches,
             'queryString' => $_SERVER['QUERY_STRING']
         ]);
     }
