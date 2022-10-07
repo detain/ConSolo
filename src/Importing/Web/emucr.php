@@ -12,10 +12,12 @@ if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     php ".$_SERVER['argv'][0]." <options>
 
 Options:
-    -h, --help  this screen
-    -f          force update even if already latest version
-    --no-db     skip the db updates/inserts
-    --no-cache  disables use of the file cache
+    -h, --help              this screen
+    -f                      force update even if already latest version
+    --no-db                 skip the db updates/inserts
+    --no-cache              disables use of the file cache
+    --yearmonth=<yyyy_mm>   limit the processing to the specified year+month
+    --year=<yyyy>           limit the processing to the specified year
 
 ");
 }
@@ -26,10 +28,20 @@ global $db;
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);
+$validYearMonths = [];
+$validYears = [];
+foreach ($_SERVER['argv'] as $idx => $arg) {
+    if (preg_match('/--yearmonth=(.*)/', $arg, $matches)) {
+        $validYearMonths[] = $matches[1];
+    } elseif (preg_match('/--year=(.*)/', $arg, $matches)) {
+        $validYears[] = $matches[1];
+    }
+}
 $dataDir = __DIR__.'/../../../data/json/emucr';
 $sitePrefix = 'https://www.emucr.com/';
 $dir = '/mnt/e/dev/ConSolo/mirror/emucr/www.emucr.com';
 $types = ['st' => 'type_id', 'c' => 'computer_id'];
+$tagCounts = [];
 $computerUrls = [];
 $postUrls = [];
 $platforms = [];
@@ -105,6 +117,7 @@ if ($useCache !== false) {
 }
 echo 'Found '.count($postUrls).' Post Pages'.PHP_EOL;
 $count = 0;
+$lastYearMonth = false;
 foreach ($postUrls as $url => $title ) {
     $count++;
     /*preg_match('/(?P<seo>.*)-(?P<year>\d\d\d\d)(?P<month>\d\d)(?P<day>\d\d)\.html/u', basebane($url), $matches);
@@ -114,11 +127,25 @@ foreach ($postUrls as $url => $title ) {
     $day = $matches['day'];*/
     $baseUrl = str_replace([$sitePrefix, '/'], ['', '_'], $url);
     $yearMonth = substr($baseUrl, 0, 7);
+    $year = substr($baseUrl, 0, 4);
+    if ((count($validYearMonths) > 0 && !in_array($yearMonth, $validYearMonths)) || (count($validYears) > 0 && !in_array($year, $validYears))) {
+        echo "Skipping {$baseUrl}\n";
+        continue;
+    }
+    if ($useCache !== false && $lastYearMonth !== false && $lastYearMonth != $yearMonth) {
+        echo "Writing Posts..";
+        file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
+        file_put_contents($dataDir.'/tags.json', json_encode($tagCounts, getJsonOpts()));
+        echo "  done\n";
+    }
+    $lastYearMonth = $yearMonth;
     if ($useCache === true && file_exists($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl)) {
         echo "Reading html file {$baseUrl}  ";
         $html = file_get_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl);
         try {
             $crawler = new Crawler($html);
+            //$crawler = $crawler->filter('.postMain');
+            //file_put_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl, $crawler->outerHtml());
         } catch (\Exception $e) {
             echo "Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
         }
@@ -129,6 +156,7 @@ foreach ($postUrls as $url => $title ) {
         try {
             echo "Loading URL {$url}    ";
             $crawler = $client->request('GET', $url);
+            $crawler = $crawler->filter('.postMain');
             if ($useCache !== false) {
                 if (!file_exists($dataDir.'/posts/'.$yearMonth)) {
                     mkdir($dataDir.'/posts/'.$yearMonth, 0777, true);
@@ -139,38 +167,62 @@ foreach ($postUrls as $url => $title ) {
             echo "  Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
         }
     }
+
     try {
-        $title = $crawler->filter('title')->text();
-        $title = str_replace(" - EmuCR", '', $title);
-        $tags = $crawler->filter('.postMain .post-labels a[rel="tag"]')->each(function (Crawler $node, $i) {
-            return $node->text();
-        });
-        if ($title =='EmuCR' || in_array('WebLog', $tags)) {
-            echo "  Skipping\n";
-            continue;
-        }
         $nameVersion = $crawler->filter('.postMain .title h1 a')->text();
         $datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
-        $body = $crawler->filter('.postMain .post-body p')->html();
-        $tempLinks = $crawler->filter('.postMain .post-body a[rel="nofollow"]')->each(function ($node, $i) { return [$node->attr('href') => $node->text()]; });
-        $links = [];
-        foreach ($tempLinks as $link) {
-            foreach ($link as $field => $value) {
-                $links[$field] = $value;
-            }
-        }
         $data = [
-            'title' => $title,
+            'name' => $nameVersion,
             'date' => $datePosted,
             'nameVersion' => $nameVersion,
             'url' => $url,
             'seo' => $baseUrl,
-            'tags' => $tags,
-            'body' => $body,
-            'links' => $links,
         ];
+        $data['tags'] = $crawler->filter('.postMain .post-labels a[rel="tag"]')->each(function (Crawler $node, $i) use (&$tagCounts) {
+            $tag = $node->text();
+            if (!array_key_exists($tag, $tagCounts))
+                $tagCounts[$tag] = 0;
+            $tagCounts[$tag]++;
+            return $tag;
+        });
+        if ($nameVersion =='EmuCR' || in_array('WebLog', $data['tags'])) {
+            echo "  Skipping\n";
+            continue;
+        }
+        $linkCrawler = $crawler->filter('.postMain .post-body a[href]');
+        $linkCount = $linkCrawler->count();
+        $linkSection = false;
+        for ($idx = 0; $idx < $linkCount; $idx++) {
+            $link = $linkCrawler->eq($idx);
+            if (in_array($link->attr('href'), ['http://www.emucr.com', 'https://www.emucr.com'])) {
+                if ($link->attr('style') == 'font-weight:bold;color:black;text-decoration: none;') {
+                    $linkSection = strtolower($link->text());
+                    if ($linkSection == 'source')
+                        $linkSection = 'repo';
+                    elseif ($linkSection == 'web')
+                        $linkSection = 'home';
+                    elseif ($linkSection == 'download') {
+                        $linkSection  = 'links';
+                        $data[$linkSection] = [];
+                    }
+                } else {
+                    $linkSection = false;
+                }
+            } elseif ($linkSection == 'links') {
+                $data[$linkSection][$link->attr('href')] = $link->text();
+            } elseif ($linkSection !== false) {
+                $data[$linkSection] = $link->attr('href');
+            }
+        }
+        $data['body'] = $crawler->filter('.postMain .post-body p')->html();
+        $data['body'] = preg_replace('/(<a href="http:\/\/www.emucr.com" target="_blank"><img alt="[^"]*" border="0" src="[^"]*" style="float:left; margin:0 10px 10px 0;cursor:pointer; cursor:hand;" title="[^"]*"\/><\/a>)?(.*)<a name=\'more\'>.*/msu', '$2', $data['body']);
         if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
+            $data['name'] = trim(preg_replace('/^EmuCR:?\s*/', '', trim($crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('title'))));
             $data['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
+            $data['version'] = trim(str_replace($data['name'], '', $nameVersion));
+            echo "  Name '{$data['name']}' Version '{$data['version']}'";
+        } else {
+            echo "  No logo for {$url}";
         }
         $posts[] = $data;
         if ($useCache !== false) {
@@ -179,11 +231,6 @@ foreach ($postUrls as $url => $title ) {
             }
             file_put_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl.'.json', json_encode($data, getJsonOpts()));
             echo "done\n";
-            if ($count % 50 == 0) {
-                echo "Writing Posts..";
-                file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
-                echo "  done\n";
-            }
         }
     } catch (\Exception $e) {
         echo "  Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
