@@ -6,6 +6,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Logo</th>
             <th>Type</th>
             <th>Provides</th>
             <th>Description</th>
@@ -19,6 +20,7 @@
         <tr>
             <td><a href="{{ app.request.basePath }}/source/{{ data.id }}">{{ data.id }}</a></td>
             <td><a href="{{ app.request.basePath }}/source/{{ data.id }}">{{ data.name }}</a></td>
+            <td>{% if data.logo is defined %}<img src="{{ data.logo }}" alt="logo" style="max-width: 200px;max-height: 100px;">{% else %}<font style="font-size: 24px;font-weight: 1000;">{{ data.name }}</font>{% endif %}</td>
             <td>{{ data.type }}</td>
             <td>
                 {% for type in data.provides %}
