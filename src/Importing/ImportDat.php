@@ -18,7 +18,10 @@ class ImportDat
         $sources = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
         $sources[$sourceId]['updatedLast'] = time();
         file_put_contents(__DIR__.'/../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-        file_put_contents(__DIR__.'/../../../emurelation/sources/'.$sourceId.'.json', json_encode($this->source, getJsonOpts()));
+        file_put_contents(__DIR__.'/../../../emulation-data/'.$sourceId.'.json', json_encode($this->source, getJsonOpts()));
+        foreach ($this->source as $type => $data) {
+            file_put_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json', json_encode($data, getJsonOpts()));
+        }
     }
 
     public function setMultiRun(bool $multiRun) {

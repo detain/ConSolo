@@ -20,7 +20,6 @@ Options:
 global $db;
 $dataDir = __DIR__.'/../../../data';
 $jsonDir = $dataDir.'/json/launchbox';
-$xmlDir = $dataDir.'/xml/launchbox';
 $url = 'https://gamesdb.launchbox-app.com/Metadata.zip';
 $tablePrefix = 'launchbox_';
 $tableSuffix = 's';
@@ -41,12 +40,11 @@ echo "Last:    {$last}\nCurrent: {$modified}\n";
 if (intval($modified) <= intval($last) && !$force) {
 	die('Already Up-To-Date'.PHP_EOL);
 }
-@mkdir($jsonDir, 0777, true);
-@mkdir($xmlDir, 0777, true);
 echo `wget -q {$url} -O {$zipFile};`;
-echo `unzip -d "{$xmlDir}" -o {$zipFile};`;
+echo `unzip -o {$zipFile};`;
 unlink($zipFile);
 $tables = [];
+$launchbox = [];
 $source = [
     'platforms' => [],
     'companies' => [],
@@ -55,7 +53,7 @@ $source = [
 ];
 foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 	echo $name.PHP_EOL.'	reading..';
-	$xml = file_get_contents($xmlDir.'/'.$name.'.xml');
+	$xml = file_get_contents($name.'.xml');
 	echo 'read!'.PHP_EOL.'	parsing..';
 	$array = xml2array($xml);
 	echo 'parsed!'.PHP_EOL;
@@ -165,23 +163,22 @@ foreach (['Platforms', 'Files', 'Mame', 'Metadata'] as $name) {
 		    }
             echo 'inserted!'.PHP_EOL;
         }
-        echo '        writing json..';
-		file_put_contents($jsonDir.'/'.$type.'.json', json_encode($data, getJsonOpts()));
-		echo 'done'.PHP_EOL;
+        $launchbox[$type] = $data;
+        //echo '        writing json..';
+		//file_put_contents($jsonDir.'/'.$type.'.json', json_encode($data, getJsonOpts()));
+		//echo 'done'.PHP_EOL;
 	}
 	unset($array);
     if (!$keepXml) {
-	    unlink($xmlDir.'/'.$name.'.xml');
+	    unlink($name.'.xml');
     }
-}
-if (!$keepXml) {
-    @rmdir($xmlDir);
 }
 if (!$skipDb) {
     $db->query("update config set config.value='{$modified}' where field='{$configKey}'");
 }
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['launchbox']['updatedLast'] = time();
+file_put_contents(__DIR__.'/../../../../emulation-data/launchbox.json', json_encode($launchbox, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
 foreach ($source as $type => $data) {
     file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/launchbox.json', json_encode($data, getJsonOpts()));

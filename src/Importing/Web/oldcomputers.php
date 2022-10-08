@@ -62,14 +62,17 @@ if (!$skipDb) {
     $db->query("alter table oldcomputers_emulators auto_increment=1");
     $db->query("alter table oldcomputers_platforms auto_increment=1");
 }
+$fullSource = [
+    'platforms' => [],
+    'companies' => [],
+    'emulators' => [],
+];
 $source = [
     'platforms' => [],
     'companies' => [],
     'emulators' => [],
 ];
-$platforms = [];
 $total = count($computerUrls);
-$allEmulators = [];
 echo 'Found '.$total.' Systems'.PHP_EOL;
 $db->query('truncate oc_platforms');
 foreach ($computerUrls as $idx => $url) {
@@ -184,7 +187,7 @@ foreach ($computerUrls as $idx => $url) {
             'name' => $cols['manufacturer']
         ];
     }
-	$platforms[$cols['id']] = $cols;
+	$fullSource['platforms'][$cols['id']] = $cols;
     $id = $cols['id'];
     $source['platforms'][$id] = [
         'id' => $id,
@@ -215,13 +218,13 @@ foreach ($computerUrls as $idx => $url) {
 		    ->query();
     }
 }
+ksort($fullSource['platforms']);
 ksort($source['platforms']);
 ksort($source['companies']);
 ksort($source['emulators']);
-$allEmulators = $source['emulators'];
-file_put_contents($dataDir.'/json/oldcomputers/platforms.json', json_encode($platforms, getJsonOpts()));
-file_put_contents($dataDir.'/json/oldcomputers/emulators.json', json_encode($allEmulators, getJsonOpts()));
-
+$fullSource['emulators'] = $source['emulators'];
+$fullSource['companies'] = $source['companies'];
+file_put_contents(__DIR__.'/../../../../emulation-data/oldcomputers.json', json_encode($fullSource, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['oldcomputers']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
@@ -232,7 +235,7 @@ foreach ($source as $type => $data) {
 echo PHP_EOL.'done!'.PHP_EOL;
 if (!$skipDb) {
     echo 'Inserting Emulators into DB   ';
-    foreach ($allEmulators as $name => $emulator) {
+    foreach ($fullSource['emulators'] as $name => $emulator) {
 	    $emulator['host'] = implode(', ', $emulator['hosts']);
 	    $platforms = $emulator['platforms'];
 	    unset($emulator['platforms']);

@@ -30,7 +30,7 @@ if (count($row) == 0) {
 } else {
 	$last = $row[0]['value'];
 }
-$version = trim(`curl -s -L https://github.com/mamedev/mame/releases/latest|grep /mamedev/mame/releases/download/|grep lx.zip|cut -d/ -f6|cut -c5-`);
+$version = trim(`curl -I -s https://github.com/mamedev/mame/releases/latest|grep -i "^location:"|cut -d/ -f8|cut -c5-`);
 echo "Last:    {$last}\nCurrent: {$version}\n";
 $force = in_array('-f', $_SERVER['argv']);
 if (intval($version) <= intval($last) && !$force) {
@@ -231,7 +231,9 @@ file_put_contents($dataDir.'/json/mame/platforms.json', json_encode($mame['platf
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['mame']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
-file_put_contents(__DIR__.'/../../../../emurelation/sources/mame.json', json_encode($mame, getJsonOpts()));
+foreach ($mame as $type => $data) {
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/launchbox.json', json_encode($data, getJsonOpts()));
+}
 if (!in_array('--no-db', $_SERVER['argv'])) {
     $db->query("update config set config.value='{$version}' where field='{$configKey}'");
 }
