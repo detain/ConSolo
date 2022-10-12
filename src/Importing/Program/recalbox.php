@@ -20,8 +20,6 @@ Options:
 */
 global $db;
 $keepRepo = in_array('-k', $_SERVER['argv']);
-if (!file_exists(__DIR__.'/../../../data/json'))
-    mkdir(__DIR__.'/../../../data/json', 0777, true);
 $data = [
     'emulators' => [],
     'platforms' => [],
@@ -33,6 +31,7 @@ $source = [
     'companies' => [],
 ];
 gitSetup('https://gitlab.com/recalbox/recalbox', false);
+gitSetup('https://gitlab.com/recalbox/ops/wikijs-data', false);
 $wikiLinks = [];
 foreach (glob('recalbox/package/recalbox-romfs2/systems/*/system.ini') as $fileName) {
     echo "Loading ini {$fileName}\n";
@@ -84,6 +83,7 @@ foreach (glob('recalbox/package/recalbox-romfs2/systems/*/system.ini') as $fileN
         }
         if ($emuData['emulator'] == 'libretro' && !in_array($emuData['core'].'_libretro', $source['emulators'][$emuId]['altNames'])) {
             $source['emulators'][$emuId]['altNames'][] = $emuData['core'].'_libretro';
+            $source['emulators'][$emuId]['altNames'][] = 'retroarch_'.$emuData['core'];
         }
         echo "          Adding Platform {$id} to Emulator {$emuId}\n";
         $source['emulators'][$emuId]['platforms'][] = $id;
@@ -91,7 +91,7 @@ foreach (glob('recalbox/package/recalbox-romfs2/systems/*/system.ini') as $fileN
 }
 if (!$keepRepo) {
     echo "Removing recalbox\n";
-    echo `rm -rf recalbox`;
+    echo `rm -rf recalbox wikijs-data`;
     echo "done\n";
 }
 echo "Writing sources/recalbox.json\n";
@@ -105,5 +105,5 @@ echo "Writing sources.json\n";
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
 echo "Writing recalbox.json\n";
 $data = $source;
-file_put_contents(__DIR__.'/../../../data/json/recalbox.json', json_encode($data, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emulation-data/recalbox.json', json_encode($data, getJsonOpts()));
 echo "done\n";
