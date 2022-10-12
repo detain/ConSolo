@@ -12,13 +12,21 @@ $localPlatFromSource = [];
 foreach ($sources['local']['platforms'] as $localPlatId => $localPlatData) {
     if (isset($localPlatData['matches'])) {
         foreach ($localPlatData['matches'] as $sourceId => $sourcePlatforms) {
-            $localPlatFromSource[$sourceId] = [];
+            if (!isset($localPlatFromSource[$sourceId])) {
+                $localPlatFromSource[$sourceId] = [];
+            }
             foreach ($sourcePlatforms as $sourcePlatId) {
                 $localPlatFromSource[$sourceId][$sourcePlatId] = $localPlatId;
             }
         }
     }
 }
+ksort($localPlatFromSource);
+foreach ($localPlatFromSource as $sourceId => $sourcePlatforms) {
+    ksort($localPlatFromSource[$sourceId]);
+}
+//print_r($localPlatFromSource['recalbox']);
+//exit;
 $missing = [];
 foreach ($sources['local']['emulators'] as $localEmuId => $localEmuData) {
     if (isset($localEmuData['matches'])) {
@@ -30,8 +38,14 @@ foreach ($sources['local']['emulators'] as $localEmuId => $localEmuData) {
                         $sources['local']['emulators'][$localEmuId]['platforms'] = [];
                     }
                     foreach ($sourceEmuData['platforms'] as $sourcePlatId) {
-                        if (isset($localPlatFromSource[$sourceId][$sourcePlatId]) && !in_array($localPlatFromSource[$sourceId][$sourcePlatId], $sources['local']['emulators'][$localEmuId]['platforms'])) {
-                            $sources['local']['emulators'][$localEmuId]['platforms'][] = $localPlatFromSource[$sourceId][$sourcePlatId];
+                        if ($sourceId == 'recalbox') {
+                            echo "Emu:{$sourceEmuId} ID:{$sourcePlatId} Matching: {$localPlatFromSource[$sourceId][$sourcePlatId]}\n";
+                        }
+
+                        if (isset($localPlatFromSource[$sourceId][$sourcePlatId])) {
+                            if (!in_array($localPlatFromSource[$sourceId][$sourcePlatId], $sources['local']['emulators'][$localEmuId]['platforms'])) {
+                                $sources['local']['emulators'][$localEmuId]['platforms'][] = $localPlatFromSource[$sourceId][$sourcePlatId];
+                            }
                         } else {
                             if (!isset($missing[$sourceId]))
                                 $missing[$sourceId] =[];
@@ -46,5 +60,9 @@ foreach ($sources['local']['emulators'] as $localEmuId => $localEmuData) {
         }
     }
 }
-echo count($missing)." Missing Platforms: ".json_encode($missing, getJsonOpts())."\n";
+ksort($missing);
+foreach ($missing as $sourceId => $sourcePlatforms) {
+    ksort($missing[$sourceId]);
+}
+//echo count($missing)." Missing Platforms: ".json_encode($missing, getJsonOpts())."\n";
 file_put_contents(__DIR__.'/../../../emurelation/emulators/local.json', json_encode($sources['local']['emulators'], getJsonOpts()));
