@@ -35,7 +35,7 @@ function prepSource($source, $type, $skipNames = false) {
                     //$source[$type][$id]['company'] = $company;
                 //}
             }
-            if (!$skipNames) {
+            if ($skipNames == false) {
                 $source[$type][$id]['names'] = $names;
             }
         }
@@ -65,7 +65,7 @@ function loadSource($fileName, $skipNames = false) {
     return [$sourceId, $type, $source[$type]];
 }
 
-function loadSources() {
+function loadSources($skipNames = false) {
     echo 'Loading sources..';
     $sources = [];
     foreach (['platforms', 'companies', 'emulators', 'games'] as $type) {
@@ -74,7 +74,7 @@ function loadSources() {
             if (!isset($sources[$sourceId])) {
                 $sources[$sourceId] = [];
             }
-            list($sourceId, $type, $sources[$sourceId][$type]) = loadSource($fileName);
+            list($sourceId, $type, $sources[$sourceId][$type]) = loadSource($fileName, $skipNames);
         }
     }
     echo 'done'.PHP_EOL;
