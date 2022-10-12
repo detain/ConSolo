@@ -4,19 +4,25 @@
 <table class="table table-striped table-bordered" style="width:100%">
 <tbody>
     <tr>
-        <th>ID</a></td>
+        <th>ID</td>
         <td>{{ data.id }}</td>
     </tr>
     <tr>
-        <th>Name</a></td>
+        <th>Name</td>
         <td>{{ data.name }}</td>
     </tr>
+{% if data.logo is defined %}
     <tr>
-        <th>Type</a></td>
+        <th>Logo</td>
+        <td><img src="{{ data.logo }}" alt="logo" style="max-width: 300px;max-height: 200px;"></td>
+    </tr>
+{% endif %}
+    <tr>
+        <th>Type</td>
         <td>{{ data.type }}</td>
     </tr>
     <tr>
-        <th>Provides</a></td>
+        <th>Provides</td>
         <td>
             {% for type in data.provides %}
             <span class="label label-primary">{{ type }}</span><br>
@@ -24,19 +30,19 @@
         </td>
     </tr>
     <tr>
-        <th>Description</a></td>
+        <th>Description</td>
         <td>{{ data.description }}</td>
     </tr>
     <tr>
-        <th>Updated Last</a></td>
+        <th>Updated Last</td>
         <td>{{ data.updatedLast }}</td>
     </tr>
     <tr>
-        <th>Update Trigger</a></td>
+        <th>Update Trigger</td>
         <td>{{ data.updateTrigger }}</td>
     </tr>
     <tr>
-        <th>Links</a></td>
+        <th>Links</td>
         <td>
             {% for url, text in data.web %}
             <a href="{{ url }}">{{ text }}</a><br>
