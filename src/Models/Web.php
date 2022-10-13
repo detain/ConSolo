@@ -149,6 +149,9 @@ class Web extends Base {
             $id = $vars['id'];
         }
         $json = $json[$id];
+        if (file_exists(__DIR__.'/../../public/emulation-data/'.$id.'.json')) {
+            $json['data'] = file_get_contents(__DIR__.'/../../public/emulation-data/'.$id.'.json');
+        }
         echo $this->twig->render('source.twig', [
             'data' => $json,
             'queryString' => $_SERVER['QUERY_STRING']

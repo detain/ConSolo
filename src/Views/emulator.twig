@@ -44,7 +44,7 @@
         <td>
             {% for source, values in data.matches %}
             {% for match in values %}
-            <span class="label label-primary">{{ source }}</span> <span class="label label-info">{{ match }}</span><br>
+            <a href="/source/{{ source }}"><span class="label label-primary">{{ source }}</span></a> <span class="label label-info">{{ match }}</span><br>
             {% endfor %}
             {% endfor %}
         </td>
@@ -85,7 +85,7 @@
         <th>Links</a></td>
         <td>
             {% for url, text in data.web %}
-            <a href="{{ url }}">{{ text }}</a><br>
+            <a href="{{ url }}"><b>{{ text }}</b> - {{ url }}</a><br>
             {% endfor %}
         </td>
     </tr>

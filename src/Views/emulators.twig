@@ -31,8 +31,14 @@
                 <a href="{{ url }}">{{ text }}</a>
                 {% endfor %}
             </td>
+            {% if data.versions is defined %}
+            {% set keys = data.versions|keys %}
+            <td>{{ keys[0] }}</td>
+            <td>{{ data.versions[keys[0]].date }}</td>
+            {% else %}
             <td></td>
             <td></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
