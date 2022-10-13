@@ -103,7 +103,7 @@ for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
     echo "Added Manufacturer {$company['name']}\n";
 }
 foreach ($data['companies'] as $idxMan => $company) {
-    echo "Loading {$company['url']}\n";
+    echo "Loading Company {$company['url']}\n";
     if ($useCache === true && file_exists('cache/'.$idxMan.'.html')) {
         $html = file_get_contents('cache/'.$idxMan.'.html');
     } else {
@@ -120,7 +120,7 @@ foreach ($data['companies'] as $idxMan => $company) {
 foreach ($data['companies'] as $idxMan => $company) {
     foreach ($company['platforms'] as $idxPlat) {
         $platform = $data['platforms'][$idxPlat];
-        echo "Loading {$platform['url']}\n";
+        echo "Loading Platform {$platform['url']}\n";
         if ($useCache === true && file_exists('cache/'.$idxPlat.'.html')) {
             $html = file_get_contents('cache/'.$idxPlat.'.html');
         } else {
@@ -178,22 +178,25 @@ foreach ($data['companies'] as $idxMan => $company) {
                         'id' => '',
                         'url' => $items->eq($idxItem)->filter('.blog-reel-post')->attr('href'),
                         'name' => $items->eq($idxItem)->filter('.emulator-description p a')->text(),
-                        'description' => trim(html_entity_decode(str_replace(['<br>'], ["\n"], preg_replace('/<\/?(p|a)[^>]*>/', '', trim($items->eq($idxItem)->filter('.emulator-description')->html())))))
+                        'description' => trim(html_entity_decode(str_replace(['<br>'], ["\n"], preg_replace('/<\/?(p|a)[^>]*>/', '', trim($items->eq($idxItem)->filter('.emulator-description')->html()))))),
                     ];
                     $row['id'] = basename($row['url']);
                     if ($items->eq($idxItem)->filter('.emulator-image img')->count() > 0)
                         $row['logo'] = $items->eq($idxItem)->filter('.emulator-image img')->attr('src');
-                    $row['platforms'] = [];
-                    $oses = $items->eq($idxItem)->filter('.emulator-supported-osw-100 i');
-                    if ($oses->count() > 0) {
-                        $row['runs'] = [];
-                        for ($idxOs = 0, $maxOs = $oses->count(); $idxOs < $maxOs; $idxOs++ ) {
-                            $os = $oses->eq($idxOs)->attr('class');
-                            $row['runs'][] = str_replace('emu-icon-', '', $os);
-                        }
-                    }
                     echo "      Adding {$section}: {$row['url']}\n";
                     if ($seoSection == 'emulators') {
+                        $row['shortDesc'] = $row['description'];
+                        unset($row['description']);
+                        $row['description'] = $row['shortDesc'];
+                        $row['platforms'] = [];
+                        $oses = $items->eq($idxItem)->filter('.emulator-supported-osw-100 i');
+                        if ($oses->count() > 0) {
+                            $row['runs'] = [];
+                            for ($idxOs = 0, $maxOs = $oses->count(); $idxOs < $maxOs; $idxOs++ ) {
+                                $os = $oses->eq($idxOs)->attr('class');
+                                $row['runs'][] = str_replace('emu-icon-', '', $os);
+                            }
+                        }
                         if (!array_key_exists($row['id'], $source['emulators'])) {
                             $data['emulators'][$row['id']] = $row;
                             $source['emulators'][$row['id']] = [
@@ -206,6 +209,45 @@ foreach ($data['companies'] as $idxMan => $company) {
                         $source['emulators'][$row['id']]['platforms'][] = $platform['id'];
                         $data['emulators'][$row['id']]['platforms'][] = $platform['id'];
                         $platform[$seoSection][] = $row['id'];
+
+                        echo "Loading Emulator {$row['url']}\n";
+                        if ($useCache === true && file_exists('cache/'.$row['id'].'.html')) {
+                            $html = file_get_contents('cache/'.$row['id'].'.html');
+                        } else {
+                            sleep(1);
+                            $html = getcurlpage($row['url']);
+                            if ($useCache === true) {
+                                file_put_contents('cache/'.$row['id'].'.html', $html);
+                            }
+                        }
+                        $crawler = new Crawler($html);
+                        //eval(\Psy\sh());
+                        $crawler->filter('.lbb-block-slot')->each(function (Crawler $crawler, $i) {
+                            foreach ($crawler as $node) {
+                                $node->parentNode->removeChild($node);
+                            }
+                        });
+                        $emuRows = $crawler->filter('article > .row');
+                        $data['emulators'][$row['id']]['logo'] = $emuRows->eq(1)->filter('div .game-cover .cover-image')->attr('src');
+                        $data['emulators'][$row['id']]['description'] = trim(html_entity_decode(str_replace(['<br>'], ["\n"], preg_replace('/<\/?(p|a)[^>]*>/', '', trim($emuRows->eq(1)->filter('div .entry-content')->html())))));
+                        if ($emuRows->eq(1)->filter('div .console-meta')->count() > 0) {
+                            $specRows = $emuRows->eq(1)->filter('div .console-meta')->children();
+                            for ($idxSpec = 1, $maxSpec = $specRows->count(); $idxSpec < $maxSpec; $idxSpec++) {
+                                $node = $specRows->eq($idxSpec)->filter('strong');
+                                if ($node->count() > 0) {
+                                    $field = str_replace([':'], [''], $node->text()) ;
+                                    foreach ($node as $thenode)
+                                        $thenode->parentNode->removeChild($thenode);
+                                }
+                                $value = trim($specRows->eq($idxSpec)->text());
+                                echo "  Spec {$field} .= {$value}\n";
+                                $data['emulators'][$row['id']][$field] = !array_key_exists($field, $data['emulators'][$row['id']]) ? $value : $data['emulators'][$row['id']][$field].'<br>'.$value;
+                            }
+                        }
+
+
+
+
                     } else {
                         $platform[$seoSection][] = $row;
                     }
