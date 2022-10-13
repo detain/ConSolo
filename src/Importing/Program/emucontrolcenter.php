@@ -146,8 +146,8 @@ foreach ($data['platforms'] as $id => $platform) {
     echo " (images)";
     $data['platforms'][$id]['emulators'] = [];
     $data['platforms'][$id]['images'] = [];
-    foreach (glob('emuDownloadCenter.wiki/images_platform/ecc_'.$id.'_*') as $imagePath)
-        $data['platforms'][$id]['images'][] = 'https://consolo.is.cc/images/'.$imagePath;
+    //foreach (glob('emuDownloadCenter.wiki/images_platform/ecc_'.$id.'_*') as $imagePath)
+        //$data['platforms'][$id]['images'][] = 'https://consolo.is.cc/images/'.$imagePath;
     foreach (glob('emuControlCenter/ecc-system/images/platform/ecc_'.$id.'_*') as $imagePath)
         $data['platforms'][$id]['images'][] = 'https://consolo.is.cc/images/'.$imagePath;
     echo "\n";

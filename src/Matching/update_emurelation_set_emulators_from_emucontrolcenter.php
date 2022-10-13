@@ -15,6 +15,7 @@ foreach ($localSource['platforms'] as $localPlatId => $localPlatData) {
         $localPlatFromSource[$localPlatData['matches']['emucontrolcenter'][0]] = $localPlatId;
     }
 }
+$noChanges = ['altirra/2.90-test5', 'dapple2-emuii/0.27-source', 'dapple2-emuii/0.31', 'dapple2-emuii/0.31-source', 'demul/0.5.2-win32', 'demul/0.5.2-win64', 'dsvz200/20XX.XX.XX-installer', 'mz700win/0.2-source', 'prosystem/1.3-source', 'stella/3.4.1-win32'];
 $missing = [];
 foreach ($localSource['emulators'] as $localEmuId => $localEmuData) {
     if (isset($localEmuData['matches']) && isset($localEmuData['matches']['emucontrolcenter'])) {
@@ -44,12 +45,15 @@ foreach ($localSource['emulators'] as $localEmuId => $localEmuData) {
                     $version = [
                         'url' => 'https://consolo.is.cc/emu/'.$localEmuId.'/'.$versionTag.'.7z',
                         'bin' => (isset($versionData['executable_folder']) && $versionData['executable_folder'] != '' ? $versionData['executable_folder'] .'\\' : '').$versionData['executable_file'],
-                        'bit' => isset($versionData['os_architecture']) && $versionData['os_architecture'] == 'x64' ? 64 : 32,
                     ];
+                    $versionData['bits'] = isset($versionData['os_architecture']) && $versionData['os_architecture'] == 'x64' ? 64 : 32;
                     if ($versionData['release_date'] != '20??-??-??') {
-                        $version['date'] = $versionData['release_date'];
+                        $versionData['date'] = $versionData['release_date'];
                     }
-                    foreach (['file_notes', 'notes', 'os', 'os_ver'] as $field) {
+                    if (!in_array($localEmuId.'/'.$versionTag, $noChanges)) {
+                        $versionData['changes'] = 'https://consolo.is.cc/emu/'.$localEmuId.'/'.$versionTag.'_changelog.txt';
+                    }
+                    foreach (['os', 'os_ver', 'bits', 'date', 'changes', 'file_notes', 'notes'] as $field) {
                         if (isset($versionData[$field]) && $versionData[$field] != '') {
                             $version[$field] = $versionData[$field];
                         }
