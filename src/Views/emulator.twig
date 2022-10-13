@@ -19,6 +19,18 @@
         <th>Description</a></td>
         <td>{{ data.description }}</td>
     </tr>
+{% if data.logo is defined %}
+    <tr>
+        <th>Logo</td>
+        <td><img src="{{ data.logo }}" alt="logo" style="max-width: 300px;max-height: 200px;"></td>
+    </tr>
+{% endif %}
+{% if data.screenshot is defined %}
+    <tr>
+        <th>Screenshot</td>
+        <td><img src="{{ data.screenshot }}" alt="screensot" style="max-width: 640px;max-height: 480px;"></td>
+    </tr>
+{% endif %}
     <tr>
         <th>Platforms</a></td>
         <td>

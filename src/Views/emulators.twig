@@ -5,7 +5,9 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Description</th>
+            <th>Logo</th>
+            <th>Screenshot</th>
+            <th style="min-width: 40%;">Description</th>
             <th>Platforms</th>
             <th>Links</th>
             <th>Version</th>
@@ -16,10 +18,12 @@
         {% for data in results %}
         <tr>
             <td><a href="{{ app.request.basePath }}/emulator/{{ data.id }}">{{ data.name }}</a></td>
-            <td>{{ data.description }}</td>
+            <td>{% if data.logo is defined %}<img src="{{ data.logo }}" alt="logo" style="max-width: 200px;max-height: 100px;">{% endif %}</td>
+            <td>{% if data.screenshot is defined %}<img src="{{ data.screenshot }}" alt="screenshot" style="max-width: 200px;max-height: 100px;">{% endif %}</td>
+            <td style="min-width: 40%;">{{ data.description }}</td>
             <td>
                 {% for platform in data.platforms %}
-                <span class="label label-primary">{{ platform }}</span>
+                <a href="/platform/{{ platform }}"><span class="label label-primary">{{ platform }}</span></a>
                 {% endfor %}
             </td>
             <td>
