@@ -66,6 +66,14 @@
         </td>
     </tr>
     <tr>
+        <th>Directory</a></td>
+        <td>
+            {% for dir in data.dir %}
+            <span class="label label-primary">{{ dir }}</span><br>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
         <th>Command Line</a></td>
         <td>
             {% for cmd in data.cmd %}
@@ -81,6 +89,53 @@
             {% endfor %}
         </td>
     </tr>
+<!-- ext extensions -->
+{% if data.ext is defined %}
+    <tr>
+        <th>Extensions</a></td>
+        <td>
+            {% for ext in data.ext %}
+            <span class="label label-info">.{{ ext }}</span>
+            {% endfor %}
+        </td>
+    </tr>
+{% endif %}
+{% if data.versions is defined %}
+    <tr>
+        <th>Downloads</a></td>
+        <td>
+            <table class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th>Version</th>
+                    <th>Download</th>
+                    <th>ChangeLog</th>
+                    <th>OS</th>
+                    <th>OS Version</th>
+                    <th>Bits</th>
+                    <th>Date</th>
+                    <th>Bin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for versionId, versionData in data.versions %}
+                <tr>
+                    <td>{{ versionId }}</td>
+                    <td><a href="{{ versionData.url }}">Download</a></td>
+                    <td><a href="{{ versionData.changes }}">ChangeLog</a></td>
+                    <td>{{ versionData.os }}</td>
+                    <td>{{ versionData.os_ver }}</td>
+                    <td>{{ versionData.bits }}</td>
+                    <td>{{ versionData.date }}</td>
+                    <td>{{ versionData.bin }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </td>
+    </tr>
+{% endif %}
 </tbody>
 </table>
 {% if matches|length > 0 %}
