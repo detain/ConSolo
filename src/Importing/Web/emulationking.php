@@ -52,6 +52,7 @@ $converter = new CssSelectorConverter();
 if ($useCache === true) {
     @mkdir('cache');
 }
+echo "Loading EmulationKing main/index page\n";
 if ($useCache === true && file_exists('cache/index.html')) {
     $html = file_get_contents('cache/index.html');
 } else {
@@ -97,13 +98,13 @@ for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
             'shortName' => $platform['id'],
             'company' => $company['id']
         ];
-        echo "Added Platform {$platform['name']}\n";
+        echo "  Added Platform {$platform['name']}\n";
     }
     $data['companies'][$company['id']] = $company;
-    echo "Added Manufacturer {$company['name']}\n";
+    echo "  Added Manufacturer {$company['name']}\n";
 }
 foreach ($data['companies'] as $idxMan => $company) {
-    echo "Loading Company {$company['url']}\n";
+    echo "  Loading Company {$company['url']}\n";
     if ($useCache === true && file_exists('cache/'.$idxMan.'.html')) {
         $html = file_get_contents('cache/'.$idxMan.'.html');
     } else {
@@ -120,7 +121,7 @@ foreach ($data['companies'] as $idxMan => $company) {
 foreach ($data['companies'] as $idxMan => $company) {
     foreach ($company['platforms'] as $idxPlat) {
         $platform = $data['platforms'][$idxPlat];
-        echo "Loading Platform {$platform['url']}\n";
+        echo "      Loading Platform {$platform['url']}\n";
         if ($useCache === true && file_exists('cache/'.$idxPlat.'.html')) {
             $html = file_get_contents('cache/'.$idxPlat.'.html');
         } else {
@@ -154,7 +155,7 @@ foreach ($data['companies'] as $idxMan => $company) {
                         $thenode->parentNode->removeChild($thenode);
                 }
                 $value = trim($specRows->eq($idxSpec)->text());
-                echo "  Spec {$field} .= {$value}\n";
+                echo "    Spec {$field} .= {$value}\n";
                 $platform[$field] = !array_key_exists($field, $platform) ? $value : $platform[$field].'<br>'.$value;
             }
         }
@@ -163,14 +164,14 @@ foreach ($data['companies'] as $idxMan => $company) {
                 $seoSection = $rows->eq($idxRow)->filter('h2')->attr('id');
                 $section = $rows->eq($idxRow)->filter('h2')->text();
                 if (is_null($seoSection)) {
-                    echo "  Skipping section {$section} (null seo section)\n";
+                    echo "    Skipping section {$section} (null seo section)\n";
                     continue;
                 }
                 if ($rows->eq($idxRow)->filter('.border .blog-reel-post')->count() == 0) {
-                    echo "  Skipping section {$section} (doesnt match our stuff)\n";
+                    echo "    Skipping section {$section} (doesnt match our stuff)\n";
                     continue;
                 }
-                echo "  Adding Section {$section} ({$seoSection})\n";
+                echo "      Adding Section {$section} ({$seoSection})\n";
                 $platform[$seoSection] = [];
                 $items = $rows->eq($idxRow)->filter('.border');
                 for ($idxItem = 0, $maxItem = $items->count(); $idxItem < $maxItem; $idxItem++) {
@@ -183,7 +184,7 @@ foreach ($data['companies'] as $idxMan => $company) {
                     $row['id'] = basename($row['url']);
                     if ($items->eq($idxItem)->filter('.emulator-image img')->count() > 0)
                         $row['logo'] = $items->eq($idxItem)->filter('.emulator-image img')->attr('src');
-                    echo "      Adding {$section}: {$row['url']}\n";
+                    echo "          Adding {$section}: {$row['url']}\n";
                     if ($seoSection == 'emulators') {
                         $row['shortDesc'] = $row['description'];
                         unset($row['description']);
@@ -210,7 +211,7 @@ foreach ($data['companies'] as $idxMan => $company) {
                         $data['emulators'][$row['id']]['platforms'][] = $platform['id'];
                         $platform[$seoSection][] = $row['id'];
 
-                        echo "Loading Emulator {$row['url']}\n";
+                        echo "          Loading Emulator {$row['url']}\n";
                         if ($useCache === true && file_exists('cache/'.$row['id'].'.html')) {
                             $html = file_get_contents('cache/'.$row['id'].'.html');
                         } else {
@@ -228,7 +229,20 @@ foreach ($data['companies'] as $idxMan => $company) {
                             }
                         });
                         $emuRows = $crawler->filter('article > .row');
+                        $fullName = $emuRows->eq(0)->filter('.entry-title')->text();
                         $data['emulators'][$row['id']]['logo'] = $emuRows->eq(1)->filter('div .game-cover .cover-image')->attr('src');
+                        $screenshots = [];
+                        $emuRows->eq(1)->filter('div .game-screenshots .imagelightbox')->each(function (Crawler $crawler, $i) use (&$screenshots) {
+                            $screenshot = $crawler->attr('href');
+                            $screenshots[] = $screenshot;
+                            //foreach ($crawler as $node) {
+                                //$screenshot = $node->attr('href');
+                                //$screenshots[] = $screenshot;
+                            //}
+                        });
+                        if (count($screenshots) > 0) {
+                            $data['emulators'][$row['id']]['screenshots'] = $screenshots;
+                        }
                         $data['emulators'][$row['id']]['description'] = trim(html_entity_decode(str_replace(['<br>'], ["\n"], preg_replace('/<\/?(p|a)[^>]*>/', '', trim($emuRows->eq(1)->filter('div .entry-content')->html())))));
                         if ($emuRows->eq(1)->filter('div .console-meta')->count() > 0) {
                             $specRows = $emuRows->eq(1)->filter('div .console-meta')->children();
@@ -240,12 +254,73 @@ foreach ($data['companies'] as $idxMan => $company) {
                                         $thenode->parentNode->removeChild($thenode);
                                 }
                                 $value = trim($specRows->eq($idxSpec)->text());
-                                echo "  Spec {$field} .= {$value}\n";
+                                echo "          Spec {$field} .= {$value}\n";
                                 $data['emulators'][$row['id']][$field] = !array_key_exists($field, $data['emulators'][$row['id']]) ? $value : $data['emulators'][$row['id']][$field].'<br>'.$value;
                             }
                         }
 
-
+                        echo "          Loading Emulator Archive {$row['url']}archive/\n";
+                        if ($useCache === true && file_exists('cache/'.$row['id'].'_archive.html')) {
+                            $html = file_get_contents('cache/'.$row['id'].'_archive.html');
+                        } else {
+                            sleep(1);
+                            $html = getcurlpage($row['url'].'archive/');
+                            if ($useCache === true) {
+                                file_put_contents('cache/'.$row['id'].'_archive.html', $html);
+                            }
+                        }
+                        $crawler = new Crawler($html);
+                        //eval(\Psy\sh());
+                        $crawler->filter('.lbb-block-slot')->each(function (Crawler $crawler, $i) {
+                            foreach ($crawler as $node) {
+                                $node->parentNode->removeChild($node);
+                            }
+                        });
+                        if (!isset($data['emulators'][$row['id']]['versions'])) {
+                            $data['emulators'][$row['id']]['versions'] = [];
+                        }
+                        $dlRows = $crawler->filter('article > .row:nth-child(3) > div > a');
+                        for ($idxDl = 1, $dlMax = $dlRows->count(); $idxDl < $dlMax; $idxDl++) {
+                            $dlRow = $dlRows->eq($idxDl);
+                            $dlOs = ucwords(str_replace('down-icon emu-icon-', '', $dlRow->filter('.down-icon')->attr('class')));
+                            if ($dlRow->filter('.d-block strong')->count() > 0) {
+                                $dlBranch = $dlRow->filter('.d-block strong')->text();
+                            } else {
+                                $dlBranch = null;
+                            }
+                            $dlPageUrl = $dlRow->attr('href');
+                            $dlId = str_replace('/', '_', preg_replace('/https:\/\/emulationking.com\/(.*)\/$/', '$1', $dlPageUrl));
+                            foreach (['div', 'span'] as $element) {
+                                $dlRow->filter($element)->each(function (Crawler $crawler, $i) {
+                                    foreach ($crawler as $node) {
+                                        $node->parentNode->removeChild($node);
+                                    }
+                                });
+                            }
+                            $dlVer = preg_replace('/'.preg_quote($fullName).' \((.*)\)/', '$1', $dlRow->html());
+                            $dlVer = preg_replace('/((\d\d)\/(\d\d)\/(\d\d\d\d))/', '$4-$3-$2', $dlVer);
+                            echo "          Got DL FullName {$fullName} OS {$dlOs} Branch {$dlBranch} ID {$dlId} Ver {$dlVer} PageURL: {$dlPageUrl}\n";
+                            echo "          Loading Emulator Download {$dlPageUrl}\n";
+                            if ($useCache === true && file_exists('cache/'.$dlId.'.html')) {
+                                $html = file_get_contents('cache/'.$dlId.'.html');
+                            } else {
+                                sleep(1);
+                                $html = getcurlpage($dlPageUrl, '', [CURLOPT_REFERER => $row['url'].'archive/']);
+                                if ($useCache === true && trim($html) != '') {
+                                    file_put_contents('cache/'.$dlId.'.html', $html);
+                                }
+                            }
+                            $crawler = new Crawler($html);
+                            $dlUrl = $crawler->filter('a.emu-icon-download')->attr('href');
+                            echo "           Final URL {$dlUrl}\n";
+                            $version = [
+                                'id' => $dlId,
+                                'url' => $dlUrl,
+                                'os' => $dlOs,
+                                'branch' => $dlBranch,
+                            ];
+                            $data['emulators'][$row['id']]['versions'][$dlVer] = $version;
+                        }
 
 
                     } else {
