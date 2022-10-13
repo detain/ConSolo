@@ -280,7 +280,7 @@ foreach ($data['companies'] as $idxMan => $company) {
                             $data['emulators'][$row['id']]['versions'] = [];
                         }
                         $dlRows = $crawler->filter('article > .row > div.mx-auto > a');
-                        for ($idxDl = 1, $dlMax = $dlRows->count(); $idxDl < $dlMax; $idxDl++) {
+                        for ($idxDl = 0, $dlMax = $dlRows->count(); $idxDl < $dlMax; $idxDl++) {
                             $dlRow = $dlRows->eq($idxDl);
                             $dlOs = ucwords(str_replace('down-icon emu-icon-', '', $dlRow->filter('.down-icon')->attr('class')));
                             if ($dlRow->filter('span.d-block strong')->count() > 0) {
