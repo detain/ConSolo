@@ -279,11 +279,11 @@ foreach ($data['companies'] as $idxMan => $company) {
                         if (!isset($data['emulators'][$row['id']]['versions'])) {
                             $data['emulators'][$row['id']]['versions'] = [];
                         }
-                        $dlRows = $crawler->filter('article > .row:nth-child(3) > div > a');
+                        $dlRows = $crawler->filter('article > .row > div.mx-auto > a');
                         for ($idxDl = 1, $dlMax = $dlRows->count(); $idxDl < $dlMax; $idxDl++) {
                             $dlRow = $dlRows->eq($idxDl);
                             $dlOs = ucwords(str_replace('down-icon emu-icon-', '', $dlRow->filter('.down-icon')->attr('class')));
-                            if ($dlRow->filter('.d-block strong')->count() > 0) {
+                            if ($dlRow->filter('span.d-block strong')->count() > 0) {
                                 $dlBranch = $dlRow->filter('.d-block strong')->text();
                             } else {
                                 $dlBranch = null;
@@ -320,16 +320,27 @@ foreach ($data['companies'] as $idxMan => $company) {
                             $dlToken = $crawler->filter('a.emu-icon-download')->attr('href');
                             $dlUrl = preg_replace('/\?token=.*$/', '', $dlToken);
                             $dlPathSuffix = str_replace('https://files.emulationking.com/', '', $dlUrl);
-                            echo "           Final URL {$dlUrl}\n";
+                            echo "           Final URL {$dlUrl} Suffix {$dlPathSuffix}\n";
                             $dlPath = __DIR__.'/../../../public/emulationking/'.$dlPathSuffix;
-                            if (file_exists($dlPath)) {
-                                echo "           File already exists {$dlPath}\n";
+                            $newPath = __DIR__.'/../../../public/emuking/'.$row['id'].'/'.basename($dlPath);
+                            if (file_exists($newPath)) {
+                                echo "           Finished File already exists {$newPath}\n";
                             } else {
-                                if (!file_exists(dirname($dlPath))) {
-                                    mkdir(dirname($dlPath), 0777, true);
+                                if (file_exists($dlPath)) {
+                                    echo "           File already exists {$dlPath}\n";
+                                } else {
+                                    if (!file_exists(dirname($dlPath))) {
+                                        mkdir(dirname($dlPath), 0777, true);
+                                    }
+                                    echo `wget --referer="{$dlPageUrl}" "{$dlToken}" -O "{$dlPath}"`;
                                 }
-                                echo `wget --referer="{$dlPageUrl}" "{$dlToken}" -O "{$dlPath}"`;
+                                if (!file_exists(dirname($newPath))) {
+                                    mkdir(dirname($newPath), 0777, true);
+                                }
+                                rename($dlPath, $newPath);
                             }
+
+                            $dlUrl = 'https://consolo.is.cc/emuking/'.$row['id'].'/'.basename($dlPath);
                             $version = [
                                 'id' => $dlId,
                                 'url' => $dlUrl,
@@ -337,6 +348,11 @@ foreach ($data['companies'] as $idxMan => $company) {
                                 'os' => $dlOs,
                                 'branch' => $dlBranch,
                             ];
+                            foreach (['date', 'branch'] as $field) {
+                                if (is_null($version[$field])) {
+                                    unset($version[$field]);
+                                }
+                            }
                             $data['emulators'][$row['id']]['versions'][$dlVer] = $version;
                         }
 
