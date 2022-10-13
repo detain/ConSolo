@@ -298,7 +298,13 @@ foreach ($data['companies'] as $idxMan => $company) {
                                 });
                             }
                             $dlVer = preg_replace('/'.preg_quote($fullName).' \((.*)\)/', '$1', $dlRow->html());
-                            $dlVer = preg_replace('/((\d\d)\/(\d\d)\/(\d\d\d\d))/', '$4-$3-$2', $dlVer);
+                            if (preg_match('/((\d\d)\/(\d\d)\/(\d\d\d\d))/', $dlVer, $matches)) {
+                                $dlVer = preg_replace('/((\d\d)\/(\d\d)\/(\d\d\d\d))/', '$4-$3-$2', $dlVer);
+                                $dlDate = $matches[4].'/'.$matches[3].'/'.$matches[2];
+                            } else {
+                                $dlDate = null;
+                            }
+
                             echo "          Got DL FullName {$fullName} OS {$dlOs} Branch {$dlBranch} ID {$dlId} Ver {$dlVer} PageURL: {$dlPageUrl}\n";
                             echo "          Loading Emulator Download {$dlPageUrl}\n";
                             if ($useCache === true && file_exists('cache/'.$dlId.'.html')) {
@@ -311,11 +317,23 @@ foreach ($data['companies'] as $idxMan => $company) {
                                 }
                             }
                             $crawler = new Crawler($html);
-                            $dlUrl = $crawler->filter('a.emu-icon-download')->attr('href');
+                            $dlToken = $crawler->filter('a.emu-icon-download')->attr('href');
+                            $dlUrl = preg_replace('/\?token=.*$/', '', $dlToken);
+                            $dlPathSuffix = str_replace('https://files.emulationking.com/', '', $dlUrl);
                             echo "           Final URL {$dlUrl}\n";
+                            $dlPath = __DIR__.'/../../../public/emulationking/'.$dlPathSuffix;
+                            if (file_exists($dlPath)) {
+                                echo "           File already exists {$dlPath}\n";
+                            } else {
+                                if (!file_exists(dirname($dlPath))) {
+                                    mkdir(dirname($dlPath), 0777, true);
+                                }
+                                echo `wget --referer="{$dlPageUrl}" "{$dlToken}" -O "{$dlPath}"`;
+                            }
                             $version = [
                                 'id' => $dlId,
                                 'url' => $dlUrl,
+                                'date' => $dlDate,
                                 'os' => $dlOs,
                                 'branch' => $dlBranch,
                             ];
