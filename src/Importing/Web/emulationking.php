@@ -322,25 +322,16 @@ foreach ($data['companies'] as $idxMan => $company) {
                             $dlPathSuffix = str_replace('https://files.emulationking.com/', '', $dlUrl);
                             echo "           Final URL {$dlUrl} Suffix {$dlPathSuffix}\n";
                             $dlPath = __DIR__.'/../../../public/emulationking/'.$dlPathSuffix;
-                            $newPath = __DIR__.'/../../../public/emuking/'.$row['id'].'/'.basename($dlPath);
+                            $newPath = __DIR__.'/../../../public/emulationking/'.$row['id'].'/'.basename($dlPath);
                             if (file_exists($newPath)) {
                                 echo "           Finished File already exists {$newPath}\n";
                             } else {
-                                if (file_exists($dlPath)) {
-                                    echo "           File already exists {$dlPath}\n";
-                                } else {
-                                    if (!file_exists(dirname($dlPath))) {
-                                        mkdir(dirname($dlPath), 0777, true);
-                                    }
-                                    echo `wget --referer="{$dlPageUrl}" "{$dlToken}" -O "{$dlPath}"`;
-                                }
                                 if (!file_exists(dirname($newPath))) {
                                     mkdir(dirname($newPath), 0777, true);
                                 }
-                                rename($dlPath, $newPath);
+                                echo `wget --referer="{$dlPageUrl}" "{$dlToken}" -O "{$newPath}"`;
                             }
-
-                            $dlUrl = 'https://consolo.is.cc/emuking/'.$row['id'].'/'.basename($dlPath);
+                            $dlUrl = 'https://consolo.is.cc/emulationking/'.$row['id'].'/'.basename($dlPath);
                             $version = [
                                 'id' => $dlId,
                                 'url' => $dlUrl,
