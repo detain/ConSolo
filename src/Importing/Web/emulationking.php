@@ -333,10 +333,9 @@ foreach ($data['companies'] as $idxMan => $company) {
                             }
                             $dlUrl = 'https://consolo.is.cc/emulationking/'.$row['id'].'/'.basename($dlPath);
                             $version = [
-                                'id' => $dlId,
                                 'url' => $dlUrl,
-                                'date' => $dlDate,
                                 'os' => $dlOs,
+                                'date' => $dlDate,
                                 'branch' => $dlBranch,
                             ];
                             foreach (['date', 'branch'] as $field) {
