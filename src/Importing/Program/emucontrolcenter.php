@@ -147,9 +147,9 @@ foreach ($data['platforms'] as $id => $platform) {
     $data['platforms'][$id]['emulators'] = [];
     $data['platforms'][$id]['images'] = [];
     foreach (glob('emuDownloadCenter.wiki/images_platform/ecc_'.$id.'_*') as $imagePath)
-        $data['platforms'][$id]['images'][] = $imagePath;
+        $data['platforms'][$id]['images'][] = 'https://consolo.is.cc/images/'.$imagePath;
     foreach (glob('emuControlCenter/ecc-system/images/platform/ecc_'.$id.'_*') as $imagePath)
-        $data['platforms'][$id]['images'][] = $imagePath;
+        $data['platforms'][$id]['images'][] = 'https://consolo.is.cc/images/'.$imagePath;
     echo "\n";
 }
 echo "Loading Platform <=> emulator matchups..\n";
@@ -176,15 +176,15 @@ foreach ($data['emulators'] as $id => $emulator) {
     $emulator['images'] = [];
     foreach (['png', 'jpg'] as $ext)
         foreach (glob('emuDownloadCenter/hooks/'.$id.'/*.'.$ext) as $imagePath) {
-            $emulator['images'][] = $imagePath;
+            $emulator['images'][] = 'https://consolo.is.cc/images/'.$imagePath;
             if (basename($imagePath, '.'.$ext) == 'emulator_logo') {
-                $emulator['logo'] = $imagePath; // $id.'.'.$ext;
+                $emulator['logo'] = 'https://consolo.is.cc/images/'.$imagePath; // $id.'.'.$ext;
             } elseif (basename($imagePath, '.'.$ext) == 'emulator_screen_01') {
-                $emulator['screenshot'] = $imagePath; // $id.'.'.$ext;
+                $emulator['screenshot'] = 'https://consolo.is.cc/images/'.$imagePath; // $id.'.'.$ext;
             }
         }
     foreach (glob('emuDownloadCenter.wiki/images_emulator/'.$id.'_*') as $imagePath)
-        $emulator['images'][] = $imagePath;
+        $emulator['images'][] = 'https://consolo.is.cc/images/'.$imagePath;
     echo ' (frontend)';
     $emulator['frontend'] = loadIni('emuDownloadCenter/hooks/'.$id.'/configs_frontend_ecc.ini');
     if (isset($emulator['frontend']['GLOBAL'])) {
