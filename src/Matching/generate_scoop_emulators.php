@@ -7,6 +7,7 @@ require_once __DIR__.'/emurelation.inc.php';
 * @var \Workerman\MySQL\Connection
 */
 global $db, $mysqlLinkId;
+$scoopDir = __DIR__.'/../../../scoop-emulators';
 $source = loadSourceId('local', true);
 $commentFields = ['name', 'author', 'cmd', 'logo', 'screenshot', 'screenshots'];
 // loop through emulators to find emulators with enough data to generate a scoop app
@@ -69,7 +70,8 @@ foreach ($source['emulators'] as $emuId => $emuData) {
             'bin' => $bin
         ];
         echo "I wanted to create scoop app for {$emuId}: ".json_encode($scoop, getJsonOpts())."\n";
-        file_put_contents(__DIR__.'/../../../scoop-emulators/bucket/'.$emuId.'.json', json_encode($scoop, getJsonOpts()));
+        file_put_contents($scoopDir.'/bucket/'.$emuId.'.json', json_encode($scoop, getJsonOpts()));
+        `cd "{$scoopDir}";  git add "bucket/{$emuId}.json";  git commit -m "{$emuId}: Create new scoop app entry for emulator {$emuId} ver {$emuVer}"`;
         $source['emulators'][$emuId]['matches']['scoop-emulators'][] = $emuId;
         break;
     }
