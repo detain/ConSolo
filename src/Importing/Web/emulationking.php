@@ -398,6 +398,25 @@ foreach ($matches['file'] as $idx => $fileName) {
         $binDates[$fileName] = $date;
     }
 }
+preg_match_all('/^.*emulationking\/(?P<emuId>[^\/]*)\/(?P<zip>[^\/]+)\/(?P<sub>[^\/]+)[\/:].*$/muU', $binsTxt, $subDirMatches);
+$subCounts = [];
+foreach ($subDirMatches['emuId'] as $idx => $emuId) {
+    $zip = $subDirMatches['zip'][$idx];
+    $sub = $subDirMatches['sub'][$idx];
+    if (!array_key_exists($emuId, $subCounts))
+        $subCounts[$emuId] = [];
+    if (!array_key_exists($zip, $subCounts[$emuId]))
+        $subCounts[$emuId][$zip] = [];
+    $subCounts[$emuId][$zip][] = $sub;
+}
+foreach ($subCounts as $emuId => $subZips) {
+    foreach ($subZips as $zip => $subs) {
+        if (count($subs) == 1) {
+            $dir = $subs[0];
+
+        }
+    }
+}
 
 $fileTypes = [
     "executable.*Intel 80386"       => ['os' => 'Windows', 'bits' => 32],
@@ -413,7 +432,6 @@ $fileTypes = [
     "ELF.*executable.*ARM"          => ['os' => 'Linux', 'bits' => 64, 'os_arch' => 'arm']
 ];
 // TODO
-// - check if single subdirecotry in extract dir and if so use ait as the extract_dir
 // - merge the entries
 // - detect distro packages, etc
 // - add list of bins
@@ -430,6 +448,9 @@ foreach ([$ibinsTxt, $binsTxt] as $searchTxt) {
                         if ($verData['url'] == 'https://consolo.is.cc/emulationking/'.$emuId.'/'.$urlVer) {
                             if (isset($binDates['emulationking/'.$emuId.'/'.$urlVer])) {
                                 $data['emulators'][$emuId]['versions'][$urlVer]['date'] = $binDates['emulationking/'.$emuId.'/'.$urlVer];
+                            }
+                            if (count($subCounts[$emuId][$urlVer]) == 1) {
+                                $data['emulators'][$emuId]['versions'][$emuVer]['dir'] = $subCounts[$emuId][$urlVer][0];
                             }
                             // found matching version
                             foreach ($typeSets as $field => $value) {
