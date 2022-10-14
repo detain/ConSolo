@@ -8,6 +8,7 @@ require_once __DIR__.'/emurelation.inc.php';
 */
 global $db, $mysqlLinkId;
 $source = loadSourceId('local', true);
+$commentFields = ['name', 'author', 'cmd', 'logo', 'screenshot', 'screenshots'];
 // loop through emulators to find emulators with enough data to generate a scoop app
 foreach ($source['emulators'] as $emuId => $emuData) {
     // skip emulators that have 'parent' set
@@ -50,8 +51,10 @@ foreach ($source['emulators'] as $emuId => $emuData) {
             $license= $emuData['license'];
         }
         $comments = [];
-        if (isset($emuData['platforms'])) {
-            $comments[] = 'platforms:'.implode(',', $emuData['platforms']);
+        foreach ($commentFields as $field) {
+            if (isset($emuData[$field])) {
+                $comments[] = $field.':'.(is_array($emuData[$field]) ? implode(',', $emuData[$field]) : $emuData[$field]);
+            }
         }
         $scoop = [
             '##' => $comments,
