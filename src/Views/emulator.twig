@@ -25,12 +25,6 @@
         <td><img src="{{ data.logo }}" alt="logo" style="max-width: 300px;max-height: 200px;"></td>
     </tr>
 {% endif %}
-{% if data.screenshot is defined %}
-    <tr>
-        <th>Screenshot</td>
-        <td><img src="{{ data.screenshot }}" alt="screensot" style="max-width: 640px;max-height: 480px;"></td>
-    </tr>
-{% endif %}
     <tr>
         <th>Platforms</a></td>
         <td>
@@ -96,6 +90,22 @@
         <td>
             {% for ext in data.ext %}
             <span class="label label-info">.{{ ext }}</span>
+            {% endfor %}
+        </td>
+    </tr>
+{% endif %}
+{% if data.screenshot is defined %}
+    <tr>
+        <th>Screenshot</td>
+        <td><img src="{{ data.screenshot }}" alt="screensot" style="max-width: 480px;max-height: 360px;"></td>
+    </tr>
+{% endif %}
+{% if data.screenshots is defined %}
+    <tr>
+        <th>Screenshots</td>
+        <td>
+            {% for screenshot in data.screenshots %}
+            <img src="{{ screenshot }}" alt="screensot" style="max-width: 480px;max-height: 360px;">
             {% endfor %}
         </td>
     </tr>

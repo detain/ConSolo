@@ -61,6 +61,10 @@ if ($useCache === true && file_exists('cache/index.html')) {
         file_put_contents('cache/index.html', $html);
     }
 }
+$missingFiles = [];
+if (file_exists('cache/missing.json')) {
+    $missingFiles = json_decode(file_get_contents('cache/missing.json'), true);
+}
 $crawler = new Crawler($html);
 $rows = $crawler->filter('.site-main > div.row');
 for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
@@ -118,6 +122,7 @@ foreach ($data['companies'] as $idxMan => $company) {
     $data['companies'][$idxMan]['description'] = trim(html_entity_decode(str_replace(['<br>'], ["\n"], preg_replace('/<\/?p>/', '', preg_replace('/^<p><img[^>]*>/', '', trim($crawler->filter('.entry-content')->html()))))));
     $data['companies'][$idxMan]['logo'] = $crawler->filter('.entry-content img')->eq(0)->attr('src');
 }
+
 foreach ($data['companies'] as $idxMan => $company) {
     foreach ($company['platforms'] as $idxPlat) {
         $platform = $data['platforms'][$idxPlat];
@@ -323,15 +328,33 @@ foreach ($data['companies'] as $idxMan => $company) {
                             echo "           Final URL {$dlUrl} Suffix {$dlPathSuffix}\n";
                             $dlPath = __DIR__.'/../../../public/emulationking/'.$dlPathSuffix;
                             $newPath = __DIR__.'/../../../public/emulationking/'.$row['id'].'/'.basename($dlPath);
+                            if (in_array($row['id'].'/'.basename($dlPath), $missingFiles)) {
+                                echo "                 Skipping 404 File\n";
+                                continue;
+                            }
                             if (file_exists($newPath)) {
                                 echo "           Finished File already exists {$newPath}\n";
                             } else {
                                 if (!file_exists(dirname($newPath))) {
                                     mkdir(dirname($newPath), 0777, true);
                                 }
-                                echo `wget --referer="{$dlPageUrl}" "{$dlToken}" -O "{$newPath}"`;
+                                echo `wget --referer="{$dlPageUrl}" "{$dlToken}" -O "{$newPath}" || rm -fv "{$newPath}"`;
+                                if (!file_exists($newPath)) {
+                                    $missingFiles[] = $row['id'].'/'.basename($dlPath);
+                                    echo "          Skipping Emulator Ver {$dlVer}\n";
+                                    continue;
+                                }
                             }
                             $dlUrl = 'https://consolo.is.cc/emulationking/'.$row['id'].'/'.basename($dlPath);
+                            /* "1.26.2.2": {
+                                "url": "https://consolo.is.cc/emu/applewin/1.26.2.2.7z",
+                                "bin": "Applewin.exe",
+                                "os": "Windows",
+                                "os_ver": "XP,Vista,7,8,10",
+                                "bits": 32,
+                                "date": "2017-04-15",
+                                "changes": "https://consolo.is.cc/emu/applewin/1.26.2.2_changelog.txt"
+                            }, */
                             $version = [
                                 'url' => $dlUrl,
                                 'os' => $dlOs,
@@ -346,7 +369,6 @@ foreach ($data['companies'] as $idxMan => $company) {
                             $data['emulators'][$row['id']]['versions'][$dlVer] = $version;
                         }
 
-
                     } else {
                         $platform[$seoSection][] = $row;
                     }
@@ -355,6 +377,69 @@ foreach ($data['companies'] as $idxMan => $company) {
             }
         }
         $data['platforms'][$idxPlat] = $platform;
+    }
+}
+file_put_contents('cache/missing.json', json_encode($missingFiles, getJsonOpts()));
+echo "Calculating Version Details and Applying Changes...";
+$publicDir = __DIR__.'/../../../public';
+$binsTxt = file_get_contents($publicDir.'/bins.txt');
+$ibinsTxt = file_get_contents($publicDir.'/ibins.txt');
+$timeMin = strtotime("1990/01/01");
+$timeMax = time();
+preg_match_all('/^(?<file>[^:]+):\s+.*PE32.*$/muU', $ibinsTxt, $matches);
+$binDates = [];
+foreach ($matches['file'] as $idx => $fileName) {
+    $cmd = "readpe -f json -h coff '{$publicDir}/{$fileName}'";
+    //echo $cmd."\n";
+    $binJson = json_decode(trim(`{$cmd}`), true);
+    $timestamp = substr($binJson["COFF/File header"]["Date/time stamp"], 0, strpos($binJson["COFF/File header"]["Date/time stamp"], ' '));
+    if ($timestamp >= $timeMin && $timestamp <= $timeMax) {
+        $date = date('Y-m-d', $timestamp);
+        $binDates[$fileName] = $date;
+    }
+}
+
+$fileTypes = [
+    "executable.*Intel 80386"       => ['os' => 'Windows', 'bits' => 32],
+    "executable.*x86-64"            => ['os' => 'Windows', 'bits' => 64],
+    "executable.*Aarch64"           => ['os' => 'Windows', 'bits' => 64, 'os_arch' => 'arm'],
+    "Mach-O.*x86_64.*executable"    => ['os' => 'MAC', 'bits' => 64],
+    "Mach-O i386.*executable"       => ['os' => 'MAC', 'bits' => 32],
+    "Mach-O ppc.*executable"        => ['os' => 'MAC', 'bits' => 32, 'os_arch' => 'ppc'],
+    "Mach-O universal.*executable"  => ['os' => 'MAC', 'bits' => 64, 'os_arch' => 'x86,arm'],
+    "Mach-O.*executable.*arm64"     => ['os' => 'MAC', 'bits' => 64, 'os_arch' => 'arm'],
+    "ELF.*executable.*x86-64"       => ['os' => 'Linux', 'bits' => 64],
+    "ELF.*executable.*Intel 80386"  => ['os' => 'Linux', 'bits' => 32],
+    "ELF.*executable.*ARM"          => ['os' => 'Linux', 'bits' => 64, 'os_arch' => 'arm']
+];
+// TODO
+// - check if single subdirecotry in extract dir and if so use ait as the extract_dir
+// - merge the entries
+// - detect distro packages, etc
+// - add list of bins
+$binMatches =[];
+foreach ([$ibinsTxt, $binsTxt] as $searchTxt) {
+    foreach ($fileTypes as $typeRegex => $typeSets) {
+        if (preg_match_all('/^.*emulationking\/(?P<emuId>[^\/]+)\/(?P<ver>[^:]+):\s*.*'.$typeRegex.'.*$/muU', $searchTxt, $matches)) {
+            foreach ($matches['emuId'] as $idx => $emuId) {
+                $binFile = $matches['ver'][$idx];
+                foreach ($data['emulators'][$emuId]['versions'] as $emuVer => $verData) {
+                    preg_match_all('/^x?emulationking\/(?P<emuId>[^\/]+)\/(?P<ver>[^\/:]+)[\/:].*$/muU', $binFile, $urlMatches);
+                    foreach ($urlMatches['emuId'] as $urlIdx => $urlEmuId) {
+                        $urlVer = $urlMatches['ver'][$urlIdx];
+                        if ($verData['url'] == 'https://consolo.is.cc/emulationking/'.$emuId.'/'.$urlVer) {
+                            if (isset($binDates['emulationking/'.$emuId.'/'.$urlVer])) {
+                                $data['emulators'][$emuId]['versions'][$urlVer]['date'] = $binDates['emulationking/'.$emuId.'/'.$urlVer];
+                            }
+                            // found matching version
+                            foreach ($typeSets as $field => $value) {
+                                $data['emulators'][$emuId]['versions'][$emuVer][$field] =  $value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 echo "Writing Parsed Tree..";
