@@ -56,6 +56,8 @@ foreach ($source['emulators'] as $emuId => $emuData) {
                 $comments[] = $field.':'.(is_array($emuData[$field]) ? implode(',', $emuData[$field]) : $emuData[$field]);
             }
         }
+        $localFile = str_replace('https://consolo.is.cc/', __DIR__.'/../../public/', $verData['url']);
+        $sha256sum = substr(trim(`sha256sum "{$localFile}"`), 0, 65);
         $scoop = [
             '##' => $comments,
             'version' => $emuVer,
@@ -63,9 +65,13 @@ foreach ($source['emulators'] as $emuId => $emuData) {
             'homepage' => $homePage,
             'license' => $license,
             'url' => $verData['url'],
+            'hash' => $sha256sum,
             'bin' => $bin
         ];
         echo "I wanted to create scoop app for {$emuId}: ".json_encode($scoop, getJsonOpts())."\n";
+        file_put_contents(__DIR__.'/../../../scoop-emulators/bucket/'.$emuId.'.json', json_encode($scoop, getJsonOpts()));
+        $source['emulators'][$emuId]['matches']['scoop-emulators'][] = $emuId;
+        break;
     }
 }
 /*{
@@ -88,3 +94,4 @@ foreach ($source['emulators'] as $emuId => $emuData) {
         "extract_dir": "64tass-$version"
     }
 }*/
+file_put_contents(__DIR__.'/../../../emurelation/emulators/local.json', json_encode($source['emulators'], getJsonOpts()));
