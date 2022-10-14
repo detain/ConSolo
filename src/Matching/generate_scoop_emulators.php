@@ -58,11 +58,11 @@ foreach ($source['emulators'] as $emuId => $emuData) {
             }
         }
         $localFile = str_replace('https://consolo.is.cc/', __DIR__.'/../../public/', $verData['url']);
-        $sha256sum = substr(trim(`sha256sum "{$localFile}"`), 0, 65);
+        $sha256sum = substr(trim(`sha256sum "{$localFile}"`), 0, 64);
         $scoop = [
             '##' => $comments,
             'version' => $emuVer,
-            'description' => $description,
+            'description' => trim($description),
             'homepage' => $homePage,
             'license' => $license,
             'url' => $verData['url'],
@@ -70,8 +70,9 @@ foreach ($source['emulators'] as $emuId => $emuData) {
             'bin' => $bin
         ];
         echo "I wanted to create scoop app for {$emuId}: ".json_encode($scoop, getJsonOpts())."\n";
-        file_put_contents($scoopDir.'/bucket/'.$emuId.'.json', json_encode($scoop, getJsonOpts()));
-        `cd "{$scoopDir}";  git add "bucket/{$emuId}.json";  git commit -m "{$emuId}: Create new scoop app entry for emulator {$emuId} ver {$emuVer}"`;
+        $bucketFile = $scoopDir.'/bucket/'.$emuId.'.json';
+        file_put_contents($bucketFile, json_encode($scoop, getJsonOpts())."\n");
+        echo `unix2dos "{$bucketFile}"`;
         $source['emulators'][$emuId]['matches']['scoop-emulators'][] = $emuId;
         break;
     }
