@@ -34,7 +34,7 @@ $source = [
 gitSetup('https://github.com/detain/scoop-emulators');
 echo "Loading Game DAT Files\n";
 foreach (glob('scoop-emulators/bucket/*.json') as $fileName) {
-    echo "  Loading and parsing {$fileName}...";
+    echo "  {$fileName}...";
     $id = basename($fileName, '.json');
     $json = json_decode(file_get_contents($fileName), true);
     $data['emulators'][$id] = $json;
@@ -54,4 +54,4 @@ file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($
 foreach ($source as $type => $data) {
     file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/scoop-emulators.json', json_encode($data, getJsonOpts()));
 }
-file_put_contents(__DIR__.'/../../../emulation-data/scoop-emulators.json', json_encode($data, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emulation-data/scoop-emulators.json', json_encode($data, getJsonOpts()));
