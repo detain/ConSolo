@@ -88,6 +88,7 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                     $emuCrawler = $client->request('GET', $sitePrefix.$emuUrl);
                     $emuCrawler = $emuCrawler->filter('#topic-article .forum-list tr td');
                     $emuCount = $emuCrawler->count();
+                    echo "Count {$emuCount}\n";
                     $emuName = $emuCrawler->eq(1)->filter('h1')->text();
                     if (!isset($data['emulators'][$emuId])) {
                         $data['emulators'][$emuId] = [
@@ -133,6 +134,7 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                     for ($idxEmu = 2; $idxEmu < $emuCount; $idxEmu++) {
                         if ($emuCrawler->eq($idxEmu)->filter('h2')->count() == 1) {
                             $emuField = strtolower(trim($emuCrawler->eq($idxEmu)->filter('h2')->text()));
+                            echo "Got Field {$emuField}\n";
                         } elseif ($emuField == false) {
                             echo "              No emuField Set yet for ".$emuCrawler->eq($idxEmu)->html()."\n";
                         } else {
@@ -152,7 +154,7 @@ foreach (['emulators', 'other-files'] as $urlSuffix) {
                                 $linkCount = $linkCrawler->count();
                                 $links = [];
                                 for ($idxImage = 0; $idxImage < $linkCount; $idxImage++) {
-                                    $links[$sitePrefix.$linkCrawler->eq($idxImage)->attr('href')] = $linkCrawler->eq($idxImage)->text();
+                                    $links[$linkCrawler->eq($idxImage)->attr('href')] = $linkCrawler->eq($idxImage)->text();
                                 }
                                 if (count($links) > 0) {
                                     $data['emulators'][$emuId]['links'] = $links;

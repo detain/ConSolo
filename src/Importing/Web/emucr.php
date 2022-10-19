@@ -41,6 +41,12 @@ $dataDir = __DIR__.'/../../../data/json/emucr';
 $sitePrefix = 'https://www.emucr.com/';
 $dir = '/mnt/e/dev/ConSolo/mirror/emucr/www.emucr.com';
 $types = ['st' => 'type_id', 'c' => 'computer_id'];
+$data = [
+    'emulators' => []
+];
+$source = [
+    'emulators' => []
+];
 $tagCounts = [];
 $computerUrls = [];
 $postUrls = [];
@@ -117,7 +123,8 @@ if ($useCache !== false) {
 }
 echo 'Found '.count($postUrls).' Post Pages'.PHP_EOL;
 $count = 0;
-$lastYearMonth = false;
+$lastYear = false;
+$noMatches = [];
 foreach ($postUrls as $url => $title ) {
     $count++;
     /*preg_match('/(?P<seo>.*)-(?P<year>\d\d\d\d)(?P<month>\d\d)(?P<day>\d\d)\.html/u', basebane($url), $matches);
@@ -132,13 +139,15 @@ foreach ($postUrls as $url => $title ) {
         echo "Skipping {$baseUrl}\n";
         continue;
     }
-    if ($useCache !== false && $lastYearMonth !== false && $lastYearMonth != $yearMonth) {
+    if ($useCache !== false && $lastYear !== false && $lastYear != $year) {
         echo "Writing Posts..";
         file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
         file_put_contents($dataDir.'/tags.json', json_encode($tagCounts, getJsonOpts()));
+        ksort($data['emulators']);
+        file_put_contents(__DIR__.'/../../../../emulation-data/emucr.json', json_encode($data, getJsonOpts()));
         echo "  done\n";
     }
-    $lastYearMonth = $yearMonth;
+    $lastYear = $year;
     if ($useCache === true && file_exists($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl)) {
         echo "Reading html file {$baseUrl}  ";
         $html = file_get_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl);
@@ -171,21 +180,21 @@ foreach ($postUrls as $url => $title ) {
     try {
         $nameVersion = $crawler->filter('.postMain .title h1 a')->text();
         $datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
-        $data = [
+        $post = [
             'name' => $nameVersion,
             'date' => $datePosted,
             'nameVersion' => $nameVersion,
             'url' => $url,
             'seo' => $baseUrl,
         ];
-        $data['tags'] = $crawler->filter('.postMain .post-labels a[rel="tag"]')->each(function (Crawler $node, $i) use (&$tagCounts) {
+        $post['tags'] = $crawler->filter('.postMain .post-labels a[rel="tag"]')->each(function (Crawler $node, $i) use (&$tagCounts) {
             $tag = $node->text();
             if (!array_key_exists($tag, $tagCounts))
                 $tagCounts[$tag] = 0;
             $tagCounts[$tag]++;
             return $tag;
         });
-        if ($nameVersion =='EmuCR' || in_array('WebLog', $data['tags'])) {
+        if (preg_match('/^(arbee|news|david haywood|Demul WIP|DU Update|kale)/i', $nameVersion) || $nameVersion =='EmuCR' || in_array('WebLog', $post['tags'])) {
             echo "  Skipping\n";
             continue;
         }
@@ -196,40 +205,98 @@ foreach ($postUrls as $url => $title ) {
             $link = $linkCrawler->eq($idx);
             if (in_array($link->attr('href'), ['http://www.emucr.com', 'https://www.emucr.com'])) {
                 if ($link->attr('style') == 'font-weight:bold;color:black;text-decoration: none;') {
-                    $linkSection = strtolower($link->text());
+                    $linkSection = trim(str_replace(':', '', strtolower($link->text())));
                     if ($linkSection == 'source')
                         $linkSection = 'repo';
                     elseif ($linkSection == 'web')
                         $linkSection = 'home';
                     elseif ($linkSection == 'download') {
                         $linkSection  = 'links';
-                        $data[$linkSection] = [];
+                        $post[$linkSection] = [];
                     }
                 } else {
                     $linkSection = false;
                 }
             } elseif ($linkSection == 'links') {
-                $data[$linkSection][$link->attr('href')] = $link->text();
+                $post[$linkSection][$link->attr('href')] = $link->text();
             } elseif ($linkSection !== false) {
-                $data[$linkSection] = $link->attr('href');
+                $post[$linkSection] = $link->attr('href');
             }
         }
-        $data['body'] = $crawler->filter('.postMain .post-body p')->html();
-        $data['body'] = preg_replace('/(<a href="http:\/\/www.emucr.com" target="_blank"><img alt="[^"]*" border="0" src="[^"]*" style="float:left; margin:0 10px 10px 0;cursor:pointer; cursor:hand;" title="[^"]*"\/><\/a>)?(.*)<a name=\'more\'>.*/msu', '$2', $data['body']);
-        if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
-            $data['name'] = trim(preg_replace('/^EmuCR:?\s*/', '', trim($crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('title'))));
-            $data['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
-            $data['version'] = trim(str_replace($data['name'], '', $nameVersion));
-            echo "  Name '{$data['name']}' Version '{$data['version']}'";
-        } else {
-            echo "  No logo for {$url}";
+        $post['body'] = $crawler->filter('.postMain .post-body p')->html();
+        $post['body'] = preg_replace('/(<a href="http:\/\/www.emucr.com" target="_blank"><img alt="[^"]*" border="0" src="[^"]*" style="float:left; margin:0 10px 10px 0;cursor:pointer; cursor:hand;" title="[^"]*"\/><\/a>)?(.*)<a name=\'more\'>.*/msu', '$2', $post['body']);
+        if (preg_match('/^(.*)(<a[^>]*>Download:?<\/a>.*)/imsu', $post['body'], $matches)) {
+            $post['body'] = trim($matches[1]);
+        } elseif (preg_match('/^(.*)(<strong>Download:?<\/strong>.*)(<strong>Source<\/strong>.*)/imsu', $post['body'], $matches)) {
+            $post['body'] = trim($matches[1]);
+            $linkCrawler = new Crawler($matches[2]);
+            $linkCrawler->filter('a');
+            $linkCount = $linkCrawler->count();
+            $post['links'] = [];
+            for ($idx = 0; $idx < $linkCount; $idx++) {
+                $link = $linkCrawler->eq($idx);
+                $post['links'][$link->attr('href')] = $link->text();
+            }
+            $linkCrawler = new Crawler($matches[3]);
+            $linkCrawler->filter('a');
+            $post['repo'] = $linkCrawler->attr('href');
+        } elseif (preg_match('/^(.*)(<strong>Download:?<\/strong>.*)/imsu', $post['body'], $matches)) {
+            $post['body'] = trim($matches[1]);
+            $linkCrawler = new Crawler($matches[2]);
+            $linkCrawler->filter('a');
+            $linkCount = $linkCrawler->count();
+            $post['links'] = [];
+            for ($idx = 0; $idx < $linkCount; $idx++) {
+                $link = $linkCrawler->eq($idx);
+                $post['links'][$link->attr('href')] = $link->text();
+            }
         }
-        $posts[] = $data;
+        if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
+            $post['name'] = trim(preg_replace('/^EmuCR:?\s*/', '', trim($crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('title'))));
+            $post['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
+            $post['version'] = trim(str_replace($post['name'], '', $nameVersion));
+        } else {
+            //echo "  No logo for {$url}";
+        }
+        if (preg_match('/^(.*) (\(wip\).*|alpha[\d\.]+|beta[\d\.]+|v\d+.*|ver\d+.*|SVN r\d.*|git .*|\([\d\/]*\)|r\d+|r\d+ .*|\d[\d\.]*.*)$/iuU', $nameVersion, $matches)) {
+            $post['name'] = $matches[1];
+            $post['version'] = $matches[2];
+            echo "  Name '{$post['name']}' Version '{$post['version']}'";
+        } else {
+            $noMatches[] = $nameVersion;
+            echo "  No version regex match {$url}";
+        }
+
+        $id = str_replace(' ', '_', strtolower($post['name']));
+        if (!isset($data['emulators'][$id])) {
+            $data['emulators'][$id] = [
+                'id' => $id,
+                'name' => $post['name'],
+                'description' => $post['body'],
+                'tags' => $post['tags'],
+                'versions' => []
+            ];
+            if (isset($post['logo'])) {
+                $data['emulators'][$id]['logo'] = $post['logo'];
+            }
+            if (isset($post['repo'])) {
+                $data['emulators'][$id]['web'] = [$post['repo'] => 'repo'];
+            }
+            $source['emulators'][$id] = [
+                'id' => $post['name'],
+                'name' => $post['name']
+            ];
+        }
+        if (isset($post['version'])) {
+            $data['emulators'][$id]['versions'][] = $post['version'];
+        }
+
+        $posts[] = $post;
         if ($useCache !== false) {
             if (!file_exists($dataDir.'/posts/'.$yearMonth)) {
                 mkdir($dataDir.'/posts/'.$yearMonth, 0777, true);
             }
-            file_put_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl.'.json', json_encode($data, getJsonOpts()));
+            file_put_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl.'.json', json_encode($post, getJsonOpts()));
             echo "done\n";
         }
     } catch (\Exception $e) {
@@ -237,18 +304,17 @@ foreach ($postUrls as $url => $title ) {
     }
 }
 echo "Finished Processig Posts\n";
+file_put_contents($dataDir.'/no_version_matches.json', json_encode($noMatches, getJsonOpts()));
 if ($useCache !== false) {
     echo "Writing Posts..";
     file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
     echo "done\n";
 }
-
-exit;
-
-file_put_contents($dataDir.'/emutopia.json', json_encode($data, getJsonOpts()));
+ksort($data['emulators']);
+file_put_contents(__DIR__.'/../../../../emulation-data/emucr.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
-$sources['emutopia']['updatedLast'] = time();
+$sources['emucr']['updatedLast'] = time();
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
 foreach ($source as $type => $data) {
-    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/emutopia.json', json_encode($data, getJsonOpts()));
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/emucr.json', json_encode($data, getJsonOpts()));
 }
