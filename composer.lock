@@ -406,12 +406,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/http.git",
-                "reference": "9e429aa3febf2307dcfef8b7aa14cd9ddeaa646f"
+                "reference": "b65454643a7e92c6f1f75e00acac0a0a676ec8be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/http/zipball/9e429aa3febf2307dcfef8b7aa14cd9ddeaa646f",
-                "reference": "9e429aa3febf2307dcfef8b7aa14cd9ddeaa646f",
+                "url": "https://api.github.com/repos/amphp/http/zipball/b65454643a7e92c6f1f75e00acac0a0a676ec8be",
+                "reference": "b65454643a7e92c6f1f75e00acac0a0a676ec8be",
                 "shasum": ""
             },
             "require": {
@@ -450,7 +450,7 @@
             "description": "Basic HTTP primitives which can be shared by servers and clients.",
             "support": {
                 "issues": "https://github.com/amphp/http/issues",
-                "source": "https://github.com/amphp/http/tree/master"
+                "source": "https://github.com/amphp/http/tree/v1.7.0"
             },
             "funding": [
                 {
@@ -458,7 +458,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-09-07T21:19:06+00:00"
+            "time": "2022-10-16T20:32:41+00:00"
         },
         {
             "name": "amphp/http-client",
@@ -2316,12 +2316,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/loilo/Fuse.git",
-                "reference": "a134f3ba4c6cb835a2a34e93130bf124a3b36665"
+                "reference": "77baa8a3c868b1920862e7efcce7602d1a6512e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loilo/Fuse/zipball/a134f3ba4c6cb835a2a34e93130bf124a3b36665",
-                "reference": "a134f3ba4c6cb835a2a34e93130bf124a3b36665",
+                "url": "https://api.github.com/repos/loilo/Fuse/zipball/77baa8a3c868b1920862e7efcce7602d1a6512e4",
+                "reference": "77baa8a3c868b1920862e7efcce7602d1a6512e4",
                 "shasum": ""
             },
             "require": {
@@ -2372,7 +2372,7 @@
                 "issues": "https://github.com/loilo/Fuse/issues",
                 "source": "https://github.com/loilo/Fuse/tree/master"
             },
-            "time": "2022-09-26T05:37:02+00:00"
+            "time": "2022-10-12T08:17:49+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -3975,12 +3975,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/promise.git",
-                "reference": "ee59eaeb8b5e14778e291a2ae9d1b12c55c7ee1a"
+                "reference": "d76ba7bb38b2bd94be00ef208af2357929631165"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/promise/zipball/ee59eaeb8b5e14778e291a2ae9d1b12c55c7ee1a",
-                "reference": "ee59eaeb8b5e14778e291a2ae9d1b12c55c7ee1a",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/d76ba7bb38b2bd94be00ef208af2357929631165",
+                "reference": "d76ba7bb38b2bd94be00ef208af2357929631165",
                 "shasum": ""
             },
             "require": {
@@ -4043,7 +4043,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-09-14T18:44:51+00:00"
+            "time": "2022-10-10T22:20:25+00:00"
         },
         {
             "name": "react/promise-stream",
@@ -4219,12 +4219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/socket.git",
-                "reference": "81e1b4d7f5450ebd8d2e9a95bb008bb15ca95a7b"
+                "reference": "8397f22bd2646e6cac0f5861db980c8da1bdce49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/socket/zipball/81e1b4d7f5450ebd8d2e9a95bb008bb15ca95a7b",
-                "reference": "81e1b4d7f5450ebd8d2e9a95bb008bb15ca95a7b",
+                "url": "https://api.github.com/repos/reactphp/socket/zipball/8397f22bd2646e6cac0f5861db980c8da1bdce49",
+                "reference": "8397f22bd2646e6cac0f5861db980c8da1bdce49",
                 "shasum": ""
             },
             "require": {
@@ -4284,7 +4284,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/socket/issues",
-                "source": "https://github.com/reactphp/socket/tree/v1.12.0"
+                "source": "https://github.com/reactphp/socket/tree/1.x"
             },
             "funding": [
                 {
@@ -4296,7 +4296,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-25T12:32:25+00:00"
+            "time": "2022-10-15T14:42:43+00:00"
         },
         {
             "name": "react/stream",
@@ -4448,12 +4448,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "b311503298c072e565411e3ef61c04519272473f"
+                "reference": "c8e297691dcc30deef58efddd6765c8b7821be56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/b311503298c072e565411e3ef61c04519272473f",
-                "reference": "b311503298c072e565411e3ef61c04519272473f",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c8e297691dcc30deef58efddd6765c8b7821be56",
+                "reference": "c8e297691dcc30deef58efddd6765c8b7821be56",
                 "shasum": ""
             },
             "conflict": {
@@ -4592,7 +4592,7 @@
                 "gaoming13/wechat-php-sdk": "<=1.10.2",
                 "genix/cms": "<=1.1.11",
                 "getgrav/grav": "<1.7.34",
-                "getkirby/cms": "<3.5.8.1|>=3.6,<3.6.6.1|>=3.7,<3.7.4",
+                "getkirby/cms": "= 3.8.0|<3.5.8.2|>=3.6,<3.6.6.2|>=3.7,<3.7.5.1",
                 "getkirby/panel": "<2.5.14",
                 "getkirby/starterkit": "<=3.7.0.2",
                 "gilacms/gila": "<=1.11.4",
@@ -4667,6 +4667,9 @@
                 "matyhtf/framework": "<3.0.6",
                 "mautic/core": "<4.3|= 2.13.1",
                 "mediawiki/core": ">=1.27,<1.27.6|>=1.29,<1.29.3|>=1.30,<1.30.2|>=1.31,<1.31.9|>=1.32,<1.32.6|>=1.32.99,<1.33.3|>=1.33.99,<1.34.3|>=1.34.99,<1.35",
+                "melisplatform/melis-asset-manager": "<5.0.1",
+                "melisplatform/melis-cms": "<5.0.1",
+                "melisplatform/melis-front": "<5.0.1",
                 "mezzio/mezzio-swoole": "<3.7|>=4,<4.3",
                 "microweber/microweber": "<=1.3.1",
                 "miniorange/miniorange-saml": "<1.4.3",
@@ -4696,7 +4699,7 @@
                 "october/cms": "= 1.1.1|= 1.0.471|= 1.0.469|>=1.0.319,<1.0.469",
                 "october/october": ">=1.0.319,<1.0.466|>=2.1,<2.1.12",
                 "october/rain": "<1.0.472|>=1.1,<1.1.2",
-                "october/system": "<1.0.476|>=1.1,<1.1.12|>=2,<2.2.15",
+                "october/system": "<2.2.34|>=3,<3.0.66",
                 "onelogin/php-saml": "<2.10.4",
                 "oneup/uploader-bundle": "<1.9.3|>=2,<2.1.5",
                 "open-web-analytics/open-web-analytics": "<1.7.4",
@@ -4704,7 +4707,7 @@
                 "openid/php-openid": "<2.3",
                 "openmage/magento-lts": "<19.4.15|>=20,<20.0.13",
                 "orchid/platform": ">=9,<9.4.4",
-                "oro/commerce": ">=5,<5.0.4",
+                "oro/commerce": ">=4.1,<5.0.6",
                 "oro/crm": ">=1.7,<1.7.4|>=3.1,<4.1.17|>=4.2,<4.2.7",
                 "oro/platform": ">=1.7,<1.7.4|>=3.1,<3.1.29|>=4.1,<4.1.17|>=4.2,<4.2.8",
                 "packbackbooks/lti-1-3-php-library": "<5",
@@ -4964,7 +4967,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-06T20:04:40+00:00"
+            "time": "2022-10-18T22:04:50+00:00"
         },
         {
             "name": "rubix/ml",
@@ -4972,12 +4975,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/RubixML/ML.git",
-                "reference": "52c25b997aa9a11eb06958de9cbc8a495e9977f2"
+                "reference": "4cda6bc1b103a70e019c5dbed2093f683d9dd02a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RubixML/ML/zipball/52c25b997aa9a11eb06958de9cbc8a495e9977f2",
-                "reference": "52c25b997aa9a11eb06958de9cbc8a495e9977f2",
+                "url": "https://api.github.com/repos/RubixML/ML/zipball/4cda6bc1b103a70e019c5dbed2093f683d9dd02a",
+                "reference": "4cda6bc1b103a70e019c5dbed2093f683d9dd02a",
                 "shasum": ""
             },
             "require": {
@@ -5125,7 +5128,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-10-01T22:48:24+00:00"
+            "time": "2022-10-15T20:13:35+00:00"
         },
         {
             "name": "rubix/tensor",
@@ -5432,12 +5435,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "984ea2c0f45f42dfed01d2f3987b187467c4b16d"
+                "reference": "ae0727b4b524bebd61096c967d130bd12d6c0f22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/984ea2c0f45f42dfed01d2f3987b187467c4b16d",
-                "reference": "984ea2c0f45f42dfed01d2f3987b187467c4b16d",
+                "url": "https://api.github.com/repos/symfony/console/zipball/ae0727b4b524bebd61096c967d130bd12d6c0f22",
+                "reference": "ae0727b4b524bebd61096c967d130bd12d6c0f22",
                 "shasum": ""
             },
             "require": {
@@ -5523,7 +5526,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-07T08:01:20+00:00"
+            "time": "2022-10-18T13:11:10+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -5798,16 +5801,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v5.4.13",
+            "version": "v5.4.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "596fd752f00e0205d895cd6b184d135c27bb5d6a"
+                "reference": "8a3929c814cba77db93de61c22759e0dbeaa4c87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/596fd752f00e0205d895cd6b184d135c27bb5d6a",
-                "reference": "596fd752f00e0205d895cd6b184d135c27bb5d6a",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/8a3929c814cba77db93de61c22759e0dbeaa4c87",
+                "reference": "8a3929c814cba77db93de61c22759e0dbeaa4c87",
                 "shasum": ""
             },
             "require": {
@@ -5865,7 +5868,7 @@
             "description": "Provides powerful methods to fetch HTTP resources synchronously or asynchronously",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v5.4.13"
+                "source": "https://github.com/symfony/http-client/tree/v5.4.14"
             },
             "funding": [
                 {
@@ -5881,7 +5884,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-08T18:41:21+00:00"
+            "time": "2022-10-11T15:16:01+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -6881,12 +6884,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "e0d2cc30112f1a32ff83a35841012be29af99802"
+                "reference": "089e7237497fae7a9c404d0c3aeb8db3254733e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/e0d2cc30112f1a32ff83a35841012be29af99802",
-                "reference": "e0d2cc30112f1a32ff83a35841012be29af99802",
+                "url": "https://api.github.com/repos/symfony/string/zipball/089e7237497fae7a9c404d0c3aeb8db3254733e4",
+                "reference": "089e7237497fae7a9c404d0c3aeb8db3254733e4",
                 "shasum": ""
             },
             "require": {
@@ -6959,7 +6962,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-03T15:15:50+00:00"
+            "time": "2022-10-05T15:16:54+00:00"
         },
         {
             "name": "symfony/var-dumper",
