@@ -251,12 +251,12 @@ foreach ($postUrls as $url => $title ) {
                 $post['links'][$link->attr('href')] = $link->text();
             }
         }
+        if (preg_match('/^.* is (released|compiled)\.(.*)$/imus', $post['description'], $matches)) {
+            $post['description'] = trim($matches[2]);
+        }
         if (preg_match('/^(.*)(<(strong|a href[^>]*)>[^<]*Changelog:?<\/(strong|a)>)(.*)$/imsu', $post['description'], $matches)) {
             $post['description'] = trim($matches[1]);
             $post['changes'] = trim($matches[5]);
-        }
-        if (preg_match('/^.* is (released|compiled)\.(.*)$/imus', $post['description'], $matches)) {
-            $post['description'] = trim($matches[2]);
         }
         if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
             $post['name'] = trim(preg_replace('/^EmuCR:?\s*/', '', trim($crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('title'))));
