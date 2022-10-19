@@ -223,12 +223,12 @@ foreach ($postUrls as $url => $title ) {
                 $post[$linkSection] = $link->attr('href');
             }
         }
-        $post['body'] = $crawler->filter('.postMain .post-body p')->html();
-        $post['body'] = preg_replace('/(<a href="http:\/\/www.emucr.com" target="_blank"><img alt="[^"]*" border="0" src="[^"]*" style="float:left; margin:0 10px 10px 0;cursor:pointer; cursor:hand;" title="[^"]*"\/><\/a>)?(.*)<a name=\'more\'>.*/msu', '$2', $post['body']);
-        if (preg_match('/^(.*)(<a[^>]*>Download:?<\/a>.*)/imsu', $post['body'], $matches)) {
-            $post['body'] = trim($matches[1]);
-        } elseif (preg_match('/^(.*)(<strong>Download:?<\/strong>.*)(<strong>Source<\/strong>.*)/imsu', $post['body'], $matches)) {
-            $post['body'] = trim($matches[1]);
+        $post['description'] = $crawler->filter('.postMain .post-body p')->html();
+        $post['description'] = preg_replace('/^<a href="[^"]*" target="_blank"><img[^>]*><\/a>/', '', $post['description']);
+        if (preg_match('/^(.*)(<a[^>]*>Download:?<\/a>.*)/imsu', $post['description'], $matches)) {
+            $post['description'] = trim($matches[1]);
+        } elseif (preg_match('/^(.*)(<strong>Download:?<\/strong>.*)(<strong>Source<\/strong>.*)/imsu', $post['description'], $matches)) {
+            $post['description'] = trim($matches[1]);
             $linkCrawler = new Crawler($matches[2]);
             $linkCrawler->filter('a');
             $linkCount = $linkCrawler->count();
@@ -240,8 +240,8 @@ foreach ($postUrls as $url => $title ) {
             $linkCrawler = new Crawler($matches[3]);
             $linkCrawler->filter('a');
             $post['repo'] = $linkCrawler->attr('href');
-        } elseif (preg_match('/^(.*)(<strong>Download:?<\/strong>.*)/imsu', $post['body'], $matches)) {
-            $post['body'] = trim($matches[1]);
+        } elseif (preg_match('/^(.*)(<strong>Download:?<\/strong>.*)/imsu', $post['description'], $matches)) {
+            $post['description'] = trim($matches[1]);
             $linkCrawler = new Crawler($matches[2]);
             $linkCrawler->filter('a');
             $linkCount = $linkCrawler->count();
@@ -251,6 +251,13 @@ foreach ($postUrls as $url => $title ) {
                 $post['links'][$link->attr('href')] = $link->text();
             }
         }
+        if (preg_match('/^(.*)(<(strong|a href[^>]*)>[^<]*Changelog:?<\/(strong|a)>)(.*)$/imsu', $post['description'], $matches)) {
+            $post['description'] = trim($matches[1]);
+            $post['changes'] = trim($matches[5]);
+        }
+        if (preg_match('/^.* is (released|compiled)\.(.*)$/imus', $post['description'], $matches)) {
+            $post['description'] = trim($matches[2]);
+        }
         if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
             $post['name'] = trim(preg_replace('/^EmuCR:?\s*/', '', trim($crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('title'))));
             $post['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
@@ -258,7 +265,7 @@ foreach ($postUrls as $url => $title ) {
         } else {
             //echo "  No logo for {$url}";
         }
-        if (preg_match('/^(.*) (\(wip\).*|alpha[\d\.]+|beta[\d\.]+|v\d+.*|ver\d+.*|SVN r\d.*|git .*|\([\d\/]*\)|r\d+|r\d+ .*|\d[\d\.]*.*)$/iuU', $nameVersion, $matches)) {
+        if (preg_match('/^(.*) (r[\d].*|nightly-\d+|bleeding-edge-\d+|\#\d+|\(wip\).*|alpha[\d\.]+|beta[\d\.]+|v[\d\.].*|x[\d\.].*|ver[\d\.]+.*|SVN r\d.*|git .*|\([\d\/]*\).*|r\d+|r\d+ .*|\d[\d\.]*.*)$/iuU', $nameVersion, $matches)) {
             $post['name'] = $matches[1];
             $post['version'] = $matches[2];
             echo "  Name '{$post['name']}' Version '{$post['version']}'";
@@ -272,7 +279,7 @@ foreach ($postUrls as $url => $title ) {
             $data['emulators'][$id] = [
                 'id' => $id,
                 'name' => $post['name'],
-                'description' => $post['body'],
+                'description' => $post['description'],
                 'tags' => $post['tags'],
                 'versions' => []
             ];
@@ -304,6 +311,7 @@ foreach ($postUrls as $url => $title ) {
     }
 }
 echo "Finished Processig Posts\n";
+sort($noMatches);
 file_put_contents($dataDir.'/no_version_matches.json', json_encode($noMatches, getJsonOpts()));
 if ($useCache !== false) {
     echo "Writing Posts..";
@@ -311,6 +319,7 @@ if ($useCache !== false) {
     echo "done\n";
 }
 ksort($data['emulators']);
+ksort($source['emulators']);
 file_put_contents(__DIR__.'/../../../../emulation-data/emucr.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['emucr']['updatedLast'] = time();
