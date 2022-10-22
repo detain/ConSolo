@@ -37,7 +37,7 @@ function setupBinds() {
             window.setTimeout(function () {
                 // do stuff after animation has finished here
                 $grid.isotope('layout');
-            }, 200);
+            }, 100);
         });
     });
 
