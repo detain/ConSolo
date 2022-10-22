@@ -1,23 +1,18 @@
-$(document).ready(function () {
-    // init Isotope
-    var $grid = $('.grid').isotope({
-        itemSelector: '.grid-item',
-        layoutMode: 'masonry',
-        //masonry: {
-            //columnWidth: '.grid-sizer'
-        //},
-        sortBy: 'name',
-        sortAscending: true,
-        getSortData: {
-            name: '[data-name]',
-            type: '[data-type]',
-            updated: '[data-updated] parseInt'
-        }
-    });
+// store filter for each group
+var filters = {};
+// isotope grid variable
+var $grid;
 
-    // store filter for each group
-    var filters = {};
+// flatten object by concatting values
+function concatValues( obj ) {
+    var value = '';
+    for ( var prop in obj ) {
+        value += obj[ prop ];
+    }
+    return value;
+}
 
+function setupBinds() {
     // bind filter button click
     $('.filters').on( 'click', '.btn', function( event ) {
         var $button = $( event.currentTarget );
@@ -30,6 +25,20 @@ $(document).ready(function () {
         var filterValue = concatValues( filters );
         // set filter for Isotope
         $grid.isotope({ filter: filterValue });
+    });
+
+    // bind layout button click
+    $('#layout-group').on( 'click', 'button', function() {
+        var layoutValue = $(this).attr('data-layout');
+        $grid.attr('data-layout', layoutValue);
+        // layout Isotope after all images finish loading
+        $grid.imagesLoaded( function() {
+            // init Isotope after all images have loaded
+            window.setTimeout(function () {
+                // do stuff after animation has finished here
+                $grid.isotope('layout');
+            }, 200);
+        });
     });
 
     // bind sort button click
@@ -55,13 +64,27 @@ $(document).ready(function () {
             $( this ).addClass('active');
         });
     });
+}
 
-    // flatten object by concatting values
-    function concatValues( obj ) {
-        var value = '';
-        for ( var prop in obj ) {
-            value += obj[ prop ];
+
+$(document).ready(function () {
+    // init Isotope
+    $grid = $('.grid').isotope({
+        itemSelector: '.grid-item',
+        layoutMode: 'masonry',
+        sortBy: 'name',
+        sortAscending: true,
+        getSortData: {
+            name: '[data-name]',
+            type: '[data-type]',
+            updated: '[data-updated] parseInt'
         }
-        return value;
-    }
+    });
+
+    // layout Isotope after all images finish loading
+    $grid = $('.grid').imagesLoaded( function() {
+        // init Isotope after all images have loaded
+        $grid.isotope('layout');
+        setupBinds();
+    });
 });

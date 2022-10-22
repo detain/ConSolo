@@ -4,24 +4,26 @@
 	<meta charset="UTF-8">
 	<title>{{ data.name }} - ConSolo</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel='stylesheet' href='/lib/bootstrap/dist/css/bootstrap.min.css'>
-	<link rel='stylesheet' href='/lib/jquery-jsonview/dist/jquery.jsonview.css'>
-	<link rel='stylesheet' href='/lib/video.js/dist/video-js.min.css'>
-	<link rel='stylesheet' href='/lib/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css'>
-	<link rel='stylesheet' href='{{ app.request.basePath }}/css/movie.css'>
-    <link rel='stylesheet' href='/lib/datatables.net-dt/css/jquery.dataTables.min.css'>
-    <link rel='stylesheet' href='/lib/datatables.net-bs/css/dataTables.bootstrap.min.css'>
-    <script src='/lib/jquery/dist/jquery.min.js'></script>
-    <script src='/lib/bootstrap/dist/js/bootstrap.min.js'></script>
-    <script src='/lib/jquery-jsonview/dist/jquery.jsonview.js'></script>
-    <script src='/lib/video.js/dist/video.min.js'></script>
-    <script src='/lib/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js'></script>
-    <script src='/lib/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js'></script>
-    <script src='{{ app.request.basePath }}/js/movie.js'></script>
-    <script src='/lib/datatables.net/js/jquery.dataTables.min.js'></script>
-    <script src='/lib/datatables.net-bs/js/dataTables.bootstrap.min.js'></script>
-    <script src='/lib/datatables.net-dt/js/dataTables.dataTables.min.js'></script>
+	<link rel="stylesheet" href="{{ app.request.basePath }}/lib/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ app.request.basePath }}/lib/jquery-jsonview/dist/jquery.jsonview.css">
+    <link rel="stylesheet" href="{{ app.request.basePath }}/lib/video.js/dist/video-js.min.css">
+    <link rel="stylesheet" href="{{ app.request.basePath }}/lib/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.css">
+    <link rel="stylesheet" href="{{ app.request.basePath }}/lib/datatables.net-dt/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{ app.request.basePath }}/lib/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="{{ app.request.basePath }}/css/sources_new.css">
+    <script src="{{ app.request.basePath }}/lib/jquery/dist/jquery.min.js"></script>
+    <script src="{{ app.request.basePath }}/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{ app.request.basePath }}/lib/jquery-jsonview/dist/jquery.jsonview.js"></script>
+    <script src="{{ app.request.basePath }}/lib/video.js/dist/video.min.js"></script>
+    <script src="{{ app.request.basePath }}/lib/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
+    <script src="{{ app.request.basePath }}/lib/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
+    <script src="{{ app.request.basePath }}/lib/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="{{ app.request.basePath }}/lib/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ app.request.basePath }}/lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
     <script src="{{ app.request.basePath }}/lib/isotope-layout/dist/isotope.pkgd.min.js"></script>
+    <script src="{{ app.request.basePath }}/lib/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="{{ app.request.basePath }}/js/sources_new.js"></script>
+
 </head>
 <body>
 	<!-- partial:index.partial.html -->
