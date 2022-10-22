@@ -3,6 +3,12 @@
 }
 
 .grid .source-logo {
+    max-height: 100px;
+}
+
+.grid[data-layout="medium"] .source-logo,
+.grid[data-layout="large"] .source-logo,
+.grid[data-layout="full"] .source-logo {
     max-height: 150px;
 }
 
@@ -14,7 +20,7 @@
     max-height: fit-content;
 }
 .grid[data-layout="large"] .source-description {
-    max-height: 200px;
+    max-height: 150px;
 }
 .grid[data-layout="medium"] .source-description {
     max-height: 100px;
@@ -41,7 +47,7 @@
 
 
 .grid {
-    border: 1px solid #333;
+    /*border: 1px solid #333; */
 }
 
 /* clear fix */
