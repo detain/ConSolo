@@ -1,0 +1,201 @@
+{% extends "shared/emubase.twig" %}
+{#
+[Bootstrap - Components](https://getbootstrap.com/docs/3.4/components/#thumbnails)
+[Isotope - Sorting](https://isotope.metafizzy.co/sorting.html)
+[Isotope - sort by filter](https://codepen.io/desandro/pen/WJoOrM/)
+[Isotope - filtering & sorting](https://codepen.io/desandro/pen/DmZrEo)
+[Twig - Filters](https://twig.symfony.com/doc/3.x/filters/index.html)
+[Live](https://consolo.is.cc/sourcesnew)
+#}
+
+{% block content %}
+<style>
+.grid {
+    border: 1px solid #333;
+}
+/* clear fix */
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.grid-item {
+    position: relative;
+    width: 350px;
+    margin: 5px;
+    padding: 5px;
+    background: #888;
+    color: #262524;
+}
+</style>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Sources</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4 col-md-3 col-lg-3">
+        <div id="sort-label">
+            <strong>Sort By</strong>
+        </div>
+        <div id="sort-group" class="btn-group" role="group" aria-labelledby="sort-label">
+            <button type="button" class="btn btn-default active" data-sort-by="name">Name</button>
+            <button type="button" class="btn btn-default" data-sort-by="type">Type</button>
+            <button type="button" class="btn btn-default" data-sort-by="updated">Updated</button>
+        </div>
+    </div>
+    <div class="col-sm-3 col-md-2 col-lg-2">
+        <div id="sort-dir-label">
+            <strong>Sort Dir</strong>
+        </div>
+        <div id="sort-dir-group" class="btn-group" role="group" aria-labelledby="sort-dir-label">
+            <button type="button" class="btn btn-default active" data-sort-dir="asc">Up</button>
+            <button type="button" class="btn btn-default" data-sort-dir="desc">Down</button>
+        </div>
+    </div>
+    <div class="col-sm-9 col-md-8 col-lg-7">
+        <div id="layout-label">
+            <strong>Layout</strong>
+        </div>
+        <div id="layout-group" class="btn-group" role="group" aria-labelledby="layout-label">
+            <button type="button" class="btn btn-default active" data-layout="layout-nam">Name</button>
+            <button type="button" class="btn btn-default" data-layout="layout-logo">+ Logo</button>
+            <button type="button" class="btn btn-default" data-layout="layout-updated">+ Updated</button>
+            <button type="button" class="btn btn-default" data-layout="layout-type">+ Type</button>
+            <button type="button" class="btn btn-default" data-layout="layout-provides">+ Provides</button>
+            <button type="button" class="btn btn-default" data-layout="layout-description">+ Description</button>
+            <button type="button" class="btn btn-default" data-layout="layout-table">Table</button>
+        </div>
+    </div>
+</div>
+
+<div class="row filters">
+    <div class="col-sm-8 col-md-6 col-lg-5">
+        <div id="provides-label">
+            <strong>Provides</strong>
+        </div>
+        <div id="provide-group" class="btn-group" role="group" aria-labelledby="provides-label" data-filter-group="provide">
+            <button type="button" class="btn btn-default active" data-filter="*">Any</button>
+            {% for provide in provides %}
+            <button type="button" class="btn btn-default" data-filter=".provide-{{ provide|lower }}">{{ provide|capitalize }}</button>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-sm-9 col-md-8 col-lg-7">
+        <div id="type-label">
+            <strong>Type</strong>
+        </div>
+        <div id="type-group" class="btn-group" role="group" aria-labelledby="type-label" data-filter-group="type">
+            <button type="button" class="btn btn-default active" data-filter="*">Any</button>
+            {% for sourceType in sourceTypes %}
+            <button type="button" class="btn btn-default" data-filter=".type-{{ sourceType|lower }}">{{ sourceType }}</button>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="row grid">
+    {% for data in results %}
+    <div class="grid-item{% for type in data.provides %} provide-{{ type|lower }}{% endfor %} type-{{ data.type|lower }}" data-name="{{ data.name }}" data-type="{{ data.type }}" data-updated="{{ data.updatedLast }}">
+        <div class="thumbnail">
+            {% if data.logo is defined %}
+            <img src="{{ data.logo }}" alt="logo">
+            {% else %}
+            <font style="font-size: 24px;font-weight: 1000;">{{ data.name }}</font>
+            {% endif %}
+            <div class="caption">
+                <p>
+                    <span class="pull-left label label-info">{{ data.type }}</span>
+                    <span class="pull-right label label-info">{{ data.updatedLast }}</span>
+                </p>
+                <h3>{{ data.name }}</h3>
+                <p>{{ data.description }}</p>
+                <p>
+                    <div class="pull-left">
+                        {% for type in data.provides %}
+                        <span class="label label-primary">{{ type }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="pull-right">
+                        {% for url, text in data.web %}
+                        <a href="{{ url }}">{{ text }}</a>
+                        {% endfor %}
+                    </div>
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+$(document).ready(function () {
+    // init Isotope
+    var $grid = $('.grid').isotope({
+        itemSelector: '.grid-item',
+        layoutMode: 'masonry',
+        //masonry: {
+            //columnWidth: '.grid-sizer'
+        //},
+        sortBy: 'name',
+        sortAscending: true,
+        getSortData: {
+            name: '[data-name]',
+            type: '[data-type]',
+            updated: '[data-updated] parseInt'
+        }
+    });
+
+    // store filter for each group
+    var filters = {};
+
+    // bind filter button click
+    $('.filters').on( 'click', '.btn', function( event ) {
+        var $button = $( event.currentTarget );
+        // get group key
+        var $buttonGroup = $button.parents('.btn-group');
+        var filterGroup = $buttonGroup.attr('data-filter-group');
+        // set filter for group
+        filters[ filterGroup ] = $button.attr('data-filter');
+        // combine filters
+        var filterValue = concatValues( filters );
+        // set filter for Isotope
+        $grid.isotope({ filter: filterValue });
+    });
+
+    // bind sort button click
+    $('#sort-group').on( 'click', 'button', function() {
+        var sortByValue = $(this).attr('data-sort-by');
+        $grid.isotope({ sortBy: sortByValue });
+    });
+
+    // bind sort direction button click
+    $('#sort-dir-group').on( 'click', 'button', function() {
+        var sortDirValue = true;
+        if ($(this).attr('data-sort-dir') == 'desc') {
+            sortDirValue = false;
+        }
+        $grid.isotope({ sortAscending: sortDirValue });
+    });
+
+    // change is-checked class on buttons
+    $('.btn-group').each( function( i, buttonGroup ) {
+        var $buttonGroup = $( buttonGroup );
+        $buttonGroup.on( 'click', 'button', function() {
+            $buttonGroup.find('.active').removeClass('active');
+            $( this ).addClass('active');
+        });
+    });
+
+    // flatten object by concatting values
+    function concatValues( obj ) {
+        var value = '';
+        for ( var prop in obj ) {
+            value += obj[ prop ];
+        }
+        return value;
+    }
+});
+</script>
+{% endblock %}

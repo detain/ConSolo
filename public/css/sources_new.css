@@ -1,0 +1,59 @@
+.grid {
+    border: 1px solid #333;
+}
+
+/* clear fix */
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.grid-item {
+    position: relative;
+    float: left;
+    width: 350px;
+    margin: 5px;
+    padding: 5px;
+    background: #888;
+    color: #262524;
+}
+/*
+.grid-item > * {
+  margin: 0;
+  padding: 0;
+}
+
+.grid-item .name {
+  position: absolute;
+
+  left: 10px;
+  top: 60px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.grid-item .symbol {
+  position: absolute;
+  left: 10px;
+  top: 0px;
+  font-size: 42px;
+  font-weight: bold;
+  color: white;
+}
+
+.grid-item .number {
+  position: absolute;
+  right: 8px;
+  top: 5px;
+}
+
+.grid-item .weight {
+  position: absolute;
+  left: 10px;
+  top: 76px;
+  font-size: 12px;
+}
+*/
