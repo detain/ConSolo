@@ -29,6 +29,7 @@
     "jquery": "*",
     "jquery-jsonview": "*",
     "jszip": "*",
+    "isotope-layout": "*",
     "modernizr": "*",
     "pdfmake": "*",
     "shaka-player": "*",
