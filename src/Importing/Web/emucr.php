@@ -42,7 +42,8 @@ $sitePrefix = 'https://www.emucr.com/';
 $dir = '/mnt/e/dev/ConSolo/mirror/emucr/www.emucr.com';
 $types = ['st' => 'type_id', 'c' => 'computer_id'];
 $data = [
-    'emulators' => []
+    'emulators' => [],
+    'tags' => [],
 ];
 $source = [
     'emulators' => []
@@ -273,8 +274,16 @@ foreach ($postUrls as $url => $title ) {
             $noMatches[] = $nameVersion;
             echo "  No version regex match {$url}";
         }
-
         $id = str_replace(' ', '_', strtolower($post['name']));
+        foreach ($post['tags'] as $tag) {
+            if (!isset($data['tags'][$tag]))
+                $data['tags'][$tag] = [];
+            if (!in_array($id, $data['tags'][$tag])) {
+                $data['tags'][$tag][] = $id;
+                ksort($data['tags'][$tag]);
+            }
+        }
+        ksort($data['tags']);
         if (!isset($data['emulators'][$id])) {
             $data['emulators'][$id] = [
                 'id' => $id,
