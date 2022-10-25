@@ -130,6 +130,40 @@ class Web extends Base {
         ]);
     }
 
+
+    public function emulators_new() {
+        $jsonPlats = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/platforms/local.json'), true);
+        $jsonEmus = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
+        $companies = ['Unknown' => []];
+        $platforms = ['Unknown'];
+        foreach ($jsonEmus as $emuId => $emuData) {
+            if (!isset($emuData['platforms']) || count($emuData['platforms']) == 0) {
+                $emuData['platforms'] = ['Unknown'];
+                $jsonEmus[$emuId]['platforms'] = ['Unknown'];
+            }
+            foreach ($emuData['platforms'] as $platId) {
+                if (!in_array($platId, $platforms)) {
+                    $platforms[] = $platId;
+                    $platData = $jsonPlats[$platId];
+                    if (!isset($platData['company'])) {
+                        $platData['company'] = 'Unknown';
+                    }
+                    if (!array_key_exists($platData['company'], $companies)) {
+                        $companies[$platData['company']] = [];
+                    }
+                    $companies[$platData['company']][] = $platId;
+                }
+            }
+        }
+        sort($platforms);
+        echo $this->twig->render('emulators_new.twig', [
+            'companies' => $companies,
+            'platforms' => $platforms,
+            'results' => $jsonEmus,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
     public function emulators() {
         $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
         echo $this->twig->render('emulators.twig', [
