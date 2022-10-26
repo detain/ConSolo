@@ -12,8 +12,8 @@
             <strong>Sort By</strong>
         </div>
         <div id="sort-group" class="btn-group" role="group" aria-labelledby="sort-label">
-            <button type="button" class="btn btn-default active" data-sort-by="name">Name</button>
-            <button type="button" class="btn btn-default" data-sort-by="updated">Updated</button>
+            <button type="button" class="btn btn-sm btn-default active" data-sort-by="name">Name</button>
+            <button type="button" class="btn btn-sm btn-default" data-sort-by="updated">Updated</button>
         </div>
     </div>
     <div class="col-sm-3 col-md-2 col-lg-2">
@@ -21,8 +21,8 @@
             <strong>Sort Dir</strong>
         </div>
         <div id="sort-dir-group" class="btn-group" role="group" aria-labelledby="sort-dir-label">
-            <button type="button" class="btn btn-default active" data-sort-dir="asc">Up</button>
-            <button type="button" class="btn btn-default" data-sort-dir="desc">Down</button>
+            <button type="button" class="btn btn-sm btn-default active" data-sort-dir="asc">Up</button>
+            <button type="button" class="btn btn-sm btn-default" data-sort-dir="desc">Down</button>
         </div>
     </div>
     <div class="col-sm-9 col-md-8 col-lg-7">
@@ -30,11 +30,11 @@
             <strong>Layout</strong>
         </div>
         <div id="layout-group" class="btn-group" role="group" aria-labelledby="layout-label">
-            <button type="button" class="btn btn-default" data-layout="bare">Bare</button>
-            <button type="button" class="btn btn-default" data-layout="small">Small</button>
-            <button type="button" class="btn btn-default" data-layout="medium">Medium</button>
-            <button type="button" class="btn btn-default" data-layout="large">Large</button>
-            <button type="button" class="btn btn-default active" data-layout="full">Full</button>
+            <button type="button" class="btn btn-sm btn-default" data-layout="bare">Bare</button>
+            <button type="button" class="btn btn-sm btn-default" data-layout="small">Small</button>
+            <button type="button" class="btn btn-sm btn-default" data-layout="medium">Medium</button>
+            <button type="button" class="btn btn-sm btn-default" data-layout="large">Large</button>
+            <button type="button" class="btn btn-sm btn-default active" data-layout="full">Full</button>
         </div>
     </div>
 </div>
@@ -45,9 +45,13 @@
             <strong>Companies</strong>
         </div>
         <div id="company-group" class="btn-group" role="group" aria-labelledby="companies-label" data-filter-group="company">
-            <button type="button" class="btn btn-default active" data-filter="*">Any</button>
+            <button type="button" class="btn btn-sm btn-info active" data-filter="*">Any</button>
             {% for company, compPlats in companies %}
-            <button type="button" class="btn btn-default" data-filter=".company-{{ company|lower|replace({' ': '-'}) }}">{{ company|capitalize }}</button>
+            <button type="button" class="btn btn-sm btn-info" data-filter=".company-{{ company|lower|replace({' ': '-'}) }}">{{ company|capitalize }}</button>
+            {% for platform in compPlats %}
+            <button type="button" class="btn btn-sm btn-default" data-filter=".platform-{{ platform|lower|replace({' ': '-'}) }}">{{ platResults[platform].name|capitalize }}</button>
+            {% endfor %}
+
             {% endfor %}
         </div>
     </div>
@@ -59,9 +63,9 @@
             <strong>Platforms</strong>
         </div>
         <div id="platform-group" class="btn-group" role="group" aria-labelledby="platforms-label" data-filter-group="platform">
-            <button type="button" class="btn btn-default active" data-filter="*">Any</button>
+            <button type="button" class="btn btn-sm btn-default active" data-filter="*">Any</button>
             {% for platform in platforms %}
-            <button type="button" class="btn btn-default" data-filter=".platform-{{ platform|lower|replace({' ': '-'}) }}">{{ platform|capitalize }}</button>
+            <button type="button" class="btn btn-sm btn-default" data-filter=".platform-{{ platform|lower|replace({' ': '-'}) }}">{{ platform|capitalize }}</button>
             {% endfor %}
         </div>
     </div>

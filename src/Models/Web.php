@@ -156,8 +156,10 @@ class Web extends Base {
             }
         }
         sort($platforms);
+        ksort($companies);
         echo $this->twig->render('emulators_new.twig', [
             'companies' => $companies,
+            'platResults' => $jsonPlats,
             'platforms' => $platforms,
             'results' => $jsonEmus,
             'queryString' => $_SERVER['QUERY_STRING']
