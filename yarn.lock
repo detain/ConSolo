@@ -3,16 +3,16 @@
 
 
 "@babel/parser@^7.16.4":
-  version "7.19.6"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.19.6.tgz#b923430cb94f58a7eae8facbffa9efd19130e7f8"
-  integrity sha512-h1IUp81s2JYJ3mRkdxJgs4UvmSsRvDrx5ICSJbPvtWYv5i1nTBGcBpnog+89rAFMwvvru6E5NUHdBe01UeSzYA==
+  version "7.20.0"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.20.0.tgz#b26133c888da4d79b0d3edcf42677bcadc783046"
+  integrity sha512-G9VgAhEaICnz8iiJeGJQyVl6J2nTjbW0xeisva0PK6XcKsga7BIaqm4ZF8Rg1Wbaqmy6znspNqhPaPkyukujzg==
 
 "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.5.5":
-  version "7.19.4"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.19.4.tgz#a42f814502ee467d55b38dd1c256f53a7b885c78"
-  integrity sha512-EXpLCrk55f+cYqmHsSR+yD/0gAIMxxA9QK9lnQWzhMCvt+YmoBN7Zx94s++Kv0+unHk39vxNO8t+CMA2WSS3wA==
+  version "7.20.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.0.tgz#824a9ef325ffde6f78056059db3168c08785e24a"
+  integrity sha512-NDYdls71fTXoU8TZHfbBWg7DiZfNzClcKui/+kyi6ppD2L1qnWW3VV6CjtaBXSUGGhiTWJ6ereOIkUvenif66Q==
   dependencies:
-    regenerator-runtime "^0.13.4"
+    regenerator-runtime "^0.13.10"
 
 "@foliojs-fork/fontkit@^1.9.1":
   version "1.9.1"
@@ -1533,7 +1533,7 @@ readable-stream@^2.0.2, readable-stream@^2.2.2, readable-stream@~2.3.3, readable
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-regenerator-runtime@^0.13.4:
+regenerator-runtime@^0.13.10:
   version "0.13.10"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.10.tgz#ed07b19616bcbec5da6274ebc75ae95634bfc2ee"
   integrity sha512-KepLsg4dU12hryUO7bp/axHAKvwGOCV0sGloQtpagJ12ai+ojVDqkeGSiRX1zlq+kjIMZ1t7gpze+26QqtdGqw==
@@ -1863,9 +1863,9 @@ videojs-vtt.js@^0.15.4:
     global "^4.3.1"
 
 vue-axios@*:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-3.5.0.tgz#9f37ed7e40351511e4a71f60c5d1eceff76c63db"
-  integrity sha512-I66AmSUI/dT/OEMNTHZQusmOqKtMxN5qgwFh4sq3kUGG0aEqBy1erKt66FAeR8o6agLGW80iLaIK/Sk/ogxsMw==
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-3.5.1.tgz#bef9c7faa8b31834b70b45bdffdbe52e93cde8a0"
+  integrity sha512-PyiCHFZ30IGgzmW8mr8DkrzUqqDc5F1qtDfRVMDVx3q1zNSi3UxWKBHxtt/Gsz+HVJehxtc7vxyk+Vxr1Ok2BQ==
 
 vue@*:
   version "3.2.41"
