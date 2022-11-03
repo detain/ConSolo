@@ -1867,7 +1867,7 @@ vue-axios@*:
   resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-3.5.1.tgz#bef9c7faa8b31834b70b45bdffdbe52e93cde8a0"
   integrity sha512-PyiCHFZ30IGgzmW8mr8DkrzUqqDc5F1qtDfRVMDVx3q1zNSi3UxWKBHxtt/Gsz+HVJehxtc7vxyk+Vxr1Ok2BQ==
 
-vue@*:
+vue@>=2.5.17:
   version "3.2.41"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.41.tgz#ed452b8a0f7f2b962f055c8955139c28b1c06806"
   integrity sha512-uuuvnrDXEeZ9VUPljgHkqB5IaVO8SxhPpqF2eWOukVrBnRBx2THPSGQBnVRt0GrIG1gvCmFXMGbd7FqcT1ixNQ==
@@ -1878,10 +1878,10 @@ vue@*:
     "@vue/server-renderer" "3.2.41"
     "@vue/shared" "3.2.41"
 
-vuetify@*:
-  version "2.6.12"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.6.12.tgz#ef1871c720834d53e00fef142b9841a3e8c1a4f9"
-  integrity sha512-qe3hcMpWmT1O15tp+p65lOS7UKZ/hQYQktCsw9iXx2u3RwVbX6GR82gY2iROrKsiAzYDvMgrYxWQwY/pUfkekw==
+vuetify@>=3.0.0-alpha.11:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.0.0.tgz#372eed0663f0ffba53439cd99aa46031e560b0f4"
+  integrity sha512-0olLmKWb+oTaebGTM02+1fWaAgnGDuIt86K3jDv2LnALQ2atSzhDS1SSASJsJCZ2PgFBdDAeJVLcNWWavRYAlQ==
 
 which-module@^2.0.0:
   version "2.0.0"
