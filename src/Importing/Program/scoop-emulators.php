@@ -33,7 +33,7 @@ $source = [
 ];
 gitSetup('https://github.com/detain/scoop-emulators');
 echo "Loading Game DAT Files\n";
-foreach (glob('scoop-emulators/bucket/*.json') as $fileName) {
+foreach (glob('scoop-emulators/bucket/*/*.json') as $fileName) {
     echo "  {$fileName}...";
     $id = basename($fileName, '.json');
     $json = json_decode(file_get_contents($fileName), true);
