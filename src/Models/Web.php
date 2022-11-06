@@ -103,7 +103,7 @@ class Web extends Base {
 	}
 
     public function sources_new() {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/sources.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
         unset($json['']);
         $types = ['API', 'Custom', 'DAT', 'Emulator', 'Frontend', 'Tools', 'Website'];
         $provides = ['companies', 'platforms', 'emulators', 'games'];
@@ -122,7 +122,7 @@ class Web extends Base {
     }
 
     public function sources() {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/sources.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
         unset($json['']);
         echo $this->twig->render('sources.twig', [
             'results' => $json,
@@ -132,8 +132,8 @@ class Web extends Base {
 
 
     public function emulators_new() {
-        $jsonPlats = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/platforms/local.json'), true);
-        $jsonEmus = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
+        $jsonPlats = json_decode(file_get_contents(__DIR__.'/../../../emurelation/platforms/local.json'), true);
+        $jsonEmus = json_decode(file_get_contents(__DIR__.'/../../../emurelation/emulators/local.json'), true);
         $companies = ['Unknown' => []];
         $platforms = ['Unknown'];
         foreach ($jsonEmus as $emuId => $emuData) {
@@ -167,7 +167,7 @@ class Web extends Base {
     }
 
     public function emulators() {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/emulators/local.json'), true);
         echo $this->twig->render('emulators.twig', [
             'results' => $json,
             'queryString' => $_SERVER['QUERY_STRING']
@@ -175,7 +175,7 @@ class Web extends Base {
     }
 
     public function companies() {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/companies/local.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/companies/local.json'), true);
         echo $this->twig->render('companies.twig', [
             'results' => $json,
             'queryString' => $_SERVER['QUERY_STRING']
@@ -183,7 +183,7 @@ class Web extends Base {
     }
 
     public function platforms() {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/platforms/local.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/platforms/local.json'), true);
         echo $this->twig->render('platforms.twig', [
             'results' => $json,
             'queryString' => $_SERVER['QUERY_STRING']
@@ -191,7 +191,7 @@ class Web extends Base {
     }
 
     public function games() {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/games/local.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/games/local.json'), true);
         echo $this->twig->render('games.twig', [
             'results' => $json,
             'queryString' => $_SERVER['QUERY_STRING']
@@ -199,13 +199,13 @@ class Web extends Base {
     }
 
     public function source($vars) {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/sources.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
         if (isset($vars['id'])) {
             $id = $vars['id'];
         }
         $json = $json[$id];
-        if (file_exists(__DIR__.'/../../public/emulation-data/'.$id.'.json')) {
-            $json['data'] = file_get_contents(__DIR__.'/../../public/emulation-data/'.$id.'.json');
+        if (file_exists(__DIR__.'/../../../emulation-data/'.$id.'.json')) {
+            $json['data'] = file_get_contents(__DIR__.'/../../../emulation-data/'.$id.'.json');
         }
         echo $this->twig->render('source.twig', [
             'data' => $json,
@@ -214,7 +214,7 @@ class Web extends Base {
     }
 
     public function emulator($vars) {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/emulators/local.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/emulators/local.json'), true);
         if (isset($vars['id'])) {
             $id = $vars['id'];
         }
@@ -229,8 +229,8 @@ class Web extends Base {
                 if (isset($cachedSources[$matchSourceId])) {
                     $matchSource = $cachedSources[$matchSourceId];
                 } else {
-                    if (file_exists(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json')) {
-                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json'), true);
+                    if (file_exists(__DIR__.'/../../../emulation-data/'.$matchSourceId.'.json')) {
+                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../../emulation-data/'.$matchSourceId.'.json'), true);
                         $cachedSources[$matchSourceId] = $matchSource;
                     } else {
                         continue;
@@ -255,7 +255,7 @@ class Web extends Base {
     }
 
     public function company($vars) {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/companies/local.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/companies/local.json'), true);
         if (isset($vars['id'])) {
             $id = $vars['id'];
         }
@@ -270,8 +270,8 @@ class Web extends Base {
                 if (isset($cachedSources[$matchSourceId])) {
                     $matchSource = $cachedSources[$matchSourceId];
                 } else {
-                    if (file_exists(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json')) {
-                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json'), true);
+                    if (file_exists(__DIR__.'/../../../emulation-data/'.$matchSourceId.'.json')) {
+                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../../emulation-data/'.$matchSourceId.'.json'), true);
                         $cachedSources[$matchSourceId] = $matchSource;
                     } else {
                         continue;
@@ -296,7 +296,7 @@ class Web extends Base {
     }
 
     public function platform($vars) {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/platforms/local.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/platforms/local.json'), true);
         if (isset($vars['id'])) {
             $id = $vars['id'];
         }
@@ -311,8 +311,8 @@ class Web extends Base {
                 if (isset($cachedSources[$matchSourceId])) {
                     $matchSource = $cachedSources[$matchSourceId];
                 } else {
-                    if (file_exists(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json')) {
-                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json'), true);
+                    if (file_exists(__DIR__.'/../../../emulation-data/'.$matchSourceId.'.json')) {
+                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../../emulation-data/'.$matchSourceId.'.json'), true);
                         $cachedSources[$matchSourceId] = $matchSource;
                     } else {
                         continue;
@@ -337,7 +337,7 @@ class Web extends Base {
     }
 
     public function game($vars) {
-        $json = json_decode(file_get_contents(__DIR__.'/../../public/emurelation/games/local.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/games/local.json'), true);
         if (isset($vars['id'])) {
             $id = $vars['id'];
         }
@@ -352,8 +352,8 @@ class Web extends Base {
                 if (isset($cachedSources[$matchSourceId])) {
                     $matchSource = $cachedSources[$matchSourceId];
                 } else {
-                    if (file_exists(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json')) {
-                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../public/emulation-data/'.$matchSourceId.'.json'), true);
+                    if (file_exists(__DIR__.'/../../../emulation-data/'.$matchSourceId.'.json')) {
+                        $matchSource = json_decode(file_get_contents(__DIR__.'/../../../emulation-data/'.$matchSourceId.'.json'), true);
                         $cachedSources[$matchSourceId] = $matchSource;
                     } else {
                         continue;

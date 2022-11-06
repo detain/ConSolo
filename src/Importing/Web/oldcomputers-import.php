@@ -36,6 +36,7 @@ foreach ($missing as $id) {
     if (!preg_match('/^([hft]+tp[s]?:\/\/)(www\.|)(?P<url>.*)\/?$/Uui', $data['web'][0]['url'], $matches))
         continue;
     $url = mb_strtolower($matches['url']);
+    /*
     foreach ($sources['local']['emulators'] as $emuId => $emuData) {
         if (!isset($emuData['web']))
             continue;
@@ -44,14 +45,14 @@ foreach ($missing as $id) {
                 echo "Matched ({$url}) '{$id}' to '{$emuId}'\n";
             }
         }
-    }
-    /*
+    }*/
+
     $cmd = 'grep -i '.escapeshellarg(str_replace(['.'], ['\\.'], $url)).' '.$basePath.'emurelation/emulators/* '.$basePath.'emulation-data/* | grep -v /oldcomputers.json';
     $out = str_replace($basePath, '', trim(`$cmd`));
     if ($out != '') {
         echo "🎮🕹 $id : $url\n$out\n";
     }
-    */
+
     /*
     $row =[
         'id' => $id,
