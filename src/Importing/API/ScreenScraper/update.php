@@ -42,7 +42,7 @@ if (file_exists($dataDir.'/json/screenscraper/queries.json')) {
 if (date('Ymd') > $queriesRemaining['yearmonth']) {
 	$queriesRemaining['yearmonthday'] = date('Ymd');
 	foreach ($config['ips'] as $ip) {
-		$queriesRemaining[$ip] = 40000;
+		$queriesRemaining[$ip] = 20000;
 	}
 }
 if ($useCache == true && file_exists($dataDir.'/json/screenscraper/platforms.json')) {
