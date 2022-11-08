@@ -168,6 +168,14 @@ foreach ($platforms as $idx => $platform) {
             }
         }
     }
+    if (isset($platform['extensions']))
+        $data['platforms'][$id]['ext'] = explode(',', $platform['extensions']);
+    if (isset($platform['datedebut'])) {
+        $data['platforms'][$id]['date_start'] = $platform['datedebut'];
+    }
+    if (isset($platform['datefin'])) {
+        $data['platforms'][$id]['date_end'] = $platform['datefin'];
+    }
     $regionPrio = ['us', 'uk', 'wor', 'eu'];
     $medias = [];
     foreach ($platform['medias'] as $media) {
@@ -178,7 +186,7 @@ foreach ($platforms as $idx => $platform) {
         $url = html_entity_decode($media['url']);
         parse_str(parse_url($url)['query'], $result);
         $file = translate($result['media']).'.'.$media['format'];
-        $dir = 'images/platforms/'.str_replace('/', '-', (isset($platform['compagnie']) ? $platform['compagnie'].' ' : '').$name);
+        $dir = __DIR__.'/../../../../public/images/ScreenScraper/platforms/'.str_replace('/', '-', (isset($platform['compagnie']) ? $platform['compagnie'].' ' : '').$name);
         @mkdir($dir, 0777, true);
         //if (!file_exists($dir.'/'.$file) || md5_file($dir.'/'.$file) != $media['md5'])
         if (!file_exists($dir.'/'.$file)) {
@@ -196,14 +204,6 @@ foreach ($platforms as $idx => $platform) {
         $medias[$media['type']][] = $media;
     }
     $data['platforms'][$id]['media'] = $medias;
-    if (isset($platform['extensions']))
-        $data['platforms'][$id]['ext'] = explode(',', $platform['extensions']);
-    if (isset($platform['datedebut'])) {
-        $data['platforms'][$id]['date_start'] = $platform['datedebut'];
-    }
-    if (isset($platform['datefin'])) {
-        $data['platforms'][$id]['date_end'] = $platform['datefin'];
-    }
 }
 file_put_contents(__DIR__.'/../../../../../emulation-data/screenscraper.json', json_encode($data, getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
