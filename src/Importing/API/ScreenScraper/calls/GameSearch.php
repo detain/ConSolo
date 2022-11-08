@@ -1,6 +1,6 @@
 <?php
 
-use Detain\ConSolo\Importing\API\ScreenScraper;
+use Detain\ConSolo\Importing\ScreenScraper;
 /*
 ### jeuRecherche.php: Search for a game with its name (returns a table of games (limited to 30 games) classified by probability)
 

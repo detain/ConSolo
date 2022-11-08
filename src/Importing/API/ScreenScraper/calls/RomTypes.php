@@ -1,6 +1,6 @@
 <?php
 
-use Detain\ConSolo\Importing\API\ScreenScraper;
+use Detain\ConSolo\Importing\ScreenScraper;
 /*
 ### romTypesListe.php: List of room types
 

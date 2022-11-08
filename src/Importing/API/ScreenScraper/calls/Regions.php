@@ -1,6 +1,6 @@
 <?php
 
-use Detain\ConSolo\Importing\API\ScreenScraper;
+use Detain\ConSolo\Importing\ScreenScraper;
 /*
 ### regionsListe.php: List of regions
 

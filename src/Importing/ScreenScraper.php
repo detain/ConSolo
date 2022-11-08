@@ -2,7 +2,7 @@
 /**
 * ScreenScraper API v2 Wrapper
 */
-namespace Detain\ConSolo\Importing\API;
+namespace Detain\ConSolo\Importing;
 
 class ScreenScraper
 {

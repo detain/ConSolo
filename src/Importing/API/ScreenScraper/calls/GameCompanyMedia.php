@@ -1,6 +1,6 @@
 <?php
 
-use Detain\ConSolo\Importing\API\ScreenScraper;
+use Detain\ConSolo\Importing\ScreenScraper;
 /*
 ### mediaCompagnie.php: Download media images of game companies
 

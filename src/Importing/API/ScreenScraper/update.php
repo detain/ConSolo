@@ -1076,7 +1076,7 @@
     },
 */
 
-use Detain\ConSolo\Importing\API\ScreenScraper;
+use Detain\ConSolo\Importing\ScreenScraper;
 
 require_once __DIR__.'/../../../bootstrap.php';
 
