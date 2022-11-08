@@ -194,14 +194,15 @@ foreach ($platforms as $idx => $platform) {
             exit;
             passthru("wget -nv '{$url}' -O '{$dir}/{$file}'");
         }
-        $media['file'] = $file;
+        $media['url'] = 'https://consolo.is.cc/images/ScreenScraper/platforms/'.str_replace('/', '-', (isset($platform['compagnie']) ? $platform['compagnie'].' ' : '').$name).$file;
         unset($media['format']);
         unset($media['parent']);
         unset($media['crc']);
         unset($media['md5']);
         unset($media['sha1']);
-        unset($media['url']);
-        $medias[$media['type']][] = $media;
+        $type = $media['type'];
+        unset($media['type']);
+        $medias[$type][] = $media;
     }
     $data['platforms'][$id]['media'] = $medias;
 }
