@@ -7,6 +7,33 @@ use Detain\ConSolo\Importing\ScreenScraper;
 
 require_once __DIR__.'/../../../bootstrap.php';
 
+function translate($text) {
+    $repl = [
+        'BoitierConsole' => 'box',
+        'vierge' => 'blank',
+        'tranche' => 'slice',
+        'gabarit' => 'template',
+        'Accessoire' => 'Accessory',
+        'Autres' => 'Others',
+        'Console &amp; Arcade' => 'Console & Arcade',
+        'Console Portable' => 'Portable Console',
+        'Emulation Arcade' => 'Arcade Emulation',
+        'Flipper' => 'Pinball',
+        'Machine Virtuelle' => 'Virtual Machine',
+        'Ordinateur' => 'Computer',
+        'fichier' => 'file',
+        'dossier' => 'folder',
+        'disquette' => 'floppy',
+        'cartouche' => 'cartridge',
+        'carte' => 'card'
+    ];
+    foreach ($repl as $orig => $new) {
+        if (strpos($text, $orig) !== false)
+            $text = str_replace($orig, $new, $text);
+    }
+    return $text;
+}
+
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
     php ".$_SERVER['argv'][0]." <options>
@@ -27,21 +54,6 @@ global $config;
 global $queriesRemaining;
 global $dataDir;
 global $curl_config;
-$repl = [
-    'Accessoire' => 'Accessory',
-    'Autres' => 'Others',
-    'Console &amp; Arcade' => 'Console & Arcade',
-    'Console Portable' => 'Portable Console',
-    'Emulation Arcade' => 'Arcade Emulation',
-    'Flipper' => 'Pinball',
-    'Machine Virtuelle' => 'Virtual Machine',
-    'Ordinateur' => 'Computer',
-    'fichier' => 'file',
-    'dossier' => 'folder',
-    'disquette' => 'floppy',
-    'cartouche', 'cartridge',
-    'carte' => 'card'
-];
 $curl_config = [];
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
@@ -119,12 +131,10 @@ foreach ($platforms as $idx => $platform) {
         'name' => $name,
         'altNames' => $altNames
     ];
-    foreach ($repl as $orig => $new) {
-        foreach (['type', 'romtype', 'supporttype'] as $field) {
-            if (isset($platform[$field])) {
-                $platform[$field] = str_replace($orig, $new, $platform[$field]);
-                $data['platforms'][$id][$field] = $platform[$field];
-            }
+    foreach (['type', 'romtype', 'supporttype'] as $field) {
+        if (isset($platform[$field])) {
+            $platform[$field] = translate($platform[$field]);
+            $data['platforms'][$id][$field] = $platform[$field];
         }
     }
     if (isset($platform['compagnie'])) {
@@ -161,17 +171,21 @@ foreach ($platforms as $idx => $platform) {
     $regionPrio = ['us', 'uk', 'wor', 'eu'];
     $medias = [];
     foreach ($platform['medias'] as $media) {
+        $media['type'] = translate($media['type']);
         if (!isset($medias[$media['type']])) {
             $medias[$media['type']] = [];
         }
         $url = html_entity_decode($media['url']);
         parse_str(parse_url($url)['query'], $result);
-        $file = $result['media'].'.'.$media['format'];
-        $dir = 'images/platforms/'.(isset($platform['compagnie']) ? $platform['compagnie'].' ' : '').$name;
+        $file = translate($result['media']).'.'.$media['format'];
+        $dir = 'images/platforms/'.str_replace('/', '-', (isset($platform['compagnie']) ? $platform['compagnie'].' ' : '').$name);
         @mkdir($dir, 0777, true);
         //if (!file_exists($dir.'/'.$file) || md5_file($dir.'/'.$file) != $media['md5'])
-        if (!file_exists($dir.'/'.$file))
+        if (!file_exists($dir.'/'.$file)) {
+            echo "File {$dir}/{$file} does not exist";
+            exit;
             passthru("wget -nv '{$url}' -O '{$dir}/{$file}'");
+        }
         $media['file'] = $file;
         unset($media['format']);
         unset($media['parent']);
