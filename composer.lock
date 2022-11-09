@@ -2735,28 +2735,32 @@
         },
         {
             "name": "php-ai/php-ml",
-            "version": "0.4.1",
+            "version": "0.10.0",
             "source": {
                 "type": "git",
-                "url": "https://gitlab.com/php-ai/php-ml.git",
-                "reference": "39747efdc1ff781939c45f321475f00f71ef3172"
+                "url": "git@gitlab.com:php-ai/php-ml.git",
+                "reference": "543f11158c57bf64ef8ddecd5bab51d396d39f50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.com/api/v4/projects/php-ai%2Fphp-ml/repository/archive.zip?sha=39747efdc1ff781939c45f321475f00f71ef3172",
-                "reference": "39747efdc1ff781939c45f321475f00f71ef3172",
+                "url": "https://gitlab.com/api/v4/projects/php-ai%2Fphp-ml/repository/archive.zip?sha=543f11158c57bf64ef8ddecd5bab51d396d39f50",
+                "reference": "543f11158c57bf64ef8ddecd5bab51d396d39f50",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0.0"
+                "php": "^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.0"
+                "phpbench/phpbench": "^1.2",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-phpunit": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12",
+                "phpunit/phpunit": "^8.0"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Phpml": "src/"
+                "psr-4": {
+                    "Phpml\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2770,7 +2774,7 @@
                 }
             ],
             "description": "PHP-ML - Machine Learning library for PHP",
-            "homepage": "https://github.com/php-ai/php-ml",
+            "homepage": "https://gitlab.com/php-ai/php-ml",
             "keywords": [
                 "Neural network",
                 "artificial intelligence",
@@ -2780,10 +2784,7 @@
                 "machine learning",
                 "pattern recognition"
             ],
-            "support": {
-                "issues": "https://gitlab.com/api/v4/projects/19024967/issues"
-            },
-            "time": "2017-03-05T16:45:48+00:00"
+            "time": "2022-11-09T09:25:29+00:00"
         },
         {
             "name": "php-http/discovery",
