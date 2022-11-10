@@ -63,6 +63,7 @@ foreach ($listTypes as $listType) {
                     if (!in_array($matchTargetId, $used[$listType][$matchSourceId])) {
                         $used[$listType][$matchSourceId][] = $matchTargetId;
                     }
+                    /*
                     if (isset($sources[$matchSourceId][$listType][$matchTargetId]['matches'])) {
                         foreach ($sources[$matchSourceId][$listType][$matchTargetId]['matches'] as $subMatchSourceId => $subMatchTargets) {
                             foreach ($subMatchTargets as $subMatchTargetId) {
@@ -84,6 +85,7 @@ foreach ($listTypes as $listType) {
                             }
                         }
                     }
+                    */
                     foreach ($sources[$matchSourceId][$listType][$matchTargetId]['names'] as $name) {
                         if (!in_array(strtolower($name), $allNames[$listType][$localTypeId])) {
                             //echo "Adding Allnames[{$listType}][{$localTypeId}]  didnt have ".strtolower($name)."\n";
@@ -149,7 +151,17 @@ foreach ($listTypes as $listType) {
                     if (!array_key_exists($sourceId, $unmatched[$listType])) {
                         $unmatched[$listType][$sourceId] = [];
                     }
-                    $unmatched[$listType][$sourceId][$targetId] = $targetData['name'];
+                    if ($listType == 'platforms') {
+                        if (isset($targetData['company'])) {
+                            $unmatched[$listType][$sourceId][$targetId] = $targetData['company'].' '.$targetData['name'];
+                        } elseif (isset($targetData['company_name'])) {
+                            $unmatched[$listType][$sourceId][$targetId] = $targetData['company_name'].' '.$targetData['name'];
+                        } else {
+                            $unmatched[$listType][$sourceId][$targetId] = $targetData['name'];
+                        }
+                    } else {
+                        $unmatched[$listType][$sourceId][$targetId] = $targetData['name'];
+                    }
                 }
             }
             $usedCount = count($used[$listType][$sourceId]);
