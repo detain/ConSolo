@@ -5,7 +5,7 @@
 
 use Detain\ConSolo\Importing\ScreenScraper;
 
-require_once __DIR__.'/../../../bootstrap.php';
+require_once __DIR__.'/../../bootstrap.php';
 
 function translate($text) {
     $repl = [
@@ -59,7 +59,7 @@ $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $usePrivate = false;
 $useCache = !in_array('--no-cache', $_SERVER['argv']);;
-$dataDir = __DIR__.'/../../../../data';
+$dataDir = __DIR__.'/../../../data';
 @mkdir($dataDir.'/json/screenscraper', 0775, true);
 if (file_exists($dataDir.'/json/screenscraper/queries.json')) {
 	$queriesRemaining = json_decode(file_Get_contents($dataDir.'/json/screenscraper/queries.json'), true);
@@ -87,6 +87,11 @@ $source = [
     'companies' => [],
     'platforms' => [],
     'emulators' => [
+        'hyperspin' => [
+            'id' => 'hyperspin',
+            'name' => 'HyperSpin',
+            'platforms' => [],
+        ],
         'launchbox' => [
             'id' => 'launchbox',
             'name' => 'LaunchBox',
@@ -176,7 +181,7 @@ foreach ($platforms as $idx => $platform) {
     if (isset($platform['datefin'])) {
         $data['platforms'][$id]['date_end'] = $platform['datefin'];
     }
-    $regionPrio = ['us', 'uk', 'wor', 'eu'];
+    $regionPrio = ['us', 'uk', 'wor', 'eu', 'cus', 'ss'];
     $medias = [];
     foreach ($platform['medias'] as $media) {
         $media['type'] = translate($media['type']);
@@ -186,7 +191,7 @@ foreach ($platforms as $idx => $platform) {
         $url = html_entity_decode($media['url']);
         parse_str(parse_url($url)['query'], $result);
         $file = translate($result['media']).'.'.$media['format'];
-        $dir = __DIR__.'/../../../../public/images/ScreenScraper/platforms/'.str_replace('/', '-', (isset($platform['compagnie']) ? $platform['compagnie'].' ' : '').$name);
+        $dir = __DIR__.'/../../../public/images/ScreenScraper/platforms/'.str_replace('/', '-', (isset($platform['compagnie']) ? $platform['compagnie'].' ' : '').$name);
         @mkdir($dir, 0777, true);
         //if (!file_exists($dir.'/'.$file) || md5_file($dir.'/'.$file) != $media['md5'])
         if (!file_exists($dir.'/'.$file)) {
@@ -194,7 +199,7 @@ foreach ($platforms as $idx => $platform) {
             exit;
             passthru("wget -nv '{$url}' -O '{$dir}/{$file}'");
         }
-        $media['url'] = 'https://consolo.is.cc/images/ScreenScraper/platforms/'.str_replace('/', '-', (isset($platform['compagnie']) ? $platform['compagnie'].' ' : '').$name).$file;
+        $media['url'] = 'https://consolo.is.cc/images/ScreenScraper/platforms/'.str_replace('/', '-', (isset($platform['compagnie']) ? $platform['compagnie'].' ' : '').$name).'/'.$file;
         unset($media['format']);
         unset($media['parent']);
         unset($media['crc']);
@@ -204,14 +209,32 @@ foreach ($platforms as $idx => $platform) {
         unset($media['type']);
         $medias[$type][] = $media;
     }
+    foreach ($medias as $type => $mediaRows) {
+        $bestIdx = 0;
+        $bestPrio = 100;
+        if (count($mediaRows) > 1) {
+            if (!isset($mediaRows[0]['region'])) {
+                continue;
+            }
+            foreach ($mediaRows as $mediaIdx => $media) {
+                $prio = array_search($media['region'], $regionPrio);
+                if ($prio !== false && $prio < $bestPrio) {
+                    $bestPrio = $prio;
+                    $bestIdx = $mediaIdx;
+                }
+            }
+        }
+        $media = $mediaRows[$bestIdx];
+        $data['platforms'][$id][$type] = $media['url'];
+    }
     $data['platforms'][$id]['media'] = $medias;
 }
-file_put_contents(__DIR__.'/../../../../../emulation-data/screenscraper.json', json_encode($data, getJsonOpts()));
-$sources = json_decode(file_get_contents(__DIR__.'/../../../../../emurelation/sources.json'), true);
+file_put_contents(__DIR__.'/../../../../emulation-data/screenscraper.json', json_encode($data, getJsonOpts()));
+$sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['screenscraper']['updatedLast'] = time();
-file_put_contents(__DIR__.'/../../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
+file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
 foreach ($source as $type => $data) {
-    file_put_contents(__DIR__.'/../../../../../emurelation/'.$type.'/screenscraper.json', json_encode($data, getJsonOpts()));
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/screenscraper.json', json_encode($data, getJsonOpts()));
 }
 if (!$skipDb) {
     echo "Mapping Platforms to db\n";
