@@ -47,9 +47,9 @@
         <div id="company-group" class="btn-group" role="group" aria-labelledby="companies-label" data-filter-group="company">
             <button type="button" class="btn btn-sm btn-info active" data-filter="*">Any</button>
             {% for company, compPlats in companies %}
-            <button type="button" class="btn btn-sm btn-info" data-filter=".company-{{ company|lower|replace({' ': '-'}) }}">{{ company|capitalize }}</button>
+            <button type="button" class="btn btn-sm btn-info" data-filter=".company-{{ company|lower|replace({' ': '-', '.': '-'}) }}">{{ company|capitalize }}</button>
             {% for platform in compPlats %}
-            <button type="button" class="btn btn-sm btn-default" data-filter=".platform-{{ platform|lower|replace({' ': '-'}) }}">{{ platResults[platform].name|capitalize }}</button>
+            <button type="button" class="btn btn-sm btn-default" data-filter=".platform-{{ platform|lower|replace({' ': '-', '.': '-'}) }}">{{ platResults[platform].name|capitalize }}</button>
             {% endfor %}
 
             {% endfor %}
@@ -65,7 +65,7 @@
         <div id="platform-group" class="btn-group" role="group" aria-labelledby="platforms-label" data-filter-group="platform">
             <button type="button" class="btn btn-sm btn-default active" data-filter="*">Any</button>
             {% for platform in platforms %}
-            <button type="button" class="btn btn-sm btn-default" data-filter=".platform-{{ platform|lower|replace({' ': '-'}) }}">{{ platform|capitalize }}</button>
+            <button type="button" class="btn btn-sm btn-default" data-filter=".platform-{{ platform|lower|replace({' ': '-', '.': '-'}) }}">{{ platform|capitalize }}</button>
             {% endfor %}
         </div>
     </div>
@@ -73,7 +73,7 @@
 
 <div class="row grid" data-layout="full">
     {% for data in results %}
-    <div class="grid-item{% for type in data.platforms %} platform-{{ type|lower|replace({' ': '-'}) }}{% endfor %}" data-name="{{ data.name }}" data-type="{{ data.type }}" data-updated="{{ data.updatedLast }}">
+    <div class="grid-item{% for type in data.platforms %} platform-{{ type|lower|replace({' ': '-', '.': '-'}) }}{% endfor %}" data-name="{{ data.name }}" data-type="{{ data.type }}" data-updated="{{ data.updatedLast }}">
         <div class="grid-item-content">
             <div class="thumbnail">
                 {% if data.logo is defined %}
