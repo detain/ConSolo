@@ -23,11 +23,85 @@
         <th>Description</a></td>
         <td>{{ data.description }}</td>
     </tr>
+{% if data.date_start is defined %}
+    <tr>
+        <th>Started Selling</td>
+        <td>{{ data.date_start }}</td>
+    </tr>
+{% endif %}
+{% if data.date_end is defined %}
+    <tr>
+        <th>Ended Selling</td>
+        <td>{{ data.date_end }}</td>
+    </tr>
+{% endif %}
+{% if data.type is defined %}
+    <tr>
+        <th>Type</td>
+        <td>{{ data.type }}</td>
+    </tr>
+{% endif %}
+{% if data.romtype is defined %}
+    <tr>
+        <th>ROM Type</td>
+        <td>{{ data.romtype }}</td>
+    </tr>
+{% endif %}
+{% if data.supporttype is defined %}
+    <tr>
+        <th>Support Type</td>
+        <td>{{ data.supporttype }}</td>
+    </tr>
+{% endif %}
     <tr>
         <th>Alternate Names</a></td>
         <td>
             {% for name in data.altNames %}
             <span class="label label-primary">{{ name }}</span><br>
+            {% endfor %}
+        </td>
+    </tr>
+{% if data.photo is defined %}
+    <tr>
+        <th>photo</td>
+        <td><img src="{{ data.photo }}" alt="photo" style="max-width: 300px;max-height: 200px;"></td>
+    </tr>
+{% endif %}
+{% if data.wheel is defined %}
+    <tr>
+        <th>wheel</td>
+        <td><img src="{{ data.wheel }}" alt="wheel" style="max-width: 300px;max-height: 200px;"></td>
+    </tr>
+{% endif %}
+{% if data["logo-monochrome"] is defined %}
+    <tr>
+        <th>logo-monochrome</td>
+        <td><img src="{{ data["logo-monochrome"] }}" alt="logo-monochrome" style="max-width: 300px;max-height: 200px;"></td>
+    </tr>
+{% endif %}
+{% if data.illustration is defined %}
+    <tr>
+        <th>illustration</td>
+        <td><img src="{{ data.illustration }}" alt="illustration" style="max-width: 300px;max-height: 200px;"></td>
+    </tr>
+{% endif %}
+{% if data.controller is defined %}
+    <tr>
+        <th>controller</td>
+        <td><img src="{{ data.controller }}" alt="controller" style="max-width: 300px;max-height: 200px;"></td>
+    </tr>
+{% endif %}
+{% if data.icon is defined %}
+    <tr>
+        <th>icon</td>
+        <td><img src="{{ data.icon }}" alt="icon" style="max-width: 300px;max-height: 200px;"></td>
+    </tr>
+{% endif %}
+    <tr>
+        <th>Links</a></td>
+        <td>
+            {% for url, text in data.web %}
+            <a href="{{ url }}">{{ text }}</a><br>
             {% endfor %}
         </td>
     </tr>
@@ -41,14 +115,17 @@
             {% endfor %}
         </td>
     </tr>
+<!-- ext extensions -->
+{% if data.ext is defined %}
     <tr>
-        <th>Links</a></td>
+        <th>Extensions</a></td>
         <td>
-            {% for url, text in data.web %}
-            <a href="{{ url }}">{{ text }}</a><br>
+            {% for ext in data.ext %}
+            <span class="label label-info">.{{ ext }}</span>
             {% endfor %}
         </td>
     </tr>
+{% endif %}
 </tbody>
 </table>
 {% if matches|length > 0 %}
