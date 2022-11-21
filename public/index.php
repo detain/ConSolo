@@ -15,7 +15,6 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
         $r->get('/source/{id}[/]', ['\Detain\ConSolo\Models\Web', 'source']);
         $r->get('/companies[/]', ['\Detain\ConSolo\Models\Web', 'companies']);
         $r->get('/company/{id}[/]', ['\Detain\ConSolo\Models\Web', 'company']);
-        $r->get('/emulatorsnew[/]', ['\Detain\ConSolo\Models\Web', 'emulators_new']);
         $r->get('/emulators[/]', ['\Detain\ConSolo\Models\Web', 'emulators']);
         $r->get('/emulator/{id}[/]', ['\Detain\ConSolo\Models\Web', 'emulator']);
 		$r->get('/platforms[/]', ['\Detain\ConSolo\Models\Web', 'platforms']);

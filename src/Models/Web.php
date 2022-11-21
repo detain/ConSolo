@@ -121,7 +121,7 @@ class Web extends Base {
         ]);
     }
 
-    public function emulators_new() {
+    public function emulators() {
         $jsonPlats = json_decode(file_get_contents(__DIR__.'/../../../emurelation/platforms/local.json'), true);
         $jsonEmus = json_decode(file_get_contents(__DIR__.'/../../../emurelation/emulators/local.json'), true);
         $companies = ['Unknown' => []];
@@ -152,19 +152,11 @@ class Web extends Base {
         sort($platforms);
         ksort($companies);
         ksort($jsonEmus);
-        echo $this->twig->render('emulators_new.twig', [
+        echo $this->twig->render('emulators.twig', [
             'companies' => $companies,
             'platResults' => $jsonPlats,
             'platforms' => $platforms,
             'results' => $jsonEmus,
-            'queryString' => $_SERVER['QUERY_STRING']
-        ]);
-    }
-
-    public function emulators() {
-        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/emulators/local.json'), true);
-        echo $this->twig->render('emulators.twig', [
-            'results' => $json,
             'queryString' => $_SERVER['QUERY_STRING']
         ]);
     }

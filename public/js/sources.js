@@ -99,7 +99,7 @@ $(document).ready(function () {
     $('#datatable').DataTable({
         paging: false
     });
-    if ($('#layout-group .active').attr('data-layout') == 'table') {
+    if (typeof $('#layout-group .active').attr('data-layout') == "undefined" || $('#layout-group .active').attr('data-layout') == 'table') {
         $('#datagrid').css('display', 'none');
         $('#datatable').css('display', 'table');
         $('#datatable_wrapper').css('display', 'block');
