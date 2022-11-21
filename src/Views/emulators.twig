@@ -15,44 +15,44 @@
         </tr>
     </thead>
     <tbody>
-        {% for data in results %}
+{% for data in results %}
         <tr>
             <td>
                 <a href="{{ app.request.basePath }}/emulator/{{ data.id }}">{{ data.name }}</a>
             </td>
             <td>
-                {% if data.logo is defined %}
+{% if data.logo is defined %}
                 <img src="{{ data.logo }}" alt="logo" style="max-width: 200px;max-height: 100px;">
-                {% endif %}
+{% endif %}
             </td>
             <td>
-                {% if data.screenshot is defined %}
+{% if data.screenshot is defined %}
                 <img src="{{ data.screenshot }}" alt="screenshot" style="max-width: 200px;max-height: 100px;">
-                {% elseif data.screenshots is defined %}
+{% elseif data.screenshots is defined %}
                 <img src="{{ data.screenshots[0] }}" alt="screenshot" style="max-width: 200px;max-height: 100px;">
-                {% endif %}
+{% endif %}
             </td>
             <td style="min-width: 40%;">{{ data.description }}</td>
             <td>
-                {% for platform in data.platforms %}
+{% for platform in data.platforms %}
                 <a href="/platform/{{ platform }}"><span class="label label-primary">{{ platform }}</span></a>
-                {% endfor %}
+{% endfor %}
             </td>
             <td>
-                {% for url, text in data.web %}
+{% for url, text in data.web %}
                 <a href="{{ url }}">{{ text }}</a>
-                {% endfor %}
+{% endfor %}
             </td>
-            {% if data.versions is defined %}
-            {% set keys = data.versions|keys %}
+{% if data.versions is defined %}
+{% set keys = data.versions|keys %}
             <td>{{ keys[0] }}</td>
             <td>{{ data.versions[keys[0]].date }}</td>
-            {% else %}
+{% else %}
             <td></td>
             <td></td>
-            {% endif %}
+{% endif %}
         </tr>
-        {% endfor %}
+{% endfor %}
     </tbody>
 </table>
 <script>

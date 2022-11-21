@@ -8,11 +8,11 @@
         </tr>
     </thead>
     <tbody>
-        {% for data in results %}
+{% for data in results %}
         <tr>
             <td><a href="{{ app.request.basePath }}/company/{{ data.id }}">{{ data.name }}</a></td>
         </tr>
-        {% endfor %}
+{% endfor %}
     </tbody>
 </table>
 <script>

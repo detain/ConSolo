@@ -13,24 +13,24 @@
         </tr>
     </thead>
     <tbody>
-        {% for data in results %}
+{% for data in results %}
         <tr>
             <td><a href="{{ app.request.basePath }}/game/{{ data.id }}">{{ data.name }}</a></td>
             <td>{{ data.description }}</td>
             <td>
-                {% for platform in data.platforms %}
+{% for platform in data.platforms %}
                 <span class="label label-primary">{{ platform }}</span>
-                {% endfor %}
+{% endfor %}
             </td>
             <td>
-                {% for url, text in data.links %}
+{% for url, text in data.links %}
                 <a href="{{ url }}">{{ text }}</a>
-                {% endfor %}
+{% endfor %}
             </td>
             <td></td>
             <td></td>
         </tr>
-        {% endfor %}
+{% endfor %}
     </tbody>
 </table>
 <script>

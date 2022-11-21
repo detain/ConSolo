@@ -42,70 +42,56 @@
 <div class="row filters">
     <div class="col-sm-12">
         <div id="companies-label">
-            <strong>Companies</strong>
+            <strong>Platforms</strong>
         </div>
         <div id="company-group" class="btn-group" role="group" aria-labelledby="companies-label" data-filter-group="company">
             <button type="button" class="btn btn-sm btn-info active" data-filter="*">Any</button>
-            {% for company, compPlats in companies %}
+{% for company, compPlats in companies %}
             <button type="button" class="btn btn-sm btn-info" data-filter=".company-{{ company|lower|replace({' ': '-', '.': '-'}) }}">{{ company|capitalize }}</button>
-            {% for platform in compPlats %}
+{% for platform in compPlats %}
             <button type="button" class="btn btn-sm btn-default" data-filter=".platform-{{ platform|lower|replace({' ': '-', '.': '-'}) }}">{{ platResults[platform].name|capitalize }}</button>
-            {% endfor %}
+{% endfor %}
 
-            {% endfor %}
-        </div>
-    </div>
-</div>
-
-<div class="row filters">
-    <div class="col-sm-12">
-        <div id="platforms-label">
-            <strong>Platforms</strong>
-        </div>
-        <div id="platform-group" class="btn-group" role="group" aria-labelledby="platforms-label" data-filter-group="platform">
-            <button type="button" class="btn btn-sm btn-default active" data-filter="*">Any</button>
-            {% for platform in platforms %}
-            <button type="button" class="btn btn-sm btn-default" data-filter=".platform-{{ platform|lower|replace({' ': '-', '.': '-'}) }}">{{ platform|capitalize }}</button>
-            {% endfor %}
+{% endfor %}
         </div>
     </div>
 </div>
 
 <div class="row grid" data-layout="full">
-    {% for data in results %}
-    <div class="grid-item{% for type in data.platforms %} platform-{{ type|lower|replace({' ': '-', '.': '-'}) }}{% endfor %}" data-name="{{ data.name }}" data-type="{{ data.type }}" data-updated="{{ data.updatedLast }}">
+{% for data in results %}
+    <div class="grid-item{% for type in data.platforms %} platform-{{ type|lower|replace({' ': '-', '.': '-'}) }} company-{{ platResults[type].company|lower|replace({' ': '-', '.': '-'}) }}{% endfor %}" data-name="{{ data.name }}" data-type="{{ data.type }}" data-updated="{{ data.updatedLast }}">
         <div class="grid-item-content">
             <div class="thumbnail">
-                {% if data.logo is defined %}
+{% if data.logo is defined %}
                 <img class="source-logo" src="{{ data.logo }}" alt="logo">
-                {% else %}
+{% else %}
                 <font class="source-logo" style="font-size: 24px;font-weight: 1000;">{{ data.name }}</font>
-                {% endif %}
-                <div class="caption">
-                    <span class="source-header">
-                        <span class="source-type pull-left label label-warning">{{ data.type }}</span>
-                        <span class="source-updated pull-right label label-warning">{{ data.updatedLast }}</span>
-                    </span>
-                    <p class="source-name">{{ data.name }}</p>
-                    <p class="source-description">{{ data.description }}</p>
-                    <span class="source-footer">
-                        <div class="pull-left platforms-labels">
-                            {% for type in data.platforms %}
-                            <span class="label label-primary">{{ type }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="pull-right web-links">
-                            {% for url, text in data.web %}
-                            {% if loop.index <= 3 %}
-                            <a href="{{ url }}"><span class="badge"><img src="/images/{{ text }}.png" alt="{{ text }}"></span></a>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                    </span>
-                </div>
+{% endif %}
+            </div>
+            <div class="caption">
+                <span class="source-header">
+                    <span class="source-type pull-left label label-warning">{{ data.type }}</span>
+                    <span class="source-updated pull-right label label-warning">{{ data.updatedLast }}</span>
+                </span>
+                <p class="source-name">{{ data.name }}</p>
+                <p class="source-description">{{ data.description }}</p>
+                <span class="source-footer">
+                    <div class="pull-left provides-labels">
+{% for type in data.platforms %}
+                        <span class="label label-primary">{{ type }}</span>
+{% endfor %}
+                    </div>
+                    <div class="pull-right web-links">
+{% for url, text in data.web %}
+{% if loop.index <= 3 %}
+                        <a href="{{ url }}"><span class="badge"><img src="/images/{{ text }}.png" alt="{{ text }}"></span></a>
+{% endif %}
+{% endfor %}
+                    </div>
+                </span>
             </div>
         </div>
     </div>
-    {% endfor %}
+{% endfor %}
 </div>
 {% endblock %}
