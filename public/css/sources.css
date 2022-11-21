@@ -33,9 +33,11 @@
 .grid .thumbnail {
     margin-bottom: 0px;
 }
-
-.grid[data-layout="bare"] .thumbnail .caption,
-.grid[data-layout="small"] .thumbnail .caption {
+.grid .caption {
+    padding: 2px;
+}
+.grid[data-layout="bare"] .thumbnail,
+.grid[data-layout="small"] .thumbnail {
     padding: 0px;
 }
 
