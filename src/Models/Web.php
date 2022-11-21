@@ -102,7 +102,7 @@ class Web extends Base {
 		echo json_encode($response, getJsonOpts());
 	}
 
-    public function sources_new() {
+    public function sources() {
         $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
         unset($json['']);
         $types = ['API', 'Custom', 'DAT', 'Emulator', 'Frontend', 'Tools', 'Website'];
@@ -113,23 +113,13 @@ class Web extends Base {
                 $json[$sourceId]['updatedLast'] = date('Y-m-d', $sourceData['updatedLast']);
             }
         }
-        echo $this->twig->render('sources_new.twig', [
+        echo $this->twig->render('sources.twig', [
             'provides' => $provides,
             'sourceTypes' => $types,
             'results' => $json,
             'queryString' => $_SERVER['QUERY_STRING']
         ]);
     }
-
-    public function sources() {
-        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
-        unset($json['']);
-        echo $this->twig->render('sources.twig', [
-            'results' => $json,
-            'queryString' => $_SERVER['QUERY_STRING']
-        ]);
-    }
-
 
     public function emulators_new() {
         $jsonPlats = json_decode(file_get_contents(__DIR__.'/../../../emurelation/platforms/local.json'), true);
