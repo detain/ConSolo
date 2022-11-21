@@ -30,8 +30,7 @@
     margin: 0px;
 }
 
-.grid[data-layout="bare"] .thumbnail,
-.grid[data-layout="small"] .thumbnail {
+.grid .thumbnail {
     margin-bottom: 0px;
 }
 
@@ -44,7 +43,6 @@
     font-weight: bold;
     font-size: 18px;
 }
-
 
 .grid {
     /*border: 1px solid #333; */

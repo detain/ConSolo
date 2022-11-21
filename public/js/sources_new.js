@@ -31,14 +31,23 @@ function setupBinds() {
     $('#layout-group').on( 'click', 'button', function() {
         var layoutValue = $(this).attr('data-layout');
         $grid.attr('data-layout', layoutValue);
-        // layout Isotope after all images finish loading
-        $grid.imagesLoaded( function() {
-            // init Isotope after all images have loaded
-            window.setTimeout(function () {
-                // do stuff after animation has finished here
-                $grid.isotope('layout');
-            }, 100);
-        });
+        if (layoutValue == 'table') {
+            $('#sources-grid').css('display', 'none');
+            $('#sources-table').css('display', 'table');
+            $('#sources-table_wrapper').css('display', 'block');
+        } else {
+            $('#sources-grid').css('display', 'block');
+            $('#sources-table').css('display', 'none');
+            $('#sources-table_wrapper').css('display', 'none');
+            // layout Isotope after all images finish loading
+            $grid.imagesLoaded( function() {
+                // init Isotope after all images have loaded
+                window.setTimeout(function () {
+                    // do stuff after animation has finished here
+                    $grid.isotope('layout');
+                }, 100);
+            });
+        }
     });
 
     // bind sort button click
@@ -87,4 +96,16 @@ $(document).ready(function () {
         $grid.isotope('layout');
         setupBinds();
     });
+    $('#sources-table').DataTable({
+        paging: false
+    });
+    if ($('#layout-group .active').attr('data-layout') == 'table') {
+        $('#sources-grid').css('display', 'none');
+        $('#sources-table').css('display', 'table');
+        $('#sources-table_wrapper').css('display', 'block');
+    } else {
+        $('#sources-grid').css('display', 'block');
+        $('#sources-table').css('display', 'none');
+        $('#sources-table_wrapper').css('display', 'none');
+    }
 });
