@@ -201,6 +201,7 @@ foreach ($listTypes as $listType) {
     //file_put_contents(__DIR__.'/../../../emurelation/unmatched/'.$listType.'.json', json_encode($unmatched[$listType], getJsonOpts()));
     @mkdir(__DIR__.'/../../../emurelation/unmatched/'.$listType, 0777, true);
     foreach ($unmatched[$listType] as $sourceId => $sourceData) {
+        asort($sourceData);
         file_put_contents(__DIR__.'/../../../emurelation/unmatched/'.$listType.'/'.$sourceId.'.json', json_encode($sourceData, getJsonOpts()));
     }
 }
