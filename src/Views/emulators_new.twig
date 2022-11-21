@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row">
     <div class="col-sm-12">
-        <h2>Sources</h2>
+        <h2>Emulators</h2>
     </div>
 </div>
 <div class="row">
@@ -35,6 +35,7 @@
             <button type="button" class="btn btn-sm btn-default" data-layout="medium">Medium</button>
             <button type="button" class="btn btn-sm btn-default" data-layout="large">Large</button>
             <button type="button" class="btn btn-sm btn-default active" data-layout="full">Full</button>
+            <button type="button" class="btn btn-sm btn-default" data-layout="table">Table</button>
         </div>
     </div>
 </div>
@@ -57,7 +58,7 @@
     </div>
 </div>
 
-<div class="row grid" data-layout="full">
+<div id="datagrid" class="row grid" data-layout="full">
 {% for data in results %}
     <div class="grid-item{% for type in data.platforms %} platform-{{ type|lower|replace({' ': '-', '.': '-'}) }} company-{{ platResults[type].company|lower|replace({' ': '-', '.': '-'}) }}{% endfor %}" data-name="{{ data.name }}" data-type="{{ data.type }}" data-updated="{{ data.updatedLast }}">
         <div class="grid-item-content">
@@ -94,4 +95,58 @@
     </div>
 {% endfor %}
 </div>
+<table id="datatable" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Logo</th>
+            <th>Screenshot</th>
+            <th style="min-width: 40%;">Description</th>
+            <th>Platforms</th>
+            <th>Links</th>
+            <th>Version</th>
+            <th>Last Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for data in results %}
+        <tr>
+            <td>
+                <a href="{{ app.request.basePath }}/emulator/{{ data.id }}">{{ data.name }}</a>
+            </td>
+            <td>
+{% if data.logo is defined %}
+                <img src="{{ data.logo }}" alt="logo" style="max-width: 200px;max-height: 100px;">
+{% endif %}
+            </td>
+            <td>
+{% if data.screenshot is defined %}
+                <img src="{{ data.screenshot }}" alt="screenshot" style="max-width: 200px;max-height: 100px;">
+{% elseif data.screenshots is defined %}
+                <img src="{{ data.screenshots[0] }}" alt="screenshot" style="max-width: 200px;max-height: 100px;">
+{% endif %}
+            </td>
+            <td style="min-width: 40%;">{{ data.description }}</td>
+            <td>
+{% for platform in data.platforms %}
+                <a href="/platform/{{ platform }}"><span class="label label-primary">{{ platform }}</span></a>
+{% endfor %}
+            </td>
+            <td>
+{% for url, text in data.web %}
+                <a href="{{ url }}">{{ text }}</a>
+{% endfor %}
+            </td>
+{% if data.versions is defined %}
+{% set keys = data.versions|keys %}
+            <td>{{ keys[0] }}</td>
+            <td>{{ data.versions[keys[0]].date }}</td>
+{% else %}
+            <td></td>
+            <td></td>
+{% endif %}
+        </tr>
+{% endfor %}
+    </tbody>
+</table>
 {% endblock %}

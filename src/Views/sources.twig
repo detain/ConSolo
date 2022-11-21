@@ -13,9 +13,9 @@
                             <strong>Sort By</strong>
                         </div>
                         <div id="sort-group" class="btn-group" role="group" aria-labelledby="sort-label">
-                            <button type="button" class="btn btn-default active" data-sort-by="name">Name</button>
-                            <button type="button" class="btn btn-default" data-sort-by="type">Type</button>
-                            <button type="button" class="btn btn-default" data-sort-by="updated">Updated</button>
+                            <button type="button" class="btn btn-sm btn-default active" data-sort-by="name">Name</button>
+                            <button type="button" class="btn btn-sm btn-default" data-sort-by="type">Type</button>
+                            <button type="button" class="btn btn-sm btn-default" data-sort-by="updated">Updated</button>
                         </div>
                     </div>
                     <div class="col-sm-3 col-md-2 col-lg-2">
@@ -23,8 +23,8 @@
                             <strong>Sort Dir</strong>
                         </div>
                         <div id="sort-dir-group" class="btn-group" role="group" aria-labelledby="sort-dir-label">
-                            <button type="button" class="btn btn-default active" data-sort-dir="asc">Up</button>
-                            <button type="button" class="btn btn-default" data-sort-dir="desc">Down</button>
+                            <button type="button" class="btn btn-sm btn-default active" data-sort-dir="asc">Up</button>
+                            <button type="button" class="btn btn-sm btn-default" data-sort-dir="desc">Down</button>
                         </div>
                     </div>
                     <div class="col-sm-9 col-md-8 col-lg-7">
@@ -32,12 +32,12 @@
                             <strong>Layout</strong>
                         </div>
                         <div id="layout-group" class="btn-group" role="group" aria-labelledby="layout-label">
-                            <button type="button" class="btn btn-default" data-layout="bare">Bare</button>
-                            <button type="button" class="btn btn-default" data-layout="small">Small</button>
-                            <button type="button" class="btn btn-default" data-layout="medium">Medium</button>
-                            <button type="button" class="btn btn-default" data-layout="large">Large</button>
-                            <button type="button" class="btn btn-default active" data-layout="full">Full</button>
-                            <button type="button" class="btn btn-default" data-layout="table">Table</button>
+                            <button type="button" class="btn btn-sm btn-default" data-layout="bare">Bare</button>
+                            <button type="button" class="btn btn-sm btn-default" data-layout="small">Small</button>
+                            <button type="button" class="btn btn-sm btn-default" data-layout="medium">Medium</button>
+                            <button type="button" class="btn btn-sm btn-default" data-layout="large">Large</button>
+                            <button type="button" class="btn btn-sm btn-default active" data-layout="full">Full</button>
+                            <button type="button" class="btn btn-sm btn-default" data-layout="table">Table</button>
                         </div>
                     </div>
                 </div>
@@ -48,9 +48,9 @@
                             <strong>Provides</strong>
                         </div>
                         <div id="provide-group" class="btn-group" role="group" aria-labelledby="provides-label" data-filter-group="provide">
-                            <button type="button" class="btn btn-default active" data-filter="*">Any</button>
+                            <button type="button" class="btn btn-sm btn-default active" data-filter="*">Any</button>
 {% for provide in provides %}
-                            <button type="button" class="btn btn-default" data-filter=".provide-{{ provide|lower }}">{{ provide|capitalize }}</button>
+                            <button type="button" class="btn btn-sm btn-default" data-filter=".provide-{{ provide|lower }}">{{ provide|capitalize }}</button>
 {% endfor %}
                         </div>
                     </div>
@@ -59,14 +59,14 @@
                             <strong>Type</strong>
                         </div>
                         <div id="type-group" class="btn-group" role="group" aria-labelledby="type-label" data-filter-group="type">
-                            <button type="button" class="btn btn-default active" data-filter="*">Any</button>
+                            <button type="button" class="btn btn-sm btn-default active" data-filter="*">Any</button>
 {% for sourceType in sourceTypes %}
-                            <button type="button" class="btn btn-default" data-filter=".type-{{ sourceType|lower }}">{{ sourceType }}</button>
+                            <button type="button" class="btn btn-sm btn-default" data-filter=".type-{{ sourceType|lower }}">{{ sourceType }}</button>
 {% endfor %}
                         </div>
                     </div>
                 </div>
-                <div id="sources-grid" class="row grid" data-layout="full">
+                <div id="datagrid" class="row grid" data-layout="full">
 {% for data in results %}
                     <div class="grid-item{% for type in data.provides %} provide-{{ type|lower }}{% endfor %} type-{{ data.type|lower }}" data-name="{{ data.name }}" data-type="{{ data.type }}" data-updated="{{ data.updatedLast }}">
                         <div class="grid-item-content">
@@ -103,7 +103,7 @@
                     </div>
 {% endfor %}
                 </div>
-                <table id="sources-table" class="table table-striped table-bordered" style="width:100%">
+                <table id="datatable" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th>ID</th>

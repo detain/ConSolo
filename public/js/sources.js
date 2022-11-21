@@ -32,13 +32,13 @@ function setupBinds() {
         var layoutValue = $(this).attr('data-layout');
         $grid.attr('data-layout', layoutValue);
         if (layoutValue == 'table') {
-            $('#sources-grid').css('display', 'none');
-            $('#sources-table').css('display', 'table');
-            $('#sources-table_wrapper').css('display', 'block');
+            $('#datagrid').css('display', 'none');
+            $('#datatable').css('display', 'table');
+            $('#datatable_wrapper').css('display', 'block');
         } else {
-            $('#sources-grid').css('display', 'block');
-            $('#sources-table').css('display', 'none');
-            $('#sources-table_wrapper').css('display', 'none');
+            $('#datagrid').css('display', 'block');
+            $('#datatable').css('display', 'none');
+            $('#datatable_wrapper').css('display', 'none');
             // layout Isotope after all images finish loading
             $grid.imagesLoaded( function() {
                 // init Isotope after all images have loaded
@@ -96,16 +96,16 @@ $(document).ready(function () {
         $grid.isotope('layout');
         setupBinds();
     });
-    $('#sources-table').DataTable({
+    $('#datatable').DataTable({
         paging: false
     });
     if ($('#layout-group .active').attr('data-layout') == 'table') {
-        $('#sources-grid').css('display', 'none');
-        $('#sources-table').css('display', 'table');
-        $('#sources-table_wrapper').css('display', 'block');
+        $('#datagrid').css('display', 'none');
+        $('#datatable').css('display', 'table');
+        $('#datatable_wrapper').css('display', 'block');
     } else {
-        $('#sources-grid').css('display', 'block');
-        $('#sources-table').css('display', 'none');
-        $('#sources-table_wrapper').css('display', 'none');
+        $('#datagrid').css('display', 'block');
+        $('#datatable').css('display', 'none');
+        $('#datatable_wrapper').css('display', 'none');
     }
 });
