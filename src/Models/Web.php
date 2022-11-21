@@ -145,6 +145,10 @@ class Web extends Base {
                 }
             }
         }
+        if (count($companies['Unknown']) == 0) {
+            unset($platforms['Unknown']);
+            unset($companies['Unknown']);
+        }
         sort($platforms);
         ksort($companies);
         ksort($jsonEmus);
