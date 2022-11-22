@@ -82,7 +82,7 @@
                                     <span class="source-type pull-left label label-warning">{{ data.type }}</span>
                                     <span class="source-updated pull-right label label-warning">{{ data.updatedLast }}</span>
                                 </span>
-                                <p class="source-name">{{ data.name }}</p>
+                                <p class="source-name"><a href="{{ app.request.basePath }}/source/{{ data.id }}">{{ data.name }}</a></p>
                                 <p class="source-description">{{ data.description }}</p>
                                 <span class="source-footer">
                                     <div class="pull-left provides-labels">

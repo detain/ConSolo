@@ -45,6 +45,9 @@
     font-weight: bold;
     font-size: 18px;
 }
+.grid .source-name a {
+    color: inherit;
+}
 
 .grid {
     /*border: 1px solid #333; */
