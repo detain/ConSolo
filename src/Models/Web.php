@@ -250,8 +250,8 @@ class Web extends Base {
         $similarTexts = [];
         $totals = [];
         $insertCost = 1;
-        $deleteCost = 3;
-        $replaceCost = 10;
+        $deleteCost = 5;
+        $replaceCost = 20;
         foreach ($source as $idx => $data) {
             $similarText = 0;
             $levenshtein = 0;
