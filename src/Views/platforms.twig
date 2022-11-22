@@ -6,13 +6,29 @@
         <tr>
             <th>Name</th>
             <th>Company</th>
+            <th>Logo</th>
+            <th>Photo</th>
+            <th>Year</th>
+            <th>Type</th>
         </tr>
     </thead>
     <tbody>
 {% for data in results %}
         <tr>
             <td><a href="{{ app.request.basePath }}/platform/{{ data.id }}">{{ data.name }}</a></td>
-            <td>{{ data.company }}</td>
+            <td><a href="{{ app.request.basePath }}/company/{{ data.company }}">{{ data.company }}</a></td>
+            <td>
+{% if data.wheel is defined %}
+                <img src="{{ data.wheel }}" alt="logo" style="max-width: 200px;max-height: 100px;">
+{% endif %}
+            </td>
+            <td>
+{% if data.photo is defined %}
+                <img src="{{ data.photo }}" alt="photo" style="max-width: 200px;max-height: 100px;">
+{% endif %}
+            </td>
+            <td>{{ data.date_start }}</td>
+            <td>{{ data.type }}</td>
         </tr>
 {% endfor %}
     </tbody>
