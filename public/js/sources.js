@@ -35,10 +35,16 @@ function setupBinds() {
             $('#datagrid').css('display', 'none');
             $('#datatable').css('display', 'table');
             $('#datatable_wrapper').css('display', 'block');
+            $('#sort-wrapper').css('display', 'none');
+            $('#sort-dir-wrapper').css('display', 'none');
+            $('.filters').css('display', 'none');
         } else {
             $('#datagrid').css('display', 'block');
             $('#datatable').css('display', 'none');
             $('#datatable_wrapper').css('display', 'none');
+            $('#sort-wrapper').css('display', 'block');
+            $('#sort-dir-wrapper').css('display', 'block');
+            $('.filters').css('display', 'block');
             // layout Isotope after all images finish loading
             $grid.imagesLoaded( function() {
                 // init Isotope after all images have loaded
@@ -103,9 +109,15 @@ $(document).ready(function () {
         $('#datagrid').css('display', 'none');
         $('#datatable').css('display', 'table');
         $('#datatable_wrapper').css('display', 'block');
+        $('#sort-wrapper').css('display', 'none');
+        $('#sort-dir-wrapper').css('display', 'none');
+        $('.filters').css('display', 'none');
     } else {
         $('#datagrid').css('display', 'block');
         $('#datatable').css('display', 'none');
         $('#datatable_wrapper').css('display', 'none');
+        $('#sort-wrapper').css('display', 'block');
+        $('#sort-dir-wrapper').css('display', 'block');
+        $('.filters').css('display', 'block');
     }
 });
