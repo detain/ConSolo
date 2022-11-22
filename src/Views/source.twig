@@ -25,7 +25,9 @@
         <th>Provides</td>
         <td>
             {% for type in data.provides %}
-            <span class="label label-primary">{{ type }}</span><br>
+            <span class="label label-primary">{{ type }}</span>
+            <a href="{{ app.request.basePath }}/missing/{{ type }}/{{ data.id }}">view missing matches</a>
+            <br>
             {% endfor %}
         </td>
     </tr>

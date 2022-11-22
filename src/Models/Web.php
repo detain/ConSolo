@@ -187,15 +187,153 @@ class Web extends Base {
 
     public function source($vars) {
         $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
-        if (isset($vars['id'])) {
-            $id = $vars['id'];
-        }
+        $id = $vars['id'];
         $json = $json[$id];
         if (file_exists(__DIR__.'/../../../emulation-data/'.$id.'.json')) {
             $json['data'] = file_get_contents(__DIR__.'/../../../emulation-data/'.$id.'.json');
         }
         echo $this->twig->render('source.twig', [
             'data' => $json,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function validSource($source) {
+        return array_key_exists($source, json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true));
+    }
+
+    public function validType($type) {
+        return in_array($type, ['emulators', 'games', 'platforms', 'companies']);
+    }
+    public function getSingular() {
+        return [
+            'sources' => 'source',
+            'emulators' => 'emulator',
+            'games' => 'game',
+            'platforms' => 'platform',
+            'companies' => 'company'
+        ];
+    }
+
+    public function missing_item($vars) {
+        $sourceId = $vars['sourceId'];
+        $type = $vars['type'];
+        $id = $vars['id'];
+        if (!$this->validType($type)) {
+            echo "Invalid Type {$type}";
+            return;
+        }
+        if (!$this->validSource($sourceId)) {
+            echo "Invalid Source {$sourceId}";
+            return;
+        }
+        $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+        if (!isset($json[$id])) {
+            echo "Invalid ID {$id}";
+            return;
+        }
+        $json = $json[$id];
+        echo '<pre>';
+        print_r($json);
+        echo "\n";
+        echo '</pre>';
+        $matchNames = [$json['name']];
+        $matchCompanies = [];
+        if (isset($json['company'])) {
+            $matchNames[] = $json['company'].' '.$json['name'];
+            $matchCompanies[] = $json['company'];
+        }
+        $levenshteins = [];
+        $soundexs = [];
+        $metaphones = [];
+        $similarTexts = [];
+        $totals = [];
+        $insertCost = 1;
+        $deleteCost = 3;
+        $replaceCost = 10;
+        foreach ($source as $idx => $data) {
+            $similarText = 0;
+            $levenshtein = 0;
+            $soundex = 0;
+            $metaphone = 0;
+            $targetNames = [$data['name']];
+            $targetCompanies = [];
+            if (isset($data['company'])) {
+                $targetNames[] = $data['company'].' '.$data['name'];
+                $targetCompanies[] = $data['company'];
+            }
+            foreach ($matchNames as $matchName)
+                foreach ($targetNames as $targetName) {
+                    $levenshtein += levenshtein($matchName, $targetName, $insertCost, $replaceCost, $deleteCost);
+                    $soundex += levenshtein(soundex($matchName), soundex($targetName), $insertCost, $replaceCost, $deleteCost);
+                    $metaphone += levenshtein(metaphone($matchName), metaphone($targetName), $insertCost, $replaceCost, $deleteCost);
+                    similar_text($matchName, $targetName, $percent);
+                    $similarText += $percent;
+                }
+            foreach ($matchCompanies as $matchCompany)
+                foreach ($targetCompanies as $targetCompany) {
+                    $levenshtein += levenshtein($matchCompany, $targetCompany, $insertCost, $replaceCost, $deleteCost);
+                    $soundex += levenshtein(soundex($matchCompany), soundex($targetCompany), $insertCost, $replaceCost, $deleteCost);
+                    $metaphone += levenshtein(metaphone($matchCompany), metaphone($targetCompany), $insertCost, $replaceCost, $deleteCost);
+                    similar_text($matchCompany, $targetCompany, $percent);
+                    $similarText += $percent;
+                }
+            $levenshteins[$idx] = $levenshtein;
+            $soundexs[$idx] = $soundex;
+            $metaphones[$idx] = $metaphone;
+            $similarTexts[$idx] = $similarText;
+            $totals[$idx] = 0;
+        }
+        asort($levenshteins);
+        asort($soundexs);
+        asort($metaphones);
+        arsort($similarTexts);
+        foreach ([$levenshteins, $soundexs, $metaphones, $similarTexts] as $rowIdx => $row) {
+            $position = 0;
+            foreach ($row as $idx => $lev) {
+                $totals[$idx] += (count($levenshteins) - $position) / count($levenshteins) * 100;
+                $position++;
+            }
+        }
+        arsort($totals);
+        foreach ($totals as $idx => $score) {
+                $data = $source[$idx];
+                $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data['name'];
+                echo "{$targetName}<br>";
+        }
+        return;
+        echo $this->twig->render('missing.twig', [
+            'missing' => $missing,
+            'sourceId' => $sourceId,
+            'type' => $type,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
+
+    public function missing($vars) {
+        $sourceId = $vars['sourceId'];
+        $type = $vars['type'];
+        if (!$this->validType($type)) {
+            echo "Invalid Type {$type}";
+            return;
+        }
+        if (!$this->validSource($sourceId)) {
+            echo "Invalid Source {$sourceId}";
+            return;
+        }
+        $missing = [];
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+        foreach ($json as $id => $data) {
+            if (!isset($data['matches']) || !isset($data['matches'][$sourceId])) {
+                $missing[$id] = $data;
+            }
+        }
+        echo $this->twig->render('missing.twig', [
+            'results' => $missing,
+            'sourceId' => $sourceId,
+            'type' => $type,
+            'singular' => $this->getSingular(),
             'queryString' => $_SERVER['QUERY_STRING']
         ]);
     }

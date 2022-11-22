@@ -18,7 +18,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
         $r->get('/emulators[/]', ['\Detain\ConSolo\Models\Web', 'emulators']);
         $r->get('/emulator/{id}[/]', ['\Detain\ConSolo\Models\Web', 'emulator']);
 		$r->get('/platforms[/]', ['\Detain\ConSolo\Models\Web', 'platforms']);
-		$r->get('/platform/{id}[/]', ['\Detain\ConSolo\Models\Web', 'platform']);
+        $r->get('/missing/{type}/{sourceId}[/]', ['\Detain\ConSolo\Models\Web', 'missing']);
+        $r->get('/missing/{type}/{sourceId}/{id}[/]', ['\Detain\ConSolo\Models\Web', 'missing_item']);
+        $r->get('/platform/{id}[/]', ['\Detain\ConSolo\Models\Web', 'platform']);
 		$r->get('/games[/]', ['\Detain\ConSolo\Models\Web', 'games']);
 		$r->get('/game/{id}[/]', ['\Detain\ConSolo\Models\Web', 'game']);
 		$r->get('/genres[/]', ['\Detain\ConSolo\Models\Web', 'genres']);
