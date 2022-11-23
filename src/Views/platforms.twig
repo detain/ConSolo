@@ -1,6 +1,97 @@
 {% extends "shared/emubase.twig" %}
 
 {% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Platforms</h2>
+    </div>
+</div>
+<div class="row">
+    <div id="layout-wrapper" class="col-sm-9 col-md-8 col-lg-7">
+        <div id="layout-label">
+            <strong>Layout</strong>
+        </div>
+        <div id="layout-group" class="btn-group" role="group" aria-labelledby="layout-label">
+            <button type="button" class="btn btn-sm btn-default" data-layout="bare">Bare</button>
+            <button type="button" class="btn btn-sm btn-default" data-layout="small">Small</button>
+            <button type="button" class="btn btn-sm btn-default" data-layout="medium">Medium</button>
+            <button type="button" class="btn btn-sm btn-default" data-layout="large">Large</button>
+            <button type="button" class="btn btn-sm btn-default active" data-layout="full">Full</button>
+            <button type="button" class="btn btn-sm btn-default" data-layout="table">Table</button>
+        </div>
+    </div>
+    <div id="sort-wrapper" class="col-sm-4 col-md-3 col-lg-3">
+        <div id="sort-label">
+            <strong>Sort By</strong>
+        </div>
+        <div id="sort-group" class="btn-group" role="group" aria-labelledby="sort-label">
+            <button type="button" class="btn btn-sm btn-default active" data-sort-by="name">Name</button>
+            <button type="button" class="btn btn-sm btn-default" data-sort-by="company">Company</button>
+            <button type="button" class="btn btn-sm btn-default" data-sort-by="type">Type</button>
+            <button type="button" class="btn btn-sm btn-default" data-sort-by="year">Year</button>
+        </div>
+    </div>
+    <div id="sort-dir-wrapper" class="col-sm-3 col-md-2 col-lg-2">
+        <div id="sort-dir-label">
+            <strong>Sort Dir</strong>
+        </div>
+        <div id="sort-dir-group" class="btn-group" role="group" aria-labelledby="sort-dir-label">
+            <button type="button" class="btn btn-sm btn-default active" data-sort-dir="asc">Up</button>
+            <button type="button" class="btn btn-sm btn-default" data-sort-dir="desc">Down</button>
+        </div>
+    </div>
+</div>
+
+<div class="row filters">
+    <div class="col-sm-12">
+        <div id="type-label">
+            <strong>Type</strong>
+        </div>
+        <div id="type-group" class="btn-group" role="group" aria-labelledby="type-label" data-filter-group="type">
+            <button type="button" class="btn btn-sm btn-default active" data-filter="*">Any</button>
+{% for sourceType in sourceTypes %}
+            <button type="button" class="btn btn-sm btn-default" data-filter=".type-{{ sourceType|lower }}">{{ sourceType }}</button>
+{% endfor %}
+        </div>
+    </div>
+</div>
+<div id="datagrid" class="row grid" data-layout="full">
+{% for data in results %}
+    <div class="grid-item{% for type in data.provides %} provide-{{ type|lower }}{% endfor %} type-{{ data.type|lower }}" data-name="{{ data.name }}" data-company="{{ data.company }} data-type="{{ data.type }}" data-year="{{ data.year }}">
+        <div class="grid-item-content">
+            <div class="thumbnail">
+{% if data.wheel is defined %}
+                <img class="source-logo" src="{{ data.wheel }}" alt="logo">
+{% else %}
+                <font class="source-logo" style="font-size: 24px;font-weight: 1000;">{{ data.name }}</font>
+{% endif %}
+            </div>
+            <div class="caption">
+                <span class="source-header">
+                    <span class="source-type pull-left label label-warning">{{ data.type }}</span>
+                    <span class="source-updated pull-right label label-warning">{{ data.year }}</span>
+                </span>
+                <p class="source-name"><a href="{{ app.request.basePath }}/platform/{{ data.id }}">{{ data.name }}</a></p>
+                <p class="source-description">{{ data.description }}</p>
+                <span class="source-footer">
+                    <div class="pull-left provides-labels">
+{% for emulator in data.emulators %}
+                        <a href="{{ app.request.basePath }}/emulator/{{ emulator }}"><span class="label label-primary">{{ emulator }}</span>
+{% endfor %}
+                    </div>
+                    <div class="pull-right web-links">
+{% for url, text in data.web %}
+{% if loop.index <= 3 %}
+                        <a href="{{ url }}"><span class="badge"><img src="/images/{{ text }}.png" alt="{{ text }}"></span></a>
+{% endif %}
+{% endfor %}
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
 <table id="datatable" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
