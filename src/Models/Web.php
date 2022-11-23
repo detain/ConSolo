@@ -5,7 +5,9 @@ namespace Detain\ConSolo\Models;
 class Web extends Base {
 
 	public function index() {
-
+        echo $this->twig->render('index.twig', [
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
 	}
 
 	public function movies() {

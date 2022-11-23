@@ -57,7 +57,7 @@
 </div>
 <div id="datagrid" class="row grid" data-layout="full">
 {% for data in results %}
-    <div class="grid-item{% for type in data.provides %} provide-{{ type|lower }}{% endfor %} type-{{ data.type|lower }}" data-name="{{ data.name }}" data-company="{{ data.company }} data-type="{{ data.type }}" data-year="{{ data.year }}">
+    <div class="grid-item{% for type in data.provides %} provide-{{ type|lower }}{% endfor %} type-{{ data.type|lower }}" data-name="{{ data.name }}" data-company="{{ data.company }}" data-type="{{ data.type }}" data-year="{{ data.year }}">
         <div class="grid-item-content">
             <div class="thumbnail">
 {% if data.wheel is defined %}
