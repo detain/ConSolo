@@ -19,7 +19,7 @@
         <th>Platforms</a></td>
         <td>
             {% for platform in data.platforms %}
-            <span class="label label-primary">{{ platform }}</span><br>
+            <a href="/platform/{{ platform }}"><span class="label label-primary">{{ platform }}</span></a><br>
             {% endfor %}
         </td>
     </tr>

@@ -48,6 +48,15 @@
     </tr>
 {% endif %}
     <tr>
+        <th>Emulators</a></td>
+        <td>
+            {% for emulator in data.emulators %}
+            <a href="/emulator/{{ emulator }}"><span class="label label-primary">{{ emulator }}</span></a><br>
+            {% endfor %}
+        </td>
+    </tr>
+
+    <tr>
         <th>Alternate Names</a></td>
         <td>
             {% for name in data.altNames %}
