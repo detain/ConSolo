@@ -28,7 +28,7 @@
             <button type="button" class="btn btn-sm btn-default active" data-sort-by="name">Name</button>
             <button type="button" class="btn btn-sm btn-default" data-sort-by="company">Company</button>
             <button type="button" class="btn btn-sm btn-default" data-sort-by="type">Type</button>
-            <button type="button" class="btn btn-sm btn-default" data-sort-by="year">Year</button>
+            <button type="button" class="btn btn-sm btn-default" data-sort-by="date">Date</button>
         </div>
     </div>
     <div id="sort-dir-wrapper" class="col-sm-3 col-md-2 col-lg-2">
@@ -57,7 +57,7 @@
 </div>
 <div id="datagrid" class="row grid" data-layout="full">
 {% for data in results %}
-    <div class="grid-item{% for type in data.provides %} provide-{{ type|lower }}{% endfor %} type-{{ data.type|lower }}" data-name="{{ data.name }}" data-company="{{ data.company }}" data-type="{{ data.type }}" data-year="{{ data.year }}">
+    <div class="grid-item{% for type in data.provides %} provide-{{ type|lower }}{% endfor %} type-{{ data.type|lower|replace({' ': '-'}) }} company-{{ data.company|lower|replace({' ': '-'}) }} date-{{ data.date|lower|replace({' ': '-'}) }}" data-name="{{ data.name }}" data-company="{{ data.company }}" data-type="{{ data.type }}" data-date="{{ data.date }}">
         <div class="grid-item-content">
             <div class="thumbnail">
 {% if data.wheel is defined %}
@@ -70,7 +70,7 @@
             <div class="caption">
                 <span class="source-header">
                     <span class="source-type pull-left label label-warning">{{ data.type }}</span>
-                    <span class="source-updated pull-right label label-warning">{{ data.year }}</span>
+                    <span class="source-updated pull-right label label-warning">{{ data.date }}</span>
                 </span>
                 <p class="source-name"><a href="{{ app.request.basePath }}/platform/{{ data.id }}">{{ data.name }}</a></p>
                 <p class="source-description">{{ data.description|raw|nl2br }}</p>
@@ -99,7 +99,7 @@
             <th>Name</th>
             <th>Company</th>
             <th>Type</th>
-            <th>Year</th>
+            <th>Date</th>
             <th>Description</th>
             <th>Logo</th>
             <th>Photo</th>

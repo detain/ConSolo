@@ -41,6 +41,7 @@
 
 .grid .thumbnail {
     margin-bottom: 0px;
+    background-color: paleturquoise;
 }
 .grid .caption {
     padding: 2px;
