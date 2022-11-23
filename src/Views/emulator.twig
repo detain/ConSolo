@@ -15,6 +15,12 @@
         <th>Name</a></td>
         <td>{{ data.name }}</td>
     </tr>
+{% if data.type is defined %}
+    <tr>
+        <th>Type</td>
+        <td>{{ data.type }}</td>
+    </tr>
+{% endif %}
     <tr>
         <th>Description</a></td>
         <td>{{ data.description }}</td>

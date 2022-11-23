@@ -126,11 +126,14 @@ class Web extends Base {
         $jsonEmus = json_decode(file_get_contents(__DIR__.'/../../../emurelation/emulators/local.json'), true);
         $companies = ['Unknown' => []];
         $platforms = ['Unknown'];
+        $types = ['Unknown'];
         foreach ($jsonEmus as $emuId => $emuData) {
             if (!isset($emuData['platforms']) || count($emuData['platforms']) == 0) {
                 $emuData['platforms'] = ['Unknown'];
                 $jsonEmus[$emuId]['platforms'] = ['Unknown'];
             }
+            if (!in_array($emuData['type'], $types))
+                $types[] = $emuData['type'];
             foreach ($emuData['platforms'] as $platId) {
                 if (!in_array($platId, $platforms)) {
                     $platforms[] = $platId;
@@ -156,6 +159,7 @@ class Web extends Base {
             'companies' => $companies,
             'platResults' => $jsonPlats,
             'platforms' => $platforms,
+            'types' => $types,
             'results' => $jsonEmus,
             'queryString' => $_SERVER['QUERY_STRING']
         ]);

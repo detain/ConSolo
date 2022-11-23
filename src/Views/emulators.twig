@@ -42,6 +42,20 @@
 
 <div class="row filters">
     <div class="col-sm-12">
+        <div id="type-label">
+            <strong>Type</strong>
+        </div>
+        <div id="type-group" class="btn-group" role="group" aria-labelledby="type-label" data-filter-group="type">
+            <button type="button" class="btn btn-sm btn-default active" data-filter="*">Any</button>
+{% for type in types %}
+            <button type="button" class="btn btn-sm btn-default" data-filter=".type-{{ type|lower }}">{{ type }}</button>
+{% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="row filters">
+    <div class="col-sm-12">
         <div id="companies-label">
             <strong>Platforms</strong>
         </div>
@@ -60,7 +74,7 @@
 
 <div id="datagrid" class="row grid" data-layout="full">
 {% for data in results %}
-    <div class="grid-item{% for type in data.platforms %} platform-{{ type|lower|replace({' ': '-', '.': '-'}) }} company-{{ platResults[type].company|lower|replace({' ': '-', '.': '-'}) }}{% endfor %}" data-name="{{ data.name }}" data-type="{{ data.type }}" data-updated="{{ data.updatedLast }}">
+    <div class="grid-item{% for type in data.platforms %} platform-{{ type|lower|replace({' ': '-', '.': '-'}) }} company-{{ platResults[type].company|lower|replace({' ': '-', '.': '-'}) }}{% endfor %} type-{{ data.type|lower }}" data-name="{{ data.name }}" data-type="{{ data.type }}" data-updated="{% if data.versions is defined %}{% set keys = data.versions|keys %}{{ data.versions[keys[0]].date }}{% endif %}">
         <div class="grid-item-content">
             <div class="thumbnail">
 {% if data.logo is defined %}
@@ -72,7 +86,11 @@
             <div class="caption">
                 <span class="source-header">
                     <span class="source-type pull-left label label-warning">{{ data.type }}</span>
-                    <span class="source-updated pull-right label label-warning">{{ data.updatedLast }}</span>
+{% if data.versions is defined %}
+{% set keys = data.versions|keys %}
+                    <span class="source-updated pull-right label label-warning">{{ data.versions[keys[0]].date }}</span>
+{% endif %}
+
                 </span>
                 <p class="source-name"><a href="{{ app.request.basePath }}/emulator/{{ data.id }}">{{ data.name }}</a></p>
                 <p class="source-description">{{ data.description }}</p>
@@ -101,6 +119,7 @@
             <th>Name</th>
             <th>Logo</th>
             <th>Screenshot</th>
+            <th>Type</th>
             <th style="min-width: 40%;">Description</th>
             <th>Platforms</th>
             <th>Links</th>
@@ -126,6 +145,7 @@
                 <img src="{{ data.screenshots[0] }}" alt="screenshot" style="max-width: 200px;max-height: 100px;">
 {% endif %}
             </td>
+            <td>{{ data.type }}</td>
             <td style="min-width: 40%;">{{ data.description }}</td>
             <td>
 {% for platform in data.platforms %}
