@@ -39,6 +39,6 @@
     "videojs-hls-quality-selector": "fetlife/videojs-hls-quality-selector#master",
     "vue": ">=2.5.17",
     "vue-axios": "*",
-    "vuetify": ">=3.0.0-alpha.11"
+    "vuetify": ">=3.0.2"
   }
 }
