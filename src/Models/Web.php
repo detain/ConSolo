@@ -175,8 +175,14 @@ class Web extends Base {
 
     public function platforms() {
         $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/platforms/local.json'), true);
+        $types = [];
+        foreach ($json as $idx => $data)
+            if (isset($data['type']) && !in_array($data['type'], $types))
+                $types[] = $data['type'];
+        sort($types);
         echo $this->twig->render('platforms.twig', [
             'results' => $json,
+            'types' => $types,
             'queryString' => $_SERVER['QUERY_STRING']
         ]);
     }

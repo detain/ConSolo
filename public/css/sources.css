@@ -2,13 +2,22 @@
   transition-delay: 0.1s, 0.1s, 0.1s;
 }
 
-.grid .source-logo {
+.grid .source-logo,
+.grid .source-photo {
     max-height: 100px;
+}
+.grid .source-photo {
+    display: none;
+}
+.grid[data-layout="large"] .source-photo,
+.grid[data-layout="full"] .source-photo {
+    display: block;
 }
 
 .grid[data-layout="medium"] .source-logo,
 .grid[data-layout="large"] .source-logo,
-.grid[data-layout="full"] .source-logo {
+.grid[data-layout="full"] .source-logo,
+.grid[data-layout="full"] .source-photo {
     max-height: 150px;
 }
 

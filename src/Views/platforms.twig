@@ -49,8 +49,8 @@
         </div>
         <div id="type-group" class="btn-group" role="group" aria-labelledby="type-label" data-filter-group="type">
             <button type="button" class="btn btn-sm btn-default active" data-filter="*">Any</button>
-{% for sourceType in sourceTypes %}
-            <button type="button" class="btn btn-sm btn-default" data-filter=".type-{{ sourceType|lower }}">{{ sourceType }}</button>
+{% for type in types %}
+            <button type="button" class="btn btn-sm btn-default" data-filter=".type-{{ type|lower }}">{{ type }}</button>
 {% endfor %}
         </div>
     </div>
@@ -62,8 +62,9 @@
             <div class="thumbnail">
 {% if data.wheel is defined %}
                 <img class="source-logo" src="{{ data.wheel }}" alt="logo">
-{% else %}
-                <font class="source-logo" style="font-size: 24px;font-weight: 1000;">{{ data.name }}</font>
+{% endif %}
+{% if data.photo is defined %}
+                <img class="source-photo" src="{{ data.photo }}" alt="photo">
 {% endif %}
             </div>
             <div class="caption">
@@ -72,7 +73,7 @@
                     <span class="source-updated pull-right label label-warning">{{ data.year }}</span>
                 </span>
                 <p class="source-name"><a href="{{ app.request.basePath }}/platform/{{ data.id }}">{{ data.name }}</a></p>
-                <p class="source-description">{{ data.description }}</p>
+                <p class="source-description">{{ data.description|raw|nl2br }}</p>
                 <span class="source-footer">
                     <div class="pull-left provides-labels">
 {% for emulator in data.emulators %}
