@@ -23,16 +23,10 @@
         <th>Description</a></td>
         <td>{{ data.description }}</td>
     </tr>
-{% if data.date_start is defined %}
+{% if data.date is defined %}
     <tr>
-        <th>Started Selling</td>
-        <td>{{ data.date_start }}</td>
-    </tr>
-{% endif %}
-{% if data.date_end is defined %}
-    <tr>
-        <th>Ended Selling</td>
-        <td>{{ data.date_end }}</td>
+        <th>Date Available</td>
+        <td>{{ data.date }}</td>
     </tr>
 {% endif %}
 {% if data.type is defined %}
