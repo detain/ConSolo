@@ -20,6 +20,8 @@ $sources = [];
 $count = 0;
 $totalCount = count($localSource['platforms']);
 foreach ($localSource['platforms'] as $localPlatId => $localPlatData) {
+    if (!isset($localPlatData['type']))
+        $localSource['platforms'][$localPlatId]['type'] = 'Unknown';
     if (!isset($localPlatData['matches']))
         continue;
     $lastSet = false;
