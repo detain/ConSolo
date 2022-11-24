@@ -1814,7 +1814,7 @@ util-deprecate@~1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-video.js@*, "video.js@^6 || ^7", video.js@^7.5.5:
+video.js@*, "video.js@^6 || ^7", "video.js@^6 || ^7 || ^8", video.js@^7.5.5:
   version "7.20.3"
   resolved "https://registry.yarnpkg.com/video.js/-/video.js-7.20.3.tgz#5694741346dc683255993e5069daa15d4bacb646"
   integrity sha512-JMspxaK74LdfWcv69XWhX4rILywz/eInOVPdKefpQiZJSMD5O8xXYueqACP2Q5yqKstycgmmEKlJzZ+kVmDciw==
@@ -1834,12 +1834,12 @@ video.js@*, "video.js@^6 || ^7", video.js@^7.5.5:
     videojs-vtt.js "^0.15.4"
 
 videojs-contrib-quality-levels@*, videojs-contrib-quality-levels@^2.0.9:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/videojs-contrib-quality-levels/-/videojs-contrib-quality-levels-2.2.0.tgz#f711cc78fd5e6559b68cb55537aba1a7e5ee931b"
-  integrity sha512-r4LFNhjyeBmlGk4Ul43xl+f7sNJ9vFyM6p4NcZNbPlvs1IvykEXCqxvsvaR6KTBjHoHGJnr26grXWcJiLFP+cA==
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/videojs-contrib-quality-levels/-/videojs-contrib-quality-levels-2.2.1.tgz#46bd7e1db25e6e45824dadf933b08f0c6ec724a1"
+  integrity sha512-cnF6OGGgoC/2nUrbdz54nzPm3BpEZQzMTpyekiX6AXs8imATX2sHbrUz97xXVSHITldk/+d7ZAUrdQYJJTyuug==
   dependencies:
     global "^4.3.2"
-    video.js "^6 || ^7"
+    video.js "^6 || ^7 || ^8"
 
 videojs-font@3.2.0:
   version "3.2.0"
