@@ -79,13 +79,21 @@ echo ' done!'.PHP_EOL;
 $xml = ['software', 'xml'];
 $removeXml = ['port','chip','display','sound','dipswitch','driver','feature','sample','device_ref','input','biosset','configuration','device','softwarelist','disk','slot','ramoption','adjuster', 'sharedfeat'];
 $mame = [
+    'emulators' => [],
     'platforms' => [],
+    'games' => [],
 ];
 $mame['platforms']['mame'] = [
     'id' => 'mame',
     'shortName' => 'mame',
     'name' => 'MAME',
     'altNames' => ['Arcade']
+];
+$mame['emulators']['mame'] = [
+    'id' => 'mame',
+    'shortName' => 'mame',
+    'name' => 'MAME',
+    'platforms' => ['mame'],
 ];
 foreach ($xml as $list) {
 	echo "Getting {$list} List   ";
@@ -230,9 +238,10 @@ echo `rm -rf /tmp/update;`;
 file_put_contents($dataDir.'/json/mame/platforms.json', json_encode($mame['platforms'], getJsonOpts()));
 $sources = json_decode(file_get_contents(__DIR__.'/../../../../emurelation/sources.json'), true);
 $sources['mame']['updatedLast'] = time();
+file_put_contents(__DIR__.'/../../../../emulation-data/mame.json', json_encode($mame, getJsonOpts()));
 file_put_contents(__DIR__.'/../../../../emurelation/sources.json', json_encode($sources, getJsonOpts()));
 foreach ($mame as $type => $data) {
-    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/launchbox.json', json_encode($data, getJsonOpts()));
+    file_put_contents(__DIR__.'/../../../../emurelation/'.$type.'/mame.json', json_encode($data, getJsonOpts()));
 }
 if (!in_array('--no-db', $_SERVER['argv'])) {
     $db->query("update config set config.value='{$version}' where field='{$configKey}'");
