@@ -316,7 +316,7 @@ class Web extends Base {
 
     }
 
-    public function findClosest($field, $vars) {
+    public function findClosest($field, $vars, $maxResults = false) {
         $sourceId = $vars['sourceId'];
         $type = $vars['type'];
         $id = $vars['id'];
@@ -394,18 +394,13 @@ class Web extends Base {
             }
         }
         arsort($totals);
-        foreach ($totals as $idx => $score) {
+        $return = $maxResults !== false ? array_slice(array_keys($totals), 0, $maxResults) : array_keys($totals);
+        /* foreach ($totals as $idx => $score) {
                 $data = $source[$idx];
                 $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data[$field];
                 echo "{$targetName}<br>";
-        }
-        return;
-        echo $this->twig->render('missing.twig', [
-            'missing' => $missing,
-            'sourceId' => $sourceId,
-            'type' => $type,
-            'queryString' => $_SERVER['QUERY_STRING']
-        ]);
+        } */
+        return $return;
     }
 
     public function missing_item($vars) {
@@ -524,10 +519,13 @@ class Web extends Base {
             }
         }
         $closest = $this->findClosestTypeFieldFromSource('name', $type, $sourceId, array_keys($missing), $maxMatches);
+        $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
         print_r($closest);
         exit;
         echo $this->twig->render('missing.twig', [
+            'closest' => $closest,
             'results' => $missing,
+            'source' => $source,
             'sourceId' => $sourceId,
             'type' => $type,
             'singular' => $this->getSingular(),
