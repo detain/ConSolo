@@ -21,6 +21,13 @@
                 <a href="{{ app.request.basePath }}/missing/{{ type }}/{{ sourceId }}/{{ data.id }}" class="btn btn-sm btn-primary">Edit</a>
             </td>
         </tr>
+        <tr>
+            <td colspan="4">
+{% for id in closest[data.id] %}
+                <div class="btn btn-primary btn-sm">{{ source[id].company }} {{ source[id].name }}</div>
+{% endfor %}
+            </td>
+        </tr>
 {% endfor %}
     </tbody>
 </table>

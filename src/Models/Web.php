@@ -520,8 +520,6 @@ class Web extends Base {
         }
         $closest = $this->findClosestTypeFieldFromSource('name', $type, $sourceId, array_keys($missing), $maxMatches);
         $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
-        print_r($closest);
-        exit;
         echo $this->twig->render('missing.twig', [
             'closest' => $closest,
             'results' => $missing,
