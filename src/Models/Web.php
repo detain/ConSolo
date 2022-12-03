@@ -302,7 +302,7 @@ class Web extends Base {
                 }
             }
             arsort($totals);
-            $closest[$localId] = $totals;
+            $closest[$localId] = array_keys($totals);
             /* foreach ($totals as $idx => $score) {
                     $data = $source[$idx];
                     $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data[$field];
