@@ -14,7 +14,7 @@
     <tbody>
 {% for data in results %}
         <tr>
-            <td>{{ data.company }}</td>
+            <td style="min-width: 150px;">{{ data.company }}</td>
             <td>{{ data.name }}</td>
             <td>
 {% for id in closest[data.id] %}
@@ -23,9 +23,9 @@
                 </div>
 {% endfor %}
             </td>
-            <td>
-                <a href="{{ app.request.basePath }}/{{ singular[type] }}/{{ data.id }}" class="btn btn-sm btn-primary">View</a>
-                <a href="{{ app.request.basePath }}/missing/{{ type }}/{{ sourceId }}/{{ data.id }}" class="btn btn-sm btn-primary">Edit</a>
+            <td style="min-width: 75px;">
+                <a href="{{ app.request.basePath }}/{{ singular[type] }}/{{ data.id }}" class="btn btn-xs btn-primary">View</a>
+                <a href="{{ app.request.basePath }}/missing/{{ type }}/{{ sourceId }}/{{ data.id }}" class="btn btn-xs btn-primary">Edit</a>
             </td>
         </tr>
 {% endfor %}
