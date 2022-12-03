@@ -228,7 +228,7 @@ class Web extends Base {
         ];
     }
 
-    public function findClosestTypeFieldFromSource($field, $type, $sourceId, $limitIds = false)  {
+    public function findClosestTypeFieldFromSource($field, $type, $sourceId, $limitIds = false, $maxResults = false)  {
         if (!$this->validType($type)) {
             echo "Invalid Type {$type}";
             return false;
@@ -302,7 +302,7 @@ class Web extends Base {
                 }
             }
             arsort($totals);
-            $closest[$localId] = array_keys($totals);
+            $closest[$localId] = $maxResults !== false ? array_slice(array_keys($totals), 0, $maxResults) : array_keys($totals);
             /* foreach ($totals as $idx => $score) {
                     $data = $source[$idx];
                     $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data[$field];
@@ -507,6 +507,7 @@ class Web extends Base {
     public function missing($vars) {
         $sourceId = $vars['sourceId'];
         $type = $vars['type'];
+        $maxMatches = 50;
         if (!$this->validType($type)) {
             echo "Invalid Type {$type}";
             return;
@@ -522,7 +523,7 @@ class Web extends Base {
                 $missing[$id] = $data;
             }
         }
-        $closest = $this->findClosestTypeFieldFromSource('name', $type, $sourceId, array_keys($missing));
+        $closest = $this->findClosestTypeFieldFromSource('name', $type, $sourceId, array_keys($missing), $maxMatches);
         print_r($closest);
         exit;
         echo $this->twig->render('missing.twig', [
