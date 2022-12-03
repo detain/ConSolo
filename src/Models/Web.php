@@ -502,7 +502,7 @@ class Web extends Base {
     public function missing($vars) {
         $sourceId = $vars['sourceId'];
         $type = $vars['type'];
-        $maxMatches = 50;
+        $maxMatches = 20;
         if (!$this->validType($type)) {
             echo "Invalid Type {$type}";
             return;
