@@ -50,14 +50,14 @@
         <div id="type-group" class="btn-group" role="group" aria-labelledby="type-label" data-filter-group="type">
             <button type="button" class="btn btn-sm btn-default active" data-filter="*">Any</button>
 {% for type in types %}
-            <button type="button" class="btn btn-sm btn-default" data-filter=".type-{{ type|lower }}">{{ type }}</button>
+            <button type="button" class="btn btn-sm btn-default" data-filter=".type-{{ type|lower|replace({' ': '-'}) }}">{{ type }}</button>
 {% endfor %}
         </div>
     </div>
 </div>
 <div id="datagrid" class="row grid" data-layout="full">
 {% for data in results %}
-    <div class="grid-item{% for type in data.provides %} provide-{{ type|lower }}{% endfor %} type-{{ data.type|lower|replace({' ': '-'}) }} company-{{ data.company|lower|replace({' ': '-'}) }} date-{{ data.date|lower|replace({' ': '-'}) }}" data-name="{{ data.name }}" data-company="{{ data.company }}" data-type="{{ data.type }}" data-date="{{ data.date }}">
+    <div class="grid-item{% for type in data.provides %} provide-{{ type|lower|replace({' ': '-'}) }}{% endfor %} type-{{ data.type|lower|replace({' ': '-'}) }} company-{{ data.company|lower|replace({' ': '-'}) }} date-{{ data.date|lower|replace({' ': '-'}) }}" data-name="{{ data.name }}" data-company="{{ data.company }}" data-type="{{ data.type }}" data-date="{{ data.date }}">
         <div class="grid-item-content">
             <div class="thumbnail">
 {% if data.wheel is defined %}
