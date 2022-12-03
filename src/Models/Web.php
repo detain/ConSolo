@@ -217,6 +217,7 @@ class Web extends Base {
     public function validType($type) {
         return in_array($type, ['emulators', 'games', 'platforms', 'companies']);
     }
+
     public function getSingular() {
         return [
             'sources' => 'source',
@@ -225,6 +226,185 @@ class Web extends Base {
             'platforms' => 'platform',
             'companies' => 'company'
         ];
+    }
+
+    public function findClosesTypeFieldFromSource($field, $type, $sourceId)  {
+        if (!$this->validType($type)) {
+            echo "Invalid Type {$type}";
+            return false;
+        }
+        if (!$this->validSource($sourceId)) {
+            echo "Invalid Source {$sourceId}";
+            return false;
+        }
+        $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
+        $localSource = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+        foreach ($localSource as $localId => $localData) {
+
+            $localData = $json[$id];
+            $matchNames = [$localData['name']];
+            $matchCompanies = [];
+            if (isset($localData['company'])) {
+                $matchNames[] = $localData['company'].' '.$localData['name'];
+                $matchCompanies[] = $localData['company'];
+            }
+            $levenshteins = [];
+            $soundexs = [];
+            $metaphones = [];
+            $similarTexts = [];
+            $totals = [];
+            $insertCost = 1;
+            $deleteCost = 5;
+            $replaceCost = 20;
+            foreach ($source as $idx => $data) {
+                $similarText = 0;
+                $levenshtein = 0;
+                $soundex = 0;
+                $metaphone = 0;
+                $targetNames = [$data['name']];
+                $targetCompanies = [];
+                if (isset($data['company'])) {
+                    $targetNames[] = $data['company'].' '.$data['name'];
+                    $targetCompanies[] = $data['company'];
+                }
+                foreach ($matchNames as $matchName)
+                    foreach ($targetNames as $targetName) {
+                        $levenshtein += levenshtein($matchName, $targetName, $insertCost, $replaceCost, $deleteCost);
+                        $soundex += levenshtein(soundex($matchName), soundex($targetName), $insertCost, $replaceCost, $deleteCost);
+                        $metaphone += levenshtein(metaphone($matchName), metaphone($targetName), $insertCost, $replaceCost, $deleteCost);
+                        similar_text($matchName, $targetName, $percent);
+                        $similarText += $percent;
+                    }
+                foreach ($matchCompanies as $matchCompany)
+                    foreach ($targetCompanies as $targetCompany) {
+                        $levenshtein += levenshtein($matchCompany, $targetCompany, $insertCost, $replaceCost, $deleteCost);
+                        $soundex += levenshtein(soundex($matchCompany), soundex($targetCompany), $insertCost, $replaceCost, $deleteCost);
+                        $metaphone += levenshtein(metaphone($matchCompany), metaphone($targetCompany), $insertCost, $replaceCost, $deleteCost);
+                        similar_text($matchCompany, $targetCompany, $percent);
+                        $similarText += $percent;
+                    }
+                $levenshteins[$idx] = $levenshtein;
+                $soundexs[$idx] = $soundex;
+                $metaphones[$idx] = $metaphone;
+                $similarTexts[$idx] = $similarText;
+                $totals[$idx] = 0;
+            }
+            asort($levenshteins);
+            asort($soundexs);
+            asort($metaphones);
+            arsort($similarTexts);
+            foreach ([$levenshteins, $soundexs, $metaphones, $similarTexts] as $rowIdx => $row) {
+                $position = 0;
+                foreach ($row as $idx => $lev) {
+                    $totals[$idx] += (count($levenshteins) - $position) / count($levenshteins) * 100;
+                    $position++;
+                }
+            }
+            arsort($totals);
+            foreach ($totals as $idx => $score) {
+                    $data = $source[$idx];
+                    $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data['name'];
+                    echo "{$targetName}<br>";
+            }
+
+        }
+
+    }
+
+    public function findClosestTypeFieldInSourceItem($field, $type, $sourceId, $localId) {
+
+    }
+
+    public function findClosest($field, $vars) {
+        $sourceId = $vars['sourceId'];
+        $type = $vars['type'];
+        $id = $vars['id'];
+        if (!$this->validType($type)) {
+            echo "Invalid Type {$type}";
+            return;
+        }
+        if (!$this->validSource($sourceId)) {
+            echo "Invalid Source {$sourceId}";
+            return;
+        }
+        $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
+        $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+        if (!isset($json[$id])) {
+            echo "Invalid ID {$id}";
+            return;
+        }
+        $json = $json[$id];
+        $matchNames = [$json['name']];
+        $matchCompanies = [];
+        if (isset($json['company'])) {
+            $matchNames[] = $json['company'].' '.$json['name'];
+            $matchCompanies[] = $json['company'];
+        }
+        $levenshteins = [];
+        $soundexs = [];
+        $metaphones = [];
+        $similarTexts = [];
+        $totals = [];
+        $insertCost = 1;
+        $deleteCost = 5;
+        $replaceCost = 20;
+        foreach ($source as $idx => $data) {
+            $similarText = 0;
+            $levenshtein = 0;
+            $soundex = 0;
+            $metaphone = 0;
+            $targetNames = [$data['name']];
+            $targetCompanies = [];
+            if (isset($data['company'])) {
+                $targetNames[] = $data['company'].' '.$data['name'];
+                $targetCompanies[] = $data['company'];
+            }
+            foreach ($matchNames as $matchName)
+                foreach ($targetNames as $targetName) {
+                    $levenshtein += levenshtein($matchName, $targetName, $insertCost, $replaceCost, $deleteCost);
+                    $soundex += levenshtein(soundex($matchName), soundex($targetName), $insertCost, $replaceCost, $deleteCost);
+                    $metaphone += levenshtein(metaphone($matchName), metaphone($targetName), $insertCost, $replaceCost, $deleteCost);
+                    similar_text($matchName, $targetName, $percent);
+                    $similarText += $percent;
+                }
+            foreach ($matchCompanies as $matchCompany)
+                foreach ($targetCompanies as $targetCompany) {
+                    $levenshtein += levenshtein($matchCompany, $targetCompany, $insertCost, $replaceCost, $deleteCost);
+                    $soundex += levenshtein(soundex($matchCompany), soundex($targetCompany), $insertCost, $replaceCost, $deleteCost);
+                    $metaphone += levenshtein(metaphone($matchCompany), metaphone($targetCompany), $insertCost, $replaceCost, $deleteCost);
+                    similar_text($matchCompany, $targetCompany, $percent);
+                    $similarText += $percent;
+                }
+            $levenshteins[$idx] = $levenshtein;
+            $soundexs[$idx] = $soundex;
+            $metaphones[$idx] = $metaphone;
+            $similarTexts[$idx] = $similarText;
+            $totals[$idx] = 0;
+        }
+        asort($levenshteins);
+        asort($soundexs);
+        asort($metaphones);
+        arsort($similarTexts);
+        foreach ([$levenshteins, $soundexs, $metaphones, $similarTexts] as $rowIdx => $row) {
+            $position = 0;
+            foreach ($row as $idx => $lev) {
+                $totals[$idx] += (count($levenshteins) - $position) / count($levenshteins) * 100;
+                $position++;
+            }
+        }
+        arsort($totals);
+        foreach ($totals as $idx => $score) {
+                $data = $source[$idx];
+                $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data['name'];
+                echo "{$targetName}<br>";
+        }
+        return;
+        echo $this->twig->render('missing.twig', [
+            'missing' => $missing,
+            'sourceId' => $sourceId,
+            'type' => $type,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
     }
 
     public function missing_item($vars) {
