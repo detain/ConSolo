@@ -228,7 +228,7 @@ class Web extends Base {
         ];
     }
 
-    public function findClosesTypeFieldFromSource($field, $type, $sourceId)  {
+    public function findClosestTypeFieldFromSource($field, $type, $sourceId, $limitIds = false)  {
         if (!$this->validType($type)) {
             echo "Invalid Type {$type}";
             return false;
@@ -239,13 +239,14 @@ class Web extends Base {
         }
         $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
         $localSource = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+        $closest = [];
         foreach ($localSource as $localId => $localData) {
-
-            $localData = $json[$id];
-            $matchNames = [$localData['name']];
+            if (is_array($limitIds) && !in_array($localId, $limitIds))
+                continue;
+            $matchNames = [$localData[$field]];
             $matchCompanies = [];
             if (isset($localData['company'])) {
-                $matchNames[] = $localData['company'].' '.$localData['name'];
+                $matchNames[] = $localData['company'].' '.$localData[$field];
                 $matchCompanies[] = $localData['company'];
             }
             $levenshteins = [];
@@ -261,10 +262,10 @@ class Web extends Base {
                 $levenshtein = 0;
                 $soundex = 0;
                 $metaphone = 0;
-                $targetNames = [$data['name']];
+                $targetNames = [$data[$field]];
                 $targetCompanies = [];
                 if (isset($data['company'])) {
-                    $targetNames[] = $data['company'].' '.$data['name'];
+                    $targetNames[] = $data['company'].' '.$data[$field];
                     $targetCompanies[] = $data['company'];
                 }
                 foreach ($matchNames as $matchName)
@@ -301,14 +302,14 @@ class Web extends Base {
                 }
             }
             arsort($totals);
-            foreach ($totals as $idx => $score) {
+            $closest[$localId] = $totals;
+            /* foreach ($totals as $idx => $score) {
                     $data = $source[$idx];
-                    $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data['name'];
+                    $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data[$field];
                     echo "{$targetName}<br>";
-            }
-
+            } */
         }
-
+        return $closest;
     }
 
     public function findClosestTypeFieldInSourceItem($field, $type, $sourceId, $localId) {
@@ -334,10 +335,10 @@ class Web extends Base {
             return;
         }
         $json = $json[$id];
-        $matchNames = [$json['name']];
+        $matchNames = [$json[$field]];
         $matchCompanies = [];
         if (isset($json['company'])) {
-            $matchNames[] = $json['company'].' '.$json['name'];
+            $matchNames[] = $json['company'].' '.$json[$field];
             $matchCompanies[] = $json['company'];
         }
         $levenshteins = [];
@@ -353,10 +354,10 @@ class Web extends Base {
             $levenshtein = 0;
             $soundex = 0;
             $metaphone = 0;
-            $targetNames = [$data['name']];
+            $targetNames = [$data[$field]];
             $targetCompanies = [];
             if (isset($data['company'])) {
-                $targetNames[] = $data['company'].' '.$data['name'];
+                $targetNames[] = $data['company'].' '.$data[$field];
                 $targetCompanies[] = $data['company'];
             }
             foreach ($matchNames as $matchName)
@@ -395,7 +396,7 @@ class Web extends Base {
         arsort($totals);
         foreach ($totals as $idx => $score) {
                 $data = $source[$idx];
-                $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data['name'];
+                $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data[$field];
                 echo "{$targetName}<br>";
         }
         return;
@@ -521,6 +522,9 @@ class Web extends Base {
                 $missing[$id] = $data;
             }
         }
+        $closest = $this->findClosestTypeFieldFromSource('name', $type, $sourceId, array_keys($missing));
+        print_r($closest);
+        exit;
         echo $this->twig->render('missing.twig', [
             'results' => $missing,
             'sourceId' => $sourceId,
