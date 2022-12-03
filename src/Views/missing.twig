@@ -4,28 +4,27 @@
 <table id="datatable" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Name</th>
             <th>Company</th>
+            <th>Name</th>
+            <th>Options</th>
             <th>Links</th>
         </tr>
     </thead>
     <tbody>
 {% for data in results %}
         <tr>
-            <td>{{ data.id }}</td>
-            <td>{{ data.name }}</td>
             <td>{{ data.company }}</td>
+            <td>{{ data.name }}</td>
+            <td>
+{% for id in closest[data.id] %}
+                <div class="btn btn-xs btn-primary">
+                <input type="checkbox" name="check_{{ data.id }}[]" value="{{ id }}"> <label style="padding-right: 5px;">{{ source[id].company }} {{ source[id].name }}</label>
+                </div>
+{% endfor %}
+            </td>
             <td>
                 <a href="{{ app.request.basePath }}/{{ singular[type] }}/{{ data.id }}" class="btn btn-sm btn-primary">View</a>
                 <a href="{{ app.request.basePath }}/missing/{{ type }}/{{ sourceId }}/{{ data.id }}" class="btn btn-sm btn-primary">Edit</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4">
-{% for id in closest[data.id] %}
-                <div class="btn btn-primary btn-sm">{{ source[id].company }} {{ source[id].name }}</div>
-{% endfor %}
             </td>
         </tr>
 {% endfor %}
