@@ -513,10 +513,24 @@ class Web extends Base {
         }
         $missing = [];
         $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+        $updated = false;
         foreach ($json as $id => $data) {
-            if (!isset($data['matches']) || !isset($data['matches'][$sourceId])) {
-                $missing[$id] = $data;
+            $slug = str_replace([' ', '/', ':', '-'], ['_', '_', '_', '_'], strtolower($id));
+            if (!isset($data['matches']) || !isset($data['matches'][$sourceId]) || empty($data['matches'][$sourceId])) {
+                if (isset($_GET['check_'.$slug])) {
+                    if (!isset($data['matches']))
+                        $data['matches'] = [];
+                    if (!isset($data['matches'][$sourceId]))
+                        $data['matches'][$sourceId] = $_GET['check_'.$slug];
+                    $json[$id] = $data;
+                    $updated = true;
+                } else {
+                    $missing[$id] = $data;
+                }
             }
+        }
+        if ($updated === true) {
+            file_put_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json', json_encode($json, getJsonOpts()));
         }
         $closest = $this->findClosestTypeFieldFromSource('name', $type, $sourceId, array_keys($missing), $maxMatches);
         $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);

@@ -1,6 +1,7 @@
 {% extends "shared/emubase.twig" %}
 
 {% block content %}
+<form method="GET" action="{{ app.request.basePath }}/missing/{{ type }}/{{ sourceId }}">
 <table id="datatable" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
@@ -18,7 +19,7 @@
             <td>
 {% for id in closest[data.id] %}
                 <div class="btn btn-xs btn-primary">
-                <input type="checkbox" name="check_{{ data.id }}[]" value="{{ id }}"> <label style="padding-right: 5px;">{{ source[id].company }} {{ source[id].name }}</label>
+                <input type="checkbox" name="check_{{ data.id|lower|replace({' ': '_', ':': '_', '/': '_', '-': '_'}) }}[]" value="{{ id }}"> {{ source[id].company }} {{ source[id].name }}
                 </div>
 {% endfor %}
             </td>
@@ -30,4 +31,6 @@
 {% endfor %}
     </tbody>
 </table>
+<input type="submit" value="Update Assignments">
+</form>
 {% endblock %}
