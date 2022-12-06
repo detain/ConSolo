@@ -26,7 +26,7 @@
     overflow: clip;
 }
 .grid[data-layout="full"] .source-description {
-    max-height: fit-content;
+    max-height: 200px;
 }
 .grid[data-layout="large"] .source-description {
     max-height: 150px;
@@ -95,7 +95,7 @@
 
 .grid .grid-item:hover .grid-item-content {
   background: #8CF;
-  cursor: pointer;
+  /*cursor: pointer; */
 }
 
 .grid[data-layout="bare"] .grid-item .grid-item-content {

@@ -72,7 +72,7 @@
                     <span class="source-type pull-left label label-warning">{{ data.type }}</span>
                     <span class="source-updated pull-right label label-warning">{{ data.date }}</span>
                 </span>
-                <p class="source-name"><a href="{{ app.request.basePath }}/platform/{{ data.id }}">{{ data.name }}</a></p>
+                <p class="source-name"><a href="{{ app.request.basePath }}/platform/{{ data.id }}">{{ data.company }} {{ data.name }}</a></p>
                 <p class="source-description">{{ data.description|raw|nl2br }}</p>
                 <span class="source-footer">
                     <div class="pull-left provides-labels">

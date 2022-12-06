@@ -14,7 +14,23 @@ $sourceMap = [
     'emucontrolcenter' => 'category',
     'screenscraper' => 'type',
 ];
-
+$replacements = [
+    '--system' => 'Misc',
+    'Console & Arcade' => 'Console',
+    'Calculators' => 'Calculator',
+    'Handhelds' => 'Handheld',
+    'Consoles' => 'Console',
+    'Arcade Emulation' => 'Arcade',
+    'Smartphone' => 'Misc',
+    'Portable Console' => 'Handheld',
+    'Portable' => 'Handheld',
+    'Pocket' => 'Handheld',
+    'Transportable' => 'Handheld',
+    'Computers' => 'Computer',
+    'Professional Computer' => 'Computer',
+    'Home Computer' => 'Computer',
+    'Others' => 'Misc',
+];
 $localSource = loadSourceId('local', true);
 $sources = [];
 $count = 0;
@@ -38,7 +54,7 @@ foreach ($localSource['platforms'] as $localPlatId => $localPlatData) {
                 $count++;
                 $lastSet = true;
             }
-            $localSource['platforms'][$localPlatId]['type'] = str_replace(['Home Computer', 'Professional Computer', 'Computers'], ['Computer', 'Computer', 'Computer'], ucwords($value));
+            $localSource['platforms'][$localPlatId]['type'] = str_replace(array_keys($replacements), array_values($replacements), ucwords($value));
         }
     }
 }
