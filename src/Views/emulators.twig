@@ -146,7 +146,7 @@
 {% endif %}
             </td>
             <td>{{ data.type }}</td>
-            <td style="min-width: 40%;">{{ data.description }}</td>
+            <td style="min-width: 40%; max-height: 100px;">{{ data.description }}</td>
             <td>
 {% for platform in data.platforms %}
                 <a href="/platform/{{ platform }}"><span class="label label-primary">{{ platform }}</span></a>
