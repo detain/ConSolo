@@ -118,7 +118,6 @@
         <tr>
             <th>Name</th>
             <th>Logo</th>
-            <th>Screenshot</th>
             <th>Type</th>
             <th style="min-width: 40%;">Description</th>
             <th>Platforms</th>
@@ -133,24 +132,19 @@
             <td>
                 <a href="{{ app.request.basePath }}/emulator/{{ data.id }}">{{ data.name }}</a>
             </td>
-            <td>
+            <td style="padding-top: 0px; padding-bottom: 0px;">
 {% if data.logo is defined %}
-                <img src="{{ data.logo }}" alt="logo" style="max-width: 200px;max-height: 100px;">
-{% endif %}
-            </td>
-            <td>
-{% if data.screenshot is defined %}
-                <img src="{{ data.screenshot }}" alt="screenshot" style="max-width: 200px;max-height: 100px;">
-{% elseif data.screenshots is defined %}
-                <img src="{{ data.screenshots[0] }}" alt="screenshot" style="max-width: 200px;max-height: 100px;">
+                <img src="{{ data.logo }}" alt="logo" style="max-height: 30px;">
 {% endif %}
             </td>
             <td>{{ data.type }}</td>
-            <td style="min-width: 40%; max-height: 100px;">{{ data.description }}</td>
-            <td>
+            <td style="min-width: 40%; max-height: 30px; padding-top: 0px; padding-bottom: 0px;"><p style="max-height: 30px; overflow: hidden;">{{ data.description }}</p></td>
+            <td style="min-width: 20%; max-height: 30px; padding-top: 0px; padding-bottom: 0px;">
+                <p style="max-height: 30px; overflow: hidden;">
 {% for platform in data.platforms %}
-                <a href="/platform/{{ platform }}"><span class="label label-primary">{{ platform }}</span></a>
+                    <a href="/platform/{{ platform }}"><span class="label label-primary">{{ platform }}</span></a>
 {% endfor %}
+                </p>
             </td>
             <td>
 {% for url, text in data.web %}

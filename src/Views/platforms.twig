@@ -112,15 +112,15 @@
             <td><a href="{{ app.request.basePath }}/company/{{ data.company }}">{{ data.company }}</a></td>
             <td>{{ data.type }}</td>
             <td>{{ data.date }}</td>
-            <td><p style="max-height: 100px; overflow: hidden;">{{ data.description }}</p></td>
-            <td>
+            <td style="padding-top: 0px; padding-bottom: 0px; max-width: 40%;"><p style="max-height: 30px; overflow: hidden;">{{ data.description }}</p></td>
+            <td style="padding-top: 0px; padding-bottom: 0px;">
 {% if data.wheel is defined %}
-                <img src="{{ data.wheel }}" alt="logo" style="max-width: 200px;max-height: 100px;">
+                <img src="{{ data.wheel }}" alt="logo" style="max-height: 30px;">
 {% endif %}
             </td>
-            <td>
+            <td style="padding-top: 0px; padding-bottom: 0px;">
 {% if data.photo is defined %}
-                <img src="{{ data.photo }}" alt="photo" style="max-width: 200px;max-height: 100px;">
+                <img src="{{ data.photo }}" alt="photo" style="max-height: 30px;">
 {% endif %}
             </td>
         </tr>
