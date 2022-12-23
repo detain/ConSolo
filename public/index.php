@@ -11,6 +11,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 	// The /{title} suffix is optional
 	$r->get('/articles/{id:\d+}[/{title}]', 'get_article_handler');
 	$r->get('[/]', ['\Detain\ConSolo\Models\Web', 'index']);
+        $r->get('/status[/]', ['\Detain\ConSolo\Models\Web', 'status']);
         $r->get('/sources[/]', ['\Detain\ConSolo\Models\Web', 'sources']);
         $r->get('/source/{id}[/]', ['\Detain\ConSolo\Models\Web', 'source']);
         $r->get('/companies[/]', ['\Detain\ConSolo\Models\Web', 'companies']);

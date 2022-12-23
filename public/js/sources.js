@@ -102,7 +102,8 @@ $(document).ready(function () {
         $grid.isotope('layout');
         setupBinds();
     });
-    $('#datatable').DataTable({
+    $('.data-table').DataTable({
+        //dom: '<"toolbar">frtip',
         paging: false
     });
     if (typeof $('#layout-group .active').attr('data-layout') == "undefined" || $('#layout-group .active').attr('data-layout') == 'table') {

@@ -545,6 +545,62 @@ class Web extends Base {
         ]);
     }
 
+    public function status() {
+        $sources = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
+        $unmatched = [];
+        $totals = [];
+        $return = [];
+        $types = ['emulators','platforms','companies','games'];
+        foreach ($sources as $sourceId => $sourceData) {
+            $unmatched[$sourceId] = [];
+            $totals[$sourceId] = [];
+            foreach ($sourceData['provides'] as $type) {
+                if (file_exists(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json')) {
+                    $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
+                    $unmatched[$sourceId][$type] = array_keys($source);
+                    $totals[$sourceId][$type] = count($unmatched[$sourceId][$type]);
+                }
+            }
+        }
+        foreach ($types as $type) {
+            $local = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+            foreach ($local as $localId => $localData) {
+                if (isset($localData['matches'])) {
+                    foreach ($localData['matches'] as $sourceId => $sourceTypeIds) {
+                        foreach ($sourceTypeIds as $sourceTypeId) {
+                            if (isset($unmatched[$sourceId][$type])) {
+                                $idx = array_search($sourceTypeId, $unmatched[$sourceId][$type]);
+                                if ($idx !== false) {
+                                    array_splice($unmatched[$sourceId][$type], $idx, 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $unmatched['local'][$type] = [];
+            $return[$type] = [];
+            foreach ($sources as $sourceId => $sourceData) {
+                if (isset($unmatched[$sourceId][$type]) && isset($totals[$sourceId][$type])) {
+                    $return[$type][$sourceId] = [
+                        'unmatched' => count($unmatched[$sourceId][$type]),
+                        'total' => $totals[$sourceId][$type],
+                    ];
+                }
+            }
+        }
+        //echo '<pre>'.json_encode($totals, JSON_PRETTY_PRINT).'</pre><br>';
+        //echo '<pre>'.json_encode($unmatched, JSON_PRETTY_PRINT).'</pre><br>';
+        //echo '<pre>'.json_encode($return, JSON_PRETTY_PRINT).'</pre><br>';
+        echo $this->twig->render('status.twig', [
+            'return' => $return,
+            'types' => $types,
+            'sources' => $sources,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+
+    }
+
     public function emulator($vars) {
         $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/emulators/local.json'), true);
         if (isset($vars['id'])) {

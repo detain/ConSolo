@@ -1,36 +1,46 @@
-{% extends "shared/base.twig" %}
+{% extends "shared/emubase.twig" %}
 
 {% block content %}
-    <section class="showcase">
-        <section class="nes-container with-title">
-            <h3 class="title">Status</h3>
-            <h3>Data Sources</h3>
-            <div class="nes-table-responsive">
-                <table class="nes-table is-bordered is-centered">
-                    <thead>
-                        <tr>
-                            <th>Source</th>
-                            <th>Version</th>
-                            <th>Platforms</th>
-                            <th>Emulators</th>
-                            <th>Games</th>
-                            <th>ROMs</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for data in sources %}
-                        <tr>
-                            <td>{{ data.name }}</td>
-                            <td>{{ data.version }}</td>
-                            <td>{{ data.platforms }}</td>
-                            <td>{{ data.emulators }}</td>
-                            <td>{{ data.games }}</td>
-                            <td>{{ data.roms }}</td>
-                        </tr>
-                        {% endfor %}                    
-                    </tbody>
-                </table>
-            </div>            
-        </section>
-    </section>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+
+{% for type in types %}
+<h2 style="margin-bottom: -26px;">{{ type }}</h2>
+<table class="table table-striped table-bordered data-table" data-type="{{ type }}">
+    <thead>
+        <tr>
+            <th>Source</th>
+            <th>Logo</th>
+            <th>Type</th>
+            <th>Mapped</th>
+            <th>Unmapped</th>
+            <th>Total</th>
+            <th>Mapped %</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for sourceId, sourceData in sources %}
+{% if sourceId != '' and return[type][sourceId].total is defined %}
+        <tr>
+            <td style="min-width: 150px;">{{ sourceData.name }}</td>
+            <td style="padding: 0px;"><img src="{{ sourceData.logo }}" style="max-width: 200px; max-height: 40px;"></td>
+            <td>{{ sourceData.type }}</td>
+            <td>{{ return[type][sourceId].total - return[type][sourceId].unmatched }}</td>
+            <td>{{ return[type][sourceId].unmatched }}</td>
+            <td>{{ return[type][sourceId].total }}</td>
+{% if return[type][sourceId].total > 0 %}
+            <td>{{ ((return[type][sourceId].total - return[type][sourceId].unmatched) / return[type][sourceId].total * 100)|number_format(2) }}%</td>
+{% else %}
+            <td>n/a</td>
+{% endif %}
+        </tr>
+{% endif %}
+{% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+</div>
+</div>
+</div>
 {% endblock %}
