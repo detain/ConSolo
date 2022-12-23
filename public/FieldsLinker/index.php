@@ -154,41 +154,8 @@
 	</style>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<div class="btn-group" style="margin-top: 8px;margin-right:10px;">
-			</div>
-			<a class="navbar-brand" href="#">
-				Experiments with jquery
-			</a>
-		</div>
-		<ul class="nav navbar-nav">
-			<li id="fieldLinker" class="active"><a href="#fieldLinker">Field Linker</a></li>
-			<li id="blog"><a href="https://philippemarcmeyer.github.io#jquery">Github Blog</a></li>
-			<li id="repos"><a href="https://github.com/PhilippeMarcMeyer/FieldsLinker">Github repos</a></li>
-		</ul>
-	</div>
-</nav>
 <div id="container">
 	<div id="fieldLinkerZone" style="max-width:800px;width:800px;" >
-		<h5 style="display:inline-block">FieldsLinker</h5>&nbsp;v 1.03
-		<br/>New option for touch devices {"mobileClickIt":true} : idea by Norman Tomlins , make links more easily on touch devices just by clicking
-		<p>Allows to link elements of list A to elements of list B and returns the links in a js object</p>
-		<ul class="presentation">
-			<li>The elements of a list are sortable by drag and drop for a better lisibility</li>
-			<li>Colours can be re-defined and links come in 2 flavours</li>
-			<ol>
-				<li>Straight lines</li>
-				<li>Lines with squares at the ends</li>
-			</ol>
-			<li>You may input somme links from a previous session</li>
-			<li>Mandatory fields (optional array)</li>
-			<li>Works in Chrome, Chromium, Opera, Firefox and IE (9+)</li>
-			<li>Result in an object with error true/false plus an array of links</li>
-			<li><b>Actions are </b>: init, eraseLinks, getLinks, changeParameters, disable, enable</li>
-		</ul>
-		<hr/>
 		<div class="row" >
 			<div>
 				<fieldset class="nice-group">
@@ -231,10 +198,28 @@
 <script src="/lib/bootstrap/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="./fieldsLinker.js?v1.03"></script>
 <?php
-	$linker = json_decode(file_get_contents(__DIR__.'/../../../emurelation/linker.json'), true);
-	$type = 'tosec';
-	$lists = [$linker['lists']['local'], $linker['lists'][$type]];
-	$links = $linker['links'][$type];
+    $sourceId = 'windspro';
+    $type = 'emulators';
+	$local = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+    $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
+    $lists = [
+        [
+            'name' => 'Local',
+            'list' => array_keys($local)
+        ],
+        [
+            'name' => 'WinDSPro',
+            'list' => array_keys($source)
+        ]
+    ];
+    $links = [];
+    foreach ($local as $localId => $localData) {
+        if (isset($localData['matches']) && array_key_exists($sourceId, $localData['matches'])) {
+            foreach ($localData['matches'][$sourceId] as $sourceTypeId) {
+                $links[] = ['from' => $localId, 'to' => $sourceTypeId];
+            }
+        }
+    }
 ?>
 <script>
 	var fieldLinks;

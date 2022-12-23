@@ -21,10 +21,6 @@
 			padding-left:50px;
 			width:90%;
 		}
-		#menu{
-			padding-top: 20px;
-			padding-left:20px;
-		}
 		h5 {
 			color: #2e44b9;
 			font-weight: bold;
@@ -103,14 +99,8 @@
 	</style>
 </head>
 <body>
-<div id="menu">
-	<a class="btn-back" href="https://philippemarcmeyer.github.io/#jquery">Blog</a>
-	<a class="btn-back" href="https://github.com/PhilippeMarcMeyer/LinksMaker">Repo</a>
-</div>
 <div id="container">
 <div id="linksMakerZone" style="max-width:800px;width:800px;" >
-	<p>Allows to link elements between several columns shown 2 by 2 </p>
-	<p>LinksMaker v 0.62 : mobile friendly idea by Norman Tomlins => make links more easily on touch devices just by clicking </p>
 	<fieldset class="nice-group">
 		<legend>Change options :</legend>
 		<div class="choices">
@@ -135,70 +125,45 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="./linksMaker.js"></script>
+<?php
+    $type = 'emulators';
+    $local = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+    $sources = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
+    $lists = [];
+    foreach ($sources as $sourceId => $sourceData) {
+        if (file_exists(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json')) {
+            $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
+            $lists[] = ['name' => $sourceId, 'list' => array_keys($source)];
+        }
+    }
+    $links = [];
+    foreach ($local as $localId => $localData) {
+        if (isset($localData['matches'])) {
+            foreach ($localData['matches'] as $sourceId => $sourceTypeIds) {
+                foreach ($sourceTypeIds as $sourceTypeId) {
+                    $links[] = ['tables' => 'local|'.$sourceId, 'from' => $localId, 'to' => $sourceTypeId];
+                    foreach ($localData['matches'] as $subSourceId => $subSourceTypeIds) {
+                        foreach ($subSourceTypeIds as $subSourceTypeId) {
+                            $links[] = ['tables' => $sourceId.'|'.$subSourceId, 'from' => $sourceTypeId, 'to' => $subSourceTypeId];
+                        }
+                    }
+                }
+            }
+        }
+    }
+?>
 <script>
 	var fieldLinks;
 	$( document ).ready(function() {
 		var input = {
-			"existingLinks":{"links":[{"tables":"Cable ID # 1023- Tube ID 01|Cable ID # 1024- Tube ID 01","from":"Blue","to":"Blue"},{"tables":"Cable ID # 1023- Tube ID 01|Cable ID # 1024- Tube ID 01","from":"Green","to":"Brown"},{"tables":"Cable ID # 1023- Tube ID 01|Cable ID # 1024- Tube ID 01","from":"White","to":"White"},{"tables":"Cable ID # 1023- Tube ID 01|Cable ID # 1024- Tube ID 01","from":"Red","to":"Red"},{"tables":"Cable ID # 1023- Tube ID 01|Cable ID # 1024- Tube ID 01","from":"Black","to":"Yellow"},{"tables":"Cable ID # 1023- Tube ID 01|Cable ID # 1024- Tube ID 01","from":"Yellow","to":"Black"},{"tables":"Cable ID # 1023- Tube ID 01|Cable ID # 1024- Tube ID 01","from":"Violet","to":"Violet"},{"tables":"Cable ID # 1023- Tube ID 01|Cable ID # 1024- Tube ID 01","from":"Rose","to":"Rose"}]},
+			"existingLinks":{"links":<?php echo json_encode($links); ?>},
 			"options":{
 				"lineStyle":"square-ends",
 				"buttonErase":"Erase Links",
 				"associationMode":"manyToMany", // oneToOne,manyToMany
 				"handleColor":"Blue,Orange,Green,Brown,Slate,grey,Red,Black,Yellow,darkViolet,Rose,Aqua"
 			},
-			"Lists":[
-				{
-					"name":"Cable ID # 1023- Tube ID 01",
-					"list" : [
-						"Blue",
-						"Orange",
-						"Green",
-						"Brown",
-						"Slate",
-						"White",
-						"Red",
-						"Black",
-						"Yellow",
-						"Violet",
-						"Rose",
-						"Aqua"
-					],
-				},
-				{
-					"name":"Cable ID # 1024- Tube ID 01",
-					"list" : [
-						"Blue",
-						"Orange",
-						"Green",
-						"Brown",
-						"Slate",
-						"White",
-						"Red",
-						"Black",
-						"Yellow",
-						"Violet",
-						"Rose",
-						"Aqua"
-					],
-				},
-				{
-					"name":"Cable ID # 1025- Tube ID 01",
-					"list" : [
-						"Blue",
-						"Orange",
-						"Green",
-						"Brown",
-						"Slate",
-						"White",
-						"Red",
-						"Black",
-						"Yellow",
-						"Violet",
-						"Rose",
-						"Aqua"
-					],
-				}
-			]
+			"Lists":<?php echo json_encode($lists); ?>
 		};
 		fieldLinks=$("#bonds").linksMaker("init",input);
 		$(".fieldLinkerSave").on("click",function(){
