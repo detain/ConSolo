@@ -512,11 +512,19 @@ class Web extends Base {
             return;
         }
         $missing = [];
+        $found = [];
+        $matches = [];
         $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
         $updated = false;
         foreach ($json as $id => $data) {
             $slug = str_replace([' ', '/', ':', '-'], ['_', '_', '_', '_'], strtolower($id));
-            if (!isset($data['matches']) || !isset($data['matches'][$sourceId]) || empty($data['matches'][$sourceId])) {
+            if (isset($data['matches'][$sourceId]) && !empty($data['matches'][$sourceId])) {
+                foreach ($data['matches'][$sourceId] as $typeId) {
+                    if (!array_key_exists($typeId, $matches)) {
+                        $matches[$typeId] = [];
+                    }
+                    $matches[$typeId][] = $id;
+                }
                 if (isset($_GET['check_'.$slug])) {
                     if (!isset($data['matches']))
                         $data['matches'] = [];
@@ -524,19 +532,24 @@ class Web extends Base {
                         $data['matches'][$sourceId] = $_GET['check_'.$slug];
                     $json[$id] = $data;
                     $updated = true;
-                } else {
-                    $missing[$id] = $data;
                 }
             }
         }
         if ($updated === true) {
             file_put_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json', json_encode($json, getJsonOpts()));
         }
-        $closest = $this->findClosestTypeFieldFromSource('name', $type, $sourceId, array_keys($missing), $maxMatches);
         $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
+        foreach ($source as $id => $data) {
+            if (!array_key_exists($id, $matches)) {
+                $missing[$id] = $data;
+            }
+        }
+        $closest = $this->findClosestTypeFieldFromSource('name', $type, $sourceId, array_keys($missing), $maxMatches);
+        //echo '<pre>';print_r($found);echo '</pre>';
+        //echo '<pre>';print_r(array_keys($missing));echo '</pre>';exit;
         echo $this->twig->render('missing.twig', [
             'closest' => $closest,
-            'results' => $missing,
+            'missing' => $missing,
             'source' => $source,
             'sourceId' => $sourceId,
             'type' => $type,

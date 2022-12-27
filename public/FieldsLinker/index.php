@@ -198,6 +198,36 @@
 <script src="/lib/bootstrap/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="./fieldsLinker.js?v1.03"></script>
 <?php
+    $fromSource = 'emulationking';
+    $toSource = 'emutopia';
+    $type = 'emulators';
+    $local = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+    $sources = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
+    $sourcesData = [];
+    $lists = [];
+
+    foreach ([$fromSource, $toSource] as $sourceId) {
+        $sourceData = $sources[$sourceId];
+        if (file_exists(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json')) {
+            $sourcesData[$sourceId] = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
+            $list = [];
+            foreach ($sourcesData[$sourceId] as $typeId => $typeData) {
+                $list[] = $typeData['name'];
+            }
+            $lists[] = ['name' => $sourceData['name'], 'list' => $list];
+        }
+    }
+    $links = [];
+    foreach ($local as $localId => $localData) {
+        if (isset($localData['matches']) && array_key_exists($fromSource, $localData['matches']) && array_key_exists($toSource, $localData['matches'])) {
+            foreach ($localData['matches'][$fromSource] as $fromSourceTypeId) {
+                foreach ($localData['matches'][$toSource] as $toSourceTypeId) {
+                    $links[] = ['from' => $sourcesData[$fromSource][$fromSourceTypeId]['name'], 'to' => $sourcesData[$toSource][$toSourceTypeId]['name']];
+                }
+            }
+        }
+    }
+/*
     $sourceId = 'windspro';
     $type = 'emulators';
 	$local = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
@@ -220,6 +250,7 @@
             }
         }
     }
+*/
 ?>
 <script>
 	var fieldLinks;

@@ -23,7 +23,7 @@
 {% for sourceId, sourceData in sources %}
 {% if sourceId != '' and return[type][sourceId].total is defined %}
         <tr>
-            <td style="min-width: 150px;">{{ sourceData.name }}</td>
+            <td style="min-width: 150px;"><a href="/source/{{ sourceId }}">{{ sourceData.name }}</a></td>
             <td style="padding: 0px;"><img src="{{ sourceData.logo }}" style="max-width: 200px; max-height: 40px;"></td>
             <td>{{ sourceData.type }}</td>
             <td>{{ return[type][sourceId].total - return[type][sourceId].unmatched }}</td>
