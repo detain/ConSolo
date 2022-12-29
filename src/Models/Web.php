@@ -544,7 +544,6 @@ class Web extends Base {
         $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
         $updated = false;
         foreach ($json as $id => $data) {
-            $slug = str_replace([' ', '/', ':', '-'], ['_', '_', '_', '_'], strtolower($id));
             if (isset($data['matches'][$sourceId]) && !empty($data['matches'][$sourceId])) {
                 foreach ($data['matches'][$sourceId] as $typeId) {
                     if (!array_key_exists($typeId, $matches)) {
@@ -552,24 +551,33 @@ class Web extends Base {
                     }
                     $matches[$typeId][] = $id;
                 }
-                if (isset($_GET['check_'.$slug])) {
-                    if (!isset($data['matches']))
-                        $data['matches'] = [];
-                    if (!isset($data['matches'][$sourceId]))
-                        $data['matches'][$sourceId] = $_GET['check_'.$slug];
-                    $json[$id] = $data;
+            }
+        }
+        $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
+        foreach ($source as $id => $data) {
+            $slug = str_replace([' ', '/', ':', '-'], ['_', '_', '_', '_'], strtolower($id));
+            if (isset($_GET['check_'.$slug])) {
+                $localIds = $_GET['check_'.$slug];
+                foreach ($localIds as $localId) {
+                    if (!array_key_exists($localId, $json)) {
+                        echo "Invalid Local {$type} ID {$localId}\n";
+                        exit;
+                    }
+                    if (!isset($json[$localId]['matches']))
+                        $json[$localId]['matches'] = [];
+                    if (!isset($json[$localId]['matches'][$sourceId]))
+                        $json[$localId]['matches'][$sourceId] = [];
+                    if (!array_key_exists($id, $json[$localId]['matches'][$sourceId]))
+                        $json[$localId]['matches'][$sourceId][] = $id;
                     $updated = true;
                 }
+            }
+            if (!array_key_exists($id, $matches)) {
+                $missing[$id] = $data;
             }
         }
         if ($updated === true) {
             file_put_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json', json_encode($json, getJsonOpts()));
-        }
-        $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
-        foreach ($source as $id => $data) {
-            if (!array_key_exists($id, $matches)) {
-                $missing[$id] = $data;
-            }
         }
         $closest = $this->findClosestTypeFieldFromSource('name', $type, $sourceId, array_keys($missing), $maxMatches);
         //echo '<pre>';print_r($found);echo '</pre>';
