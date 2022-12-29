@@ -23,7 +23,7 @@
             <td>
 {% for id in closest[data.id] %}
                 <div class="btn btn-xs btn-primary">
-                <input type="checkbox" name="check_{{ data.id|lower|replace({' ': '_', ':': '_', '/': '_', '-': '_'}) }}[]" value="{{ id }}"> {{ source[id].company }} {{ source[id].name }}
+                <input type="checkbox" name="check_{{ data.id|lower|replace({' ': '_', ':': '_', '/': '_', '-': '_'}) }}[]" value="{{ id }}"> {{ local[id].company }} {{ local[id].name }}
                 </div>
 {% endfor %}
             </td>

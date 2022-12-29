@@ -4,105 +4,105 @@ namespace Detain\ConSolo\Models;
 
 class Web extends Base {
 
-	public function index() {
+    public function index() {
         echo $this->twig->render('index.twig', [
             'queryString' => $_SERVER['QUERY_STRING']
         ]);
-	}
+    }
 
-	public function movies() {
-		$limit = 100;
-		$rows = $this->db->query("select tmdb_movie.id, title, poster_path, vote_average, overview, release_date from movies left join tmdb_movie on tmdb_movie.id=movies.tmdb_id left join files on file_id=files.id where host={$this->hostId} and title is not null order by title limit {$limit}");
-		echo $this->twig->render('movies.twig', [
-			'results' => $rows,
-			'queryString' => $_SERVER['QUERY_STRING']
-		]);
-	}
+    public function movies() {
+        $limit = 100;
+        $rows = $this->db->query("select tmdb_movie.id, title, poster_path, vote_average, overview, release_date from movies left join tmdb_movie on tmdb_movie.id=movies.tmdb_id left join files on file_id=files.id where host={$this->hostId} and title is not null order by title limit {$limit}");
+        echo $this->twig->render('movies.twig', [
+            'results' => $rows,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
 
-	public function movie($vars) {
-		$response = [];
-		if (isset($vars['id'])) {
-			$id = (int)$vars['id'];
-			$json = json_decode($this->db->single("select doc from tmdb_movie where id={$id} limit 1"), true);
-		}
-		$fileId = $this->db->single("select id from files where tmdb_id={$json['id']} and host={$this->hostId}");
-		echo $this->twig->render('movie.twig', [
-			'movie' => $json,
-			'fileId' => $fileId,
-			'queryString' => $_SERVER['QUERY_STRING']
-		]);
+    public function movie($vars) {
+        $response = [];
+        if (isset($vars['id'])) {
+            $id = (int)$vars['id'];
+            $json = json_decode($this->db->single("select doc from tmdb_movie where id={$id} limit 1"), true);
+        }
+        $fileId = $this->db->single("select id from files where tmdb_id={$json['id']} and host={$this->hostId}");
+        echo $this->twig->render('movie.twig', [
+            'movie' => $json,
+            'fileId' => $fileId,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
 
-	}
+    }
 
-	public function genres() {
-		$limit = 100;
-		$rows = $this->db->query("select tmdb_movie.id,doc->'\$.genres[*]' as genres from movies,tmdb_movie where tmdb_id=tmdb_movie.id");
-		$genres = [];
-		foreach ($rows as $row) {
-			$rowGenres = json_decode($row['genres'], true);
-			if (!is_null($rowGenres))
-				foreach ($rowGenres as $genre) {
-					if (!array_key_exists($genre['name'], $genres))
-						$genres[$genre['name']] = [
-							'id' => $genre['id'],
-							'name' => $genre['name'],
-							'count' => 0,
-						];
-					$genres[$genre['name']]['count']++;
-				}
-		}
-		echo $this->twig->render('genres.twig', [
-			'genres' => $genres,
-			'queryString' => $_SERVER['QUERY_STRING']
-		]);
-	}
+    public function genres() {
+        $limit = 100;
+        $rows = $this->db->query("select tmdb_movie.id,doc->'\$.genres[*]' as genres from movies,tmdb_movie where tmdb_id=tmdb_movie.id");
+        $genres = [];
+        foreach ($rows as $row) {
+            $rowGenres = json_decode($row['genres'], true);
+            if (!is_null($rowGenres))
+                foreach ($rowGenres as $genre) {
+                    if (!array_key_exists($genre['name'], $genres))
+                        $genres[$genre['name']] = [
+                            'id' => $genre['id'],
+                            'name' => $genre['name'],
+                            'count' => 0,
+                        ];
+                    $genres[$genre['name']]['count']++;
+                }
+        }
+        echo $this->twig->render('genres.twig', [
+            'genres' => $genres,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
 
-	public function genre($vars) {
-		$limit = 100;
-		$id = (int)$vars['id'];
-		$rows = $this->db->query("select tmdb_movie.id, title, poster_path, vote_average, overview, release_date from movies left join tmdb_movie on tmdb_movie.id=movies.tmdb_id left join files on file_id=files.id where host={$this->hostId} and title is not null and {$id} member of (doc->'$.genres[*].id') order by title limit {$limit}");
-		echo $this->twig->render('movies.twig', [
-			'results' => $rows,
-			'queryString' => $_SERVER['QUERY_STRING']
-		]);
-	}
+    public function genre($vars) {
+        $limit = 100;
+        $id = (int)$vars['id'];
+        $rows = $this->db->query("select tmdb_movie.id, title, poster_path, vote_average, overview, release_date from movies left join tmdb_movie on tmdb_movie.id=movies.tmdb_id left join files on file_id=files.id where host={$this->hostId} and title is not null and {$id} member of (doc->'$.genres[*].id') order by title limit {$limit}");
+        echo $this->twig->render('movies.twig', [
+            'results' => $rows,
+            'queryString' => $_SERVER['QUERY_STRING']
+        ]);
+    }
 
-	public function collections() {
+    public function collections() {
 
-	}
+    }
 
-	public function people() {
+    public function people() {
 
-	}
+    }
 
-	public function person($vars) {
-		$response = [];
-		if (isset($_REQUEST['id'])) {
-			$id = (int)$_REQUEST['id'];
-			$json = json_decode($this->db->single("select doc from tmdb_person where id={$id} limit 1"), true);
-			$response['status'] = 'ok';
-			$response['movie'] = $json;
-		} else {
-			$response['status'] = 'error';
-		}
-		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($response, getJsonOpts());
+    public function person($vars) {
+        $response = [];
+        if (isset($_REQUEST['id'])) {
+            $id = (int)$_REQUEST['id'];
+            $json = json_decode($this->db->single("select doc from tmdb_person where id={$id} limit 1"), true);
+            $response['status'] = 'ok';
+            $response['movie'] = $json;
+        } else {
+            $response['status'] = 'error';
+        }
+        header('Content-type: application/json; charset=UTF-8');
+        echo json_encode($response, getJsonOpts());
 
-	}
+    }
 
-	public function tv() {
-		$response = [];
-		if (isset($_REQUEST['id'])) {
-			$id = (int)$_REQUEST['id'];
-			$json = json_decode($this->db->single("select doc from tmdb_tv_series where id={$id} limit 1"), true);
-			$response['status'] = 'ok';
-			$response['movie'] = $json;
-		} else {
-			$response['status'] = 'error';
-		}
-		header('Content-type: application/json; charset=UTF-8');
-		echo json_encode($response, getJsonOpts());
-	}
+    public function tv() {
+        $response = [];
+        if (isset($_REQUEST['id'])) {
+            $id = (int)$_REQUEST['id'];
+            $json = json_decode($this->db->single("select doc from tmdb_tv_series where id={$id} limit 1"), true);
+            $response['status'] = 'ok';
+            $response['movie'] = $json;
+        } else {
+            $response['status'] = 'error';
+        }
+        header('Content-type: application/json; charset=UTF-8');
+        echo json_encode($response, getJsonOpts());
+    }
 
     public function sources() {
         $json = json_decode(file_get_contents(__DIR__.'/../../../emurelation/sources.json'), true);
@@ -239,56 +239,83 @@ class Web extends Base {
         }
         $source = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/'.$sourceId.'.json'), true);
         $localSource = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$type.'/local.json'), true);
+        if ($type == 'emulators') {
+            $parentType = 'platforms';
+            $parentSource = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$parentType.'/'.$sourceId.'.json'), true);
+            $localParentSource = json_decode(file_get_contents(__DIR__.'/../../../emurelation/'.$parentType.'/local.json'), true);
+        }
+        $insertCost = 1;
+        $deleteCost = 5;
+        $replaceCost = 20;
         $closest = [];
-        foreach ($localSource as $localId => $localData) {
-            if (is_array($limitIds) && !in_array($localId, $limitIds))
+        foreach ($source as $sourceTypeId => $data) {
+            if (is_array($limitIds) && !in_array($sourceTypeId, $limitIds))
                 continue;
-            $matchNames = [$localData[$field]];
-            $matchCompanies = [];
-            if (isset($localData['company'])) {
-                $matchNames[] = $localData['company'].' '.$localData[$field];
-                $matchCompanies[] = $localData['company'];
-            }
             $levenshteins = [];
             $soundexs = [];
             $metaphones = [];
             $similarTexts = [];
             $totals = [];
-            $insertCost = 1;
-            $deleteCost = 5;
-            $replaceCost = 20;
-            foreach ($source as $idx => $data) {
+            $sourceNames = [$data[$field]];
+            $sourceParents = [];
+            if ($type == 'platforms') {
+                if (isset($data['company'])) {
+                    $sourceNames[] = $data['company'].' '.$data[$field];
+                    $sourceParents[] = $data['company'];
+                }
+            } elseif ($type == 'emulators') {
+                if (isset($data['platforms'])) {
+                    foreach ($data['platforms'] as $parentId) {
+                        if (isset($parentSource[$parentId])) {
+                            $sourceNames[] = $parentSource[$parentId]['name'].' '.$data[$field];
+                            $sourceParents[] = $parentSource[$parentId]['name'];
+                        }
+                    }
+                }
+            }
+            foreach ($localSource as $localId => $localData) {
+                $localNames = [$localData[$field]];
+                $localParents = [];
+                if ($type == 'platforms') {
+                    if (isset($localData['company'])) {
+                        $localNames[] = $localData['company'].' '.$localData[$field];
+                        $localParents[] = $localData['company'];
+                    }
+                } elseif ($type == 'emulators') {
+                    if (isset($localData['platforms'])) {
+                        foreach ($localData['platforms'] as $localParentId) {
+                            if (isset($localParentSource[$localParentId])) {
+                                $localNames[] = $localParentSource[$localParentId]['name'].' '.$localData[$field];
+                                $localParents[] = $localParentSource[$localParentId]['name'];
+                            }
+                        }
+                    }
+                }
                 $similarText = 0;
                 $levenshtein = 0;
                 $soundex = 0;
                 $metaphone = 0;
-                $targetNames = [$data[$field]];
-                $targetCompanies = [];
-                if (isset($data['company'])) {
-                    $targetNames[] = $data['company'].' '.$data[$field];
-                    $targetCompanies[] = $data['company'];
-                }
-                foreach ($matchNames as $matchName)
-                    foreach ($targetNames as $targetName) {
-                        $levenshtein += levenshtein($matchName, $targetName, $insertCost, $replaceCost, $deleteCost);
-                        $soundex += levenshtein(soundex($matchName), soundex($targetName), $insertCost, $replaceCost, $deleteCost);
-                        $metaphone += levenshtein(metaphone($matchName), metaphone($targetName), $insertCost, $replaceCost, $deleteCost);
-                        similar_text($matchName, $targetName, $percent);
+                foreach ($localNames as $localName)
+                    foreach ($sourceNames as $sourceName) {
+                        $levenshtein += levenshtein($localName, $sourceName, $insertCost, $replaceCost, $deleteCost);
+                        $soundex += levenshtein(soundex($localName), soundex($sourceName), $insertCost, $replaceCost, $deleteCost);
+                        $metaphone += levenshtein(metaphone($localName), metaphone($sourceName), $insertCost, $replaceCost, $deleteCost);
+                        similar_text($localName, $sourceName, $percent);
                         $similarText += $percent;
                     }
-                foreach ($matchCompanies as $matchCompany)
-                    foreach ($targetCompanies as $targetCompany) {
-                        $levenshtein += levenshtein($matchCompany, $targetCompany, $insertCost, $replaceCost, $deleteCost);
-                        $soundex += levenshtein(soundex($matchCompany), soundex($targetCompany), $insertCost, $replaceCost, $deleteCost);
-                        $metaphone += levenshtein(metaphone($matchCompany), metaphone($targetCompany), $insertCost, $replaceCost, $deleteCost);
-                        similar_text($matchCompany, $targetCompany, $percent);
+                foreach ($localParents as $localParent)
+                    foreach ($sourceParents as $sourceParent) {
+                        $levenshtein += levenshtein($localParent, $sourceParent, $insertCost, $replaceCost, $deleteCost);
+                        $soundex += levenshtein(soundex($localParent), soundex($sourceParent), $insertCost, $replaceCost, $deleteCost);
+                        $metaphone += levenshtein(metaphone($localParent), metaphone($sourceParent), $insertCost, $replaceCost, $deleteCost);
+                        similar_text($localParent, $sourceParent, $percent);
                         $similarText += $percent;
                     }
-                $levenshteins[$idx] = $levenshtein;
-                $soundexs[$idx] = $soundex;
-                $metaphones[$idx] = $metaphone;
-                $similarTexts[$idx] = $similarText;
-                $totals[$idx] = 0;
+                $levenshteins[$localId] = $levenshtein;
+                $soundexs[$localId] = $soundex;
+                $metaphones[$localId] = $metaphone;
+                $similarTexts[$localId] = $similarText;
+                $totals[$localId] = 0;
             }
             asort($levenshteins);
             asort($soundexs);
@@ -296,17 +323,17 @@ class Web extends Base {
             arsort($similarTexts);
             foreach ([$levenshteins, $soundexs, $metaphones, $similarTexts] as $rowIdx => $row) {
                 $position = 0;
-                foreach ($row as $idx => $lev) {
-                    $totals[$idx] += (count($levenshteins) - $position) / count($levenshteins) * 100;
+                foreach ($row as $localId => $lev) {
+                    $totals[$localId] += (count($levenshteins) - $position) / count($levenshteins) * 100;
                     $position++;
                 }
             }
             arsort($totals);
-            $closest[$localId] = $maxResults !== false ? array_slice(array_keys($totals), 0, $maxResults) : array_keys($totals);
+            $closest[$sourceTypeId] = $maxResults !== false ? array_slice(array_keys($totals), 0, $maxResults) : array_keys($totals);
             /* foreach ($totals as $idx => $score) {
                     $data = $source[$idx];
-                    $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data[$field];
-                    echo "{$targetName}<br>";
+                    $sourceName = (isset($data['company']) ? $data['company'].' ' : '').$data[$field];
+                    echo "{$sourceName}<br>";
             } */
         }
         return $closest;
@@ -335,10 +362,10 @@ class Web extends Base {
             return;
         }
         $json = $json[$id];
-        $matchNames = [$json[$field]];
+        $localNames = [$json[$field]];
         $matchCompanies = [];
         if (isset($json['company'])) {
-            $matchNames[] = $json['company'].' '.$json[$field];
+            $localNames[] = $json['company'].' '.$json[$field];
             $matchCompanies[] = $json['company'];
         }
         $levenshteins = [];
@@ -354,18 +381,18 @@ class Web extends Base {
             $levenshtein = 0;
             $soundex = 0;
             $metaphone = 0;
-            $targetNames = [$data[$field]];
+            $sourceNames = [$data[$field]];
             $targetCompanies = [];
             if (isset($data['company'])) {
-                $targetNames[] = $data['company'].' '.$data[$field];
+                $sourceNames[] = $data['company'].' '.$data[$field];
                 $targetCompanies[] = $data['company'];
             }
-            foreach ($matchNames as $matchName)
-                foreach ($targetNames as $targetName) {
-                    $levenshtein += levenshtein($matchName, $targetName, $insertCost, $replaceCost, $deleteCost);
-                    $soundex += levenshtein(soundex($matchName), soundex($targetName), $insertCost, $replaceCost, $deleteCost);
-                    $metaphone += levenshtein(metaphone($matchName), metaphone($targetName), $insertCost, $replaceCost, $deleteCost);
-                    similar_text($matchName, $targetName, $percent);
+            foreach ($localNames as $localName)
+                foreach ($sourceNames as $sourceName) {
+                    $levenshtein += levenshtein($localName, $sourceName, $insertCost, $replaceCost, $deleteCost);
+                    $soundex += levenshtein(soundex($localName), soundex($sourceName), $insertCost, $replaceCost, $deleteCost);
+                    $metaphone += levenshtein(metaphone($localName), metaphone($sourceName), $insertCost, $replaceCost, $deleteCost);
+                    similar_text($localName, $sourceName, $percent);
                     $similarText += $percent;
                 }
             foreach ($matchCompanies as $matchCompany)
@@ -397,8 +424,8 @@ class Web extends Base {
         $return = $maxResults !== false ? array_slice(array_keys($totals), 0, $maxResults) : array_keys($totals);
         /* foreach ($totals as $idx => $score) {
                 $data = $source[$idx];
-                $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data[$field];
-                echo "{$targetName}<br>";
+                $sourceName = (isset($data['company']) ? $data['company'].' ' : '').$data[$field];
+                echo "{$sourceName}<br>";
         } */
         return $return;
     }
@@ -426,10 +453,10 @@ class Web extends Base {
         print_r($json);
         echo "\n";
         echo '</pre>';
-        $matchNames = [$json['name']];
+        $localNames = [$json['name']];
         $matchCompanies = [];
         if (isset($json['company'])) {
-            $matchNames[] = $json['company'].' '.$json['name'];
+            $localNames[] = $json['company'].' '.$json['name'];
             $matchCompanies[] = $json['company'];
         }
         $levenshteins = [];
@@ -445,18 +472,18 @@ class Web extends Base {
             $levenshtein = 0;
             $soundex = 0;
             $metaphone = 0;
-            $targetNames = [$data['name']];
+            $sourceNames = [$data['name']];
             $targetCompanies = [];
             if (isset($data['company'])) {
-                $targetNames[] = $data['company'].' '.$data['name'];
+                $sourceNames[] = $data['company'].' '.$data['name'];
                 $targetCompanies[] = $data['company'];
             }
-            foreach ($matchNames as $matchName)
-                foreach ($targetNames as $targetName) {
-                    $levenshtein += levenshtein($matchName, $targetName, $insertCost, $replaceCost, $deleteCost);
-                    $soundex += levenshtein(soundex($matchName), soundex($targetName), $insertCost, $replaceCost, $deleteCost);
-                    $metaphone += levenshtein(metaphone($matchName), metaphone($targetName), $insertCost, $replaceCost, $deleteCost);
-                    similar_text($matchName, $targetName, $percent);
+            foreach ($localNames as $localName)
+                foreach ($sourceNames as $sourceName) {
+                    $levenshtein += levenshtein($localName, $sourceName, $insertCost, $replaceCost, $deleteCost);
+                    $soundex += levenshtein(soundex($localName), soundex($sourceName), $insertCost, $replaceCost, $deleteCost);
+                    $metaphone += levenshtein(metaphone($localName), metaphone($sourceName), $insertCost, $replaceCost, $deleteCost);
+                    similar_text($localName, $sourceName, $percent);
                     $similarText += $percent;
                 }
             foreach ($matchCompanies as $matchCompany)
@@ -487,8 +514,8 @@ class Web extends Base {
         arsort($totals);
         foreach ($totals as $idx => $score) {
                 $data = $source[$idx];
-                $targetName = (isset($data['company']) ? $data['company'].' ' : '').$data['name'];
-                echo "{$targetName}<br>";
+                $sourceName = (isset($data['company']) ? $data['company'].' ' : '').$data['name'];
+                echo "{$sourceName}<br>";
         }
         return;
         echo $this->twig->render('missing.twig', [
@@ -551,6 +578,7 @@ class Web extends Base {
             'closest' => $closest,
             'missing' => $missing,
             'source' => $source,
+            'local' => $json,
             'sourceId' => $sourceId,
             'type' => $type,
             'singular' => $this->getSingular(),
