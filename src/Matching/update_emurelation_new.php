@@ -93,12 +93,10 @@ foreach ($listTypes as $listType) {
                         }
                     }
                 } else { // remove nonexistant matches
+                    array_search($matchTargetId, $source[$listType][$localTypeId]['matches'][$matchSourceId]);
+                    unset($source[$listType][$localTypeId]['matches'][$matchSourceId][array_search($matchTargetId, $source[$listType][$localTypeId]['matches'][$matchSourceId])]);
+                    $source[$listType][$localTypeId]['matches'][$matchSourceId] = array_values($source[$listType][$localTypeId]['matches'][$matchSourceId]);
                     echo "Local {$localTypeId} matched {$matchSourceId} - {$matchTargetId} but does not exist; removing!\n";
-                    array_filter($source[$listType][$localTypeId]['matches'][$matchSourceId], function($var) use ($localTypeId, $matchTargetId) {
-                        $return = $var != $matchTargetId;
-                        echo "Local {$localTypeId} matched {$var} != {$matchTargetId} returned ".var_export($return,true).", removing\n";
-                        return $var != $matchTargetId;
-                    });
                 }
             }
         }
