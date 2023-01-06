@@ -1886,9 +1886,9 @@ vue@>=2.5.17:
     "@vue/shared" "3.2.45"
 
 vuetify@>=3.0.0-alpha.11:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.0.6.tgz#83fe4fa7159d002acff9ca65cfabe4a67d64dc20"
-  integrity sha512-Illtc9t8PExlKqUEIivNNMpDif4/tvn+04ZEAwrxpQAG75x6V7oUFOF1kVKAFZ2ryuLnBpscXBR85GwFBmLeMQ==
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.1.0.tgz#e92b4d8414c106b3474813ace157ee1101f87d60"
+  integrity sha512-v0+5eNq4GPXGcJ0F2dwJDbQOhuZhEgoiUDWHXqgWJixzc9mzwt+4nSmPz0vYPYl9oC3UFf3Se+vh0xNoRjv4Ig==
 
 which-module@^2.0.0:
   version "2.0.0"
