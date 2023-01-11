@@ -1885,10 +1885,10 @@ vue@>=2.5.17:
     "@vue/server-renderer" "3.2.45"
     "@vue/shared" "3.2.45"
 
-vuetify@>=3.0.0-alpha.11:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.1.0.tgz#e92b4d8414c106b3474813ace157ee1101f87d60"
-  integrity sha512-v0+5eNq4GPXGcJ0F2dwJDbQOhuZhEgoiUDWHXqgWJixzc9mzwt+4nSmPz0vYPYl9oC3UFf3Se+vh0xNoRjv4Ig==
+vuetify@>=3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-3.1.1.tgz#47efa8e14bedb877ae64892b5a3e94bb8d225534"
+  integrity sha512-BkfRQZ406xQORpgrcUjuPaT/woO96ef/+2zHCfL3an+CrUhjG/sIAptEybHruq3xwFM0uJibDFqGiridsXc99w==
 
 which-module@^2.0.0:
   version "2.0.0"
