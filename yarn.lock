@@ -1636,9 +1636,9 @@ setimmediate@^1.0.5:
   integrity sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==
 
 shaka-player@*:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-4.3.2.tgz#4c255f93ca6f0452231903a4f0fe068b89f43056"
-  integrity sha512-sHGDKhKJTPeTks5BiASqr+E+daPHrLYSznEasHR2b7VR34D1OcAcVJk3WQXQiV03tWFFydFGHrgxQDmj1hIA+Q==
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-4.3.4.tgz#97c7cb73743884e55a4855f5efe4d116aff83848"
+  integrity sha512-fF90r/57Oxk+SV2cnoEpJxNujNj1gJkudKXVbXEBhgxh5qYu5gdFU+nT2N7jMN71KxQdtXo1NOqdNphudLEEug==
   dependencies:
     eme-encryption-scheme-polyfill "^2.1.1"
 
