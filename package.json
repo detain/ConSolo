@@ -11,6 +11,7 @@
     "@fortawesome/fontawesome-free": "^5.14",
     "axios": "*",
     "bootstrap": "^3.4",
+    "bootstrap-slider": "*",
     "datatables.net-autofill-bs": "*",
     "datatables.net-bs": "*",
     "datatables.net-buttons-bs": "*",
