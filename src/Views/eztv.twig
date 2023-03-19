@@ -1,4 +1,4 @@
-{% extends "shared/emubase.twig" %}
+{% extends "shared/mediabase.twig" %}
 
 {% block content %}
 <div class="row">
@@ -40,6 +40,26 @@
         </div>
     </div>
 </div>
+<div class="row filters">
+    <div class="col-sm-4">
+        <div class="bootstrap-slider">
+            <span class="filter-label">Year Range: <span class="filter-selection"></span></span>
+            <b class="filter-min" style="padding-right: 10px;">1940</b> <input id="filter-weight" type="text" class="bootstrap-slider" type="text" name="start_date" data-filter-group="start_date" data-provide="slider" data-slider-min="1940" data-slider-max="2023" data-slider-step="1" data-slider-value="[1940,2023]"> <b class="filter-max" style="padding-left: 10px;">2023</b>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="bootstrap-slider">
+            <span class="filter-label">Rating Range: <span class="filter-selection"></span></span>
+            <b class="filter-min" style="padding-right: 10px;">0</b> <input id="filter-weight" type="text" class="bootstrap-slider" type="text" name="rating" data-filter-group="rating" data-provide="slider" data-slider-min="0" data-slider-max="10" data-slider-step="0.1" data-slider-value="[0,10]"> <b class="filter-max" style="padding-left: 10px;">10</b>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="bootstrap-slider">
+            <span class="filter-label">Runtime Range: <span class="filter-selection"></span></span>
+            <b class="filter-min" style="padding-right: 10px;">0</b> <input id="filter-weight" type="text" class="bootstrap-slider" type="text" name="runtime" data-filter-group="runtime" data-provide="slider" data-slider-min="0" data-slider-max="360" data-slider-step="1" data-slider-value="[0,360]"> <b class="filter-max" style="padding-left: 10px;">360</b>
+        </div>
+    </div>
+</div>
 
 {% for limitType, limitData in limits %}
 <div class="row filters">
@@ -58,28 +78,26 @@
 {% endfor %}
 
 <div id="datagrid" class="row grid" data-layout="full">
-{% for data in results %}
-    <div class="grid-item{% for type in data.provides %} provide-{{ type|lower|replace({' ': '-'}) }}{% endfor %} type-{{ data.type|lower|replace({' ': '-'}) }} company-{{ data.company|lower|replace({' ': '-'}) }} date-{{ data.date|lower|replace({' ': '-'}) }}" data-name="{{ data.name }}" data-company="{{ data.company }}" data-type="{{ data.type }}" data-date="{{ data.date }}">
+{% for id, show in shows.shows %}
+    <div class="grid-item{% for type in show.genre %} genre-{{ genre|lower|replace({' ': '-'}) }}{% endfor %} classification-{{ show.classification|lower|replace({' ': '-'}) }} status-{{ show.status|lower|replace({' ': '-'}) }} year-{{ show.start_date|slice(0, 4) }}" data-name="{{ show.name }}" data-classification="{{ data.classification|lower|replace({' ': '-'}) }}" data-status="{{ data.status|lower|replace({' ': '-'}) }}" data-year="{{ show.start_date|slice(0, 4) }}">
         <div class="grid-item-content">
             <div class="thumbnail">
-{% if data.wheel is defined %}
-                <img class="source-logo" src="{{ data.wheel }}" alt="logo">
-{% endif %}
-{% if data.photo is defined %}
-                <img class="source-photo" src="{{ data.photo }}" alt="photo">
+{% if show.image_thumb is defined %}
+                <img class="source-logo" src="/images/eztv/thumbs/{{ show.image_thumb }}" width="{{ show.image_thumb_width }}" height="{{ show.image_thumb_height }}" alt="{{ show.name }}">
 {% endif %}
             </div>
             <div class="caption">
+{#
                 <span class="source-header">
-                    <span class="source-type pull-left label label-warning">{{ data.type }}</span>
-                    <span class="source-updated pull-right label label-warning">{{ data.date }}</span>
+                    <span class="source-type pull-left label label-warning">{{ show.classification }}</span>
+                    <span class="source-updated pull-right label label-warning">{{ show.start_date }}</span>
                 </span>
-                <p class="source-name"><a href="{{ app.request.basePath }}/platform/{{ data.id }}">{{ data.company }} {{ data.name }}</a></p>
-                <p class="source-description">{{ data.description|raw|nl2br }}</p>
+                <p class="source-name"><a href="{{ app.request.basePath }}/platform/{{ data.id }}">{{ show.name }}</a></p>
+                <p class="source-description">{{ show.description|raw|nl2br }}</p>
                 <span class="source-footer">
                     <div class="pull-left provides-labels">
-{% for emulator in data.emulators %}
-                        <a href="{{ app.request.basePath }}/emulator/{{ emulator }}"><span class="label label-primary">{{ emulator }}</span>
+{% for genre in show.genre %}
+                        <a href="{{ app.request.basePath }}/emulator/{{ genre }}"><span class="label label-primary">{{ genre }}</span>
 {% endfor %}
                     </div>
                     <div class="pull-right web-links">
@@ -90,6 +108,7 @@
 {% endfor %}
                     </div>
                 </span>
+#}
             </div>
         </div>
     </div>

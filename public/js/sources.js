@@ -83,6 +83,7 @@ function setupBinds() {
 
 
 $(document).ready(function () {
+    lazyload();
     // init Isotope
     $grid = $('.grid').isotope({
         itemSelector: '.grid-item',

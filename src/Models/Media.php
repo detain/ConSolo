@@ -11,27 +11,24 @@ class Media extends Base {
     }
 
     public function eztv() {
-        /*
-        limits:
-        status
-        class
-        genre
-
-        year min/max
-        rating min 0-10 0.1step
-        runtime min/max
-
-        sort:
-            name
-            rating
-            year
-            network
-            runtime
-
-        */
         $limits = json_decode(file_get_contents(__DIR__.'/../../../Watchable/src/Importing/Web/eztv_show_limits.json'), true);
+        $thumbs = json_decode(file_get_contents(__DIR__.'/../../../Watchable/src/Importing/Web/eztv_show_thumbs.json'), true);
+        $shows = json_decode(file_get_contents(__DIR__.'/../../../Watchable/src/Importing/Web/eztv_shows_small.json'), true);
+
+        //print_r($thumbs);exit;
+        foreach ($shows['shows'] as $id => $show) {
+            if (isset($show['image'])) {
+                $thumb = basename($show['image']);
+                if (array_key_exists($thumb, $thumbs)) {
+                    $shows['shows'][$id]['image_thumb'] = $thumb;
+                    $shows['shows'][$id]['image_thumb_width'] = $thumbs[$thumb][0];
+                    $shows['shows'][$id]['image_thumb_height'] = $thumbs[$thumb][0];
+                }
+            }
+        }
         echo $this->twig->render('eztv.twig', [
-            'limits' => $limits
+            'limits' => $limits,
+            'shows' => $shows,
         ]);
     }
 

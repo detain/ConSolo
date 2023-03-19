@@ -1891,6 +1891,10 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
+lazyload@tuupola/lazyload#2.x:
+  version "2.0.0-rc.2"
+  resolved "https://codeload.github.com/tuupola/lazyload/tar.gz/d3ad81c12332a0f950c6c703ff975b60350405a4"
+
 leven@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/leven/-/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"

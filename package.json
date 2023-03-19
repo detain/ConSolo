@@ -32,6 +32,7 @@
     "jquery": "*",
     "jquery-jsonview": "*",
     "jszip": "*",
+    "lazyload": "tuupola/lazyload#2.x",
     "modernizr": "*",
     "pdfmake": "*",
     "shaka-player": "*",
