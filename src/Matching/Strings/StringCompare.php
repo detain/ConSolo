@@ -1,6 +1,6 @@
 <?php
 
-namespace Detain\ConSolo\Matching;
+namespace Detain\ConSolo\Matching\Strings;
 
 /**
  * This class compares two strings and outputs the similarities  as percentage
