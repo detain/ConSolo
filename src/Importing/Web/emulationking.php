@@ -31,6 +31,7 @@ Options:
     -f          force update even if already latest version
     -k          keep xml files, dont delete them
     --no-db     skip the db updates/inserts
+    --cache     enables use of the file cache
     --no-cache  disables use of the file cache
 
 ");
@@ -43,6 +44,7 @@ $force = in_array('-f', $_SERVER['argv']);
 $keep = in_array('-k', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);;
+$useCache = in_array('--cache', $_SERVER['argv']);;
 $url = 'https://emulationking.com/';
 $data = [
     'companies' => [],
@@ -62,27 +64,14 @@ $client = new HttpBrowser(
         $fakeClient = new FakeCacheHeaderClient(
             $httpClient = HttpClient::create(['timeout' => 900, 'verify_peer' => false]
         )),
-        $cacheStore = new Store(__DIR__.'/../../../data/http_cache/emucr'), ['default_ttl' => $secondsInDay * 31]),
+        $cacheStore = new Store(__DIR__.'/../../../data/http_cache/emulationking'), ['default_ttl' => $secondsInDay * 31]),
     null,
     $cookieJar = new CookieJar()
 );
-if ($useCache === true) {
-    @mkdir('cache');
-}
 echo "Loading EmulationKing main/index page\n";
-if ($useCache === true && file_exists('cache/index.html')) {
-    $html = file_get_contents('cache/index.html');
-} else {
-    $html = getcurlpage($url);
-    if ($useCache === true) {
-        file_put_contents('cache/index.html', $html);
-    }
-}
+$crawler = $client->request('GET', $url);
 $missingFiles = [];
-if (file_exists('cache/missing.json')) {
-    $missingFiles = json_decode(file_get_contents('cache/missing.json'), true);
-}
-$crawler = new Crawler($html);
+//$crawler = new Crawler($html);
 $rows = $crawler->filter('.site-main > div.row');
 for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
     $company = [
@@ -126,16 +115,11 @@ for ($idx = 0, $idxMax = $rows->count(); $idx < $idxMax; $idx++ ) {
 }
 foreach ($data['companies'] as $idxMan => $company) {
     echo "  Loading Company {$company['url']}\n";
-    if ($useCache === true && file_exists('cache/'.$idxMan.'.html')) {
-        $html = file_get_contents('cache/'.$idxMan.'.html');
-    } else {
+    $isCached = file_exists($cacheStore->getPath(hash('sha256', $company['url'])));
+    $crawler = $client->request('GET', $company['url']);
+    if ($isCached == false)
         sleep(1);
-        $html = getcurlpage($company['url']);
-        if ($useCache === true) {
-            file_put_contents('cache/'.$idxMan.'.html', $html);
-        }
-    }
-    $crawler = new Crawler($html);
+    //$crawler = new Crawler($html);
     $data['companies'][$idxMan]['description'] = trim(html_entity_decode(str_replace(['<br>'], ["\n"], preg_replace('/<\/?p>/', '', preg_replace('/^<p><img[^>]*>/', '', trim($crawler->filter('.entry-content')->html()))))));
     $data['companies'][$idxMan]['logo'] = $crawler->filter('.entry-content img')->eq(0)->attr('src');
 }
@@ -144,16 +128,10 @@ foreach ($data['companies'] as $idxMan => $company) {
     foreach ($company['platforms'] as $idxPlat) {
         $platform = $data['platforms'][$idxPlat];
         echo "      Loading Platform {$platform['url']}\n";
-        if ($useCache === true && file_exists('cache/'.$idxPlat.'.html')) {
-            $html = file_get_contents('cache/'.$idxPlat.'.html');
-        } else {
+        $isCached = file_exists($cacheStore->getPath(hash('sha256', $platform['url'])));
+        $crawler = $client->request('GET', $platform['url']);
+        if ($isCached == false)
             sleep(1);
-            $html = getcurlpage($platform['url']);
-            if ($useCache === true) {
-                file_put_contents('cache/'.$idxPlat.'.html', $html);
-            }
-        }
-        $crawler = new Crawler($html);
         //eval(\Psy\sh());
         $crawler->filter('.lbb-block-slot')->each(function (Crawler $crawler, $i) {
             foreach ($crawler as $node) {
@@ -234,16 +212,10 @@ foreach ($data['companies'] as $idxMan => $company) {
                         $platform[$seoSection][] = $row['id'];
 
                         echo "          Loading Emulator {$row['url']}\n";
-                        if ($useCache === true && file_exists('cache/'.$row['id'].'.html')) {
-                            $html = file_get_contents('cache/'.$row['id'].'.html');
-                        } else {
+                        $isCached = file_exists($cacheStore->getPath(hash('sha256', $row['url'])));
+                        $crawler = $client->request('GET', $row['url']);
+                        if ($isCached == false)
                             sleep(1);
-                            $html = getcurlpage($row['url']);
-                            if ($useCache === true) {
-                                file_put_contents('cache/'.$row['id'].'.html', $html);
-                            }
-                        }
-                        $crawler = new Crawler($html);
                         //eval(\Psy\sh());
                         $crawler->filter('.lbb-block-slot')->each(function (Crawler $crawler, $i) {
                             foreach ($crawler as $node) {
@@ -282,16 +254,10 @@ foreach ($data['companies'] as $idxMan => $company) {
                         }
 
                         echo "          Loading Emulator Archive {$row['url']}archive/\n";
-                        if ($useCache === true && file_exists('cache/'.$row['id'].'_archive.html')) {
-                            $html = file_get_contents('cache/'.$row['id'].'_archive.html');
-                        } else {
+                        $isCached = file_exists($cacheStore->getPath(hash('sha256', $row['url'].'archive/')));
+                        $crawler = $client->request('GET', $row['url'].'archive/');
+                        if ($isCached == false)
                             sleep(1);
-                            $html = getcurlpage($row['url'].'archive/');
-                            if ($useCache === true) {
-                                file_put_contents('cache/'.$row['id'].'_archive.html', $html);
-                            }
-                        }
-                        $crawler = new Crawler($html);
                         //eval(\Psy\sh());
                         $crawler->filter('.lbb-block-slot')->each(function (Crawler $crawler, $i) {
                             foreach ($crawler as $node) {
@@ -329,16 +295,10 @@ foreach ($data['companies'] as $idxMan => $company) {
 
                             echo "          Got DL FullName {$fullName} OS {$dlOs} Branch {$dlBranch} ID {$dlId} Ver {$dlVer} PageURL: {$dlPageUrl}\n";
                             echo "          Loading Emulator Download {$dlPageUrl}\n";
-                            if ($useCache === true && file_exists('cache/'.$dlId.'.html')) {
-                                $html = file_get_contents('cache/'.$dlId.'.html');
-                            } else {
+                            $isCached = file_exists($cacheStore->getPath(hash('sha256', $dlPageUrl)));
+                            $crawler = $client->request('GET', $dlPageUrl, ['headers' => ['Referer' => $row['url'].'archive/']]);
+                            if ($isCached == false)
                                 sleep(1);
-                                $html = getcurlpage($dlPageUrl, '', [CURLOPT_REFERER => $row['url'].'archive/']);
-                                if ($useCache === true && trim($html) != '') {
-                                    file_put_contents('cache/'.$dlId.'.html', $html);
-                                }
-                            }
-                            $crawler = new Crawler($html);
                             $dlToken = $crawler->filter('a.emu-icon-download')->attr('href');
                             $dlUrl = preg_replace('/\?token=.*$/', '', $dlToken);
                             $dlPathSuffix = str_replace('https://files.emulationking.com/', '', $dlUrl);
@@ -396,7 +356,7 @@ foreach ($data['companies'] as $idxMan => $company) {
         $data['platforms'][$idxPlat] = $platform;
     }
 }
-file_put_contents('cache/missing.json', json_encode($missingFiles, getJsonOpts()));
+file_put_contents('emualtionking_missing.json', json_encode($missingFiles, getJsonOpts()));
 echo "Calculating Version Details and Applying Changes...";
 $publicDir = __DIR__.'/../../../public';
 $binsTxt = file_get_contents($publicDir.'/bins.txt');
