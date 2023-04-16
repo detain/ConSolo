@@ -14,7 +14,8 @@ class Media extends Base {
         $limits = json_decode(file_get_contents(__DIR__.'/../../../Watchable/src/Importing/Web/eztv_show_limits.json'), true);
         $thumbs = json_decode(file_get_contents(__DIR__.'/../../../Watchable/src/Importing/Web/eztv_show_thumbs.json'), true);
         $shows = json_decode(file_get_contents(__DIR__.'/../../../Watchable/src/Importing/Web/eztv_shows_small.json'), true);
-
+        $newShows = ['shows' => []];
+        $idx = 0;
         //print_r($thumbs);exit;
         foreach ($shows['shows'] as $id => $show) {
             if (isset($show['image'])) {
@@ -23,12 +24,16 @@ class Media extends Base {
                     $shows['shows'][$id]['image_thumb'] = $thumb;
                     $shows['shows'][$id]['image_thumb_width'] = $thumbs[$thumb][0];
                     $shows['shows'][$id]['image_thumb_height'] = $thumbs[$thumb][0];
+                    $newShows['shows'][$id] = $shows['shows'][$id];
+                    $idx++;
+                    if ($idx == 1000)
+                        break;
                 }
             }
         }
         echo $this->twig->render('eztv.twig', [
             'limits' => $limits,
-            'shows' => $shows,
+            'shows' => $newShows,
         ]);
     }
 

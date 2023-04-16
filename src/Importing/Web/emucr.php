@@ -1,11 +1,17 @@
 <?php
 
 
-use Goutte\Client;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\BrowserKit\CookieJar;
+use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpClient\CachingHttpClient;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
 require_once __DIR__.'/../../bootstrap.php';
+require_once __DIR__.'/FakeCacheHeaderClient.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -15,6 +21,7 @@ Options:
     -h, --help              this screen
     -f                      force update even if already latest version
     --no-db                 skip the db updates/inserts
+    --cache                 enables use of the file cache
     --no-cache              disables use of the file cache
     --yearmonth=<yyyy_mm>   limit the processing to the specified year+month
     --year=<yyyy>           limit the processing to the specified year
@@ -28,6 +35,7 @@ global $db;
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);
+$useCache = in_array('--cache', $_SERVER['argv']);
 $validYearMonths = [];
 $validYears = [];
 foreach ($_SERVER['argv'] as $idx => $arg) {
@@ -65,7 +73,17 @@ if ($useCache !== false) {
     }
 }
 $converter = new CssSelectorConverter();
-$client = new Client();
+$secondsInDay = 60 * 60 * 24;
+$clientNoCache = new HttpBrowser(HttpClient::create(['timeout' => 900, 'verify_peer' => false]));
+$client = new HttpBrowser(
+    $cachingClient = new CachingHttpClient(
+        $fakeClient = new FakeCacheHeaderClient(
+            $httpClient = HttpClient::create(['timeout' => 900, 'verify_peer' => false]
+        )),
+        $cacheStore = new Store(__DIR__.'/../../../data/http_cache/emucr'), ['default_ttl' => $secondsInDay * 31]),
+    null,
+    $cookieJar = new CookieJar()
+);
 //var_dump($converter->toXPath('.post-labels a[rel="tag"]'));
 if (!$skipDb) {
     $row = $db->query("select * from config where field='emucr'");
@@ -78,7 +96,7 @@ if (!$skipDb) {
 }
 
 echo 'Loading and scanning for archive pages..';
-$crawler = $client->request('GET', $sitePrefix);
+$crawler = $clientNoCache->request('GET', $sitePrefix);
 $crawler->filter('li.archivedate a')->each(function ($node) use (&$computerUrls) {
     $computerUrls[] = $node->attr('href');
 });
@@ -102,7 +120,11 @@ foreach ($computerUrls as $url) {
     if ($useCache === true && $page != $todaysArchive && file_exists($dataDir.'/archive/'.$year.'/'.$page.'.json')) {
         $pageUrls = json_decode(file_get_contents($dataDir.'/archive/'.$year.'/'.$page.'.json'), true);
     } else {
-        $crawler = $client->request('GET', $url);
+        if ($page == $todaysArchive) {
+            $crawler = $clientNoCache->request('GET', $url);
+        } else {
+            $crawler = $client->request('GET', $url);
+        }
         $pageUrls = [];
         $crawler->filter('.blog-posts > a')->each(function ($node) use (&$pageUrls) {
             $pageUrls[$node->attr('href')] = $node->attr('title');

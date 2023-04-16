@@ -84,8 +84,14 @@ foreach ($urls as $url) {
     $xmlFile = $baseFile.'.xml';
     echo "Getting {$url}\n";
     echo `wget "{$url}" -O "{$zipFile}";`;
+    if (!file_exists($zipFile)) {
+        die("Error Loading {$url}\n");
+    }
     echo `7z x "{$zipFile}";`;
     @unlink($zipFile);
+    if (!file_exists($xmlFile)) {
+        die("Error Loading {$url}\n");
+    }
     echo "Converting {$xmlFile} to array\n";
     $xml = xml2array(file_get_contents($xmlFile), true);
     unlink($xmlFile);

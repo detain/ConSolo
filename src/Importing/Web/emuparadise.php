@@ -1,11 +1,17 @@
 <?php
 
 
-use Goutte\Client;
+use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\BrowserKit\CookieJar;
+use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpClient\CachingHttpClient;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
 require_once __DIR__.'/../../bootstrap.php';
+require_once __DIR__.'/FakeCacheHeaderClient.php';
 
 if (in_array('-h', $_SERVER['argv']) || in_array('--help', $_SERVER['argv'])) {
     die("Syntax:
@@ -44,7 +50,17 @@ if (!file_Exists($dataDir.'/platforms')) {
     mkdir($dataDir.'/platforms', 0777, true);
 }
 $converter = new CssSelectorConverter();
-$client = new Client();
+$secondsInDay = 60 * 60 * 24;
+$clientNoCache = new HttpBrowser(HttpClient::create(['timeout' => 900, 'verify_peer' => false]));
+$client = new HttpBrowser(
+    $cachingClient = new CachingHttpClient(
+        $fakeClient = new FakeCacheHeaderClient(
+            $httpClient = HttpClient::create(['timeout' => 900, 'verify_peer' => false]
+        )),
+        $cacheStore = new Store(__DIR__.'/../../../data/http_cache/emuparadise'), ['default_ttl' => $secondsInDay * 31]),
+    null,
+    $cookieJar = new CookieJar()
+);
 //var_dump($converter->toXPath('.post-labels a[rel="tag"]'));
 if (!$skipDb) {
     $row = $db->query("select * from config where field='emucr'");
