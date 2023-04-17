@@ -35,7 +35,7 @@ global $db;
 $force = in_array('-f', $_SERVER['argv']);
 $skipDb = in_array('--no-db', $_SERVER['argv']);
 $useCache = !in_array('--no-cache', $_SERVER['argv']);
-$useCache = in_array('--cache', $_SERVER['argv']);
+//$useCache = in_array('--cache', $_SERVER['argv']);
 $validYearMonths = [];
 $validYears = [];
 foreach ($_SERVER['argv'] as $idx => $arg) {
@@ -103,11 +103,6 @@ $crawler->filter('li.archivedate a')->each(function ($node) use (&$computerUrls)
 echo ' done'.PHP_EOL;
 echo 'Found '.count($computerUrls).' Archive Pages'.PHP_EOL;
 rsort($computerUrls);
-if ($useCache !== false) {
-    file_put_contents($dataDir.'/urls.json', json_encode($computerUrls, getJsonOpts()));
-    echo 'Loading Computer URLs'.PHP_EOL;
-    $computerUrls = json_decode(file_get_contents($dataDir.'/urls.json'), true);
-}
 $total = count($computerUrls);
 echo 'Found '.$total.' Systems'.PHP_EOL;
 echo 'Loading Archive Pages ';
@@ -148,6 +143,7 @@ echo 'Found '.count($postUrls).' Post Pages'.PHP_EOL;
 $count = 0;
 $lastYear = false;
 $noMatches = [];
+ksort($postUrls);
 foreach ($postUrls as $url => $title ) {
     $count++;
     /*preg_match('/(?P<seo>.*)-(?P<year>\d\d\d\d)(?P<month>\d\d)(?P<day>\d\d)\.html/u', basebane($url), $matches);
@@ -171,33 +167,18 @@ foreach ($postUrls as $url => $title ) {
         echo "  done\n";
     }
     $lastYear = $year;
-    if ($useCache === true && file_exists($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl)) {
-        echo "Reading html file {$baseUrl}  ";
-        $html = file_get_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl);
-        try {
-            $crawler = new Crawler($html);
-            //$crawler = $crawler->filter('.postMain');
-            //file_put_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl, $crawler->outerHtml());
-        } catch (\Exception $e) {
-            echo "Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
-        }
-    //if ($useCache === true && file_exists($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl.'.json')) {
-        //echo "Reading file {$baseUrl}\n";
-        //$cols = json_decode(file_get_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl.'.json'), true);
-    } else{
-        try {
-            echo "Loading URL {$url}    ";
-            $crawler = $client->request('GET', $url);
-            $crawler = $crawler->filter('.postMain');
-            if ($useCache !== false) {
-                if (!file_exists($dataDir.'/posts/'.$yearMonth)) {
-                    mkdir($dataDir.'/posts/'.$yearMonth, 0777, true);
-                }
-                file_put_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl, $crawler->outerHtml());
+    try {
+        echo "Loading URL {$url}    ";
+        $crawler = $client->request('GET', $url);
+        //$crawler = $crawler->filter('.postMain');
+        if ($useCache !== false) {
+            if (!file_exists($dataDir.'/posts/'.$yearMonth)) {
+                mkdir($dataDir.'/posts/'.$yearMonth, 0777, true);
             }
-        } catch (\Exception $e) {
-            echo "  Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
+            file_put_contents($dataDir.'/posts/'.$yearMonth.'/'.$baseUrl, $crawler->outerHtml());
         }
+    } catch (\Exception $e) {
+        echo "  Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
     }
 
     try {

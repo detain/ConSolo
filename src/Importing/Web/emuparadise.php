@@ -91,16 +91,16 @@ foreach ($computerUrls as $url) {
     //echo "URL:{$url}\n";
     echo '.';
     $page = str_replace($sitePrefix, '', $url);
-    if ($useCache === true && $page != $todaysArchive && file_exists($dataDir.'/archive/'.$page.'.json')) {
-        $pageUrls = json_decode(file_get_contents($dataDir.'/archive/'.$page.'.json'), true);
+    if ($page == $todaysArchive) {
+        $crawler = $clientNoCache->request('GET', $url);
     } else {
         $crawler = $client->request('GET', $url);
-        $pageUrls = [];
-        $crawler->filter('.blog-posts > a')->each(function ($node) use (&$pageUrls) {
-            $pageUrls[$node->attr('href')] = $node->attr('title');
-        });
-        file_put_contents($dataDir.'/archive/'.$page.'.json', json_encode($pageUrls, getJsonOpts()));
     }
+    $pageUrls = [];
+    $crawler->filter('.blog-posts > a')->each(function ($node) use (&$pageUrls) {
+        $pageUrls[$node->attr('href')] = $node->attr('title');
+    });
+    file_put_contents($dataDir.'/archive/'.$page.'.json', json_encode($pageUrls, getJsonOpts()));
     foreach ($pageUrls as $url => $title)
         $postUrls[$url] = $title;
 }
@@ -117,50 +117,45 @@ foreach ($postUrls as $url => $title ) {
     $month = $matches['month'];
     $day = $matches['day'];*/
     $baseUrl = str_replace([$sitePrefix, '/'], ['', '_'], $url);
-    if ($useCache === true && file_exists($dataDir.'/posts/'.$baseUrl.'.json')) {
-        echo "Reading file {$baseUrl}\n";
-        $cols = json_decode(file_get_contents($dataDir.'/posts/'.$baseUrl.'.json'), true);
-    } else{
-        try {
-            echo "Loading URL {$url} ";
-            $crawler = $client->request('GET', $url);
-            $title = $crawler->filter('title')->text();
-            $title = str_replace(" - EmuCR", '', $title);
-            $tags = $crawler->filter('.postMain .post-labels a[rel="tag"]')->each(function (Crawler $node, $i) {
-                return $node->text();
-            });
-            if ($title =='EmuCR' || in_array('WebLog', $tags)) {
-                echo "Skipping\n";
-                continue;
-            }
-            $nameVersion = $crawler->filter('.postMain .title h1 a')->text();
-            $datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
-            $body = $crawler->filter('.postMain .post-body p')->html();
-            $links = $crawler->filter('.postMain .post-body a[rel="nofollow"]')->each(function ($node, $i) { return [$node->attr('href'), $node->text()]; });
-            $data = [
-                'title' => $title,
-                'date' => $datePosted,
-                'nameVersion' => $nameVersion,
-                'url' => $url,
-                'seo' => $baseUrl,
-                'tags' => $tags,
-                'body' => $body,
-                'links' => $links,
-            ];
-            if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
-                $data['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
-            }
-            $posts[] = $data;
-            file_put_contents($dataDir.'/posts/'.$baseUrl.'.json', json_encode($data, getJsonOpts()));
-            echo "done\n";
-            if ($count % 50 == 0) {
-                echo "Writing Posts..";
-                file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
-                echo "done\n";
-            }
-        } catch (\Exception $e) {
-            echo "Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
+    try {
+        echo "Loading URL {$url} ";
+        $crawler = $client->request('GET', $url);
+        $title = $crawler->filter('title')->text();
+        $title = str_replace(" - EmuCR", '', $title);
+        $tags = $crawler->filter('.postMain .post-labels a[rel="tag"]')->each(function (Crawler $node, $i) {
+            return $node->text();
+        });
+        if ($title =='EmuCR' || in_array('WebLog', $tags)) {
+            echo "Skipping\n";
+            continue;
         }
+        $nameVersion = $crawler->filter('.postMain .title h1 a')->text();
+        $datePosted = $crawler->filter('.postMain .meta .entrydate')->text();
+        $body = $crawler->filter('.postMain .post-body p')->html();
+        $links = $crawler->filter('.postMain .post-body a[rel="nofollow"]')->each(function ($node, $i) { return [$node->attr('href'), $node->text()]; });
+        $data = [
+            'title' => $title,
+            'date' => $datePosted,
+            'nameVersion' => $nameVersion,
+            'url' => $url,
+            'seo' => $baseUrl,
+            'tags' => $tags,
+            'body' => $body,
+            'links' => $links,
+        ];
+        if ($crawler->filter('.postMain .post-body p a:nth-child(1) img')->count() > 0) {
+            $data['logo'] = $crawler->filter('.postMain .post-body p a:nth-child(1) img')->attr('src');
+        }
+        $posts[] = $data;
+        file_put_contents($dataDir.'/posts/'.$baseUrl.'.json', json_encode($data, getJsonOpts()));
+        echo "done\n";
+        if ($count % 50 == 0) {
+            echo "Writing Posts..";
+            file_put_contents($dataDir.'/posts.json', json_encode($posts, getJsonOpts()));
+            echo "done\n";
+        }
+    } catch (\Exception $e) {
+        echo "Ran into a problem on with {$baseUrl}: ".$e->getMessage()."\n";
     }
 }
 echo "Finished Processig Posts\n";
