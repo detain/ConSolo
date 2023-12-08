@@ -74,11 +74,10 @@ global $dataDir;
 global $curl_config;
 $curl_config = [];
 global $userInfo;
-$return = ScreenScraper::api('romTypesListe');
+$return = ScreenScraper::api('jeuRecherche', '&systemeid=59&recherche=Moon+Diver');
 if ($return['code'] == 200) {
-	//echo "Response:".print_r($return,true)."\n";
-	$romTypes = $return['response']['response']['romtypes'];
-	file_put_contents('romTypes.json', json_encode($romTypes, getJsonOpts()));
-	print_r($romTypes);
+	echo "Response:".print_r($return,true)."\n";
+//	$romTypes = $return['response']['response']['romtypes'];
+//	print_r($romTypes);
 }
-$url = 'https://www.screenscraper.fr/api2/jeuRecherche.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json&systemeid=1&recherche=sonic';
+//$url = 'https://www.screenscraper.fr/api2/jeuRecherche.php?devid='.$config['screenscraper']['api_user'].'&devpassword='.$config['screenscraper']['api_pass'].'&softname=ConSolo&output=json&systemeid=1&recherche=sonic';

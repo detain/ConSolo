@@ -17,6 +17,7 @@
         "ext-posix": "*",
         "psy/psysh": "*",
         "react/child-process": "*@stable",
+        "nahid/jsonq": "*",
         "react/event-loop": "*@stable",
         "react/http": "*@stable",
         "react/mysql": "*@stable",
