@@ -1,6 +1,19 @@
 {
     "name": "detain/consolo",
     "description": "from ROMs to Installed Populated Emulators and Frontends in under 12 parsecs!",
+    "keywords": [
+        "emulator",
+        "frontend",
+        "gaming",
+        "retro-gaming",
+        "roms",
+        "consolo",
+        "console",
+        "windows",
+        "installer",
+        "scripting",
+        "batchfile"
+    ],
     "type": "project",
     "license": "GPL-3.0",
     "authors": [
