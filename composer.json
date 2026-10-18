@@ -74,23 +74,22 @@
         "symfony/var-exporter": "*",
         "symfony/http-client": "*",
         "symfony/yaml": "*",
-		"amphp/amp": "*",
-		"amphp/http-client": "*",
-		"amphp/http-tunnel": "*",
-		"amphp/socket": "*",
-		"php-http/httplug": "*",
-		"psr/http-client": "*",
-		"symfony/stopwatch": "*",
+        "amphp/amp": "*",
+        "amphp/http-client": "*",
+        "amphp/http-tunnel": "*",
+        "amphp/socket": "*",
+        "php-http/httplug": "*",
         "psr/http-client": "*@stable",
+        "symfony/stopwatch": "*",
         "nyholm/psr7": "*",
         "php-http/discovery": "*@stable",
-        "guzzlehttp/guzzle": ">=7.4.5@stable",
+        "guzzlehttp/guzzle": "^7.15.2",
         "guzzlehttp/promises": "*@stable",
         "masterminds/html5": "*",
         "querypath/querypath": "*@stable",
-                "corneltek/cliframework": "*",
-                "league/climate": "*",
-                "php-school/cli-menu": "*"
+        "corneltek/cliframework": "*",
+        "league/climate": "*",
+        "php-school/cli-menu": "*"
     },
     "suggest": {
         "workerman/channel": "*@stable",
@@ -107,8 +106,7 @@
             "Detain\\ConSolo\\Web\\": "public/"
         }
     },
-    "require-dev": {
-    },
+    "require-dev": {},
     "config": {
         "allow-plugins": {
             "kylekatarnls/update-helper": true,
