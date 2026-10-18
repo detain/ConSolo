@@ -10,7 +10,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14",
     "axios": ">=1.20.0",
-    "bootstrap": "^3.4",
+    "bootstrap": "^4.0.0",
     "bootstrap-slider": "*",
     "datatables.net-autofill-bs": "*",
     "datatables.net-bs": "*",
@@ -39,7 +39,7 @@
     "video.js": ">=8.1.0",
     "videojs-contrib-quality-levels": "*",
     "videojs-hls-quality-selector": "fetlife/videojs-hls-quality-selector#master",
-    "vue": ">=2.5.17",
+    "vue": ">=3.3.0",
     "vue-axios": "*",
     "vuetify": ">=3.0.0-alpha.11"
   },
@@ -64,6 +64,10 @@
     "requirejs": "^2.3.7",
     "source-map-js": "^1.2.2",
     "word-wrap": "^1.2.4",
-    "yaml": "^1.10.3"
+    "yaml": "^1.10.3",
+    "linkify-it": "^5.0.2",
+    "markdown-it": "^14.3.1",
+    "postcss-selector-parser": "^7.1.6",
+    "semver": "^7.5.2"
   }
 }
