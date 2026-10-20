@@ -203,7 +203,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.5.44.tgz#eefe91aa2e17c617260c4ae4c21246be5d85642e"
   integrity sha512-H82XLH0DjmSOdbEwO15x3QTo1f5PWEtv237eLpYKc0mqLu+B8hnq16lFWmuBmNurkeiG3wr+oM1FhOll/YVFRg==
 
-"@vuetify/v0@^1.2.1":
+"@vuetify/v0@^1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@vuetify/v0/-/v0-1.2.3.tgz#4502d0a668db380a326def5aa644cbfa0b67b3a4"
   integrity sha512-8qpYa88KxKrvi4jQcz+Zg4WH04un48Lt7Tj0Qq+LqvbUvHi+H177vWqBn9tQWgpxBVs1RXrTz5zw0Cy6txJHlw==
@@ -1530,9 +1530,9 @@ setimmediate@^1.0.5:
   integrity sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==
 
 shaka-player@*:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-5.3.0.tgz#dfd3485d12e630e7b42c0ddf0b69af3826327154"
-  integrity sha512-bZ5MiKQcs+CBtAHFGUqHW4Q+2U3oXGVmXY+gdrSOoVmHzcilvNp+jEsqhd3/4cGhL4j4+Z66Jisq42U4jOfY1g==
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-5.3.1.tgz#68f0819c65c626a66d3f33bca2f99d0da089ee34"
+  integrity sha512-nlhxDfgQKXfc+ecNQos/l1epXILup8C3n7CrQSm43M47vAY1WDlpIAq448YDXTRHK5vZ/4JGiDfxOVkv7vwegg==
 
 source-map-js@^1.2.2:
   version "1.2.2"
@@ -1739,11 +1739,11 @@ vue@>=3.3.0:
     "@vue/shared" "3.5.44"
 
 vuetify@>=3.0.0-alpha.11:
-  version "4.2.6"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-4.2.6.tgz#29e88f02e0a689ec39bb44f4fc9f247ed2be40c0"
-  integrity sha512-W91vPxyJT7Br2wc3Iu2fUzC1YRZCTGxtrvywxnf7vGZF6Cfz2QvTvKvXmwMreie8oCHW6kA9yw7auCgQuwBUjQ==
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-4.3.0.tgz#ade2e7d9db01779ed8420acb85345de436947969"
+  integrity sha512-tQpJ/2oKCNeZQb7p3PpwGVca4B9IFUp4LuTpE/bOZ/lIC4U74EJxtriMdB8xj0wtZx40PFGbHPrdfJzZg1FX0A==
   dependencies:
-    "@vuetify/v0" "^1.2.1"
+    "@vuetify/v0" "^1.2.3"
 
 which-module@^2.0.0:
   version "2.0.1"
