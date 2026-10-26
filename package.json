@@ -36,7 +36,7 @@
     "modernizr": "*",
     "pdfmake": ">=0.2.8",
     "shaka-player": "*",
-    "video.js": ">=8.1.0",
+    "video.js": ">=10.2.0",
     "videojs-contrib-quality-levels": "*",
     "videojs-hls-quality-selector": "fetlife/videojs-hls-quality-selector#master",
     "vue": ">=3.3.0",
