@@ -1530,9 +1530,9 @@ setimmediate@^1.0.5:
   integrity sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==
 
 shaka-player@*:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-5.3.1.tgz#68f0819c65c626a66d3f33bca2f99d0da089ee34"
-  integrity sha512-nlhxDfgQKXfc+ecNQos/l1epXILup8C3n7CrQSm43M47vAY1WDlpIAq448YDXTRHK5vZ/4JGiDfxOVkv7vwegg==
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-5.3.2.tgz#cff175c3bc3c8c55e99d93bbe172451435c4e626"
+  integrity sha512-Fwf9OFMv1P3as/SJeDq1bIGDeRLamfC+fppojIbF+rBLq0C1FVpDCnRg2V/ZlkiwBoCxcn48Rk2Oqsg1HZYe0Q==
 
 source-map-js@^1.2.2:
   version "1.2.2"
