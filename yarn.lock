@@ -1639,10 +1639,10 @@ util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-video.js@>=8.1.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/video.js/-/video.js-10.1.0.tgz#fc43f7e61bbbc42465c12fc0e672c88aa9849d97"
-  integrity sha512-UIj1tLsNtSEs+VuME++L7RfnOF0m3FGvpwZrMgH5TMNGzNIxvPYCWQmBq/+gy06vs3L+EM2BTUHX1h3aOI8/FA==
+video.js@>=10.2.0:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/video.js/-/video.js-10.2.0.tgz#f22f8b76bf944872357cad60011209ae6af52799"
+  integrity sha512-YoezDYXY6iDkuhLGnyOz96XBKjwB0cQbPNq5ck1FAf2JcqfLnnwkNQ4ofbwhlpAM55RFp6VDhSvKe5wVcFV11Q==
 
 "video.js@^6 || ^7", video.js@^7.5.5:
   version "7.21.7"
