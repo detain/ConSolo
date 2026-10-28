@@ -34,7 +34,7 @@
     "jszip": "*",
     "lazyload": "tuupola/lazyload#2.x",
     "modernizr": "*",
-    "pdfmake": ">=0.2.8",
+    "pdfmake": ">=0.3.13",
     "shaka-player": "*",
     "video.js": ">=8.1.0",
     "videojs-contrib-quality-levels": "*",
